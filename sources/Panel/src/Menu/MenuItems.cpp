@@ -486,7 +486,7 @@ bool Switch::SetValue(uint8 v)
 
 
 
-char *Button::Title() const
+pchar Button::Title() const
 {
     return text[glob_set.language];
 }
