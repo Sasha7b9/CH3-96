@@ -495,7 +495,7 @@ pchar Button::Title() const
 }
 
 
-char* Item::GetHint() const
+pchar Item::GetHint() const
 {
     return hint[glob_set.language];
 }

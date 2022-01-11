@@ -51,11 +51,11 @@ public:
 
     static Color ColorDraw(bool selected);
 
-    char *GetHint() const;
+    pchar GetHint() const;
 
 protected:
     // Общая часть подсказки для данного итема
-    char *hint[2];
+    pchar hint[2];
 
 private:
     // Создать подсказку для итема
