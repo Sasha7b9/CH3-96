@@ -351,7 +351,7 @@ void Button::CreateHint(String &h) const
     h.Append(GetHint());
 }
 
-Item::Item(char *hintRu, char *hintEn)
+Item::Item(pchar hintRu, pchar hintEn)
 {
     hint[0] = hintRu;
     hint[1] = hintEn;

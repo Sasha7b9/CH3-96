@@ -37,7 +37,7 @@ class Item
 {
     friend class Hint;
 public:
-    Item(char *hintRu, char *hintEn);
+    Item(pchar hintRu, pchar hintEn);
     virtual ~Item() {};
 
     static const int HEIGHT = 35;
