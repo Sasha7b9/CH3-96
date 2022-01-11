@@ -17,7 +17,7 @@ const StructSCPI SCPI::measure[] =
     SCPI_LEAF(":PERIOD",    FuncPeriod),
     SCPI_LEAF(":DURATION",  FuncDuration),
     SCPI_LEAF(":CNT",       FuncCounter),
-    ""
+    SCPI_EMPTY()
 };
 
 
