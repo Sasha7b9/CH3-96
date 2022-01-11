@@ -28,7 +28,8 @@ static void OnChanged_TypeMeasure()
 
 
 DEF_SWITCH_4(sTypeMeasure,
-    "Измерение", "Выбор измерения",
+    "Измерение",
+    "Выбор измерения", "Measurement selection",
     "Частота", "Период", "Длит.", "Сч. имп.",
     Channel::A->mod.typeMeasure, OnChanged_TypeMeasure
 );
@@ -39,7 +40,10 @@ static void OnPress_Statistics()
     Menu::SetOpenedPage(PageStatistics::self);
 }
 
-DEF_BUTTON(bStatistics, "Стат", "Stat", "Открывает окно статистики", OnPress_Statistics);
+DEF_BUTTON(bStatistics,
+    "Стат", "Stat",
+    "Открывает окно статистики", "Opens statistics window",
+    OnPress_Statistics);
 
 
 static void OnChanged_ModeFrequency()
@@ -89,7 +93,8 @@ static void OnChanged_ModeFrequency()
 
 // Выбор режима измерения частоты, отношения частот, "тахометра"
 DEF_SWITCH_6(sModeFrequency,
-    "Режим", "Измерение частоты",
+    "Режим",
+    "Измерение частоты", "Frequency measurement",
     "Частота",
     "f=1/T",
     "f(A)/f(B)",
@@ -127,7 +132,8 @@ static void OnChanged_ModePeriod()
 
 // Выбор режима измерения периода
 DEF_SWITCH_2(sModePeriod,
-    "Режим", "Измерение периода",
+    "Режим",
+    "Измерение периода", "Period measurement",
     "Период", "T=1/f",
     Channel::A->mod.modePeriod, OnChanged_ModePeriod
 );
@@ -162,7 +168,8 @@ static void OnChanged_ModeDuration()
 
 // Выбор режима измерения длительности импульсов, интервалов, коэффициента заполнения, разности фаз
 DEF_SWITCH_5(sModeDuration,
-    "Режим", "Измерение длительности",
+    "Режим",
+    "Измерение длительности", "Duration measurement",
     "ndt", "ndt/1нс", "СтартА-СтопВ", "Коэфф. зап.", "Фаза",
     Channel::A->mod.modeDuration, OnChanged_ModeDuration
 );
@@ -197,7 +204,8 @@ static void OnChanged_ModeCountPulse()
 
 // Выбор режима счёта импульсов
 DEF_SWITCH_3(sModeCountPulse,
-    "Режим", "Счет числа импульсов",
+    "Режим",
+    "Счет числа импульсов", "Pulse counting",
     "А(tB)", "А(TB)", "Старт/Стоп",
     Channel::A->mod.modeCountPulse, OnChanged_ModeCountPulse
 );

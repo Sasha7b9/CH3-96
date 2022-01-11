@@ -18,7 +18,8 @@ DEF_SWITCH_7(sTimeMeasure,
 #else
 
 DEF_SWITCH_6(sTimeMeasure,
-    "Время", "Время счета",
+    "Время",
+    "Время счета", "Counting time",
     "1ms", "10ms", "100ms", "1s", "10s", "100s",
     ModesChannel::timeMeasure, TimeMeasure::LoadToFPGA
 );
@@ -41,7 +42,8 @@ DEF_SWITCH_7(sNumberPeriods,
 #else
 
 DEF_SWITCH_6(sNumberPeriods,
-    "N", "Число периодов измерения",
+    "N",
+    "Число периодов измерения", "Number of measurement periods",
     "1", "10", "100", "1K", "10K", "100K",
     ModesChannel::numberPeriods, NumberPeriods::LoadToFPGA
 );
@@ -54,7 +56,8 @@ Switch *ModesChannel::switchNumberPeriods = &sNumberPeriods;
 
 // Выбор периода меток времени
 DEF_SWITCH_6(sTimeLabels,
-    "Метки", "Длительность временных меток",
+    "Метки",
+    "Длительность временных меток", "Duration of timestamps",
     "10-3", "10-4", "10-5", "10-6", "10-7", "10-8",
     ModesChannel::timeLabels, PeriodTimeLabels::LoadToFPGA
 );
@@ -64,7 +67,8 @@ Switch *ModesChannel::switchTimeLabels = &sTimeLabels;
 
 
 DEF_SWITCH_2(sTimeComparator,
-    "Время изм.", "Выбор времени одного измерения компаратора",
+    "Время изм.",
+    "Выбор времени одного измерения компаратора", "Timing of one comparator measurement",
     "1s", "10s",
     ModesChannel::timeComparator, TimeComparator::LoadToFPGA
 );

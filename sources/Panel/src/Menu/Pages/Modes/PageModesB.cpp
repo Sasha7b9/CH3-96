@@ -26,7 +26,8 @@ static void OnChanged_TypeMeasure()
 
 
 DEF_SWITCH_4(sTypeMeasure,
-    "Измерение", "Выбор измерения",
+    "Измерение",
+    "Выбор измерения", "Measurement selection",
     "Частота", "Период", "Длит.", "Сч. имп.",
     Channel::B->mod.typeMeasure, OnChanged_TypeMeasure
 )
@@ -73,7 +74,8 @@ static void OnChanged_ModeFrequency()
 
 // Выбор режима измерения частоты, отношения частот, "тахометра"
 DEF_SWITCH_5(sModeFrequency,
-    "Режим", "Измерение частоты",
+    "Режим",
+    "Измерение частоты", "Frequency measurement",
     "Частота", "f=1/T", "f(B)/f(A)", "f(B)/f(C)", "Тахометр",
     Channel::B->mod.modeFrequency, OnChanged_ModeFrequency
 );
@@ -106,7 +108,8 @@ static void OnChanged_ModePeriod()
 
 // Выбор режима измерения периода
 DEF_SWITCH_2(sModePeriod,
-    "Режим", "Измерение периода",
+    "Режим",
+    "Измерение периода", "Period measurement",
     "Период", "T=1/f",
     Channel::B->mod.modePeriod, OnChanged_ModePeriod
 );
@@ -141,7 +144,8 @@ static void OnChanged_ModeDuration()
 
 // Выбор режима измерения длительности импульсов, интервалов, коэффициента заполнения, разности фаз
 DEF_SWITCH_5(sModeDuration,
-    "Режим", "Измерение длительности",
+    "Режим",
+    "Измерение длительности", "Duration measurement",
     "ndt", "ndt/1нс", "СтартB-СтопA", "Коэфф. зап.", "Фаза",
     Channel::B->mod.modeDuration, OnChanged_ModeDuration
 );
@@ -176,7 +180,8 @@ static void OnChanged_ModeCountPulse()
 
 // Выбор режима счёта импульсов
 DEF_SWITCH_3(sModeCountPulse,
-    "Режим", "Счет числа импульсов",
+    "Режим",
+    "Счет числа импульсов", "Pulse counting",
     "B(tA)", "B(TA)", "Старт/Стоп",
     Channel::B->mod.modeCountPulse, OnChanged_ModeCountPulse
 );

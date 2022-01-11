@@ -37,7 +37,7 @@ class Item
 {
     friend class Hint;
 public:
-    Item(char *_hint);
+    Item(char *hintRu, char *hintEn);
     virtual ~Item() {};
 
     static const int HEIGHT = 35;
@@ -51,9 +51,11 @@ public:
 
     static Color ColorDraw(bool selected);
 
+    char *GetHint() const;
+
 protected:
     // Общая часть подсказки для данного итема
-    char *hint;
+    char *hint[2];
 
 private:
     // Создать подсказку для итема
@@ -65,8 +67,8 @@ private:
 class Button : public Item
 {
 public:
-    Button(pchar text_ru, pchar text_en, char *_hint, void (*funcPress)()) :
-        Item(_hint), funcOnPress(funcPress)
+    Button(pchar text_ru, pchar text_en, char *hintRu, char *hintEn, void (*funcPress)()) :
+        Item(hintRu, hintEn), funcOnPress(funcPress)
     {
         text[0] = text_ru;
         text[1] = text_en;
@@ -92,8 +94,8 @@ class Switch : public Item
     friend class PageModes;
 public:
 
-    Switch(char *_text, char *_hint, char **_names, char **_ugo, Enumeration *_state, void(*_onClick)()) :
-        Item(_hint), text(_text), funcOnPress(_onClick), state(_state)
+    Switch(char *_text, char *hintRu, char *hintEn, char **_names, char **_ugo, Enumeration *_state, void(*_onClick)()) :
+        Item(hintRu, hintEn), text(_text), funcOnPress(_onClick), state(_state)
     {
         state->names = _names;
         state->ugo = _ugo;
@@ -128,7 +130,7 @@ class Page : public Item, public Observer
 
 public:
     Page(Item **_items, void (*_onEvent)(EventType::E)) :
-        Item(""), selectedItem(0), items(_items), onEvent(_onEvent)
+        Item("", ""), selectedItem(0), items(_items), onEvent(_onEvent)
     {};
 
     virtual void Draw(int x, int y, int width, bool selected = false);

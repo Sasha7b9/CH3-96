@@ -339,7 +339,7 @@ void Button::Draw(int x, int y, int width, bool selected)
 void Switch::CreateHint(String &h) const
 {
     h.Free();
-    h.Append(hint);
+    h.Append(GetHint());
     h.Append(": ");
     h.Append(state->ToString().c_str());
 }
@@ -348,11 +348,14 @@ void Switch::CreateHint(String &h) const
 void Button::CreateHint(String &h) const
 {
     h.Free();
-    h.Append(hint);
+    h.Append(GetHint());
 }
 
-Item::Item(char *_hint) : hint(_hint)
+Item::Item(char *hintRu, char *hintEn)
 {
+    hint[0] = hintRu;
+    hint[1] = hintEn;
+
     Channel::Create();
 }
 
@@ -489,4 +492,10 @@ bool Switch::SetValue(uint8 v)
 pchar Button::Title() const
 {
     return text[glob_set.language];
+}
+
+
+char* Item::GetHint() const
+{
+    return hint[glob_set.language];
 }
