@@ -40,6 +40,9 @@ endif()
 
 include(build/cmake/policies.cmake NO_POLICY_SCOPE)
 
+set(wxBUILD_SHARED ON)
+sel(wxBUILD_USE_STATIC_RUNTIME ON)
+
 # Initialize variables for quick access to wx root dir in sub dirs
 set(wxSOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(wxBINARY_DIR ${CMAKE_BINARY_DIR})
