@@ -13,8 +13,8 @@ include_directories(src
                     ../../Panel/tests
                     ../../Panel/src/Hardware/HAL
                     ../../Panel/src/Hardware
-                    ../../ThirdParty/wxWidgets/include
-                    ../../ThirdParty/wxWidgets/generated/lib/vc_dll/mswud)
+                    ../ThirdParty/wxWidgets/include
+                    ../../generated/GUI/lib/vc_dll/mswud)
 
 add_definitions(-DSTM32F429xx -DWXUSINGDLL -DGUI)
 
@@ -56,7 +56,7 @@ file(GLOB DISPLAY                         src/Display/Display_win.cpp
                               ../../Panel/src/Display/Console.*
                               ../../Panel/src/Display/Display.*
                               ../../Panel/src/Display/Indicator.*
-                              ../../Panel/src/Display/Objects.*
+                              ../../Panel/src/Display/RedrawingZone.*
                               ../../Panel/src/Display/Primitives.*
                                           src/Display/Primitives_win.cpp
                               ../../Panel/src/Display/Symbols.*
@@ -78,12 +78,13 @@ file(GLOB KEYBOARD            ../../Panel/src/Keyboard/Keyboard.h
                                           src/Keyboard/Keyboard_win.cpp)
 file(GLOB MENU                ../../Panel/src/Menu/*.*)
 file(GLOB MENU_PAGES          ../../Panel/src/Menu/Pages/*.*)
-file(GLOB MENU_PAGES_CHANNELS ../../Panel/src/Menu/Pages/Channels/*)
-file(GLOB MENU_PAGES_MODES    ../../Panel/src/Menu/Pages/Modes/*)
+file(GLOB MENU_PAGES_CHANNELS ../../Panel/src/Menu/Pages/Channels/*.*)
+file(GLOB MENU_PAGES_MODES    ../../Panel/src/Menu/Pages/Modes/*.*)
+file(GLOB MENU_PAGES_OTHER    ../../Panel/src/Menu/Pages/Other/*.*)
 file(GLOB SCPI                ../../Panel/src/SCPI/*.*)
-file(GLOB SCPI_PROCESS        ../../Panel/src/SCPI/Process/*)
-file(GLOB UTILS               ../../Panel/src/Utils/*)
-file(GLOB TESTS               ../../Panel/tests/*)
+file(GLOB SCPI_PROCESS        ../../Panel/src/SCPI/Process/*.*)
+file(GLOB UTILS               ../../Panel/src/Utils/*.*)
+file(GLOB TESTS               ../../Panel/tests/*.*)
 
 source_group(_VS\\HAL              FILES ${VS_HAL})
 source_group(src                   FILES ${SRC})
@@ -99,17 +100,19 @@ source_group(Menu                  FILES ${MENU})
 source_group(Menu\\Pages           FILES ${MENU_PAGES})
 source_group(Menu\\Pages\\Channels FILES ${MENU_PAGES_CHANNELS})
 source_group(Menu\\Pages\\Modes    FILES ${MENU_PAGES_MODES})
+source_group(Menu\\Pages\\Other    FILES ${MENU_PAGES_OTHER})
 source_group(SCPI                  FILES ${SCPI})
 source_group(SCPI\\Process         FILES ${SCPI_PROCESS})
 source_group(Utils                 FILES ${UTILS})
 source_group(Tests                 FILES ${TESTS})
 
 add_executable(PanelGUI ${VS_HAL} ${SRC} ${CALCULATE} ${DISPLAY} ${DISPLAY_FONT} ${HARDWARE} ${FREQMETER} ${GUI}
-                        ${HARDWARE_HAL} ${KEYBOARD} ${MENU} ${MENU_PAGES} ${MENU_PAGES_CHANNELS} ${MENU_PAGES_MODES}
+                        ${HARDWARE_HAL} ${KEYBOARD} ${MENU} ${MENU_PAGES} ${MENU_PAGES_CHANNELS}
+                        ${MENU_PAGES_MODES} ${MENU_PAGES_OTHER}
                         ${SCPI} ${SCPI_PROCESS} ${UTILS} ${TESTS})
 
-target_link_libraries(PanelGUI ../../../ThirdParty/wxWidgets/generated/lib/vc_dll/wxbase31ud)
-target_link_libraries(PanelGUI ../../../ThirdParty/wxWidgets/generated/lib/vc_dll/wxmsw31ud_core)
+target_link_libraries(PanelGUI ../../../generated/GUI/lib/vc_dll/wxbase31ud)
+target_link_libraries(PanelGUI ../../../generated/GUI/lib/vc_dll/wxmsw31ud_core)
 
 target_link_libraries(PanelGUI WinMM.lib)
 target_link_libraries(PanelGUI version.lib)

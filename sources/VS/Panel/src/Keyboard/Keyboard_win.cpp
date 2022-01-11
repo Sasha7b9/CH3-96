@@ -16,8 +16,9 @@ static bool needStopTimerLong = false;
 static Control::E pressedKey = Control::None;
 
 
-void Keyboard::Init()
+bool Keyboard::Init()
 {
+    return true;
 }
 
 
