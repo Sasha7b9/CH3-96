@@ -20,7 +20,8 @@ using namespace Primitives;
 
 
 Enumeration::Enumeration(uint8 v, const bool *_correct, int states) :
-    value(v), namesRu(nullptr), namesEn(nullptr), ugo(nullptr), correct(_correct), sw(nullptr), numStates(states)
+    value(v), namesRu(nullptr), namesEn(nullptr), ugoRu(nullptr), ugoEn(nullptr),
+    correct(_correct), sw(nullptr), numStates(states)
 {
     if (_correct)
     {
@@ -129,9 +130,19 @@ int Enumeration::IndexName() const
 }
 
 
-char *Enumeration::UGO() const
+pchar Enumeration::UGO() const
 {
-    return (ugo == nullptr) ? "" : ugo[IndexName()];
+    if (ugoRu == nullptr)
+    {
+        return "";
+    }
+
+    if (LANG_IS_RU)
+    {
+        return ugoRu[IndexName()];
+    }
+
+    return ugoEn[IndexName()];
 }
 
 

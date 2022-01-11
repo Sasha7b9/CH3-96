@@ -448,11 +448,15 @@ String Channel::GetSettings()
     std::strcat(settings, " "); \
     std::strcat(settings, ugo);
 
-    static const char *const names[Channel::Count] = { "Channel A:", "Channel B:", "Channel C:", "Channel D:" };
+    static const pchar names[2][Channel::Count] =
+    {
+        {"Канал A:",   "Канал B:",   "Канал C:",   "Канал D:"},
+        {"Channel A:", "Channel B:", "Channel C:", "Channel D:"}
+    };
 
     char settings[100] = { 0 };
 
-    std::strcpy(settings, names[NUMBER_CURRENT_CHANNEL]);
+    std::strcpy(settings, names[glob_set.language][NUMBER_CURRENT_CHANNEL]);
 
     ADD_UGO(current->set.couple.UGO());
     ADD_UGO(current->set.impedance.UGO());

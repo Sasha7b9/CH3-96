@@ -14,14 +14,15 @@ struct Enumeration
 {
     uint8  value;           // Текущее состояние перечисления
     pchar *namesRu;
-    pchar* namesEn;
-    char **ugo;
+    pchar *namesEn;
+    pchar *ugoRu;
+    pchar *ugoEn;
     const bool *correct;    // Если указатель на этот массив не равен nullptr, то его элементы используются следующим
                             // образом : value не может значения индексов, соответствующих false
     explicit Enumeration(uint8 v, const bool *_correct = nullptr, int states = 0);
     operator int()         { return (int)value; }
     String ToString() const;
-    char *UGO() const;
+    pchar UGO() const;
     int NumStates() const;
     // Возвращает индекс из массива names, соотвествующий текущему value
     int IndexName() const;
@@ -95,8 +96,8 @@ class Switch : public Item
     friend class PageModes;
 public:
 
-    Switch(pchar textRu, pchar textEn, pchar hintRu, pchar hintEn, pchar *_namesRu, pchar *_namesEn, char **_ugo,
-        Enumeration *_state, void(*_onClick)()) :
+    Switch(pchar textRu, pchar textEn, pchar hintRu, pchar hintEn, pchar *_namesRu, pchar *_namesEn,
+        pchar *_ugoRu, pchar *_ugoEn, Enumeration *_state, void(*_onClick)()) :
         Item(hintRu, hintEn), funcOnPress(_onClick), state(_state)
     {
         text[0] = textRu;
@@ -105,7 +106,9 @@ public:
         state->namesRu = _namesRu;
         state->namesEn = _namesEn;
 
-        state->ugo = _ugo;
+        state->ugoRu = _ugoRu;
+        state->ugoEn = _ugoEn;
+
         state->sw = this;
     };
     virtual void Draw(int x, int y, int width, bool selected = false);

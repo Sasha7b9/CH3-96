@@ -27,7 +27,8 @@ DEF_SWITCH_UGO_2(sCouple,
     "¬ход", "Couple",
     "¬ход", "Couple",
     "ќткрытый вход", "«акрытый вход",
-    "Opened couple", "Closed couple",
+    "DC",            "AC",
+    SYMBOL_DC_IN_QUOTES, SYMBOL_AC_IN_QUOTES,
     SYMBOL_DC_IN_QUOTES, SYMBOL_AC_IN_QUOTES,
     Channel::B->set.couple, OnPress_Couple
 );
@@ -45,6 +46,7 @@ DEF_SWITCH_UGO_2(sImpedance,
     "1 ћќм", "50 ќм",
     "1 ћќм", "50 ќм",
     "1ћќм", "50ќм",
+    "1ћќм", "50ќм",
     Channel::B->set.impedance, OnPress_Impedance
 );
 
@@ -61,6 +63,7 @@ DEF_SWITCH_UGO_2(sLowpassFilter,
     "ќткл.", "¬кл.",
     "Off",   "On",
     "‘Ќ„", "",
+    "LPF", "",
     Channel::B->set.modeFilter, OnPress_Filter
 );
 
@@ -77,6 +80,7 @@ DEF_SWITCH_UGO_2(sFront,
     "‘ронт", "—рез",
     "Front", "Slice",
     SYMBOL_FRONT_IN_QUOTES, SYMBOL_RISE_IN_QUOTES,
+    SYMBOL_FRONT_IN_QUOTES, SYMBOL_RISE_IN_QUOTES,
     Channel::B->set.modeFront, OnPress_Front
 );
 
@@ -90,6 +94,7 @@ static void OnPress_Divider()
 DEF_SWITCH_UGO_2(sDivider,
     "ƒелитель", "Divider",
     "¬кл/откл входного делител€", "On/off input divider",
+    "1:1", "1:10",
     "1:1", "1:10",
     "1:1", "1:10",
     "1:1", "1:10",
@@ -140,9 +145,10 @@ static void OnPress_Sync()
 DEF_SWITCH_UGO_2(sSync,
     "—инхр", "Trig",
     "¬ыбор уровн€ сихронизации", "Selecting the level of synchronization",
-    "”ров", "Holdoff",
+    "”ров",  "Holdoff",
     "Level", "Holdoff",
-    "”ров", "Holdoff",
+    "”ров",  "Holdoff",
+    "Level", "Holdoff",
     Channel::B->set.typeSynch, OnPress_Sync
 );
 
