@@ -21,7 +21,7 @@ cmake ../../VS/CMakeLists.txt -B../../generated/GUI  -G "Visual Studio 16 2019"
 :BUILDING
 if %isBuild%==0 goto EXIT
 @echo on
-MSBuild.exe ../../generated/GUI/S8-54_GUI.sln -clp:ErrorsOnly;WarningsOnly -nologo /m
+MSBuild.exe ../../generated/GUI/CH3-96-2_GUI.sln -clp:ErrorsOnly;WarningsOnly -nologo /m
 @echo off
 goto EXIT
 

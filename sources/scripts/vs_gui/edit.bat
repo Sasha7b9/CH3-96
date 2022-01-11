@@ -1,3 +1,1 @@
-call copy_wxWidgets_dlls.bat
-
-start ..\..\generated\GUI\S8-54_GUI.sln
+start ..\..\generated\GUI\CH3-96-2_GUI.sln
