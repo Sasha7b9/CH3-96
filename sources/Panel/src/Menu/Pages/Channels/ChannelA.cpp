@@ -24,7 +24,7 @@ static void OnPress_Couple()
 
 // Выбор закрытого(открытого) входа текущего канала
 DEF_SWITCH_UGO_2(sCouple,
-    "Вход",
+    "Вход", "Couple",
     "Вход", "Couple",
     "Открытый вход", "Закрытый вход",
     SYMBOL_DC_IN_QUOTES, SYMBOL_AC_IN_QUOTES,
@@ -39,7 +39,7 @@ static void OnPress_Impedance()
 
 // Установка входного сопротивления текущего канала
 DEF_SWITCH_UGO_2(sImpedance,
-    "Rвх",
+    "Rвх", "Rin",
     "Входное сопротивление канала", "Channel input impedance",
     "1 МОм", "50 Ом",
     "1МОм", "50Ом",
@@ -54,7 +54,7 @@ static void OnPress_Filter()
 
 // Включение(отключение) ФНЧ
 DEF_SWITCH_UGO_2(sLowpassFilter,
-    "ФНЧ",
+    "ФНЧ", "LPF",
     "Включение/отключение фильтра НЧ", "Enable/disable Low Pass Filter",
     "Откл.", "Вкл.",
     "ФНЧ", "",
@@ -70,7 +70,7 @@ static void OnPress_Front()
 
 // Выбор фронта синхронизации текущего канала
 DEF_SWITCH_UGO_2(sFront,
-    "\x82/\x83",
+    "\x82/\x83", "\x82/\x83",
     "Выбор типа синхронизации", "Synchronization type selection",
     "Фронт", "Срез",
     SYMBOL_FRONT_IN_QUOTES, SYMBOL_RISE_IN_QUOTES,
@@ -85,7 +85,7 @@ static void OnPress_Divider()
 
 // Включение(отключение) входного делителя напряжения
 DEF_SWITCH_UGO_2(sDivider,
-    "Делитель",
+    "Делитель", "Divider",
     "Вкл/откл входного делителя", "On/off input divider",
     "1:1", "1:10",
     "1:1", "1:10",
@@ -124,7 +124,7 @@ static void OnPress_Sync()
 
 // Выбор уровня синхронизации ТТЛ, ЭСЛ
 DEF_SWITCH_UGO_2(sSync,
-    "Синхр",
+    "Синхр", "Trig",
     "Выбор уровня сихронизации", "Selecting the level of synchronization",
     "Уров", "Holdoff",
     "Уров", "Holdoff",

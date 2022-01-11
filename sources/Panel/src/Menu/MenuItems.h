@@ -94,9 +94,13 @@ class Switch : public Item
     friend class PageModes;
 public:
 
-    Switch(pchar _text, pchar hintRu, pchar hintEn, char **_names, char **_ugo, Enumeration *_state, void(*_onClick)()) :
-        Item(hintRu, hintEn), text(_text), funcOnPress(_onClick), state(_state)
+    Switch(pchar textRu, pchar textEn, pchar hintRu, pchar hintEn, char **_names, char **_ugo,
+        Enumeration *_state, void(*_onClick)()) :
+        Item(hintRu, hintEn), funcOnPress(_onClick), state(_state)
     {
+        text[0] = textRu;
+        text[1] = textEn;
+
         state->names = _names;
         state->ugo = _ugo;
         state->sw = this;
@@ -111,10 +115,12 @@ public:
     // Для управления по SCPI
     void FuncForSCPI(int i);
 
+    pchar Title() const;
+
     bool SetValue(uint8 v);
 
 private:
-    pchar       text;               // Надпись на переключателе
+    pchar       text[2];            // Надпись на переключателе
     void        (*funcOnPress)();   // Эта функция вызывается после изменения состояния переключателя
     Enumeration *state;             // Адрес переменной с состоянием переключателя
     virtual void CreateHint(String &hint) const;

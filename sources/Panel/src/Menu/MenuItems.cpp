@@ -324,7 +324,7 @@ void Switch::Draw(int x, int y, int width, bool selected)
 {
     ColorDraw(selected).SetAsCurrent();
 
-    Text(text).Write(x, y + 7, width);
+    Text(Title()).Write(x, y + 7, width);
 }
 
 
@@ -498,4 +498,10 @@ pchar Button::Title() const
 pchar Item::GetHint() const
 {
     return hint[glob_set.language];
+}
+
+
+pchar Switch::Title() const
+{
+    return text[glob_set.language];
 }

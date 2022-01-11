@@ -22,7 +22,7 @@ static void OnChanged_TypeMeasure()
 
 
 DEF_SWITCH_2(sTypeMeasure,
-    "Измерение",
+    "Измерение", "Measure",
     "Выбор измерения", "Measurement selection",
     "Частота", "Сч. имп.",
     Channel::C->mod.typeMeasure, OnChanged_TypeMeasure
@@ -55,7 +55,7 @@ static void OnChanged_ModeFrequency()
 
 // Выбор режима измерения частоты, отношения частот, "тахометра"
 DEF_SWITCH_3(sModeFrequency,
-    "Режим",
+    "Режим", "Mode",
     "Измерение частоты", "Frequency measurement",
     "Частота", "f(C)/f(A)", "f(C)/f(B)",
     Channel::C->mod.modeFrequency, OnChanged_ModeFrequency
@@ -91,7 +91,7 @@ static void OnChanged_ModeCountPulse()
 
 // Выбор режима счёта импульсов
 DEF_SWITCH_4(sModeCountPulse,
-    "Режим",
+    "Режим", "Mode",
     "Счет числа импульсов", "Pulse counting",
     "C(tA)", "C(tB)", "C(TA)", "C(TB)",
     Channel::C->mod.modeCountPulse, OnChanged_ModeCountPulse

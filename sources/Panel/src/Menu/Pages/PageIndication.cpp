@@ -27,7 +27,7 @@ static void OnPress_DisplayTime()
 
 // Выбор времени отображения результата измерения
 DEF_SWITCH_3(sDisplayTime,
-    "Т-ИНД", "T-IND"
+    "Т-ИНД", "T-IND",
     "Время индикации", "Display time",
     "0.1s.", "1s.", "10s.",
     PageIndication::displayTime, OnPress_DisplayTime
@@ -41,7 +41,7 @@ static void OnPress_RefGenerator()
 
 // Выбор опорного генератора
 DEF_SWITCH_2(sRefGenerator,
-    "ОГ",
+    "ОГ", "REF",
     "Выбор опорного генератора", "Selecting a reference generator",
     "Внутренний", "Внешний", 
     PageIndication::refGenerator, OnPress_RefGenerator
@@ -55,7 +55,7 @@ static void OnPress_LaunchSource()
 
 // Выбор источника запуска
 DEF_SWITCH_3(sLaunchSource,
-    "ЗАП",
+    "ЗАП", "START",
     "Выбор источника запуска", "Selecting a trigger source",
     "Внутренний", "Внешний", "Однократный",
     PageIndication::launchSource, OnPress_LaunchSource);
@@ -72,7 +72,7 @@ static void OnPress_Calibration()
 
 // Вход в режим калибровки
 DEF_SWITCH_2(sCalibration,
-    "Калиб",
+    "Калиб", "Calib",
     "", "",
     "Не нажата", "Нажата", 
     PageIndication::calibrationMode, OnPress_Calibration
@@ -101,7 +101,7 @@ void PageIndication::OnceLaunchSwitchFalse()
 
 // Включение(отключение) режима памяти
 DEF_SWITCH_2(sMemoryMode,
-    "Память",
+    "Память", "Memory",
     "Режим память", "Memory mode",
     "Выкл", "Вкл",
     PageIndication::memoryMode, OnPress_MemoryMode
