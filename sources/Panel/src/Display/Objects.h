@@ -5,7 +5,7 @@
 /*
 * Описывет объект, автоматически отрисовываемый на экране
 */
-class AutoRedrawingObject
+class RedrawingZone
 {
 public:
 
@@ -18,9 +18,9 @@ public:
         };
     };
 
-    AutoRedrawingObject(int x, int y, int width, int height) :
+    RedrawingZone(int x, int y, int width, int height) :
         x0(0), y0(0), modeDraw(ModeDraw::ToBuffer), left(x), top(y), width(width), height(height), needUpdate(false) {}
-    virtual ~AutoRedrawingObject() {};
+    virtual ~RedrawingZone() {};
 
     void Update(ModeDraw::E mode);
    
@@ -55,10 +55,10 @@ private:
 };
 
 
-class DataZone : public AutoRedrawingObject
+class DataZone : public RedrawingZone
 {
 public:
-    DataZone() : AutoRedrawingObject(10, 140, Display::PHYSICAL_WIDTH - 50, 60) {}
+    DataZone() : RedrawingZone(10, 140, Display::PHYSICAL_WIDTH - 50, 60) {}
 
 protected:
 
@@ -66,10 +66,10 @@ protected:
 };
 
 
-class ProgressBarTimeMeasureZone : public AutoRedrawingObject
+class ProgressBarTimeMeasureZone : public RedrawingZone
 {
 public:
-    ProgressBarTimeMeasureZone() : AutoRedrawingObject(273, 90, 55, 5) {};
+    ProgressBarTimeMeasureZone() : RedrawingZone(273, 90, 55, 5) {};
 
     static void Reset();
 
@@ -81,11 +81,11 @@ protected:
 };
 
 
-class SynchroZone : public AutoRedrawingObject
+class SynchroZone : public RedrawingZone
 {
 public:
 
-    SynchroZone() : AutoRedrawingObject(390, 120, 20, 20), oldColor(0) {}
+    SynchroZone() : RedrawingZone(390, 120, 20, 20), oldColor(0) {}
 
     static void Fire();
 

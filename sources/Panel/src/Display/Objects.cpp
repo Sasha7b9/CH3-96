@@ -28,14 +28,14 @@ uint ProgressBarTimeMeasureZone::timeStart = 0;
 uint SynchroZone::timeStart = 0;
 
 
-void AutoRedrawingObject::Update(AutoRedrawingObject::ModeDraw::E mode)
+void RedrawingZone::Update(RedrawingZone::ModeDraw::E mode)
 {
     modeDraw = mode;
 
     x0 = (mode == ModeDraw::ToHardware) ? 0 : left;
     y0 = (mode == ModeDraw::ToHardware) ? 0 : top;
 
-    if (mode == AutoRedrawingObject::ModeDraw::ToBuffer)
+    if (mode == RedrawingZone::ModeDraw::ToBuffer)
     {
         if (Display::InDrawingPart(top, height))
         {
@@ -67,7 +67,7 @@ void AutoRedrawingObject::Update(AutoRedrawingObject::ModeDraw::E mode)
 }
 
 
-void AutoRedrawingObject::Refresh()
+void RedrawingZone::Refresh()
 {
     if (this == Display::zoneProgressBarTimeMeasure)
     {
@@ -88,7 +88,7 @@ void AutoRedrawingObject::Refresh()
 }
 
 
-void AutoRedrawingObject::FillBackground()
+void RedrawingZone::FillBackground()
 {
     // Rectangle(width, height).Fill(0, 0, Color::BLACK);
 
