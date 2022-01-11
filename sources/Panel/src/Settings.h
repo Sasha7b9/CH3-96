@@ -32,6 +32,8 @@ struct StyleGUI
         Classic     // Сегментные символы
     } value;
 
+    StyleGUI(E v) : value(v) {}
+
     bool IsModern() const { return value == Modern; }
     void Switch() { value = (value == Modern) ? Classic : Modern; }
 };

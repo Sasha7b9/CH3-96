@@ -15,7 +15,7 @@ Settings gset =
         TypeSynch::Manual, TypeSynch::Manual    // typeSynch
     },
     false,
-    StyleGUI::Modern
+    StyleGUI(StyleGUI::Modern)
 }; 
 
 

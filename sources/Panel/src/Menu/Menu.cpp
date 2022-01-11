@@ -15,6 +15,7 @@
 #include "Menu/Pages/Other/PageStatistics.h"
 #include "Utils/Math.h"
 #include "Utils/StringUtils.h"
+#include "Menu/Pages/Other/PageInfo.h"
 #include <cstring>
 
 
@@ -40,6 +41,10 @@ void Menu::Draw()
     if (openedPage == PageStatistics::self)
     {
         PageStatistics::Draw();
+    }
+    else if (openedPage == PageInfo::self)
+    {
+        PageInfo::Draw();
     }
 }
 
