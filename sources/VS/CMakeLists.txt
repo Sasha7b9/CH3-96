@@ -19,5 +19,12 @@ project (CH3-96-2_GUI)
 
 set (TARGET_NAME CH3-96-2_GUI)
 
+function(add_subdirectory_with_folder _folder_name _folder)
+    add_subdirectory(${_folder} ${ARGN})
+    set_property(DIRECTORY "${_folder}" PROPERTY FOLDER "${_folder_name}")
+endfunction()
+
 add_subdirectory(Panel)
 #add_subdirectory(Saver)
+
+add_subdirectory_with_folder(ThirdParty  ThirdParty/wxWidgets)
