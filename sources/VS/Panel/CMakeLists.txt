@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.15)
 
 project (PanelGUI)
 
+message("------------------------------------------------------------------------ Panel")
+
 include_directories(src
                     ../../common/_VS_KEIL/CMSIS
                     ../../common/_VS_KEIL/HAL

@@ -9,6 +9,8 @@
 
 cmake_minimum_required(VERSION 2.8.12)
 
+message("------------------------------------------------------------------------ wxWidgets")
+
 if(NOT CMAKE_CONFIGURATION_TYPES)
     get_property(HAVE_MULTI_CONFIG_GENERATOR GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
     # Set default configuration types for multi-config generators
@@ -41,7 +43,7 @@ endif()
 include(build/cmake/policies.cmake NO_POLICY_SCOPE)
 
 set(wxBUILD_SHARED ON)
-sel(wxBUILD_USE_STATIC_RUNTIME ON)
+set(wxBUILD_USE_STATIC_RUNTIME ON)
 
 # Initialize variables for quick access to wx root dir in sub dirs
 set(wxSOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
