@@ -1,3 +1,4 @@
+// (c) Aleksandr Shevchenko e-mail : Sasha7b9@tut.by
 #include "Hardware/FPGA.h"
 #include "Hardware/VCP.h"
 #include "Hardware/HAL/HAL.h"

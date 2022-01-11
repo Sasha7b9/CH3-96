@@ -1,3 +1,4 @@
+// (c) Aleksandr Shevchenko e-mail : Sasha7b9@tut.by
 #include "Log.h"
 #include "Display/Display.h"
 #include "Hardware/FPGA.h"

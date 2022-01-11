@@ -35,25 +35,25 @@ add_compile_options(/wd26812)
 file(GLOB HAL                 ../common/libs/STM32Cube_F4/Drivers/STM32F4xx_HAL_Driver/Inc/*.h
                               ../common/libs/STM32Cube_F4/Drivers/STM32F4xx_HAL_Driver/Src/*.c)
 file(GLOB SRC                 src/*.*)
-file(GLOB CALCULATE           src/Calculate/*)
+file(GLOB CALCULATE           src/Calculate/*.*)
 file(GLOB DISPLAY             src/Display/*.*)
-file(GLOB DISPLAY_FONT        src/Display/Font/*)
+file(GLOB DISPLAY_FONT        src/Display/Font/*.*)
 file(GLOB HARDWARE            src/Hardware/*.*)
-file(GLOB HARDWARE_CMSIS      src/Hardware/CMSIS/*)
-file(GLOB HARDWARE_HAL        src/Hardware/HAL/*)
-file(GLOB HARDWARE_USBD       src/Hardware/USBD/*
+file(GLOB HARDWARE_CMSIS      src/Hardware/CMSIS/*.*)
+file(GLOB HARDWARE_HAL        src/Hardware/HAL/*.*)
+file(GLOB HARDWARE_USBD       src/Hardware/USBD/*.*
                               ../common/libs/STM32Cube_F4/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc.c
                               ../common/libs/STM32Cube_F4/Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ctlreq.c
                               ../common/libs/STM32Cube_F4/Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ioreq.c)
-file(GLOB KEYBOARD            src/Keyboard/*)
+file(GLOB KEYBOARD            src/Keyboard/*.*)
 file(GLOB MENU                src/Menu/*.*)
 file(GLOB MENU_PAGES          src/Menu/Pages/*.*)
-file(GLOB MENU_PAGES_CHANNELS src/Menu/Pages/Channels/*)
-file(GLOB MENU_PAGES_MODES    src/Menu/Pages/Modes/*)
+file(GLOB MENU_PAGES_CHANNELS src/Menu/Pages/Channels/*.*)
+file(GLOB MENU_PAGES_MODES    src/Menu/Pages/Modes/*.*)
 file(GLOB SCPI                src/SCPI/*.*)
-file(GLOB SCPI_PROCESS        src/SCPI/Process/*)
-file(GLOB UTILS               src/Utils/*)
-file(GLOB TESTS               tests/*)
+file(GLOB SCPI_PROCESS        src/SCPI/Process/*.*)
+file(GLOB UTILS               src/Utils/*.*)
+file(GLOB TESTS               tests/*.*)
 
 
 source_group(HAL                   FILES ${HAL})
