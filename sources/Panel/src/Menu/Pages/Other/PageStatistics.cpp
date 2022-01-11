@@ -24,7 +24,7 @@ static void OnPress_Exit()
     Menu::SetOpenedPage(Channel::A->pageModes);
 }
 
-DEF_BUTTON(bExit, "Выход", "Переход на страницу выбра режима", OnPress_Exit);
+DEF_BUTTON(bExit, "Выход", "Переход на страницу выбора режима", OnPress_Exit);
 
 
 static Item *items[7] =

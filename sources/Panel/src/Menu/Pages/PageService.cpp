@@ -5,11 +5,12 @@
 #include "Menu/MenuItemsDef.h"
 #include "Menu/Pages/PageService.h"
 #include "Menu/Pages/Modes/Modes.h"
+#include "Menu/Pages/Other/PageInfo.h"
 
 
 static void OnPress_Information()
 {
-
+    Menu::SetOpenedPage(PageInfo::self);
 }
 
 DEF_BUTTON(bInformation, "Инфо", "Вывод системной информации", OnPress_Information);
@@ -80,8 +81,8 @@ static Item *items[7] =
     &bInformation,
     &bResetSettings,
     &bLanguage,
-    &bStyleGUI,
-    &bShowStatistics,
+    nullptr,    // &bStyleGUI,
+    nullptr,    // &bShowStatistics,
     nullptr,
     nullptr
 };
