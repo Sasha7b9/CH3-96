@@ -94,7 +94,7 @@ class Switch : public Item
     friend class PageModes;
 public:
 
-    Switch(char *_text, char *hintRu, char *hintEn, char **_names, char **_ugo, Enumeration *_state, void(*_onClick)()) :
+    Switch(pchar _text, pchar hintRu, pchar hintEn, char **_names, char **_ugo, Enumeration *_state, void(*_onClick)()) :
         Item(hintRu, hintEn), text(_text), funcOnPress(_onClick), state(_state)
     {
         state->names = _names;
@@ -114,8 +114,8 @@ public:
     bool SetValue(uint8 v);
 
 private:
-    char        *text;              // Надпись на переключателе
-    void       (*funcOnPress)();    // Эта функция вызывается после изменения состояния переключателя
+    pchar       text;               // Надпись на переключателе
+    void        (*funcOnPress)();   // Эта функция вызывается после изменения состояния переключателя
     Enumeration *state;             // Адрес переменной с состоянием переключателя
     virtual void CreateHint(String &hint) const;
     // Переключить в следующее состояние
