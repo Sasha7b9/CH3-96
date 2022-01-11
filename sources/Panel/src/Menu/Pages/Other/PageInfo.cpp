@@ -41,11 +41,11 @@ void PageInfo::Draw()
 
     int dy = 5;
 
-    Text(String(LANG_IS_RU ? MODEL_RU : MODEL_EN)).Write(0, 30 + dy, Display::PHYSICAL_WIDTH, Color::WHITE);
+    Text(NAME_MODEL).Write(0, 30 + dy, Display::PHYSICAL_WIDTH, Color::WHITE);
 
     Text("---------------------------------------------").Write(40, 75 + dy);
 
     Text(String("Программное обеспечение : %s", STR_NUM_VERSION)).Write(50, 120 + dy);
 
-    Text(String("CRC32 : %s", CRC32)).Write(50, 160 + dy);
+    Text(String("CRC32 : %s", STR_CRC32)).Write(50, 160 + dy);
 }
