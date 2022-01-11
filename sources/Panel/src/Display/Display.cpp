@@ -127,7 +127,8 @@ void Display::DrawWelcomeScreen()
         {
             SetTopRow(i);
             BeginScene();
-            Text(String("OAO МНИПИ, Ч3-96/2, %s", STR_NUM_VERSION)).Write(100, 110, Color::WHITE);
+            Text(String(LANG_IS_RU ? "OAO МНИПИ, Ч3-96/2, %s" : "OAO MNIPI, Ch3-96/2, %s",
+                STR_NUM_VERSION)).Write(100, 110, Color::WHITE);
             EndScene();
         }
     }
@@ -143,7 +144,7 @@ void Display::DrawKeyboardFailScreen()
         {
             SetTopRow(i);
             BeginScene();
-            Text("ОШИБКА КЛАВИАТУРЫ").Write(100, 110, Color::WHITE);
+            Text(LANG_IS_RU ? "ОШИБКА КЛАВИАТУРЫ" : "ERROR KEYBOARD").Write(100, 110, Color::WHITE);
             EndScene();
         }
     }
@@ -272,9 +273,9 @@ void Display::DrawScreen()
 {
     if(PageIndication::calibrationMode.IsEnabled())
     {
-        Text("---Режим Калибровка---").Write(140, 10, Color::WHITE);
-        Text("Нажмите ЭНК. для сохранения").Write(125, 40);
-        Text("Нажмите любую кнопку для выхода").Write(105, 70);
+        Text(LANG_IS_RU ? "---Режим Калибровка---" : "---Calibration mode---").Write(140, 10, Color::WHITE);
+        Text(LANG_IS_RU ? "Нажмите ЭНК. для сохранения" : "Click ENC. to preserve").Write(125, 40);
+        Text(LANG_IS_RU ? "Нажмите любую кнопку для выхода" : "Press any button to exit").Write(105, 70);
         Text(SU::Int2String(FPGA::GovernorData::ValueCalibrator()).c_str()).Write(210, 100);
     }
     else
@@ -388,7 +389,7 @@ static void DrawInfo()
     if((CURRENT_CHANNEL_IS_A && Channel::A->mod.typeMeasure.IsCountPulse() && Channel::A->mod.modeCountPulse.Is_StartStop()) ||
        (CURRENT_CHANNEL_IS_B && Channel::B->mod.typeMeasure.IsCountPulse() && Channel::B->mod.modeCountPulse.Is_StartStop()))
     {
-        Text(ModeStartStop::IsEnabled() ? "Старт" : "Стоп").Write(430, 60);
+        Text(ModeStartStop::IsEnabled() ? (LANG_IS_RU ? "Старт" : "Start") : (LANG_IS_RU ? "Стоп" : "Stop")).Write(430, 60);
     }
 
     if(PageIndication::launchSource == LaunchSource::OneTime)
@@ -399,7 +400,7 @@ static void DrawInfo()
             {
                 second = (int)TIME_MS;
             }
-            Text("ПУСК").Write(430, 110);
+            Text(LANG_IS_RU ? "ПУСК" : "START").Write(430, 110);
             if((second + 1000) < (int)TIME_MS)
             {
                 second = 0;
