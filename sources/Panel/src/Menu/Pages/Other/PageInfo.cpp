@@ -45,7 +45,7 @@ void PageInfo::Draw()
 
     Text("---------------------------------------------").Write(40, 75 + dy);
 
-    Text(String("Программное обеспечение : %s", NUM_VERSION)).Write(50, 120 + dy);
+    Text(String("Программное обеспечение : %s", STR_NUM_VERSION)).Write(50, 120 + dy);
 
     Text(String("CRC32 : %s", CRC32)).Write(50, 160 + dy);
 }
