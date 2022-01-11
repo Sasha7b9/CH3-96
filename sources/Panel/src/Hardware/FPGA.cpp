@@ -4,7 +4,6 @@
 #include "Settings.h"
 #include "Calculate/ValueFPGA.h"
 #include "Display/Display.h"
-#include "Display/Objects.h"
 #include "Hardware/FPGA.h"
 #include "Hardware/HAL/HAL.h"
 #include "Menu/Hint.h"

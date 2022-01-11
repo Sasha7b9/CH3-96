@@ -34,5 +34,5 @@ Page* PageInfo::self = &pageInfo;
 
 void PageInfo::Draw()
 {
-    Rectangle(100, 200).FillRounded(5, 5, 1, Color::BLACK, Color::WHITE);
+    Rectangle(470, 250).FillRounded(5, 5, 1, Color::BLACK, Color::WHITE);
 }

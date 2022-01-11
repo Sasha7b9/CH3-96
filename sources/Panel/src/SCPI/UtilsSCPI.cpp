@@ -1,7 +1,7 @@
 // (c) Aleksandr Shevchenko e-mail : Sasha7b9@tut.by
 #include "defines.h"
 #include "Utils/Stack.h"
-#include "SCPI/StringUtils.h"
+#include "SCPI/UtilsSCPI.h"
 
 
 bool SCPI::SU::IsLineEnding(pchar *buffer)

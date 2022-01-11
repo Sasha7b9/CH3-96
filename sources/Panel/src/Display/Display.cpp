@@ -5,7 +5,6 @@
 #include "Calculate/ValueFPGA.h"
 #include "Display/Console.h"
 #include "Display/Display.h"
-#include "Display/Objects.h"
 #include "Display/Primitives.h"
 #include "Display/Text.h"
 #include "Hardware/FPGA.h"
@@ -19,6 +18,7 @@
 #include "Utils/String.h"
 #include "Utils/StringUtils.h"
 #include "Menu/Pages/Other/PageInfo.h"
+#include "Display/RedrawingZone.h"
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>

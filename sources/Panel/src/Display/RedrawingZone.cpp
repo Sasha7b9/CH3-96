@@ -4,7 +4,7 @@
 #include "Calculate/ValueFPGA.h"
 #include "Display/Display.h"
 #include "Display/Indicator.h"
-#include "Display/Objects.h"
+#include "Display/RedrawingZone.h"
 #include "Display/Primitives.h"
 #include "Display/Text.h"
 #include "Display/Font/Font.h"

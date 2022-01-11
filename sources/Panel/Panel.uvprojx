@@ -604,16 +604,6 @@
               <FilePath>.\src\Display\Display_stm.cpp</FilePath>
             </File>
             <File>
-              <FileName>Objects.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\Display\Objects.h</FilePath>
-            </File>
-            <File>
-              <FileName>Objects.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\Display\Objects.cpp</FilePath>
-            </File>
-            <File>
               <FileName>Primitives.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\src\Display\Primitives.h</FilePath>
@@ -622,6 +612,16 @@
               <FileName>Primitives.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\Display\Primitives.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RedrawingZone.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\Display\RedrawingZone.h</FilePath>
+            </File>
+            <File>
+              <FileName>RedrawingZone.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\Display\RedrawingZone.cpp</FilePath>
             </File>
             <File>
               <FileName>Symbols.h</FileName>
@@ -1044,14 +1044,14 @@
               <FilePath>.\src\SCPI\SCPI.cpp</FilePath>
             </File>
             <File>
-              <FileName>StringUtils.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\SCPI\StringUtils.h</FilePath>
+              <FileName>UtilsSCPI.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\SCPI\UtilsSCPI.cpp</FilePath>
             </File>
             <File>
-              <FileName>StringUtils.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\SCPI\StringUtils.cpp</FilePath>
+              <FileName>UtilsSCPI.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\SCPI\UtilsSCPI.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -1139,16 +1139,6 @@
               <FilePath>.\src\Utils\String.cpp</FilePath>
             </File>
             <File>
-              <FileName>StringUtils.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\Utils\StringUtils.h</FilePath>
-            </File>
-            <File>
-              <FileName>StringUtils.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\Utils\StringUtils.cpp</FilePath>
-            </File>
-            <File>
               <FileName>Values.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\src\Utils\Values.h</FilePath>
@@ -1177,6 +1167,16 @@
               <FileName>Debug.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\src\Utils\Debug.h</FilePath>
+            </File>
+            <File>
+              <FileName>StringUtils.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\Utils\StringUtils.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>StringUtils.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\Utils\StringUtils.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -1810,16 +1810,6 @@
               <FilePath>.\src\Display\Display_stm.cpp</FilePath>
             </File>
             <File>
-              <FileName>Objects.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\Display\Objects.h</FilePath>
-            </File>
-            <File>
-              <FileName>Objects.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\Display\Objects.cpp</FilePath>
-            </File>
-            <File>
               <FileName>Primitives.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\src\Display\Primitives.h</FilePath>
@@ -1828,6 +1818,16 @@
               <FileName>Primitives.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\Display\Primitives.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RedrawingZone.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\Display\RedrawingZone.h</FilePath>
+            </File>
+            <File>
+              <FileName>RedrawingZone.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\Display\RedrawingZone.cpp</FilePath>
             </File>
             <File>
               <FileName>Symbols.h</FileName>
@@ -2250,14 +2250,14 @@
               <FilePath>.\src\SCPI\SCPI.cpp</FilePath>
             </File>
             <File>
-              <FileName>StringUtils.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\SCPI\StringUtils.h</FilePath>
+              <FileName>UtilsSCPI.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\SCPI\UtilsSCPI.cpp</FilePath>
             </File>
             <File>
-              <FileName>StringUtils.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\SCPI\StringUtils.cpp</FilePath>
+              <FileName>UtilsSCPI.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\SCPI\UtilsSCPI.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -2345,16 +2345,6 @@
               <FilePath>.\src\Utils\String.cpp</FilePath>
             </File>
             <File>
-              <FileName>StringUtils.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\Utils\StringUtils.h</FilePath>
-            </File>
-            <File>
-              <FileName>StringUtils.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\Utils\StringUtils.cpp</FilePath>
-            </File>
-            <File>
               <FileName>Values.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\src\Utils\Values.h</FilePath>
@@ -2383,6 +2373,16 @@
               <FileName>Debug.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\src\Utils\Debug.h</FilePath>
+            </File>
+            <File>
+              <FileName>StringUtils.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\Utils\StringUtils.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>StringUtils.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\Utils\StringUtils.h</FilePath>
             </File>
           </Files>
         </Group>

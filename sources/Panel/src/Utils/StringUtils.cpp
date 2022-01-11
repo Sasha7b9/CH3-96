@@ -2,8 +2,8 @@
 #include "defines.h"
 #include "Utils/Buffer.h"
 #include "Utils/Stack.h"
-#include "Utils/StringUtils.h"
 #include "Utils/Values.h"
+#include "Utils/StringUtils.h"
 #include <iomanip>
 #include <cstring>
 #include <cctype>

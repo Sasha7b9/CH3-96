@@ -4,13 +4,13 @@
 #include "Calculate/ValueFPGA.h"
 #include "Calculate/ValueFPGA.h"
 #include "Display/Display.h"
-#include "Display/Objects.h"
 #include "Hardware/FPGA.h"
 #include "Menu/Pages/Channels/Channels.h"
 #include "Menu/Pages/Modes/Modes.h"
 #include "SCPI/Process/DataSender.h"
 #include "Utils/Buffer.h"
 #include "Utils/StringUtils.h"
+#include "Display/RedrawingZone.h"
 #include <cstdio>
 #include <cstring>
 #include <cstdlib>

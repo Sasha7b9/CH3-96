@@ -5,8 +5,8 @@
 #include "Display/Display.h"
 #include "Menu/Pages/Channels/Channels.h"
 #include "Menu/Pages/Modes/Modes.h"
-#include "Utils/StringUtils.h"
 #include "Utils/ValueSTRICT.h"
+#include "Utils/StringUtils.h"
 #include <cmath>
 #include <cstdio>
 #include <cstring>

@@ -6,7 +6,7 @@
 #include "Menu/Pages/PageIndication.h"
 #include "Menu/Pages/PageService.h"
 #include "SCPI/SCPI.h"
-#include "SCPI/StringUtils.h"
+#include "SCPI/UtilsSCPI.h"
 #include "Utils/String.h"
 #include "Hardware/FreqMeter.h"
 
