@@ -53,7 +53,7 @@ DEF_BUTTON(bResetSettings, "—брос", "—брос настроек в состо€ние по умолчанию", O
 
 static void OnPress_Language()
 {
-
+    glob_set.language = LANG_IS_RU ? Language::EN : Language::RU;
 }
 
 DEF_BUTTON(bLanguage, "язык", "¬ыбор €зыка интерфейса", OnPress_Language);
