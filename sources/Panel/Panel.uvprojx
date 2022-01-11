@@ -914,16 +914,6 @@
               <FilePath>.\src\Menu\Pages\PageIndication.cpp</FilePath>
             </File>
             <File>
-              <FileName>PageInfo.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\Menu\Pages\PageInfo.h</FilePath>
-            </File>
-            <File>
-              <FileName>PageInfo.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\Menu\Pages\PageInfo.cpp</FilePath>
-            </File>
-            <File>
               <FileName>PageService.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\src\Menu\Pages\PageService.h</FilePath>
@@ -932,16 +922,6 @@
               <FileName>PageService.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\Menu\Pages\PageService.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>PageStatistics.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\Menu\Pages\PageStatistics.h</FilePath>
-            </File>
-            <File>
-              <FileName>PageStatistics.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\Menu\Pages\PageStatistics.cpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -1017,6 +997,31 @@
               <FileName>PageModesD.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\Menu\Pages\Modes\PageModesD.cpp</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Menu/Pages/Other</GroupName>
+          <Files>
+            <File>
+              <FileName>PageInfo.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\Menu\Pages\Other\PageInfo.h</FilePath>
+            </File>
+            <File>
+              <FileName>PageInfo.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\Menu\Pages\Other\PageInfo.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>PageStatistics.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\Menu\Pages\Other\PageStatistics.h</FilePath>
+            </File>
+            <File>
+              <FileName>PageStatistics.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\Menu\Pages\Other\PageStatistics.cpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -2115,16 +2120,6 @@
               <FilePath>.\src\Menu\Pages\PageIndication.cpp</FilePath>
             </File>
             <File>
-              <FileName>PageInfo.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\Menu\Pages\PageInfo.h</FilePath>
-            </File>
-            <File>
-              <FileName>PageInfo.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\Menu\Pages\PageInfo.cpp</FilePath>
-            </File>
-            <File>
               <FileName>PageService.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\src\Menu\Pages\PageService.h</FilePath>
@@ -2133,16 +2128,6 @@
               <FileName>PageService.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\Menu\Pages\PageService.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>PageStatistics.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\Menu\Pages\PageStatistics.h</FilePath>
-            </File>
-            <File>
-              <FileName>PageStatistics.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\Menu\Pages\PageStatistics.cpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -2218,6 +2203,31 @@
               <FileName>PageModesD.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\Menu\Pages\Modes\PageModesD.cpp</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Menu/Pages/Other</GroupName>
+          <Files>
+            <File>
+              <FileName>PageInfo.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\Menu\Pages\Other\PageInfo.h</FilePath>
+            </File>
+            <File>
+              <FileName>PageInfo.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\Menu\Pages\Other\PageInfo.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>PageStatistics.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\Menu\Pages\Other\PageStatistics.h</FilePath>
+            </File>
+            <File>
+              <FileName>PageStatistics.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\Menu\Pages\Other\PageStatistics.cpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -2415,5 +2425,14 @@
     <components/>
     <files/>
   </RTE>
+
+  <LayerInfo>
+    <Layers>
+      <Layer>
+        <LayName>Panel</LayName>
+        <LayPrjMark>1</LayPrjMark>
+      </Layer>
+    </Layers>
+  </LayerInfo>
 
 </Project>

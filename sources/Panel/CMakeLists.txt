@@ -50,6 +50,7 @@ file(GLOB MENU                src/Menu/*.*)
 file(GLOB MENU_PAGES          src/Menu/Pages/*.*)
 file(GLOB MENU_PAGES_CHANNELS src/Menu/Pages/Channels/*.*)
 file(GLOB MENU_PAGES_MODES    src/Menu/Pages/Modes/*.*)
+file(GLOB MENU_PAGES_OTHER    src/Menu/Pages/Other/*.*)
 file(GLOB SCPI                src/SCPI/*.*)
 file(GLOB SCPI_PROCESS        src/SCPI/Process/*.*)
 file(GLOB UTILS               src/Utils/*.*)
@@ -70,6 +71,7 @@ source_group(Menu                  FILES ${MENU})
 source_group(Menu\\Pages           FILES ${MENU_PAGES})
 source_group(Menu\\Pages\\Channels FILES ${MENU_PAGES_CHANNELS})
 source_group(Menu\\Pages\\Modes    FILES ${MENU_PAGES_MODES})
+source_group(Menu\\Pages\\Other    FILES ${MENU_PAGES_OTHER})
 source_group(SCPI                  FILES ${SCPI})
 source_group(SCPI\\Process         FILES ${SCPI_PROCESS})
 source_group(Utils                 FILES ${UTILS})
@@ -82,5 +84,6 @@ set_source_files_properties(${HARDWARE_CMSIS} ${HAL}
                             PROPERTIES HEADER_FILE_ONLY TRUE)
 
 add_library(Panel ${HAL} ${SRC} ${CALCULATE} ${DISPLAY} ${DISPLAY_FONT} ${HARDWARE} ${HARDWARE_CMSIS} ${HARDWARE_HAL}
-                  ${HARDWARE_USBD} ${KEYBOARD} ${MENU} ${MENU_PAGES} ${MENU_PAGES_CHANNELS} ${MENU_PAGES_MODES} ${SCPI}
+                  ${HARDWARE_USBD} ${KEYBOARD} ${MENU} ${MENU_PAGES} ${MENU_PAGES_CHANNELS} ${MENU_PAGES_MODES}
+                  ${MENU_PAGES_OTHER} ${SCPI}
                   ${SCPI_PROCESS} ${UTILS} ${TESTS})

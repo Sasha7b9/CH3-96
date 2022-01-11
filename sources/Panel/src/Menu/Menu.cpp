@@ -11,8 +11,8 @@
 #include "Menu/Menu.h"
 #include "Menu/Pages/PageIndication.h"
 #include "Menu/Pages/PageService.h"
-#include "Menu/Pages/PageStatistics.h"
 #include "Menu/Pages/Channels/Channels.h"
+#include "Menu/Pages/Other/PageStatistics.h"
 #include "Utils/Math.h"
 #include "Utils/StringUtils.h"
 #include <cstring>

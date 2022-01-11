@@ -6,8 +6,8 @@
 #include "Display/Text.h"
 #include "Menu/Menu.h"
 #include "Menu/MenuItemsDef.h"
-#include "Menu/Pages/PageStatistics.h"
 #include "Menu/MenuItems.h"
+#include "Menu/Pages/Other/PageStatistics.h"
 #include "Utils/Math.h"
 
 
