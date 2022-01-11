@@ -6,6 +6,7 @@
 #include "Menu/Pages/PageService.h"
 #include "Menu/Pages/Modes/Modes.h"
 #include "Menu/Pages/Other/PageInfo.h"
+#include "Menu/Hint.h"
 
 
 static void OnPress_Information()
@@ -60,6 +61,7 @@ DEF_BUTTON(bResetSettings,
 static void OnPress_Language()
 {
     glob_set.language = LANG_IS_RU ? Language::EN : Language::RU;
+    Hint::Create(Menu::OpenedPage()->SelectedItem());
 }
 
 DEF_BUTTON(bLanguage,
