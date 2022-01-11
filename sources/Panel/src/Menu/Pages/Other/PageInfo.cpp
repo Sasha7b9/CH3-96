@@ -7,6 +7,7 @@
 #include "Display/Primitives.h"
 #include "Display/Text.h"
 #include "Display/Display.h"
+#include "Settings.h"
 
 
 using namespace Primitives;
@@ -38,5 +39,13 @@ void PageInfo::Draw()
 {
     Rectangle(470, 225).FillRounded(5, 5, 1, Color::GREEN_20, Color::WHITE);
 
-    Text(String(MODEL_RU)).Write(0, 30, Display::PHYSICAL_WIDTH, Color::WHITE);
+    int dy = 5;
+
+    Text(String(LANG_IS_RU ? MODEL_RU : MODEL_EN)).Write(0, 30 + dy, Display::PHYSICAL_WIDTH, Color::WHITE);
+
+    Text("---------------------------------------------").Write(40, 75 + dy);
+
+    Text(String("Программное обеспечение : %s", NUM_VERSION)).Write(50, 120 + dy);
+
+    Text(String("CRC32 : %s", CRC32)).Write(50, 160 + dy);
 }

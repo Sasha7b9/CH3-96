@@ -127,7 +127,7 @@ void Display::DrawWelcomeScreen()
         {
             SetTopRow(i);
             BeginScene();
-            Text(String("OAO лмхох, в3-96/2, Cherm V%s", NUM_VERSION)).Write(100, 110, Color::WHITE);
+            Text(String("OAO лмхох, в3-96/2, %s", NUM_VERSION)).Write(100, 110, Color::WHITE);
             EndScene();
         }
     }

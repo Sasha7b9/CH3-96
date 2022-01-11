@@ -15,7 +15,8 @@ Settings glob_set =
         TypeSynch::Manual, TypeSynch::Manual    // typeSynch
     },
     false,
-    StyleGUI(StyleGUI::Modern)
+    StyleGUI(StyleGUI::Modern),
+    Language::RU
 }; 
 
 
