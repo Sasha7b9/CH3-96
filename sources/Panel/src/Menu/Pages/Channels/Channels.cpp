@@ -448,7 +448,7 @@ String Channel::GetSettings()
     std::strcat(settings, " "); \
     std::strcat(settings, ugo);
 
-    static const char *const names[Channel::Count] = { "Канал A:", "Канал B:", "Канал C:", "Канал D:" };
+    static const char *const names[Channel::Count] = { "Channel A:", "Channel B:", "Channel C:", "Channel D:" };
 
     char settings[100] = { 0 };
 
@@ -466,7 +466,7 @@ String Channel::GetSettings()
         ADD_UGO(SU::Int2String(LEVEL_SYNCH(CURRENT_CHANNEL) * current->set.divider.ToAbs()).c_str());
         if (current->set.typeSynch.IsManual())
         {
-            std::strcat(settings, " мВ");
+            std::strcat(settings, " mV");
         }
         else
         {

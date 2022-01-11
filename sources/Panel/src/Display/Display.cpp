@@ -326,7 +326,8 @@ static void DrawHint(int x, int y)
             else
             {
                 Rectangle(360, 30).FillRounded(x, y, 2, Color::GREEN_20, Color::GREEN_20);
-                Text("Установка уровня синхронизации").Write(x + dX, y + dY, Color::WHITE);
+                Text(LANG_IS_RU ? "Установка уровня синхронизации" : "Setting the sync level").
+                    Write(x + dX, y + dY, Color::WHITE);
                 timeAutoHint = 0;
             }
         }

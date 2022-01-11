@@ -14,7 +14,7 @@ struct Enumeration
 {
     uint8  value;           // Текущее состояние перечисления
     pchar *namesRu;
-    pchar *namesEn;
+    pchar* namesEn;
     char **ugo;
     const bool *correct;    // Если указатель на этот массив не равен nullptr, то его элементы используются следующим
                             // образом : value не может значения индексов, соответствующих false
