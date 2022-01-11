@@ -51,4 +51,6 @@ typedef void(*pFuncVII)(int, int);
 #define _SET_BIT(value, bit) ((value) |= (1 << (bit))) //-V2573
 
 
-#define NUM_VER "1.2.1"
+#define NUM_VERSION "1.2.1"
+#define MODEL_RU    "Частотомер электронно-счетный Ч3-96/2"
+#define CRC32    

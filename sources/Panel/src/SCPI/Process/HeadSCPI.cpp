@@ -42,7 +42,7 @@ static pchar FuncIDN(pchar buffer)
 {
     SCPI_PROLOG(buffer);
 
-    SCPI::SendAnswer(String("OAO MNIPI, CH3-96/2, Cherem V1.2").c_str());
+    SCPI::SendAnswer(String("OAO MNIPI, CH3-96/2, Cherem V%s", NUM_VERSION).c_str());
 
     SCPI_EPILOG(buffer);
 

@@ -127,7 +127,7 @@ void Display::DrawWelcomeScreen()
         {
             SetTopRow(i);
             BeginScene();
-            Text("OAO лмхох, в3-96/2, Cherm V 1.2").Write(100, 110, Color::WHITE);
+            Text(String("OAO лмхох, в3-96/2, Cherm V%s", NUM_VERSION)).Write(100, 110, Color::WHITE);
             EndScene();
         }
     }
@@ -252,7 +252,7 @@ void Display::DrawPartScreen(int num, bool debugInfo)
         Console::Draw();
     }
 
-    if (num == 0 && debugInfo && gset.showStatistics)
+    if (num == 0 && debugInfo && glob_set.showStatistics)
     {
         Text(String("%d", timeFrame)).Write(440, 0, Color::BLACK);
         Text(String("%d", fps)).Write(440, 15);

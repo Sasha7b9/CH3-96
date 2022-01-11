@@ -61,7 +61,7 @@ DEF_BUTTON(bLanguage, "Язык", "Выбор языка интерфейса", OnPress_Language);
 
 static void OnPress_ShowStatistics()
 {
-    gset.showStatistics = !gset.showStatistics;
+    glob_set.showStatistics = !glob_set.showStatistics;
 }
 
 DEF_BUTTON(bShowStatistics, "Статистика", "Показывать временную статистику", OnPress_ShowStatistics);
@@ -69,7 +69,7 @@ DEF_BUTTON(bShowStatistics, "Статистика", "Показывать временную статистику", OnP
 
 static void OnPress_StyleGUI()
 {
-    gset.styleGUI.Switch();
+    glob_set.styleGUI.Switch();
 }
 
 

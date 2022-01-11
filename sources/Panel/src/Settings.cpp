@@ -6,7 +6,7 @@
 #include "Utils/Math.h"
 
 
-Settings gset =
+Settings glob_set =
 {
     {
         {0, 1}, {0, 1}                          // levelSynch

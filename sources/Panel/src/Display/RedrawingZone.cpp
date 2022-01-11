@@ -121,7 +121,7 @@ bool DataZone::Draw()
     {
         if (ValueFPGA::IsData())
         {
-            if (gset.styleGUI.IsModern())
+            if (glob_set.styleGUI.IsModern())
             {
                 FontBig::WriteAboutRight(data.c_str(), x0 + RIGHT_DIGITS, y0, ConditionSplit(data.c_str()));
             }
@@ -137,7 +137,7 @@ bool DataZone::Draw()
             if (ValueFPGA::IsOverlapped())   { x += 40; }   // Переполнение
             else if (ValueFPGA::IsDivNULL()) { x += 150; }  // Деление на ноль
 
-            if (gset.styleGUI.IsModern())
+            if (glob_set.styleGUI.IsModern())
             {
                 Font::Set(TypeFont::GOSTB28B);
                 Text(data.c_str()).Write(x, y0 + 15);

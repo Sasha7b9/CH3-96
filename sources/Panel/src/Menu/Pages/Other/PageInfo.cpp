@@ -5,6 +5,8 @@
 #include "Menu/Pages/PageService.h"
 #include "Menu/MenuItemsDef.h"
 #include "Display/Primitives.h"
+#include "Display/Text.h"
+#include "Display/Display.h"
 
 
 using namespace Primitives;
@@ -35,4 +37,6 @@ Page* PageInfo::self = &pageInfo;
 void PageInfo::Draw()
 {
     Rectangle(470, 225).FillRounded(5, 5, 1, Color::GREEN_20, Color::WHITE);
+
+    Text(String(MODEL_RU)).Write(0, 30, Display::PHYSICAL_WIDTH, Color::WHITE);
 }

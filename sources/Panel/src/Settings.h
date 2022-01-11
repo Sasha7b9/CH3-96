@@ -6,11 +6,11 @@
 #include "Menu/Pages/Channels/Channels.h"
 
 
-#define TYPE_SYNCH(ch)              (gset.typeSynch[NUMBER_CHANNEL(ch)])
+#define TYPE_SYNCH(ch)              (glob_set.typeSynch[NUMBER_CHANNEL(ch)])
 #define TYPE_SYNCH_A                (TYPE_SYNCH(Channel::A))
 #define TYPE_SYNCH_B                (TYPE_SYNCH(Channel::B))
 
-#define LEVEL_SYNCH(ch)             gset.levelSynch[NUMBER_CHANNEL(ch)][TYPE_SYNCH(ch)]
+#define LEVEL_SYNCH(ch)             glob_set.levelSynch[NUMBER_CHANNEL(ch)][TYPE_SYNCH(ch)]
 #define LEVEL_SYNCH_A               (LEVEL_SYNCH(Channel::A))
 #define LEVEL_SYNCH_B               (LEVEL_SYNCH(Channel::B))
 
@@ -39,12 +39,23 @@ struct StyleGUI
 };
 
 
+struct Language
+{
+    enum E
+    {
+        RU,
+        EN
+    };
+};
+
+
 struct Settings
 {
     int          levelSynch[4][2];  // Уровень синхронизации
     TypeSynch::E typeSynch[4];      // Тип синхронизации для каждого из каналов
     bool         showStatistics;    // Показывать ли статистику по FPS
     StyleGUI     styleGUI;
+    Language::E  language;
 };
 
-extern Settings gset;
+extern Settings glob_set;
