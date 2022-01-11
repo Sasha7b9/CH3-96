@@ -65,7 +65,7 @@ static void OnPress_Language()
 }
 
 DEF_BUTTON(bLanguage,
-    "Lang", "язык",
+    "Language", "язык",
     "¬ыбор €зыка интерфейса", "Selecting the interface language",
     OnPress_Language);
 
