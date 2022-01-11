@@ -23,7 +23,8 @@ static void OnChanged_TypeMeasure()
 DEF_SWITCH_2(sTypeMeasure,
     "Измерения", "Measure",
     "Выбор измерения", "Measurement selection",
-    "Частота", "Частота",
+    "Частота",   "Частота",
+    "Frequency", "Frequency",
     Channel::D->mod.typeMeasure, OnChanged_TypeMeasure
 )
 
@@ -37,7 +38,8 @@ static void OnChanged_ModeMeasureFrequency()
 DEF_SWITCH_2(sModeFrequency,
     "Режим", "Mode",
     "Измерение частоы", "Pulse counting",
-    "Частота", "Частота",
+    "Частота",   "Частота",
+    "Frequency", "Frequency",
     Channel::D->mod.modeFrequency, OnChanged_ModeMeasureFrequency
 )
 

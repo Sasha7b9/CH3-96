@@ -20,7 +20,7 @@ using namespace Primitives;
 
 
 Enumeration::Enumeration(uint8 v, const bool *_correct, int states) :
-    value(v), names(nullptr), ugo(nullptr), correct(_correct), sw(nullptr), numStates(states)
+    value(v), namesRu(nullptr), namesEn(nullptr), ugo(nullptr), correct(_correct), sw(nullptr), numStates(states)
 {
     if (_correct)
     {
@@ -42,7 +42,7 @@ int Enumeration::NumStates() const
 
     if (correct == nullptr)
     {
-        for (int i = 0; names[i] != nullptr; i++)
+        for (int i = 0; namesRu[i] != nullptr; i++)
         {
             result++;
         }
@@ -58,7 +58,12 @@ int Enumeration::NumStates() const
 
 String Enumeration::ToString() const
 {
-    return String(names[IndexName()]);
+    if (LANG_IS_RU)
+    {
+        return String(namesRu[IndexName()]);
+    }
+
+    return String(namesEn[IndexName()]);
 }
 
 

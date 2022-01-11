@@ -13,7 +13,8 @@ class Switch;
 struct Enumeration
 {
     uint8  value;           // Текущее состояние перечисления
-    char **names;
+    char **namesRu;
+    char **namesEn;
     char **ugo;
     const bool *correct;    // Если указатель на этот массив не равен nullptr, то его элементы используются следующим
                             // образом : value не может значения индексов, соответствующих false
@@ -94,14 +95,16 @@ class Switch : public Item
     friend class PageModes;
 public:
 
-    Switch(pchar textRu, pchar textEn, pchar hintRu, pchar hintEn, char **_names, char **_ugo,
+    Switch(pchar textRu, pchar textEn, pchar hintRu, pchar hintEn, char **_namesRu, char **_namesEn, char **_ugo,
         Enumeration *_state, void(*_onClick)()) :
         Item(hintRu, hintEn), funcOnPress(_onClick), state(_state)
     {
         text[0] = textRu;
         text[1] = textEn;
 
-        state->names = _names;
+        state->namesRu = _namesRu;
+        state->namesEn = _namesEn;
+
         state->ugo = _ugo;
         state->sw = this;
     };

@@ -28,7 +28,8 @@ static void OnChanged_TypeMeasure()
 DEF_SWITCH_4(sTypeMeasure,
     "Измерение", "Measure",
     "Выбор измерения", "Measurement selection",
-    "Частота", "Период", "Длит.", "Сч. имп.",
+    "Частота",   "Период", "Длит.",    "Сч. имп.",
+    "Frequency", "Period", "Duration", "Counting",
     Channel::B->mod.typeMeasure, OnChanged_TypeMeasure
 )
 
@@ -76,7 +77,8 @@ static void OnChanged_ModeFrequency()
 DEF_SWITCH_5(sModeFrequency,
     "Режим", "Mode",
     "Измерение частоты", "Frequency measurement",
-    "Частота", "f=1/T", "f(B)/f(A)", "f(B)/f(C)", "Тахометр",
+    "Частота",   "f=1/T", "f(B)/f(A)", "f(B)/f(C)", "Тахометр",
+    "Frequency", "f=1/T", "f(B)/f(A)", "f(B)/f(C)", "Tachometer",
     Channel::B->mod.modeFrequency, OnChanged_ModeFrequency
 );
 
@@ -111,6 +113,7 @@ DEF_SWITCH_2(sModePeriod,
     "Режим", "Mode",
     "Измерение периода", "Period measurement",
     "Период", "T=1/f",
+    "Period", "T=1/f",
     Channel::B->mod.modePeriod, OnChanged_ModePeriod
 );
 
@@ -147,6 +150,7 @@ DEF_SWITCH_5(sModeDuration,
     "Режим", "Mode",
     "Измерение длительности", "Duration measurement",
     "ndt", "ndt/1нс", "СтартB-СтопA", "Коэфф. зап.", "Фаза",
+    "ndt", "ndt/1нс", "StartB-StopA", "Fill factor", "Phase",
     Channel::B->mod.modeDuration, OnChanged_ModeDuration
 );
 
@@ -183,6 +187,7 @@ DEF_SWITCH_3(sModeCountPulse,
     "Режим", "Mode",
     "Счет числа импульсов", "Pulse counting",
     "B(tA)", "B(TA)", "Старт/Стоп",
+    "B(tA)", "B(TA)", "Start/Stop",
     Channel::B->mod.modeCountPulse, OnChanged_ModeCountPulse
 );
 

@@ -24,7 +24,8 @@ static void OnChanged_TypeMeasure()
 DEF_SWITCH_2(sTypeMeasure,
     "Измерение", "Measure",
     "Выбор измерения", "Measurement selection",
-    "Частота", "Сч. имп.",
+    "Частота",   "Сч. имп.",
+    "Frequency", "Counting",
     Channel::C->mod.typeMeasure, OnChanged_TypeMeasure
 )
 
@@ -58,6 +59,7 @@ DEF_SWITCH_3(sModeFrequency,
     "Режим", "Mode",
     "Измерение частоты", "Frequency measurement",
     "Частота", "f(C)/f(A)", "f(C)/f(B)",
+    "Frequency", "f(C)/f(A)", "f(C)/f(B)",
     Channel::C->mod.modeFrequency, OnChanged_ModeFrequency
 );
 
@@ -93,6 +95,7 @@ static void OnChanged_ModeCountPulse()
 DEF_SWITCH_4(sModeCountPulse,
     "Режим", "Mode",
     "Счет числа импульсов", "Pulse counting",
+    "C(tA)", "C(tB)", "C(TA)", "C(TB)",
     "C(tA)", "C(tB)", "C(TA)", "C(TB)",
     Channel::C->mod.modeCountPulse, OnChanged_ModeCountPulse
 );

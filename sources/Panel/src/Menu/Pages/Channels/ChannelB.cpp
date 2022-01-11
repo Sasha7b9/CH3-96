@@ -27,6 +27,7 @@ DEF_SWITCH_UGO_2(sCouple,
     "Вход", "Couple",
     "Вход", "Couple",
     "Открытый вход", "Закрытый вход",
+    "Opened couple", "Closed couple",
     SYMBOL_DC_IN_QUOTES, SYMBOL_AC_IN_QUOTES,
     Channel::B->set.couple, OnPress_Couple
 );
@@ -41,6 +42,7 @@ static void OnPress_Impedance()
 DEF_SWITCH_UGO_2(sImpedance,
     "Rвх", "Rin",
     "Входное сопротивление канала", "Channel input impedance",
+    "1 МОм", "50 Ом",
     "1 МОм", "50 Ом",
     "1МОм", "50Ом",
     Channel::B->set.impedance, OnPress_Impedance
@@ -57,6 +59,7 @@ DEF_SWITCH_UGO_2(sLowpassFilter,
     "ФНЧ", "LPF",
     "Включение/отключение фильтра НЧ", "Enable/disable Low Pass Filter",
     "Откл.", "Вкл.",
+    "Off",   "On",
     "ФНЧ", "",
     Channel::B->set.modeFilter, OnPress_Filter
 );
@@ -72,6 +75,7 @@ DEF_SWITCH_UGO_2(sFront,
     "\x82/\x83", "\x82/\x83",
     "Выбор типа синхронизации", "Synchronization type selection",
     "Фронт", "Срез",
+    "Front", "Slice",
     SYMBOL_FRONT_IN_QUOTES, SYMBOL_RISE_IN_QUOTES,
     Channel::B->set.modeFront, OnPress_Front
 );
@@ -88,6 +92,7 @@ DEF_SWITCH_UGO_2(sDivider,
     "Вкл/откл входного делителя", "On/off input divider",
     "1:1", "1:10",
     "1:1", "1:10",
+    "1:1", "1:10",
     Channel::B->set.divider, OnPress_Divider
 );
 
@@ -96,6 +101,7 @@ DEF_SWITCH_UGO_2(sDivider,
 DEF_SWITCH_6(sPeriodTimeLabels,
     "Метки", "Stamps",
     "Длительность временных меток", "Duration of timestamps",
+    "10-3", "10-4", "10-5", "10-6", "10-7", "10-8",
     "10-3", "10-4", "10-5", "10-6", "10-7", "10-8",
     ModesChannel::timeLabels,  PeriodTimeLabels::LoadToFPGA
 );
@@ -135,6 +141,7 @@ DEF_SWITCH_UGO_2(sSync,
     "Синхр", "Trig",
     "Выбор уровня сихронизации", "Selecting the level of synchronization",
     "Уров", "Holdoff",
+    "Level", "Holdoff",
     "Уров", "Holdoff",
     Channel::B->set.typeSynch, OnPress_Sync
 );
