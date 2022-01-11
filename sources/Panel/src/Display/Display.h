@@ -69,9 +69,6 @@ struct Display
     // Эта функция только для win-версии
     static void Draw(const uint *buffer);
 
-    // true, если нужно перерисовывать автоматические объекты
-    static bool NeedRefreshObjects();
-
 private:
     static bool sendToSCPI;     // Если true, то надо посылать в SCPI
     static bool drawingScene;   // Если true - находимся в состоянии отрисовки основной части - между BeginScene()

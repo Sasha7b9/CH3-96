@@ -15,6 +15,7 @@
 #include "Utils/Math.h"
 #include "Utils/String.h"
 #include "Utils/StringUtils.h"
+#include "Menu/Pages/Other/PageInfo.h"
 #include <cctype>
 #include <cstdlib>
 #include <cstring>
@@ -27,19 +28,14 @@ uint ProgressBarTimeMeasureZone::timeStart = 0;
 uint SynchroZone::timeStart = 0;
 
 
-void Object::Update(Object::ModeDraw::E mode)
+void AutoRedrawingObject::Update(AutoRedrawingObject::ModeDraw::E mode)
 {
-    if (!Display::NeedRefreshObjects())
-    {
-        return;
-    }
-
     modeDraw = mode;
 
     x0 = (mode == ModeDraw::ToHardware) ? 0 : left;
     y0 = (mode == ModeDraw::ToHardware) ? 0 : top;
 
-    if (mode == Object::ModeDraw::ToBuffer)
+    if (mode == AutoRedrawingObject::ModeDraw::ToBuffer)
     {
         if (Display::InDrawingPart(top, height))
         {
@@ -71,14 +67,20 @@ void Object::Update(Object::ModeDraw::E mode)
 }
 
 
-void Object::Refresh()
+void AutoRedrawingObject::Refresh()
 {
     if (this == Display::zoneProgressBarTimeMeasure)
     {
-        if(Menu::OpenedPage() == PageStatistics::self || PageIndication::calibrationMode.IsEnabled())
+        if( Menu::OpenedPage() == PageStatistics::self ||
+            PageIndication::calibrationMode.IsEnabled())
         {
             return;
         }
+    }
+
+    if (Menu::OpenedPage() == PageInfo::self)
+    {
+        return;
     }
 
 
@@ -86,7 +88,7 @@ void Object::Refresh()
 }
 
 
-void Object::FillBackground()
+void AutoRedrawingObject::FillBackground()
 {
     // Rectangle(width, height).Fill(0, 0, Color::BLACK);
 

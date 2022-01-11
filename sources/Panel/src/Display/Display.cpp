@@ -76,7 +76,7 @@ static Coord coordLaunch = { 130, yString };
 
 
 static const int MAX_OBJECTS = 10;
-static Object *objects[MAX_OBJECTS];
+static AutoRedrawingObject*objects[MAX_OBJECTS];
 static int numObjects = 0;
 
 static DataZone sDataZone;
@@ -89,7 +89,7 @@ static SynchroZone sSynchroZone;
 SynchroZone *zoneSynchro = &sSynchroZone;
 
 
-static void AddObject(Object *object)
+static void AddObject(AutoRedrawingObject*object)
 {
     objects[numObjects++] = object;
 }
@@ -216,7 +216,7 @@ void Display::Update()
 
     for (int i = 0; i < numObjects; i++)
     {
-        objects[i]->Update(Object::ModeDraw::ToHardware);
+        objects[i]->Update(AutoRedrawingObject::ModeDraw::ToHardware);
     }
 
     needRedraw = false;
@@ -289,7 +289,7 @@ void Display::DrawScreen()
 
         for (int i = 0; i < numObjects; i++)
         {
-            objects[i]->Update(Object::ModeDraw::ToBuffer);
+            objects[i]->Update(AutoRedrawingObject::ModeDraw::ToBuffer);
         }
 
         Menu::Draw();
@@ -456,17 +456,6 @@ int Display::Width()
 int Display::Height()
 {
     return height;
-}
-
-
-bool Display::NeedRefreshObjects()
-{
-    if (Menu::OpenedPage() == PageInfo::self)
-    {
-        return false;
-    }
-
-    return true;
 }
 
 

@@ -2,7 +2,10 @@
 #pragma once
 
 
-class Object
+/*
+* Описывет объект, автоматически отрисовываемый на экране
+*/
+class AutoRedrawingObject
 {
 public:
 
@@ -15,9 +18,9 @@ public:
         };
     };
 
-    Object(int x, int y, int width, int height) :
+    AutoRedrawingObject(int x, int y, int width, int height) :
         x0(0), y0(0), modeDraw(ModeDraw::ToBuffer), left(x), top(y), width(width), height(height), needUpdate(false) {}
-    virtual ~Object() {};
+    virtual ~AutoRedrawingObject() {};
 
     void Update(ModeDraw::E mode);
    
@@ -52,10 +55,10 @@ private:
 };
 
 
-class DataZone : public Object
+class DataZone : public AutoRedrawingObject
 {
 public:
-    DataZone() : Object(10, 140, Display::PHYSICAL_WIDTH - 50, 60) {}
+    DataZone() : AutoRedrawingObject(10, 140, Display::PHYSICAL_WIDTH - 50, 60) {}
 
 protected:
 
@@ -63,10 +66,10 @@ protected:
 };
 
 
-class ProgressBarTimeMeasureZone : public Object
+class ProgressBarTimeMeasureZone : public AutoRedrawingObject
 {
 public:
-    ProgressBarTimeMeasureZone() : Object(273, 90, 55, 5) {};
+    ProgressBarTimeMeasureZone() : AutoRedrawingObject(273, 90, 55, 5) {};
 
     static void Reset();
 
@@ -78,11 +81,11 @@ protected:
 };
 
 
-class SynchroZone : public Object
+class SynchroZone : public AutoRedrawingObject
 {
 public:
 
-    SynchroZone() : Object(390, 120, 20, 20), oldColor(0) {}
+    SynchroZone() : AutoRedrawingObject(390, 120, 20, 20), oldColor(0) {}
 
     static void Fire();
 
