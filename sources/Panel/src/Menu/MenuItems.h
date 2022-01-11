@@ -65,13 +65,20 @@ private:
 class Button : public Item
 {
 public:
-    Button(char *_text, char *_hint, void (*funcPress)()) : Item(_hint), text(_text), funcOnPress(funcPress) {};
+    Button(char *text_ru, char *text_en, char *_hint, void (*funcPress)()) :
+        Item(_hint), funcOnPress(funcPress)
+    {
+        text[0] = text_ru;
+        text[1] = text_en;
+    };
 
     virtual void Draw(int x, int y, int width, bool selected = false);
     virtual bool OnControl(const Control &control);
-    
+
+    char* Title() const;
+
 private:
-    char *text;
+    char *text[2];
     void (*funcOnPress)();
 
     virtual void CreateHint(String &hint) const;

@@ -39,7 +39,7 @@ static void OnPress_Statistics()
     Menu::SetOpenedPage(PageStatistics::self);
 }
 
-DEF_BUTTON(bStatistics, "Стат", "Открывает окно статистики", OnPress_Statistics);
+DEF_BUTTON(bStatistics, "Стат", "Stat", "Открывает окно статистики", OnPress_Statistics);
 
 
 static void OnChanged_ModeFrequency()

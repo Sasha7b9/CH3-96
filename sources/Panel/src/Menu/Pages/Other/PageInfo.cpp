@@ -19,7 +19,7 @@ static void OnPress_Exit()
 }
 
 
-DEF_BUTTON(bExit, "Выход", "Переход на страницу СЕРВИС", OnPress_Exit);
+DEF_BUTTON(bExit, "Выход", "Exit", "Переход на страницу СЕРВИС", OnPress_Exit);
 
 
 static Item* items[7] =

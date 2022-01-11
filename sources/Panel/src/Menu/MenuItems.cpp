@@ -332,7 +332,7 @@ void Button::Draw(int x, int y, int width, bool selected)
 {
     ColorDraw(selected).SetAsCurrent();
 
-    Text(text).Write(x, y + 7, width);
+    Text(Title()).Write(x, y + 7, width);
 }
 
 
@@ -482,4 +482,11 @@ bool Switch::SetValue(uint8 v)
     }
 
     return false;
+}
+
+
+
+char *Button::Title() const
+{
+    return text[glob_set.language];
 }

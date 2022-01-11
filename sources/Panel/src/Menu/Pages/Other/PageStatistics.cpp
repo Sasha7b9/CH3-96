@@ -16,7 +16,7 @@
 using namespace Primitives;
 
 
-DEF_BUTTON(bClear, "Очистить", "Очистить график", PageStatistics::Clear);
+DEF_BUTTON(bClear, "Очистить", "Clear", "Очистить график", PageStatistics::Clear);
 
 
 static void OnPress_Exit()
@@ -24,7 +24,7 @@ static void OnPress_Exit()
     Menu::SetOpenedPage(Channel::A->pageModes);
 }
 
-DEF_BUTTON(bExit, "Выход", "Переход на страницу выбора режима", OnPress_Exit);
+DEF_BUTTON(bExit, "Выход", "Exit", "Переход на страницу выбора режима", OnPress_Exit);
 
 
 static Item *items[7] =

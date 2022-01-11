@@ -37,5 +37,5 @@ static Switch name(title, hint, n##name, nullptr, &state, func);
 static char *n##name[] = { name1, name2, name3, name4, name5, name6, name7, nullptr };                  \
 static Switch name(title, hint, n##name, nullptr, &state, func);
 
-#define DEF_BUTTON(name, title, hint, funcPress)                                                              \
-static Button name(title, hint, funcPress)
+#define DEF_BUTTON(name, titleRu, titleEn, hint, funcPress)                                                              \
+static Button name(titleRu, titleEn, hint, funcPress)

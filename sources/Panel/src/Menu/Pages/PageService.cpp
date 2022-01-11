@@ -13,7 +13,7 @@ static void OnPress_Information()
     Menu::SetOpenedPage(PageInfo::self);
 }
 
-DEF_BUTTON(bInformation, "Инфо", "Вывод системной информации", OnPress_Information);
+DEF_BUTTON(bInformation, "Инфо", "Info", "Вывод системной информации", OnPress_Information);
 
 
 static void OnPress_ResetSettings()
@@ -48,7 +48,7 @@ static void OnPress_ResetSettings()
     FreqMeter::HardwareReset();
 }
 
-DEF_BUTTON(bResetSettings, "Сброс", "Сброс настроек в состояние по умолчанию", OnPress_ResetSettings);
+DEF_BUTTON(bResetSettings, "Сброс", "Reset", "Сброс настроек в состояние по умолчанию", OnPress_ResetSettings);
 
 
 static void OnPress_Language()
@@ -56,7 +56,7 @@ static void OnPress_Language()
     glob_set.language = LANG_IS_RU ? Language::EN : Language::RU;
 }
 
-DEF_BUTTON(bLanguage, "Язык", "Выбор языка интерфейса", OnPress_Language);
+DEF_BUTTON(bLanguage, "Lang", "Язык", "Выбор языка интерфейса", OnPress_Language);
 
 
 static void OnPress_ShowStatistics()
@@ -64,7 +64,7 @@ static void OnPress_ShowStatistics()
     glob_set.showStatistics = !glob_set.showStatistics;
 }
 
-DEF_BUTTON(bShowStatistics, "Статистика", "Показывать временную статистику", OnPress_ShowStatistics);
+DEF_BUTTON(bShowStatistics, "Статистика", "Statistics", "Показывать временную статистику", OnPress_ShowStatistics);
 
 
 static void OnPress_StyleGUI()
@@ -73,7 +73,7 @@ static void OnPress_StyleGUI()
 }
 
 
-DEF_BUTTON(bStyleGUI, "Интерфейс", "Выбор интерфейса пользователя", OnPress_StyleGUI);
+DEF_BUTTON(bStyleGUI, "Интерфейс", "Interface", "Выбор интерфейса пользователя", OnPress_StyleGUI);
 
 
 static Item *items[7] =
