@@ -67,7 +67,7 @@ private:
 class Button : public Item
 {
 public:
-    Button(pchar text_ru, pchar text_en, char *hintRu, char *hintEn, void (*funcPress)()) :
+    Button(pchar text_ru, pchar text_en, pchar hintRu, pchar hintEn, void (*funcPress)()) :
         Item(hintRu, hintEn), funcOnPress(funcPress)
     {
         text[0] = text_ru;
