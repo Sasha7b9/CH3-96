@@ -18,6 +18,7 @@
 #include "Menu/Pages/PageIndication.h"
 #include "Utils/String.h"
 #include "Utils/StringUtils.h"
+#include "Menu/Pages/Other/PageInfo.h"
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -458,6 +459,17 @@ int Display::Height()
 }
 
 
+bool Display::NeedRefreshObjects()
+{
+    if (Menu::OpenedPage() == PageInfo::self)
+    {
+        return false;
+    }
+
+    return true;
+}
+
+
 #ifdef WIN32
 
 bool Display::InDrawingPart(int, int)
@@ -495,4 +507,3 @@ bool Display::InDrawingPart(int y, int height)
 #endif
 
 }
-

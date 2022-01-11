@@ -29,6 +29,11 @@ uint SynchroZone::timeStart = 0;
 
 void Object::Update(Object::ModeDraw::E mode)
 {
+    if (!Display::NeedRefreshObjects())
+    {
+        return;
+    }
+
     modeDraw = mode;
 
     x0 = (mode == ModeDraw::ToHardware) ? 0 : left;
