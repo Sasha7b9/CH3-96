@@ -92,8 +92,6 @@ void RedrawingZone::Refresh()
 
 void RedrawingZone::FillBackground()
 {
-    // Rectangle(width, height).Fill(0, 0, Color::BLACK);
-
     Display::BeginScene(left, top);
 }
 
