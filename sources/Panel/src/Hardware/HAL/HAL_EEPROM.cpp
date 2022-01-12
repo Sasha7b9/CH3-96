@@ -2,6 +2,7 @@
 #include "defines.h"
 #include "Hardware/HAL/HAL.h"
 #include "Settings.h"
+#include <stm32f4xx_hal.h>
 
 
 #define ADDR_SECTOR_0   ((uint)0x08000000)  // 16k  Основная прошивка
@@ -93,12 +94,13 @@ static uint FindLastOccupiedRecord(uint start, uint sizeSector, uint sizeRecord)
         return start + sizeSector - sizeRecord;     // надо считвать последнюю запись
     }
 
-    if (address == start)                           // Если первая свободная запись находится в начале сектора, то сектор пуст - запись в него не производилась
-    {
+    if (address == start)                           // Если первая свободная запись находится в начале сектора,
+    {                                               // то сектор пуст - запись в него не производилась
         return 0;                                   // Возвращаем 0 как признак того, что записей нет
     }
 
-    return address - sizeRecord;                    // Во всех остальных случаях возвращаем адрес записи, предыдущей по отношению к первой свободной
+    return address - sizeRecord;                    // Во всех остальных случаях возвращаем адрес записи, предыдущей
+                                                    // по отношению к первой свободной
 }
 
 
@@ -137,7 +139,7 @@ static uint GetSector(uint address)
 
     static const StructSector sectors[] =
     {
-        {FLASH_SECTOR_11, ADDR_SECTOR_CALIBRATION},
+        {FLASH_SECTOR_7, ADDR_SECTOR_SETTINGS},
         {}
     };
 
