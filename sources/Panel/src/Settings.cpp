@@ -8,6 +8,28 @@
 
 Settings glob_set =
 {
+    0,                              // size
+    {
+        MAKE_COLOR(0,   0,   0),    // BLACK
+        MAKE_COLOR(255, 255, 255),  // WHITE
+        MAKE_COLOR(0,   255, 255),  // YELLOW
+        MAKE_COLOR(0,   0,   255),  // BLUE
+        MAKE_COLOR(255, 0,   0),    // RED
+        MAKE_COLOR(0,   255, 0),    // GREEN
+        MAKE_COLOR(25,  25,  25),   // GRAY_10
+        MAKE_COLOR(127, 127, 127),  // GRAY_50
+        MAKE_COLOR(51,  51,  51),   // GRAY_20
+        MAKE_COLOR(0,   127, 0),    // GREEN_50
+        MAKE_COLOR(0,   64,  0),    // GREEN_25
+        MAKE_COLOR(0,   25,  0),    // GREEN_10
+        MAKE_COLOR(0,   51,  0),    // GREEN_20
+        MAKE_COLOR(0,   13,  0),    // GREEN_5
+        MAKE_COLOR(0,   38,  0),    // GREEN_15
+        MAKE_COLOR(0,   31,  0),    // GREEN_12
+        MAKE_COLOR(191, 191, 191),  // GRAY_75
+        MAKE_COLOR(0,   25,  0),    // BACKGROUND_1
+        MAKE_COLOR(0,   64,  0)     // BACKGROUND_2
+    },
     {
         {0, 1}, {0, 1}                          // levelSynch
     },

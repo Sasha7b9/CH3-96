@@ -48,7 +48,16 @@ void HAL_EEPROM::LoadSettings(Settings *settings)
 
     if (address)                                            // Если нашли сохранённую запись
     {
-        *settings = *(reinterpret_cast<Settings *>(address));      // То запишем её в целевой объект
+        uint size = *((uint *)address);
+
+        if (size == sizeof(Settings))
+        {
+            *settings = *(reinterpret_cast<Settings *>(address));      // То запишем её в целевой объект
+        }
+        else
+        {
+            EraseSector(ADDR_SECTOR_SETTINGS);
+        }
     }
 }
 
@@ -62,6 +71,8 @@ void HAL_EEPROM::SaveSettings(Settings *settings)
         EraseSector(ADDR_SECTOR_SETTINGS);
         address = ADDR_SECTOR_SETTINGS;
     }
+
+    settings->size = sizeof(Settings);
 
     WriteData(address, settings, sizeof(Settings));
 }

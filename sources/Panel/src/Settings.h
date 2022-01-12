@@ -53,6 +53,9 @@ struct Language
 
 struct Settings
 {
+    uint         size;
+    uint         colors[Color::Count];
+
     int          levelSynch[4][2];  // Уровень синхронизации
     TypeSynch::E typeSynch[4];      // Тип синхронизации для каждого из каналов
     bool         showStatistics;    // Показывать ли статистику по FPS
