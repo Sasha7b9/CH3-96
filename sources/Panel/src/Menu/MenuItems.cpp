@@ -179,6 +179,11 @@ void Page::Draw(int x, int y, int, bool)
 
 int Page::WidthItem(int num) const
 {
+    if (equal_width_items)
+    {
+        return Display::PHYSICAL_WIDTH / NumItems();
+    }
+
     if (IsPageModes())
     {
         return (Display::PHYSICAL_WIDTH / 4);

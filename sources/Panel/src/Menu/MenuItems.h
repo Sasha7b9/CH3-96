@@ -164,8 +164,9 @@ class Page : public Item, public Observer
     friend struct Channel;
 
 public:
-    Page(Item **_items, void (*_onEvent)(EventType::E), void (*_additionalDraw)()) :
-        Item("", ""), selectedItem(0), items(_items), onEvent(_onEvent), additionalDraw(_additionalDraw)
+    Page(Item **_items, void (*_onEvent)(EventType::E), void (*_additionalDraw)(), bool equalItems = false) :
+        Item("", ""),
+        selectedItem(0), items(_items), onEvent(_onEvent), additionalDraw(_additionalDraw), equal_width_items(equalItems)
     {};
 
     virtual void Draw(int x, int y, int width, bool selected = false);
@@ -213,6 +214,8 @@ protected:
     void (*onEvent)(EventType::E);
 
     void (*additionalDraw)();
+
+    bool equal_width_items;         // ≈сли true, то ширина итемов при отрисовке одинакова€
 };
 
 

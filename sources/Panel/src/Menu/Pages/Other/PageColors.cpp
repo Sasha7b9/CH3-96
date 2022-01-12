@@ -43,15 +43,29 @@ DEF_CHOICE_2(cColor,
 );
 
 
+static void OnPress_Tune()
+{
+
+}
+
+
+DEF_BUTTON(bTune,
+    "Настроить", "Tune",
+    "Настроить цвет", "Tune color",
+    OnPress_Tune
+);
+
+
 static Item *items[7] =
 {
     &bExit,
     &cColor,
+    &bTune,
     nullptr
 };
 
 
-static Page page(items, nullptr, Draw_Colors);
+static Page page(items, nullptr, Draw_Colors, true);
 
 
 Page *PageColors::self = &page;
