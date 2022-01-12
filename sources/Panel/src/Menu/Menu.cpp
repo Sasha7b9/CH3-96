@@ -85,7 +85,7 @@ static void OnGovernor(const Control &control)
 }
 
 
-void Menu::Update()
+void Menu::Input::Update()
 {
     funcUpdate();
 }

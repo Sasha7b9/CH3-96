@@ -36,7 +36,7 @@ int main(void)
     while (1)
     {
         FPGA::Update();
-        Menu::Update();
+        Menu::Input::Update();
         SCPI::Update();
         Display::Update();
     }

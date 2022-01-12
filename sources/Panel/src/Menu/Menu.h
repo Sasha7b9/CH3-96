@@ -11,9 +11,12 @@ namespace Menu
 
     void Draw();
 
-    void Update();
-
     Page* OpenedPage();
 
     void SetOpenedPage(Page *page);
+
+    namespace Input
+    {
+        void Update();
+    };
 };
