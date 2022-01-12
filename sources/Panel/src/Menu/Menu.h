@@ -17,6 +17,13 @@ namespace Menu
 
     namespace Input
     {
+        // Эта функция вызывается главном цикле
         void Update();
+
+        // Установка функции обработки ввода
+        void SetFuncUpdate(void (*funcUpdate)());
+
+        // Это функция обработки обработки по умолчанию
+        void FuncUpdate();
     };
 };

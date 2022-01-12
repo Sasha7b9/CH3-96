@@ -31,11 +31,9 @@ static void OnGovernor(const Control &control);
 // Текущая отображаемая страница меню
 static Page *openedPage = nullptr;
 
-static void Update();
-
 static void SubscribeToEvents();
 
-static void (*funcUpdate)() = Update;
+static void (*funcUpdate)() = nullptr;
 
 
 void Menu::Draw()
@@ -81,30 +79,6 @@ static void OnGovernor(const Control &control)
         {
             LevelSynch::Change(delta);
         }
-    }
-}
-
-
-void Menu::Input::Update()
-{
-    funcUpdate();
-}
-
-
-static void Update()
-{
-    while (!Keyboard::Empty())
-    {
-        Control control = Keyboard::NextControl();
-
-        OnGovernor(control);
-
-        if (!OnKey(control))
-        {
-            OpenPage(control);
-        }
-
-        Display::Refresh();
     }
 }
 
@@ -251,9 +225,41 @@ static bool OnKey(const Control &control) //-V2008
 
 void Menu::Init()
 {
+    Input::SetFuncUpdate(Input::FuncUpdate);
+
     openedPage = Channel::A->pageModes;
 
     SubscribeToEvents();
+}
+
+
+void Menu::Input::Update()
+{
+    funcUpdate();
+}
+
+
+void Menu::Input::FuncUpdate()
+{
+    while (!Keyboard::Empty())
+    {
+        Control control = Keyboard::NextControl();
+
+        OnGovernor(control);
+
+        if (!OnKey(control))
+        {
+            OpenPage(control);
+        }
+
+        Display::Refresh();
+    }
+}
+
+
+void Menu::Input::SetFuncUpdate(void (*_funcUpdate)())
+{
+    funcUpdate = _funcUpdate;
 }
 
 
