@@ -99,9 +99,6 @@ void Menu::Update()
 }
 
 
-
-
-
 static bool OpenPage(Control control)
 {
     if (!control.action.IsPress())

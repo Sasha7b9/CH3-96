@@ -68,7 +68,21 @@ static void OnPress_Language()
 DEF_BUTTON(bLanguage,
     "Language", "Язык",
     "Выбор языка интерфейса", "Selecting the interface language",
-    OnPress_Language);
+    OnPress_Language
+);
+
+
+static void OnPress_Colors()
+{
+
+}
+
+
+DEF_BUTTON(bColors,
+    "Цвета", "Colors",
+    "Выбор цвета", "Choice colors",
+    OnPress_Colors
+);
 
 
 static void OnPress_ShowStatistics()
@@ -79,7 +93,8 @@ static void OnPress_ShowStatistics()
 DEF_BUTTON(bShowStatistics,
     "Статистика", "Statistics",
     "Показывать временную статистику", "Show temporary statistics",
-    OnPress_ShowStatistics);
+    OnPress_ShowStatistics
+);
 
 
 static void OnPress_StyleGUI()
@@ -91,17 +106,18 @@ static void OnPress_StyleGUI()
 DEF_BUTTON(bStyleGUI,
     "Интерфейс", "Interface",
     "Выбор интерфейса пользователя", "User interface selection",
-    OnPress_StyleGUI);
+    OnPress_StyleGUI
+);
 
 
 static Item *items[7] =
 {
     &bInformation,
     &bResetSettings,
+    &bColors,
     &bLanguage,
     nullptr,    // &bStyleGUI,
     nullptr,    // &bShowStatistics,
-    nullptr,
     nullptr
 };
 
