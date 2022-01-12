@@ -14,7 +14,7 @@ static void OnPress_Exit()
 
 DEF_BUTTON(bExit,
     "Выход", "Exit",
-    "Переход на страницу ЦВЕТА", "Go ot the COLORS page",
+    "Переход на страницу ЦВЕТА", "Go to the COLORS page",
     OnPress_Exit
 );
 

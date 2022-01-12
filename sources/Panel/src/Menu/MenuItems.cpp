@@ -386,7 +386,8 @@ void GovernorChannelColor::Draw(int x, int y, int width, bool /*selected*/)
 {
     color.SetAsCurrent();
 
-    Rectangle(width, HEIGHT).FillRounded(x + 1, y - 1, 1, color, color);
+    Rectangle(width - 3, HEIGHT - 3).DrawRounded(x + 1, y - 3, 1, color);
+    Rectangle(width - 4, HEIGHT - 4).Fill(x + 2, y - 2, color);
 }
 
 
