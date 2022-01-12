@@ -46,7 +46,7 @@ public:
     // Функция отрисовки
     virtual void Draw(int x, int y, int width, bool selected = false) = 0;
     // Функция обработки нажатия кнопки/поворота ручки
-    virtual bool OnControl(const Control &) { return false; };
+    virtual bool _OnControl(const Control &) { return false; };
 
     static Color ColorBackground(bool selected);
 

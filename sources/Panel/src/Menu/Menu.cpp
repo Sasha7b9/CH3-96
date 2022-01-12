@@ -146,7 +146,7 @@ static bool OnKey(const Control &control) //-V2008
     case Control::Enter:
         if (openedPage->SelectedItem())
         {
-            openedPage->SelectedItem()->OnControl(control);
+            openedPage->SelectedItem()->_OnControl(control);
         }
         break;
 
