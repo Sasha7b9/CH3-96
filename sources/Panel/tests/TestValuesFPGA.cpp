@@ -42,7 +42,7 @@ namespace Tests
         }
     }
 
-    static void StoreSettings(Channel *channel);
+    static void StoreSettings(const Channel *channel);
 
     static void RestoreSettings(Channel *channel);
 
@@ -337,7 +337,7 @@ static void Tests::Frequency::Frequency::TestChannelsCD()
 }
 
 
-static void Tests::StoreSettings(Channel *channel)
+static void Tests::StoreSettings(const Channel *channel)
 {
     current = Channel::Current();
     type = channel->mod.typeMeasure.value;
