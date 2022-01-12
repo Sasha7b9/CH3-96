@@ -37,7 +37,7 @@ struct Color
 
     explicit Color(uint8 val) : value(val) {};
 
-    void SetAsCurrent();
+    void SetAsCurrent() const;
     static Color GetCurrent();
 };
 

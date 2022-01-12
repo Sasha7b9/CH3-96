@@ -224,7 +224,7 @@ Color Color::GetCurrent()
 }
 
 
-void Color::SetAsCurrent()
+void Color::SetAsCurrent() const
 {
     current = Color(value);
 }

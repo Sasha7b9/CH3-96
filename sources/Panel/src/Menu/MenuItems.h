@@ -78,16 +78,12 @@ public:
         text[0] = text_ru;
         text[1] = text_en;
     };
-
     virtual void Draw(int x, int y, int width, bool selected = false);
     virtual void OnEnterKeyGovernor(const Control &);
-
     pchar Title() const;
-
 private:
     pchar text[2];
     void (*funcOnPress)();
-
     virtual void CreateHint(String &hint) const;
 };
 
@@ -105,27 +101,32 @@ public:
 
     virtual void Draw(int x, int y, int width, bool selected = false);
     virtual void OnEnterKeyGovernor(const Control &);
-
     pchar Title() const;
-
 private:
     pchar *namesRu;
     pchar *namesEn;
     uint8 *state;
     void (*funcOnPress)();
-
     int NumStates() const;
-
     virtual void CreateHint(String &) const;
 };
 
 
 // Настройка одного цветового канала
-//class GovernorChannelColor : public Item
-//{
-//public:
-//    GovernorChannelColor(Color &color, uint8 *state)
-//};
+class GovernorChannelColor : public Item
+{
+public:
+    GovernorChannelColor(pchar hintRu, pchar hintEn, const Color &_color, uint8 *_state) :
+        Item(hintRu, hintEn), state(_state), color(_color)
+    {
+    }
+    virtual void Draw(int x, int y, int width, bool selected = false);
+    virtual void OnRotateGovernor(const Control &);
+private:
+    uint8 *state;
+    const Color color;
+    virtual void CreateHint(String &) const;
+};
 
 
 // Для настроек частотомера

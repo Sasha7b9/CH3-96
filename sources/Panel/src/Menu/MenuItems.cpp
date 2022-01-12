@@ -382,6 +382,20 @@ void Choice::Draw(int x, int y, int width, bool selected)
 }
 
 
+void GovernorChannelColor::Draw(int x, int y, int width, bool /*selected*/)
+{
+    color.SetAsCurrent();
+
+    Rectangle(width, HEIGHT).FillRounded(x, y, 1, color, color);
+}
+
+
+void GovernorChannelColor::OnRotateGovernor(const Control &)
+{
+
+}
+
+
 void Switch::CreateHint(String &h) const
 {
     h.Free();
@@ -399,6 +413,13 @@ void Button::CreateHint(String &h) const
 
 
 void Choice::CreateHint(String &h) const
+{
+    h.Free();
+    h.Append(GetHint());
+}
+
+
+void GovernorChannelColor::CreateHint(String &h) const
 {
     h.Free();
     h.Append(GetHint());

@@ -19,9 +19,30 @@ DEF_BUTTON(bExit,
 );
 
 
+DEF_COLOR_GOVERNOR(gRed,
+    "", "",
+    Color::RED
+);
+
+
+DEF_COLOR_GOVERNOR(gGreen,
+    "", "",
+    Color::GREEN
+);
+
+
+DEF_COLOR_GOVERNOR(gBlue,
+    "", "",
+    Color::BLUE
+);
+
+
 static Item *items[7] =
 {
     &bExit,
+    &gRed,
+    &gGreen,
+    &gBlue,
     nullptr
 };
 
