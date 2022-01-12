@@ -418,6 +418,8 @@ void GovernorChannelColor::Draw(int _x, int _y, int _width, bool selected)
         Rectangle(width - 1, height - 1).Fill(x + 1, y + 1, color);
         Rectangle(width, height).DrawRounded(x, y, 1, color);
     }
+
+    Text(String("%0.3d", (int)*state)).Write(_x, _y + 6, _width, Color::WHITE);
 }
 
 
