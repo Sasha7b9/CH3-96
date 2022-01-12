@@ -5,9 +5,7 @@
 #include "Menu/MenuItemsDef.h"
 #include "Menu/Pages/PageService.h"
 #include "Display/Primitives.h"
-
-
-using namespace Primitives;
+#include "Menu/Pages/Other/PageTuneColor.h"
 
 
 static void OnPress_Exit()
@@ -39,7 +37,7 @@ DEF_CHOICE_2(cColor,
 
 static void OnPress_Tune()
 {
-
+    Menu::SetOpenedPage(PageTuneColor::self);
 }
 
 
