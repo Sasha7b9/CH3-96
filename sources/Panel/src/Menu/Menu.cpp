@@ -31,7 +31,11 @@ static void OnGovernor(const Control &control);
 // Текущая отображаемая страница меню
 static Page *openedPage = nullptr;
 
+static void Update();
+
 static void SubscribeToEvents();
+
+static void (*funcUpdate)() = Update;
 
 
 void Menu::Draw()
@@ -82,6 +86,12 @@ static void OnGovernor(const Control &control)
 
 
 void Menu::Update()
+{
+    funcUpdate();
+}
+
+
+static void Update()
 {
     while (!Keyboard::Empty())
     {
