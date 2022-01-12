@@ -16,6 +16,7 @@
 #include "Utils/Math.h"
 #include "Utils/StringUtils.h"
 #include "Menu/Pages/Other/PageInfo.h"
+#include "Menu/Pages/Other/PageColors.h"
 #include <cstring>
 
 
@@ -47,6 +48,10 @@ void Menu::Draw()
     else if (openedPage == PageInfo::self)
     {
         PageInfo::Draw();
+    }
+    else if (openedPage == PageColors::self)
+    {
+        PageColors::Draw();
     }
 }
 

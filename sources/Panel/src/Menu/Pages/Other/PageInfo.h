@@ -5,10 +5,8 @@
 class Page;
 
 
-class PageInfo
+struct PageInfo
 {
-public:
-
     static Page *self;
 
     static void Draw();

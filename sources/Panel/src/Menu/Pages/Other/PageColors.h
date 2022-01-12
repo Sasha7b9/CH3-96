@@ -2,4 +2,14 @@
 #pragma once
 
 
+class Page;
 
+
+struct PageColors
+{
+    static Page *self;
+
+    static void Draw();
+
+    static void UpdateInput();
+};

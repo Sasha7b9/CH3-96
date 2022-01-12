@@ -7,6 +7,7 @@
 #include "Menu/Pages/Modes/Modes.h"
 #include "Menu/Pages/Other/PageInfo.h"
 #include "Menu/Hint.h"
+#include "Menu/Pages/Other/PageColors.h"
 
 
 static void OnPress_Information()
@@ -74,7 +75,7 @@ DEF_BUTTON(bLanguage,
 
 static void OnPress_Colors()
 {
-
+    Menu::SetOpenedPage(PageColors::self);
 }
 
 
