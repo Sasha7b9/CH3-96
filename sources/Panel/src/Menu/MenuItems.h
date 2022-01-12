@@ -117,7 +117,7 @@ private:
 };
 
 
-//// Настройка одного цветового канала
+// Настройка одного цветового канала
 //class GovernorChannelColor : public Item
 //{
 //public:
@@ -192,11 +192,8 @@ public:
     // Возвращает true, если это страница настроек
     bool IsPageSettings() const;
 
-    // Делает текущим следующий элемент
-    void SelectNextItem();
-
-    // Делает текущим предыдущий элемент
-    void SelectPrevItem();
+    void OnKeyRight();
+    void OnKeyLeft();
 
     // Проверить на корректность номер выделенного итема. Если он больше, чем количество итемов - скорректировать
     void VerifySelectedItem();

@@ -263,14 +263,14 @@ int Page::NumItems() const
 }
 
 
-void Page::SelectNextItem()
+void Page::OnKeyRight()
 {
     Math::CircleIncrease<int>(&selectedItem, 0, NumItems() - 1);
     Hint::Create(SelectedItem());
 }
 
 
-void Page::SelectPrevItem()
+void Page::OnKeyLeft()
 {
     Math::CircleDecrease<int>(&selectedItem, 0, NumItems() - 1);
     Hint::Create(SelectedItem());

@@ -151,11 +151,11 @@ static bool OnKey(const Control &control) //-V2008
         break;
 
     case Control::Right:
-        openedPage->SelectNextItem();
+        openedPage->OnKeyRight();
         break;
 
     case Control::Left:
-        openedPage->SelectPrevItem();
+        openedPage->OnKeyLeft();
         break;
 
     case Control::Mode:
