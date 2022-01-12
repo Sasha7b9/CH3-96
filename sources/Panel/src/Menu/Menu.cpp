@@ -45,6 +45,11 @@ void Menu::Draw()
 
 static void OnGovernor(const Control &control)
 {
+    if (!Menu::OpenedPage()->IsPageModes() && !Menu::OpenedPage()->IsPageSettings())
+    {
+        return;
+    }
+
     if (CURRENT_CHANNEL_IS_A_OR_B && control.IsRotateGovernor())
     {
         int delta = Channel::Current()->set.typeSynch.IsHoldoff() ? 1 : 2;
