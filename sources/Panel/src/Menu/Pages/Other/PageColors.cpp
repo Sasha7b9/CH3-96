@@ -5,6 +5,7 @@
 #include "Menu/MenuItemsDef.h"
 #include "Menu/Pages/PageService.h"
 #include "Display/Primitives.h"
+#include "Settings.h"
 
 
 static void OnPress_Exit()
@@ -22,7 +23,21 @@ DEF_BUTTON(bExit,
 
 static void OnChanged_Color()
 {
+    extern Choice cColor;
+    extern GovernorChannelColor gRed;
+    extern GovernorChannelColor gGreen;
+    extern GovernorChannelColor gBlue;
 
+    static uint *colors[2] = {
+        &COLOR(Color::BACKGROUND_1.value),
+        &COLOR(Color::BACKGROUND_2.value)
+    };
+
+    uint *color = colors[cColor.Value()];
+
+    gRed.SetValue(RED_FROM_COLOR(*color));
+    gGreen.SetValue(GREEN_FROM_COLOR(*color));
+    gBlue.SetValue(BLUE_FROM_COLOR(*color));
 }
 
 

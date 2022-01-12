@@ -102,6 +102,7 @@ public:
     virtual void Draw(int x, int y, int width, bool selected = false);
     virtual void OnEnterKeyGovernor(const Control &);
     pchar Title() const;
+    int Value() const { return (int)*state; }
 private:
     pchar *namesRu;
     pchar *namesEn;
@@ -122,6 +123,8 @@ public:
     }
     virtual void Draw(int x, int y, int width, bool selected = false);
     virtual void OnRotateGovernor(const Control &);
+    int Value() const { return (int)*state; }
+    void SetValue(uint8 value) { *state = value; }
 private:
     uint8 *state;
     const Color color;
