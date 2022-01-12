@@ -1,7 +1,3 @@
-# bench.py make_build_all
-# HP 17-by3063ur            0:04:29
-# FX-8350         
-
 import os
 import sys
 from datetime import datetime
@@ -21,4 +17,3 @@ startTime = datetime.now();
 os.system(command)
 
 print("\n Execution time command \" ", command, "\" : ", datetime.now() - startTime, "\n")
-      
