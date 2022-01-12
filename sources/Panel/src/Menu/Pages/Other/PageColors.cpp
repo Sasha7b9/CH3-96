@@ -4,16 +4,15 @@
 #include "Menu/Menu.h"
 #include "Menu/MenuItemsDef.h"
 #include "Menu/Pages/PageService.h"
+#include "Display/Primitives.h"
+
+
+using namespace Primitives;
 
 
 static void Draw_Colors()
 {
-
-}
-
-
-void PageColors::UpdateInput()
-{
+    Rectangle(470, 225).FillRounded(5, 5, 1, Color::GREEN_20, Color::WHITE);
 }
 
 
