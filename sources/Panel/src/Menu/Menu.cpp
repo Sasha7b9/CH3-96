@@ -203,8 +203,11 @@ static bool OnKey(const Control &control) //-V2008
     case Control::Indication:
     case Control::Service:
     case Control::Count:
+        break;
     case Control::GovLeft:
     case Control::GovRight:
+        Menu::OpenedPage()->SelectedItem()->OnRotateGovernor(control);
+        break;
     case Control::None:
     default:
         // никаких действий по умолчанию производить не требуется

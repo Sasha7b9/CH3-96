@@ -46,8 +46,11 @@ public:
     // Функция отрисовки
     virtual void Draw(int x, int y, int width, bool selected = false) = 0;
 
-    // Функция обработки нажатия кнопки/поворота ручки
+    // Функция обработки нажатия кнопки/ручки
     virtual void OnEnterKeyGovernor(const Control &) { };
+
+    // Обработак поворота ручки
+    virtual void OnRotateGovernor(const Control &) { };
 
     static Color ColorBackground(bool selected);
 
