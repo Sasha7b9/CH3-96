@@ -116,6 +116,14 @@ private:
 };
 
 
+//// Настройка одного цветового канала
+//class GovernorChannelColor : public Item
+//{
+//public:
+//    GovernorChannelColor(Color &color, uint8 *state)
+//};
+
+
 // Для настроек частотомера
 class Switch : public Item
 {
