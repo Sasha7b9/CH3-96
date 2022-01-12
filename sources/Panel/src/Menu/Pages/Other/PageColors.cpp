@@ -5,7 +5,6 @@
 #include "Menu/MenuItemsDef.h"
 #include "Menu/Pages/PageService.h"
 #include "Display/Primitives.h"
-#include "Menu/Pages/Other/PageTuneColor.h"
 
 
 static void OnPress_Exit()
@@ -35,16 +34,21 @@ DEF_CHOICE_2(cColor,
 );
 
 
-static void OnPress_Tune()
-{
-    Menu::SetOpenedPage(PageTuneColor::self);
-}
+DEF_COLOR_GOVERNOR(gRed,
+    "", "",
+    Color::RED
+);
 
 
-DEF_BUTTON(bTune,
-    "Настроить", "Tune",
-    "Настроить цвет", "Tune color",
-    OnPress_Tune
+DEF_COLOR_GOVERNOR(gGreen,
+    "", "",
+    Color::GREEN
+);
+
+
+DEF_COLOR_GOVERNOR(gBlue,
+    "", "",
+    Color::BLUE
 );
 
 
@@ -52,7 +56,9 @@ static Item *items[7] =
 {
     &bExit,
     &cColor,
-    &bTune,
+    &gRed,
+    &gGreen,
+    &gBlue,
     nullptr
 };
 

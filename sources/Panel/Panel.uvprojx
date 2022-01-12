@@ -1058,16 +1058,6 @@
               <FileType>8</FileType>
               <FilePath>.\src\Menu\Pages\Other\PageStatistics.cpp</FilePath>
             </File>
-            <File>
-              <FileName>PageTuneColor.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\Menu\Pages\Other\PageTuneColor.h</FilePath>
-            </File>
-            <File>
-              <FileName>PageTuneColor.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\Menu\Pages\Other\PageTuneColor.cpp</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -2308,16 +2298,6 @@
               <FileName>PageStatistics.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\Menu\Pages\Other\PageStatistics.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>PageTuneColor.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\Menu\Pages\Other\PageTuneColor.h</FilePath>
-            </File>
-            <File>
-              <FileName>PageTuneColor.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\Menu\Pages\Other\PageTuneColor.cpp</FilePath>
             </File>
           </Files>
         </Group>
