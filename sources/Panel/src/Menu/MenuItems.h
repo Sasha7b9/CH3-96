@@ -76,7 +76,7 @@ public:
     };
 
     virtual void Draw(int x, int y, int width, bool selected = false);
-    virtual bool OnControl(const Control &control);
+    virtual bool OnControl(const Control &);
 
     pchar Title() const;
 
@@ -100,6 +100,7 @@ public:
     }
 
     virtual void Draw(int x, int y, int width, bool selected = false);
+    virtual bool OnControl(const Control &);
 
     pchar Title() const;
 
@@ -108,6 +109,8 @@ private:
     pchar *namesEn;
     uint8 *state;
     void (*funcOnPress)();
+
+    int NumStates() const;
 
     virtual void CreateHint(String &) const {};
 };

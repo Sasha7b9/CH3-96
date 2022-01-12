@@ -154,6 +154,29 @@ bool Button::OnControl(const Control &)
 }
 
 
+bool Choice::OnControl(const Control &)
+{
+    Math::CircleIncrease<uint8>(state, 0, (uint8)(NumStates() - 1));
+
+    funcOnPress();
+
+    return true;
+}
+
+
+int Choice::NumStates() const
+{
+    int result = 0;
+
+    while (namesRu[result])
+    {
+        result++;
+    }
+
+    return result;
+}
+
+
 void Page::Draw(int x, int y, int, bool)
 {
     if (Display::InDrawingPart(y, HEIGHT))

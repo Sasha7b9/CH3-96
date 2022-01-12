@@ -3,6 +3,15 @@
 #include "Menu/MenuItems.h"
 
 
+#define DEF_BUTTON(name, titleRu, titleEn, hintRu, hintEn, funcPress)                                               \
+static Button name(titleRu, titleEn, hintRu, hintEn, funcPress)
+
+#define DEF_CHOICE_2(name, hintRu, hintEn, nameRu1, nameRu2, nameEn1, nameEn2, func)                                \
+static pchar n##name##Ru[] = { nameRu1, nameRu2, nullptr };                                                         \
+static pchar n##name##En[] = { nameEn1, nameEn2, nullptr };                                                         \
+static uint8 state##name;                                                                                           \
+static Choice name(hintRu, hintEn, n##name##Ru, n##name##En, func, &state##name);
+
 #define DEF_SWITCH_UGO_2(name, titleRu, titleEn, hintRu, hintEn,                                                    \
     nameRu1, nameRu2, nameEn1, nameEn2, ugoRu1, ugoRu2, ugoEn1, ugoEn2, state, func)                                \
 static pchar n##name##Ru[] = { nameRu1, nameRu2, nullptr };                                                         \
@@ -18,11 +27,6 @@ static pchar n##name##Ru[] = { nameRu1, nameRu2, nullptr };                     
 static pchar n##name##En[] = { nameEn1, nameEn2, nullptr };                                                         \
 static Switch name(titleRu, titleEn, hintRu, hintEn, n##name##Ru, n##name##En, nullptr, nullptr, &state, func);
 
-#define DEF_CHOICE_2(name, hintRu, hintEn, nameRu1, nameRu2, nameEn1, nameEn2, func)                                \
-static pchar n##name##Ru[] = { nameRu1, nameRu2, nullptr };                                                         \
-static pchar n##name##En[] = { nameEn1, nameEn2, nullptr };                                                         \
-static uint8 state##name;                                                                                           \
-static Choice name(hintRu, hintEn, n##name##Ru, n##name##En, func, &state##name);
 
 #define DEF_SWITCH_3(name, titleRu, titleEn, hintRu, hintEn,                                                        \
     nameRu1, nameRu2, nameRu3, nameEn1, nameEn2, nameEn3, state, func)                                              \
@@ -48,6 +52,3 @@ static Switch name(titleRu, titleEn, hintRu, hintEn, n##name##Ru, n##name##En, n
 static pchar n##name##Ru[] = { nameRu1, nameRu2, nameRu3, nameRu4, nameRu5, nameRu6, nullptr };                     \
 static pchar n##name##En[] = { nameEn1, nameEn2, nameEn3, nameEn4, nameEn5, nameEn6, nullptr };                     \
 static Switch name(titleRu, titleEn, hintRu, hintEn, n##name##Ru, n##name##En, nullptr, nullptr, &state, func);
-
-#define DEF_BUTTON(name, titleRu, titleEn, hintRu, hintEn, funcPress)                                               \
-static Button name(titleRu, titleEn, hintRu, hintEn, funcPress)
