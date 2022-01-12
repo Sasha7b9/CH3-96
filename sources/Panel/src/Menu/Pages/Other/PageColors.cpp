@@ -82,3 +82,9 @@ static Page page(items, nullptr, nullptr, true);
 
 
 Page *PageColors::self = &page;
+
+
+void PageColors::Init()
+{
+    OnChanged_Color();
+}

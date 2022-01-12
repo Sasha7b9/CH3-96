@@ -220,6 +220,8 @@ static bool OnKey(const Control &control) //-V2008
 
 void Menu::Init()
 {
+    PageColors::Init();
+
     Input::SetFuncUpdate(Input::FuncUpdate);
 
     openedPage = Channel::A->pageModes;

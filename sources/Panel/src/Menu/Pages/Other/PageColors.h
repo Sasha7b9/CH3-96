@@ -8,4 +8,6 @@ class Page;
 struct PageColors
 {
     static Page *self;
+
+    static void Init();
 };
