@@ -75,7 +75,7 @@ void CurrentModeMeasure::Draw(int x, int y)
 
     Primitives::Rectangle(width, 30).FillRounded(x, y, 2, Color::GREEN_20, Color::WHITE);
 
-    Text(text).Write(x + 10, y + 10, Color::WHITE);
+    Text(text).Write(x + 10, y + 8, Color::WHITE);
 }
 
 
@@ -85,7 +85,7 @@ void TypeMeasure::Draw(int x, int y) const
 
     Primitives::Rectangle(width, 30).FillRounded(x, y, 2, Color::GREEN_20, Color::WHITE);
 
-    Text(ToString()).Write(x, y + 10, width, Color::WHITE);
+    Text(ToString()).Write(x, y + 8, width, Color::WHITE);
 }
 
 

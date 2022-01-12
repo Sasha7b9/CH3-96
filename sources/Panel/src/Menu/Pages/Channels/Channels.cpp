@@ -340,7 +340,7 @@ static void DrawValue(const Enumeration &param, int x, int y)
 {
     int width = 60;
     Primitives::Rectangle(width, 30).FillRounded(x, y, 2, Color::GREEN_20, Color::WHITE);
-    Text(param.ToString()).Write(x + 2, y + 7, width, Color::WHITE);
+    Text(param.ToString()).Write(x + 2, y + 8, width, Color::WHITE);
 }
 
 
@@ -386,7 +386,7 @@ void Channel::DrawSettings(int x, int y)
     {
         Rectangle(460, 30).FillRounded(x, y, 2, Color::GREEN_20, Color::GREEN_20);
 
-        Text(GetSettings()).Write(x + 10, y + 6, Color::WHITE);
+        Text(GetSettings()).Write(x + 10, y + 8, Color::WHITE);
     }
 }
 
