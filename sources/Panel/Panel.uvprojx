@@ -1029,6 +1029,16 @@
           <GroupName>Menu/Pages/Other</GroupName>
           <Files>
             <File>
+              <FileName>PageColors.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\Menu\Pages\Other\PageColors.h</FilePath>
+            </File>
+            <File>
+              <FileName>PageColors.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\Menu\Pages\Other\PageColors.cpp</FilePath>
+            </File>
+            <File>
               <FileName>PageInfo.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\src\Menu\Pages\Other\PageInfo.h</FilePath>
@@ -2259,6 +2269,16 @@
         <Group>
           <GroupName>Menu/Pages/Other</GroupName>
           <Files>
+            <File>
+              <FileName>PageColors.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\Menu\Pages\Other\PageColors.h</FilePath>
+            </File>
+            <File>
+              <FileName>PageColors.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\Menu\Pages\Other\PageColors.cpp</FilePath>
+            </File>
             <File>
               <FileName>PageInfo.h</FileName>
               <FileType>5</FileType>
