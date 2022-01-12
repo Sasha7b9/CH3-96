@@ -36,7 +36,7 @@ USBD_CDC_ItfTypeDef USBD_CDC_fops =
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 static int8_t CDC_Itf_Init()
 {
-    USBD_CDC_SetRxBuffer((USBD_HandleTypeDef *)HAL_USBD::handle, UserRxBuffer); //-V2533 //-V2571
+    USBD_CDC_SetRxBuffer((USBD_HandleTypeDef *)HAL_USBD::handle, UserRxBuffer); //-V2533
     return (USBD_OK);
 }
 
@@ -114,7 +114,7 @@ static int8_t CDC_Itf_Receive(uint8 *buffer, uint *length) //-V2009 //-V2558
 {
     SCPI::AppendNewData(reinterpret_cast<const char *>(buffer), *reinterpret_cast<int *>(length));
     
-    USBD_CDC_ReceivePacket((USBD_HandleTypeDef *)HAL_USBD::handle); //-V2533 //-V2571
+    USBD_CDC_ReceivePacket((USBD_HandleTypeDef *)HAL_USBD::handle); //-V2533
 
     return (USBD_OK);
 }

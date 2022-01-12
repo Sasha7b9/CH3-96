@@ -69,7 +69,7 @@ void VCP::SendDataSynch(const void *_buffer, uint size)
 {
     if (CONNECTED_TO_USB)
     {
-        char *buffer = (char *)_buffer; //-V2533 //-V2567 //-V2571
+        char *buffer = (char *)_buffer; //-V2533 //-V2567
         if (size == 0)
         {
             size = std::strlen(buffer); //-V2513
@@ -98,7 +98,7 @@ void VCP::SendFormatStringAsynch(char *format, ...)
     {
         static char buffer[200];
         std::va_list args;
-        va_start(args, format); //-V2563 //-V2567 //-V2571
+        va_start(args, format); //-V2563 //-V2567
         vsprintf(buffer, format, args);
         va_end(args);
         std::strcat(buffer, "\r\n"); //-V2513
@@ -111,7 +111,7 @@ void VCP::SendFormatStringSynch(char *format, ...)
 {
     char buffer[200];
     std::va_list args;
-    va_start(args, format); //-V2563 //-V2567 //-V2571
+    va_start(args, format); //-V2563 //-V2567
     std::vsprintf(buffer, format, args);
     va_end(args);
     std::strcat(buffer, "\r\n"); //-V2513

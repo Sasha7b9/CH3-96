@@ -69,9 +69,9 @@ void FPGA::CycleRead(int numBits, uint &value, bool verifyOnOverload)
 
     for (int i = numBits - 1; i >= 0; i--)
     {
-        Set_CLOCK; //-V2571
-        value |= (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_14) << i); //-V2571
-        Reset_CLOCK; //-V2571
+        Set_CLOCK;
+        value |= (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_14) << i);
+        Reset_CLOCK;
     }
 
     if(verifyOnOverload)
@@ -92,17 +92,17 @@ void FPGA::CycleWrite(uint value, int numBits)
 
 void FPGA::WriteBit(uint bit)
 {
-    HAL_GPIO_WritePin(PinDATA, (bit == 0) ? GPIO_PIN_RESET : GPIO_PIN_SET); //-V2571
+    HAL_GPIO_WritePin(PinDATA, (bit == 0) ? GPIO_PIN_RESET : GPIO_PIN_SET);
     DELAY;
-    Set_CLOCK; //-V2571
-    Reset_CLOCK; //-V2571
+    Set_CLOCK;
+    Reset_CLOCK;
 }
 
 
 void FPGA::Init()
 {
-    __HAL_RCC_GPIOB_CLK_ENABLE(); //-V2571
-    __HAL_RCC_GPIOC_CLK_ENABLE(); //-V2571
+    __HAL_RCC_GPIOB_CLK_ENABLE();
+    __HAL_RCC_GPIOC_CLK_ENABLE();
     
     
     GPIO_InitTypeDef is =
@@ -111,16 +111,16 @@ void FPGA::Init()
         GPIO_MODE_OUTPUT_PP,
         GPIO_PULLUP
     };
-    HAL_GPIO_Init(GPIOB, &is); //-V2571
+    HAL_GPIO_Init(GPIOB, &is);
 
     is.Pin = GPIO_PIN_14;
     is.Mode = GPIO_MODE_INPUT;
-    HAL_GPIO_Init(GPIOB, &is); //-V2571
+    HAL_GPIO_Init(GPIOB, &is);
 
     is.Pin = GPIO_PIN_8 | GPIO_PIN_9;
-    HAL_GPIO_Init(GPIOC, &is); //-V2571
+    HAL_GPIO_Init(GPIOC, &is);
 
-    Reset_CS; //-V2571
+    Reset_CS;
 }
 
 
@@ -153,12 +153,12 @@ void FPGA::Update() //-V2008
         }
         else
         {
-            if (Flag_RD != 0) //-V2571
+            if (Flag_RD != 0)
             {
                 uint counterA = 0;
                 uint counterB = 0;
 
-                Set_CS; //-V2571
+                Set_CS;
 
                 CycleRead(32, counterA, true);
               
@@ -168,7 +168,7 @@ void FPGA::Update() //-V2008
                     CycleRead(32, counterB, true);
                 }
 
-                Reset_CS; //-V2571
+                Reset_CS;
 
 //                LOG_WRITE("%d %d", counterA, counterB);
                 ValueFPGA::Create(counterA, counterB);
@@ -202,18 +202,18 @@ void FPGA::ReadFillFactorPhase()
 
 void FPGA::ReadInterpolator()
 {
-    if (Flag_RD != 0) //-V2571
+    if (Flag_RD != 0)
     {
         uint timer = 0;
         uint cal1 = 0;
         uint cal2 = 0;
 
-        Set_CS; //-V2571
+        Set_CS;
         CycleRead(3, ident, false);
         CycleRead(24, timer, false);
         CycleRead(24, cal1, false);
         CycleRead(24, cal2, false);
-        Reset_CS; //-V2571
+        Reset_CS;
 
 //        LOG_WRITE("%d %d %d", timer, cal1, cal2);
         ValueFPGA::Create(timer, cal1, cal2);
@@ -225,14 +225,14 @@ void FPGA::ReadInterpolator()
 
 void FPGA::ReadAutoMode()
 {
-    if (Flag_RD != 0) //-V2571
+    if (Flag_RD != 0)
     {
-        Set_CS; //-V2571
+        Set_CS;
         CycleRead(3, ident, false);
         CycleRead(10, Auto::fpgaMin, false);
         CycleRead(10, Auto::fpgaMid, false);
         CycleRead(10, Auto::fpgaMax, false);
-        Reset_CS; //-V2571
+        Reset_CS;
 
         Display::Refresh();
 
@@ -243,7 +243,7 @@ void FPGA::ReadAutoMode()
 
 void FPGA::ReadComparator()
 {
-    if (Flag_RD != 0) //-V2571
+    if (Flag_RD != 0)
     {
         uint counter = 0;
         uint interpol1 = 0;
@@ -251,14 +251,14 @@ void FPGA::ReadComparator()
         uint interpol2 = 0;
         uint cal2 = 0;
 
-        Set_CS; //-V2571
+        Set_CS;
         CycleRead(3, ident, false);
         CycleRead(32, counter, false);
         CycleRead(16, interpol1, false);
         CycleRead(16, cal1, false);
         CycleRead(16, interpol2, false);
         CycleRead(16, cal2, false);
-        Reset_CS; //-V2571
+        Reset_CS;
 
         LOG_WRITE("%d %d %d %d %d", counter, interpol1, cal1, interpol2, cal2);
         ValueFPGA::Create(counter, interpol1, cal1, interpol2, cal2);
@@ -349,17 +349,17 @@ void FPGA::ReadValueCalibrator()
 {
     uint calib = 0;
 
-    while (Flag_RD == 0) //-V2571
+    while (Flag_RD == 0)
     {
     }
 
-    Set_CS; //-V2571
+    Set_CS;
 
     CycleRead(3, ident, false);
 
     CycleRead(10, calib, false);
 
-    Reset_CS; //-V2571
+    Reset_CS;
 
     HAL_TIM::DelayUS(8);
 
@@ -378,27 +378,27 @@ void FPGA::GovernorData::Write()
 {
     Calculate();
 
-    if (Read_WR != 0)           // \todo К сожалению, флаг готовности не работает так, как надо и если ожидать его установки в ноль, то происходит сбой передачи данных //-V2571
+    if (Read_WR != 0)           // \todo К сожалению, флаг готовности не работает так, как надо и если ожидать его установки в ноль, то происходит сбой передачи данных
     {                           // Если флаг не готов, выходим. Передавать нужно только если флаг уже установлен в 0
         return;
     }
     
-    Reset_CLOCK; //-V2571
-    Set_DATA; //-V2571
-    Set_CLOCK; //-V2571
-    Reset_CLOCK; //-V2571
+    Reset_CLOCK;
+    Set_DATA;
+    Set_CLOCK;
+    Reset_CLOCK;
 
     for (int i = 9; i > -1; i--)
     {
         WriteBit((uint)encData[i]);
     }
 
-    Reset_DATA; //-V525 //-V2571
-    Set_CLOCK; //-V2571
-    Set_DATA; //-V2571
+    Reset_DATA; //-V525
+    Set_CLOCK;
+    Set_DATA;
 
-    Reset_CLOCK; //-V2571
-    Reset_DATA; //-V2571
+    Reset_CLOCK;
+    Reset_DATA;
 
 //    while (Read_READY == 0)
 //    {
@@ -408,23 +408,23 @@ void FPGA::GovernorData::Write()
 
 void FPGA::WriteCommand(const Command &command)
 {
-    while (Read_WR != 0)             // \todo Провеерить. Возможно, по аналогии с передачей данных нельзя ожидать флага готовности //-V2571
+    while (Read_WR != 0)             // \todo Провеерить. Возможно, по аналогии с передачей данных нельзя ожидать флага готовности
     {
     }
 
-    Reset_CLOCK; //-V525 //-V2571
-    Reset_DATA; //-V2571
-    Set_CLOCK; //-V2571
-    Reset_CLOCK; //-V2571
+    Reset_CLOCK; //-V525
+    Reset_DATA;
+    Set_CLOCK;
+    Reset_CLOCK;
 
-    CycleWrite(command.value, 10); //-V2571
+    CycleWrite(command.value, 10);
 
-    Reset_DATA; //-V525 //-V2571
-    Set_CLOCK; //-V2571
-    Set_DATA; //-V2571
+    Reset_DATA; //-V525
+    Set_CLOCK;
+    Set_DATA;
 
-    Reset_CLOCK; //-V2571
-    Reset_DATA; //-V2571
+    Reset_CLOCK;
+    Reset_DATA;
 
     SetInvalidData();
 }

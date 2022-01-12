@@ -34,9 +34,9 @@ void HAL::Init()
     /* SysTick_IRQn interrupt configuration */
     HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
     
-    __GPIOA_CLK_ENABLE(); //-V2571
-    __USB_OTG_FS_CLK_ENABLE(); //-V2571
-    __SYSCFG_CLK_ENABLE(); //-V2571
+    __GPIOA_CLK_ENABLE();
+    __USB_OTG_FS_CLK_ENABLE();
+    __SYSCFG_CLK_ENABLE();
 
     GPIO_InitTypeDef isGPIO =
     {
@@ -47,13 +47,13 @@ void HAL::Init()
         GPIO_AF10_OTG_FS
     };
 
-    HAL_GPIO_Init(GPIOA, &isGPIO); //-V2571
+    HAL_GPIO_Init(GPIOA, &isGPIO);
 
     isGPIO.Pin = GPIO_PIN_9;
     isGPIO.Mode = GPIO_MODE_INPUT;
     isGPIO.Pull = GPIO_NOPULL;
 
-    HAL_GPIO_Init(GPIOA, &isGPIO); //-V2571
+    HAL_GPIO_Init(GPIOA, &isGPIO);
 
     HAL_NVIC_SetPriority(OTG_FS_IRQn, 0, 0);
 
@@ -71,8 +71,8 @@ void SystemClock_Config(void)
     RCC_ClkInitTypeDef RCC_ClkInitStruct;
     RCC_OscInitTypeDef RCC_OscInitStruct;
 
-    __HAL_RCC_PWR_CLK_ENABLE(); //-V2571
-    __HAL_PWR_VOLTAGESCALING_CONFIG //-V2571
+    __HAL_RCC_PWR_CLK_ENABLE();
+    __HAL_PWR_VOLTAGESCALING_CONFIG
 
     (PWR_REGULATOR_VOLTAGE_SCALE2);
     

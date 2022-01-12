@@ -820,7 +820,7 @@ uint FontBig::WriteSymbol(uint8 symbol, int x, int y, bool mapping)
     uint32_t same = 0;                                    // number of the same rows
     uint32_t row;                                        // row of pixels
     uint32_t code;
-    uint8_t *endMem = (uint8_t *)(0x807FFFF); //-V566 //-V2571
+    uint8_t *endMem = (uint8_t *)(0x807FFFF); //-V566
 
     while (true)   //-V2530
     {

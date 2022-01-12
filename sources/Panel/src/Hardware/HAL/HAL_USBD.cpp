@@ -23,7 +23,7 @@ void HAL_USBD::Init()
 
 bool HAL_USBD::PrevSendingComplete()
 {
-    USBD_CDC_HandleTypeDef *pCDC = (USBD_CDC_HandleTypeDef *)hUSBD.pClassData; //-V2533 //-V2571
+    USBD_CDC_HandleTypeDef *pCDC = (USBD_CDC_HandleTypeDef *)hUSBD.pClassData; //-V2533
     return pCDC->TxState == 0;
 }
 
@@ -37,7 +37,7 @@ void HAL_USBD::SetBufferTX(uint8 *buffer, uint size)
 
 void HAL_USBD::Flush(uint8 *buffer, int size)
 {
-    volatile USBD_CDC_HandleTypeDef *pCDC = (USBD_CDC_HandleTypeDef *)hUSBD.pClassData; //-V2533 //-V2571
+    volatile USBD_CDC_HandleTypeDef *pCDC = (USBD_CDC_HandleTypeDef *)hUSBD.pClassData; //-V2533
 
     while (pCDC->TxState == 1)
     {
@@ -54,7 +54,7 @@ void HAL_USBD::Flush(uint8 *buffer, int size)
 
 void HAL_USBD::SendDataSynch(int sizeBuffer, uint sizeSend, uint8 *buffSend, char *buffer)
 {
-    volatile USBD_CDC_HandleTypeDef *pCDC = (USBD_CDC_HandleTypeDef *)hUSBD.pClassData; //-V2533 //-V2571
+    volatile USBD_CDC_HandleTypeDef *pCDC = (USBD_CDC_HandleTypeDef *)hUSBD.pClassData; //-V2533
 
     do
     {
