@@ -77,12 +77,13 @@ void RedrawingZone::Refresh()
             return;
         }
     }
-
-    if (Menu::OpenedPage() == PageInfo::self)
+    else
     {
-        return;
+        if (Menu::OpenedPage()->IsAddition())
+        {
+            return;
+        }
     }
-
 
     needUpdate = true;
 }
