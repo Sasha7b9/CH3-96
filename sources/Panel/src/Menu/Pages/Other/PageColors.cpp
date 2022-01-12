@@ -10,12 +10,6 @@
 using namespace Primitives;
 
 
-static void Draw_Colors()
-{
-    Rectangle(470, 225).FillRounded(5, 5, 1, Color::GREEN_20, Color::WHITE);
-}
-
-
 static void OnPress_Exit()
 {
     Menu::SetOpenedPage(PageService::self);
@@ -65,7 +59,7 @@ static Item *items[7] =
 };
 
 
-static Page page(items, nullptr, Draw_Colors, true);
+static Page page(items, nullptr, nullptr, true);
 
 
 Page *PageColors::self = &page;

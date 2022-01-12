@@ -408,6 +408,14 @@ void Button::CreateHint(String &h) const
     h.Append(GetHint());
 }
 
+
+void Choice::CreateHint(String &h) const
+{
+    h.Free();
+    h.Append(GetHint());
+}
+
+
 Item::Item(pchar hintRu, pchar hintEn)
 {
     hint[0] = hintRu;

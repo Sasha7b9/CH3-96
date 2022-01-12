@@ -112,7 +112,7 @@ private:
 
     int NumStates() const;
 
-    virtual void CreateHint(String &) const {};
+    virtual void CreateHint(String &) const;
 };
 
 

@@ -81,7 +81,7 @@ static void OnPress_Colors()
 
 DEF_BUTTON(bColors,
     "Цвета", "Colors",
-    "Выбор цвета", "Choice colors",
+    "Настройка цветовой схемы", "Customizing the color scheme",
     OnPress_Colors
 );
 
