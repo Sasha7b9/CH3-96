@@ -18,6 +18,12 @@ static pchar n##name##Ru[] = { nameRu1, nameRu2, nullptr };                     
 static pchar n##name##En[] = { nameEn1, nameEn2, nullptr };                                                         \
 static Switch name(titleRu, titleEn, hintRu, hintEn, n##name##Ru, n##name##En, nullptr, nullptr, &state, func);
 
+#define DEF_CHOICE_2(name, hintRu, hintEn, nameRu1, nameRu2, nameEn1, nameEn2, func)                                \
+static pchar n##name##Ru[] = { nameRu1, nameRu2, nullptr };                                                         \
+static pchar n##name##En[] = { nameEn1, nameEn2, nullptr };                                                         \
+static uint8 state##name;                                                                                           \
+static Choice name(hintRu, hintEn, n##name##Ru, n##name##En, func, &state##name);
+
 #define DEF_SWITCH_3(name, titleRu, titleEn, hintRu, hintEn,                                                        \
     nameRu1, nameRu2, nameRu3, nameEn1, nameEn2, nameEn3, state, func)                                              \
 static pchar n##name##Ru[] = { nameRu1, nameRu2, nameRu3, nullptr };                                                \

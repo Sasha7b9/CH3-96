@@ -29,9 +29,24 @@ DEF_BUTTON(bExit,
 );
 
 
+static void OnChanged_Color()
+{
+
+}
+
+
+DEF_CHOICE_2(cColor,
+    "Выбор настраиваемого цвета", "Choosing a custom color",
+    "Фон 1",  "Фон 2",
+    "Back 1", "Back 2",
+    OnChanged_Color
+);
+
+
 static Item *items[7] =
 {
     &bExit,
+    &cColor,
     nullptr
 };
 

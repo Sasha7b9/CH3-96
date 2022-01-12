@@ -357,6 +357,14 @@ void Button::Draw(int x, int y, int width, bool selected)
 }
 
 
+void Choice::Draw(int x, int y, int width, bool selected)
+{
+    ColorDraw(selected).SetAsCurrent();
+
+    Text(Title()).Write(x, y + 7, width);
+}
+
+
 void Switch::CreateHint(String &h) const
 {
     h.Free();
@@ -513,6 +521,17 @@ bool Switch::SetValue(uint8 v)
 pchar Button::Title() const
 {
     return text[glob_set.language];
+}
+
+
+pchar Choice::Title() const
+{
+    if (LANG_IS_RU)
+    {
+        return namesRu[*state];
+    }
+
+    return namesEn[*state];
 }
 
 

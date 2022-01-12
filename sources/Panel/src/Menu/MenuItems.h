@@ -34,7 +34,6 @@ struct Enumeration
 };
 
 
-
 class Item
 {
     friend class Hint;
@@ -65,7 +64,7 @@ private:
 };
 
 
-
+// Общего назначения
 class Button : public Item
 {
 public:
@@ -89,7 +88,32 @@ private:
 };
 
 
+// Общего назначения
+class Choice : public Item
+{
+public:
+    Choice(pchar hintRu, pchar hintEn, pchar *_namesRu, pchar *_namesEn, void (*funcPress)(), uint8 *_state) :
+        Item(hintRu, hintEn), state(_state), funcOnPress(funcPress)
+    {
+        namesRu = _namesRu;
+        namesEn = _namesEn;
+    }
 
+    virtual void Draw(int x, int y, int width, bool selected = false);
+
+    pchar Title() const;
+
+private:
+    pchar *namesRu;
+    pchar *namesEn;
+    uint8 *state;
+    void (*funcOnPress)();
+
+    virtual void CreateHint(String &) const {};
+};
+
+
+// Для настроек частотомера
 class Switch : public Item
 {
     friend class Page;
@@ -133,7 +157,6 @@ private:
     // Переключить в следующее состояние
     void  NextChoice();
 };
-
 
 
 class Page : public Item, public Observer
