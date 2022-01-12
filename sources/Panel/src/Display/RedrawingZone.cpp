@@ -69,20 +69,21 @@ void RedrawingZone::Update(RedrawingZone::ModeDraw::E mode)
 
 void RedrawingZone::Refresh()
 {
-    if (this == Display::zoneProgressBarTimeMeasure)
+    if (PageIndication::calibrationMode.IsEnabled())
     {
-        if( Menu::OpenedPage() == PageStatistics::self ||
-            PageIndication::calibrationMode.IsEnabled())
+        return;
+    }
+
+    if (Menu::OpenedPage() == PageStatistics::self)
+    {
+        if (this == Display::zoneProgressBarTimeMeasure)
         {
             return;
         }
     }
-    else
+    else if (Menu::OpenedPage()->IsAddition())
     {
-        if (Menu::OpenedPage()->IsAddition())
-        {
-            return;
-        }
+        return;
     }
 
     needUpdate = true;
