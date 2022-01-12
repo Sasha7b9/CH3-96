@@ -33,9 +33,7 @@ struct Color
     static Color BACKGROUND_1;
     static Color BACKGROUND_2;
 
-    static Color _255;
-
-    static const int Count = 256;
+    static const int Count = 32;
 
     explicit Color(uint8 val) : value(val) {};
 

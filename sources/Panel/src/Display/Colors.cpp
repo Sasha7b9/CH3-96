@@ -26,8 +26,6 @@ Color Color::GRAY_75(16);
 Color Color::BACKGROUND_1(17);
 Color Color::BACKGROUND_2(18);
 
-Color Color::_255(255);
-
 uint colors[Color::Count] =
 {
     MAKE_COLOR(0,   0,   0),    // BLACK
