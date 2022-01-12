@@ -45,8 +45,9 @@ public:
 
     // Функция отрисовки
     virtual void Draw(int x, int y, int width, bool selected = false) = 0;
+
     // Функция обработки нажатия кнопки/поворота ручки
-    virtual bool _OnControl(const Control &) { return false; };
+    virtual void OnEnterKeyGovernor(const Control &) { };
 
     static Color ColorBackground(bool selected);
 
@@ -76,7 +77,7 @@ public:
     };
 
     virtual void Draw(int x, int y, int width, bool selected = false);
-    virtual bool OnControl(const Control &);
+    virtual void OnEnterKeyGovernor(const Control &);
 
     pchar Title() const;
 
@@ -100,7 +101,7 @@ public:
     }
 
     virtual void Draw(int x, int y, int width, bool selected = false);
-    virtual bool OnControl(const Control &);
+    virtual void OnEnterKeyGovernor(const Control &);
 
     pchar Title() const;
 
@@ -147,7 +148,7 @@ public:
         state->sw = this;
     };
     virtual void Draw(int x, int y, int width, bool selected = false);
-    virtual bool OnControl(const Control &control);
+    virtual void OnEnterKeyGovernor(const Control &control);
 
     void FuncOnPress() const { if (funcOnPress) { funcOnPress(); }; }
 
@@ -181,7 +182,6 @@ public:
     {};
 
     virtual void Draw(int x, int y, int width, bool selected = false);
-    virtual bool OnControl(const Control &) { return false; };
 
     // Возвращает указатель на выделенный пункт меню
     Item *SelectedItem() { return items[selectedItem]; };

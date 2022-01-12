@@ -146,21 +146,17 @@ pchar Enumeration::UGO() const
 }
 
 
-bool Button::OnControl(const Control &)
+void Button::OnEnterKeyGovernor(const Control &)
 {
     funcOnPress();
-
-    return true;
 }
 
 
-bool Choice::OnControl(const Control &)
+void Choice::OnEnterKeyGovernor(const Control &)
 {
     Math::CircleIncrease<uint8>(state, 0, (uint8)(NumStates() - 1));
 
     funcOnPress();
-
-    return true;
 }
 
 
@@ -311,7 +307,7 @@ void Switch::NextChoice()
 }
 
 
-bool Switch::OnControl(const Control &control)
+void Switch::OnEnterKeyGovernor(const Control &control)
 {
     if (PageIndication::calibrationMode.IsEnabled())
     {
@@ -324,8 +320,6 @@ bool Switch::OnControl(const Control &control)
             }
 
             Hint::Create(this);
-
-            return true;
         }
     }
     else
@@ -338,8 +332,6 @@ bool Switch::OnControl(const Control &control)
             }
 
             Hint::Create(this);
-
-            return true;
         }
 
         if (control.action.IsPress() && (control.value == Control::Enter))
@@ -360,12 +352,9 @@ bool Switch::OnControl(const Control &control)
                 NextChoice();
 
                 Hint::Create(this);
-
-                return true;
             }
         }
     }
-    return false;
 }
 
 
