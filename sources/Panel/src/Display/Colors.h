@@ -30,6 +30,9 @@ struct Color
 
     static Color YELLOW;
 
+    static Color BACKGROUND_1;
+    static Color BACKGROUND_2;
+
     static Color _255;
 
     static const int Count = 256;

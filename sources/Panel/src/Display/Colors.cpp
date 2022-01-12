@@ -23,6 +23,9 @@ Color Color::GREEN_15(14);
 Color Color::GREEN_12(15);
 Color Color::GRAY_75(16);
 
+Color Color::BACKGROUND_1(17);
+Color Color::BACKGROUND_2(18);
+
 Color Color::_255(255);
 
 uint colors[Color::Count] =
@@ -43,5 +46,7 @@ uint colors[Color::Count] =
     MAKE_COLOR(0,   13,  0),    // GREEN_5
     MAKE_COLOR(0,   38,  0),    // GREEN_15
     MAKE_COLOR(0,   31,  0),    // GREEN_12
-    MAKE_COLOR(191, 191, 191)   // GRAY_75
+    MAKE_COLOR(191, 191, 191),  // GRAY_75
+    MAKE_COLOR(0,   25,  0),    // BACKGROUND_1
+    MAKE_COLOR(0,   64,  0),    // BACKGROUND_2
 };

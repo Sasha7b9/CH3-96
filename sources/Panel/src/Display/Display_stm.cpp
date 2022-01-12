@@ -141,8 +141,8 @@ void Display::InitHardware()
 
     for (int i = 0; i < Display::PHYSICAL_WIDTH * 2; i += 2)
     {
-        *pointer++ = Color::GREEN_10.value;
-        *pointer++ = Color::GREEN_25.value;
+        *pointer++ = Color::BACKGROUND_1.value;
+        *pointer++ = Color::BACKGROUND_2.value;
     }
 }
 
