@@ -382,12 +382,42 @@ void Choice::Draw(int x, int y, int width, bool selected)
 }
 
 
-void GovernorChannelColor::Draw(int x, int y, int width, bool /*selected*/)
+void GovernorChannelColor::Draw(int _x, int _y, int _width, bool selected)
 {
-    color.SetAsCurrent();
+    if (selected)
+    {
+        const int x = _x + 4;
+        const int y = _y;
+        const int width = _width - 8;
+        const int height = HEIGHT - 8;
 
-    Rectangle(width - 3, HEIGHT - 3).DrawRounded(x + 1, y - 3, 1, color);
-    Rectangle(width - 4, HEIGHT - 4).Fill(x + 2, y - 2, color);
+        Rectangle(width, height).Fill(x, y, color);
+
+        HLine hLine(2);
+        Point point;
+
+        hLine.Draw(x, y, Color::GRAY_75);
+        point.Draw(x, y + 1);
+
+        hLine.Draw(x + width - 2, y);
+        point.Draw(x + width - 1, y + 1);
+
+        hLine.Draw(x, y + height - 1);
+        point.Draw(x, y + height - 2);
+
+        hLine.Draw(x + width - 2, y + height - 1);
+        point.Draw(x + width - 1, y + height - 2);
+    }
+    else
+    {
+        const int x = _x + 1;
+        const int y = _y - 3;
+        const int width = _width - 3;
+        const int height = HEIGHT - 3;
+
+        Rectangle(width - 1, height - 1).Fill(x + 1, y + 1, color);
+        Rectangle(width, height).DrawRounded(x, y, 1, color);
+    }
 }
 
 
