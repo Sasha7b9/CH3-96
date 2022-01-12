@@ -8,21 +8,29 @@
 #include "Menu/Menu.h"
 #include "SCPI/SCPI.h"
 #include "Tests.h"
+#include "Settings.h"
 
 
 int main(void)
 {
     HAL::Init();
+
+    glob_set.Load();
+
     FPGA::Init();
     Display::Init();
+
     if(Keyboard::Init())
     {
         Display::DrawKeyboardFailScreen();
         HAL_TIM::DelayMS(5000);
     }
+
     VCP::Init();
     Menu::Init();
-//    Tests::Run();
+
+    //    Tests::Run();
+
     Display::DrawWelcomeScreen();
     
     while (1)

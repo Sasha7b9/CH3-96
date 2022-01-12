@@ -153,3 +153,15 @@ void Divider::LoadToFPGA()
         FPGA::WriteCommand(command);
     }
 }
+
+
+void Settings::Load()
+{
+    HAL_EEPROM::LoadSettings(this);
+}
+
+
+void Settings::Save()
+{
+    HAL_EEPROM::SaveSettings(this);
+}

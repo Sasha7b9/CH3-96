@@ -3,6 +3,9 @@
 #include "defines.h"
 
 
+struct Settings;
+
+
 #define TIME_MS   HAL_TIM::TimeMS()
 
 
@@ -10,6 +13,13 @@ struct HAL
 {
     static void Init();
     static void ERROR_HANDLER();
+};
+
+
+struct HAL_EEPROM
+{
+    static void LoadSettings(Settings *settings);
+    static void SaveSettings(Settings *settings);
 };
 
 

@@ -58,6 +58,9 @@ struct Settings
     bool         showStatistics;    // Показывать ли статистику по FPS
     StyleGUI     styleGUI;
     Language::E  language;
+
+    void Save();
+    void Load();
 };
 
 extern Settings glob_set;
