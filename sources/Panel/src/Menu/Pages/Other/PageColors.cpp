@@ -21,23 +21,42 @@ DEF_BUTTON(bExit,
 );
 
 
+extern Choice cColor;
+extern GovernorChannelColor gRed;
+extern GovernorChannelColor gGreen;
+extern GovernorChannelColor gBlue;
+
+static uint *colors[2] = {
+    &COLOR(Color::BACKGROUND_1.value),
+    &COLOR(Color::BACKGROUND_2.value)
+};
+
+
 static void OnChanged_Color()
 {
-    extern Choice cColor;
-    extern GovernorChannelColor gRed;
-    extern GovernorChannelColor gGreen;
-    extern GovernorChannelColor gBlue;
-
-    static uint *colors[2] = {
-        &COLOR(Color::BACKGROUND_1.value),
-        &COLOR(Color::BACKGROUND_2.value)
-    };
-
     uint *color = colors[cColor.Value()];
 
     gRed.SetValue(RED_FROM_COLOR(*color));
     gGreen.SetValue(GREEN_FROM_COLOR(*color));
     gBlue.SetValue(BLUE_FROM_COLOR(*color));
+}
+
+
+static void OnChanged_Red(uint8)
+{
+
+}
+
+
+static void OnChanged_Green(uint8)
+{
+
+}
+
+
+static void OnChanged_Blue(uint8)
+{
+
 }
 
 
@@ -51,19 +70,22 @@ DEF_CHOICE_2(cColor,
 
 DEF_COLOR_GOVERNOR(gRed,
     "", "",
-    Color::RED
+    Color::RED,
+    OnChanged_Red
 );
 
 
 DEF_COLOR_GOVERNOR(gGreen,
     "", "",
-    Color::GREEN
+    Color::GREEN_50,
+    OnChanged_Green
 );
 
 
 DEF_COLOR_GOVERNOR(gBlue,
     "", "",
-    Color::BLUE
+    Color::BLUE,
+    OnChanged_Blue
 );
 
 

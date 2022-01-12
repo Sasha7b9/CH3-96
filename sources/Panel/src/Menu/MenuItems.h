@@ -117,8 +117,8 @@ private:
 class GovernorChannelColor : public Item
 {
 public:
-    GovernorChannelColor(pchar hintRu, pchar hintEn, const Color &_color, uint8 *_state) :
-        Item(hintRu, hintEn), state(_state), color(_color)
+    GovernorChannelColor(pchar hintRu, pchar hintEn, const Color &_color, uint8 *_state, void (*func)(uint8)) :
+        Item(hintRu, hintEn), state(_state), color(_color), funcChanged(func)
     {
     }
     virtual void Draw(int x, int y, int width, bool selected = false);
@@ -129,6 +129,7 @@ private:
     uint8 *state;
     const Color color;
     virtual void CreateHint(String &) const;
+    void (*funcChanged)(uint8);
 };
 
 

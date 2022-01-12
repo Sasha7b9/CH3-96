@@ -423,9 +423,18 @@ void GovernorChannelColor::Draw(int _x, int _y, int _width, bool selected)
 }
 
 
-void GovernorChannelColor::OnRotateGovernor(const Control &)
+void GovernorChannelColor::OnRotateGovernor(const Control &control)
 {
+    if (control.value == Control::GovLeft)
+    {
+        *state = (uint8)(*state - 1);
+    }
+    else if (control.value == Control::GovRight)
+    {
+        *state = (uint8)(*state + 1);
+    }
 
+    funcChanged(*state);
 }
 
 

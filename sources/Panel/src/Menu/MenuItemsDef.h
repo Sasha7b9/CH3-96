@@ -12,9 +12,9 @@ static pchar n##name##En[] = { nameEn1, nameEn2, nullptr };                     
 static uint8 state##name;                                                                                           \
 static Choice name(hintRu, hintEn, n##name##Ru, n##name##En, func, &state##name);
 
-#define DEF_COLOR_GOVERNOR(name, hintRu, hintEn, color)                                                             \
+#define DEF_COLOR_GOVERNOR(name, hintRu, hintEn, color, func)                                                       \
 static uint8 state##name;                                                                                           \
-static GovernorChannelColor name(hintRu, hintEn, color, &state##name)
+static GovernorChannelColor name(hintRu, hintEn, color, &state##name, func)
 
 #define DEF_SWITCH_UGO_2(name, titleRu, titleEn, hintRu, hintEn,                                                    \
     nameRu1, nameRu2, nameEn1, nameEn2, ugoRu1, ugoRu2, ugoEn1, ugoEn2, state, func)                                \
