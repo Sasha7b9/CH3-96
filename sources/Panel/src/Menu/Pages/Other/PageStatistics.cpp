@@ -16,43 +16,7 @@
 using namespace Primitives;
 
 
-DEF_BUTTON(bClear,
-    "Очистить", "Clear",
-    "Очистить график", "Clear schedule",
-    PageStatistics::Clear);
-
-
-static void OnPress_Exit()
-{
-    Menu::SetOpenedPage(Channel::A->pageModes);
-}
-
-DEF_BUTTON(bExit,
-    "Выход", "Exit",
-    "Переход на страницу выбора режима", "Go to the mode selection page",
-    OnPress_Exit);
-
-
-static Item *items[7] =
-{
-    &bClear,
-    &bExit,
-    nullptr
-};
-
-
-static Page pageShowStatistics(items, nullptr);
-
-Page *PageStatistics::self = &pageShowStatistics;
-
-
-void PageStatistics::Clear()
-{
-    ValueFrequency_Comparator::values.Clear();
-}
-
-
-void PageStatistics::Draw()
+static void Draw_Statistics()
 {
     int x0 = 10;
     int y0 = 10;
@@ -95,7 +59,7 @@ void PageStatistics::Draw()
 
     int x = x0;
     int y = y0 - (int)(stepY * (ValueFrequency_Comparator::values[0] - min));
-    
+
     Color::BLACK.SetAsCurrent();
 
     Point().Draw(x, y);
@@ -119,4 +83,41 @@ void PageStatistics::Draw()
 
     Text(strMAX).Write(11, 11, Color::BLACK);
     Text(strMIN).Write(11, height - 5);
+}
+
+
+
+DEF_BUTTON(bClear,
+    "Очистить", "Clear",
+    "Очистить график", "Clear schedule",
+    PageStatistics::Clear);
+
+
+static void OnPress_Exit()
+{
+    Menu::SetOpenedPage(Channel::A->pageModes);
+}
+
+DEF_BUTTON(bExit,
+    "Выход", "Exit",
+    "Переход на страницу выбора режима", "Go to the mode selection page",
+    OnPress_Exit);
+
+
+static Item *items[7] =
+{
+    &bClear,
+    &bExit,
+    nullptr
+};
+
+
+static Page pageShowStatistics(items, nullptr, Draw_Statistics);
+
+Page *PageStatistics::self = &pageShowStatistics;
+
+
+void PageStatistics::Clear()
+{
+    ValueFrequency_Comparator::values.Clear();
 }

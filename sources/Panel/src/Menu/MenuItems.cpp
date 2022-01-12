@@ -169,6 +169,11 @@ void Page::Draw(int x, int y, int, bool)
             x += WidthItem(i);
         }
     }
+
+    if (additionalDraw)
+    {
+        additionalDraw();
+    }
 }
 
 

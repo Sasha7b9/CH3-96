@@ -141,8 +141,8 @@ class Page : public Item, public Observer
     friend struct Channel;
 
 public:
-    Page(Item **_items, void (*_onEvent)(EventType::E)) :
-        Item("", ""), selectedItem(0), items(_items), onEvent(_onEvent)
+    Page(Item **_items, void (*_onEvent)(EventType::E), void (*_additionalDraw)()) :
+        Item("", ""), selectedItem(0), items(_items), onEvent(_onEvent), additionalDraw(_additionalDraw)
     {};
 
     virtual void Draw(int x, int y, int width, bool selected = false);
@@ -168,6 +168,9 @@ public:
 
     virtual void OnEvent(EventType::E);
 
+    // Возвращает true, если страница имеет дополнительную функцию отрисовки
+    bool IsAddition() const { return additionalDraw != nullptr; }
+
     // Номер выбранного итема
     int selectedItem;
 
@@ -185,13 +188,15 @@ protected:
     Item **items;
 
     void (*onEvent)(EventType::E);
+
+    void (*additionalDraw)();
 };
 
 
 class PageModes : public Page
 {
 public:
-    PageModes(Item **items, void (*onEvent)(EventType::E)) : Page(items, onEvent) {}
+    PageModes(Item **items, void (*onEvent)(EventType::E)) : Page(items, onEvent, nullptr) {}
 
     // Функции действительны для страниц режимов каналов
     TypeMeasure *GetTypeMeasure() const;

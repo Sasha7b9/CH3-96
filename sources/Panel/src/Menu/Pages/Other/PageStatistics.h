@@ -13,5 +13,4 @@ public:
     static Page *self;
 
     static void Clear();
-    static void Draw();
 };

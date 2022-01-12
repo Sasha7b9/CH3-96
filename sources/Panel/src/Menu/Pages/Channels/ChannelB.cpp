@@ -163,4 +163,4 @@ static Item *items[7] =
     nullptr
 };
 
-Page pageChannelB(items, nullptr);
+Page pageChannelB(items, nullptr, nullptr);

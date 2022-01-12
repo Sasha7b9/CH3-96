@@ -8,6 +8,4 @@ class Page;
 struct PageInfo
 {
     static Page *self;
-
-    static void Draw();
 };

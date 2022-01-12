@@ -40,19 +40,6 @@ static void (*funcUpdate)() = nullptr;
 void Menu::Draw()
 {
     openedPage->Draw(0, Display::PHYSICAL_HEIGHT - Item::HEIGHT - 1, 0);
-
-    if (openedPage == PageStatistics::self)
-    {
-        PageStatistics::Draw();
-    }
-    else if (openedPage == PageInfo::self)
-    {
-        PageInfo::Draw();
-    }
-    else if (openedPage == PageColors::self)
-    {
-        PageColors::Draw();
-    }
 }
 
 

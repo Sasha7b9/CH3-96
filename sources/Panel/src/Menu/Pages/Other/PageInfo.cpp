@@ -13,6 +13,24 @@
 using namespace Primitives;
 
 
+static void Draw_Info()
+{
+    Rectangle(470, 225).FillRounded(5, 5, 1, Color::GREEN_20, Color::WHITE);
+
+    int dy = 5;
+
+    Text(NAME_MODEL).Write(0, 30 + dy, Display::PHYSICAL_WIDTH, Color::WHITE);
+
+    Text("---------------------------------------------").Write(40, 75 + dy);
+
+    Text(String("%s : %s",
+        LANG_IS_RU ? "Программное обеспечение" : "Software",
+        STR_NUM_VERSION)).Write(50, 120 + dy);
+
+    Text(String("CRC32 : %s", STR_CRC32)).Write(50, 160 + dy);
+}
+
+
 static void OnPress_Exit()
 {
     Menu::SetOpenedPage(PageService::self);
@@ -33,25 +51,7 @@ static Item* items[7] =
 };
 
 
-static Page pageInfo(items, nullptr);
+static Page pageInfo(items, nullptr, Draw_Info);
 
 
 Page* PageInfo::self = &pageInfo;
-
-
-void PageInfo::Draw()
-{
-    Rectangle(470, 225).FillRounded(5, 5, 1, Color::GREEN_20, Color::WHITE);
-
-    int dy = 5;
-
-    Text(NAME_MODEL).Write(0, 30 + dy, Display::PHYSICAL_WIDTH, Color::WHITE);
-
-    Text("---------------------------------------------").Write(40, 75 + dy);
-
-    Text(String("%s : %s",
-        LANG_IS_RU ? "Программное обеспечение" : "Software",
-        STR_NUM_VERSION)).Write(50, 120 + dy);
-
-    Text(String("CRC32 : %s", STR_CRC32)).Write(50, 160 + dy);
-}

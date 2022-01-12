@@ -127,6 +127,6 @@ void PageService::UseReset()
     OnPress_ResetSettings();
 }
 
-static Page pageService(items, nullptr);
+static Page pageService(items, nullptr, nullptr);
 
 Page *PageService::self = &pageService;

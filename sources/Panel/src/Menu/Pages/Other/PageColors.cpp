@@ -6,7 +6,7 @@
 #include "Menu/Pages/PageService.h"
 
 
-void PageColors::Draw()
+static void Draw_Colors()
 {
 
 }
@@ -37,7 +37,7 @@ static Item *items[7] =
 };
 
 
-static Page page(items, nullptr);
+static Page page(items, nullptr, Draw_Colors);
 
 
 Page *PageColors::self = &page;
