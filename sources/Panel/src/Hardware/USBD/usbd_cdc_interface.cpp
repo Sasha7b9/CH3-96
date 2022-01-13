@@ -36,7 +36,7 @@ USBD_CDC_ItfTypeDef USBD_CDC_fops =
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 static int8_t CDC_Itf_Init()
 {
-    USBD_CDC_SetRxBuffer((USBD_HandleTypeDef *)HAL_USBD::handle, UserRxBuffer); //-V2533
+    USBD_CDC_SetRxBuffer((USBD_HandleTypeDef *)HAL_USBD::handle, UserRxBuffer);
     return (USBD_OK);
 }
 
@@ -84,10 +84,10 @@ static int8_t CDC_Itf_Control (uint8 cmd, uint8* pbuf, uint16)
         break;
 
     case CDC_GET_LINE_CODING:
-        pbuf[0] = (uint8_t)(LineCoding.bitrate); //-V2533
-        pbuf[1] = (uint8_t)(LineCoding.bitrate >> 8); //-V2533
-        pbuf[2] = (uint8_t)(LineCoding.bitrate >> 16); //-V2533
-        pbuf[3] = (uint8_t)(LineCoding.bitrate >> 24); //-V2533
+        pbuf[0] = (uint8_t)(LineCoding.bitrate);
+        pbuf[1] = (uint8_t)(LineCoding.bitrate >> 8);
+        pbuf[2] = (uint8_t)(LineCoding.bitrate >> 16);
+        pbuf[3] = (uint8_t)(LineCoding.bitrate >> 24);
         pbuf[4] = LineCoding.format;
         pbuf[5] = LineCoding.paritytype;
         pbuf[6] = LineCoding.datatype;
@@ -114,7 +114,7 @@ static int8_t CDC_Itf_Receive(uint8 *buffer, uint *length) //-V2009 //-V2558
 {
     SCPI::AppendNewData(reinterpret_cast<const char *>(buffer), *reinterpret_cast<int *>(length));
     
-    USBD_CDC_ReceivePacket((USBD_HandleTypeDef *)HAL_USBD::handle); //-V2533
+    USBD_CDC_ReceivePacket((USBD_HandleTypeDef *)HAL_USBD::handle);
 
     return (USBD_OK);
 }

@@ -34,19 +34,19 @@ Color Color::TYPE_BLUE(31);
 
 uint Color::Value() const
 {
-    return COLOR(index);
+    return glob_set.colors[index];
 }
 
 
 void Color::SetValue(uint value) const
 {
-    COLOR(index) = value;
+    glob_set.colors[index] = value;
 }
 
 
 uint &Color::RefValue()
 {
-    return COLOR(index);
+    return glob_set.colors[index];
 }
 
 

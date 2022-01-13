@@ -86,6 +86,3 @@ private:
     #define BLUE_FROM_COLOR(color)   ((uint8)(((color) >> 16) & 0xFF))
 
 #endif
-
-
-#define COLOR(x) glob_set.colors[x]

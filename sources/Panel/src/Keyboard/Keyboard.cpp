@@ -259,7 +259,7 @@ void Set_SL(int bus, int st)
     static const uint16 pins[4] =        {PIN_SL0,  PIN_SL1,  PIN_SL2,  PIN_SL3};
     static const GPIO_PinState state [2] = {GPIO_PIN_RESET, GPIO_PIN_SET};
     
-    HAL_GPIO_WritePin((GPIO_TypeDef *)ports[bus], pins[bus], state[st]); //-V2533 //-V2567
+    HAL_GPIO_WritePin((GPIO_TypeDef *)ports[bus], pins[bus], state[st]); //-V2567
 }
 
 
@@ -268,7 +268,7 @@ int Read_RL(int rl)
     static const GPIO_TypeDef *ports[4] = { PORT_RL0, PORT_RL1, PORT_RL2, PORT_RL3};
     static const uint16 pins[4] =         { PIN_RL0,  PIN_RL1,  PIN_RL2, PIN_RL3};
 
-    return HAL_GPIO_ReadPin((GPIO_TypeDef *)ports[rl], pins[rl]); //-V2533 //-V2567
+    return HAL_GPIO_ReadPin((GPIO_TypeDef *)ports[rl], pins[rl]); //-V2567
 }
 
 
@@ -313,7 +313,7 @@ static void InitTimer()
 
     handleTIM4.Instance = TIM4;
     handleTIM4.Init.Period = TIME_UPDATE_KEYBOARD * 10 - 1;
-    handleTIM4.Init.Prescaler = (uint)((SystemCoreClock / 2) / 10000) - 1; //-V2533
+    handleTIM4.Init.Prescaler = (uint)((SystemCoreClock / 2) / 10000) - 1;
     handleTIM4.Init.ClockDivision = 0;
     handleTIM4.Init.CounterMode = TIM_COUNTERMODE_UP;
 

@@ -26,19 +26,20 @@ extern GovernorChannelColor gRed;
 extern GovernorChannelColor gGreen;
 extern GovernorChannelColor gBlue;
 
-static uint *colors[2] = {
-    &COLOR(Color::BACKGROUND_1.Index()),
-    &COLOR(Color::BACKGROUND_2.Index())
+static Color colors[2] =
+{
+    Color::BACKGROUND_1,
+    Color::BACKGROUND_2
 };
 
 
 static void OnChanged_Color()
 {
-    uint *color = colors[cColor.Value()];
+    Color color = colors[cColor.Value()];
 
-    gRed.SetValue(RED_FROM_COLOR(*color));
-    gGreen.SetValue(GREEN_FROM_COLOR(*color));
-    gBlue.SetValue(BLUE_FROM_COLOR(*color));
+    gRed.SetValue(color.GetRED());
+    gGreen.SetValue(color.GetGREEN());
+    gBlue.SetValue(color.GetBLUE());
 }
 
 

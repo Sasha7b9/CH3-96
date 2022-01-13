@@ -43,9 +43,9 @@ uint8 lineBackground[Display::PHYSICAL_WIDTH * 2];    // Эта последовательность 
 static void SetLShiftFreq(uint freq)
 {
     HAL_FSMC::WriteCommand(0xe6);   // set the LSHIFT (pixel clock) frequency
-    HAL_FSMC::WriteData((uint8)(freq >> 16)); //-V2533
-    HAL_FSMC::WriteData((uint8)(freq >> 8)); //-V2533
-    HAL_FSMC::WriteData((uint8)(freq)); //-V2533
+    HAL_FSMC::WriteData((uint8)(freq >> 16));
+    HAL_FSMC::WriteData((uint8)(freq >> 8));
+    HAL_FSMC::WriteData((uint8)(freq));
 }
 
 
@@ -57,13 +57,13 @@ static void SetHorizPeriod(uint16 HT,   // Horizontal total period
 )
 {
     HAL_FSMC::WriteCommand(0xb4);
-    HAL_FSMC::WriteData((uint8)(HT >> 8));      // 0x020d 525 //-V2533
-    HAL_FSMC::WriteData((uint8)HT); //-V2533
-    HAL_FSMC::WriteData((uint8)(HPS >> 8));     // 0x0014 20 //-V2533
-    HAL_FSMC::WriteData((uint8)(HPS)); //-V2533
+    HAL_FSMC::WriteData((uint8)(HT >> 8));      // 0x020d 525
+    HAL_FSMC::WriteData((uint8)HT);
+    HAL_FSMC::WriteData((uint8)(HPS >> 8));     // 0x0014 20
+    HAL_FSMC::WriteData((uint8)(HPS));
     HAL_FSMC::WriteData(HPW);                   // 0x05
-    HAL_FSMC::WriteData((uint8)(LPS >> 8)); //-V2533
-    HAL_FSMC::WriteData((uint8)(LPS)); //-V2533
+    HAL_FSMC::WriteData((uint8)(LPS >> 8));
+    HAL_FSMC::WriteData((uint8)(LPS));
     HAL_FSMC::WriteData(LPSPP);
 }
 
@@ -174,7 +174,7 @@ void Display::BeginScene(int x, int y)
 
         for (int row = 0; row < Display::Height(); row++)
         {
-            std::memcpy(POINTER_BUFFER(0, row), pointer + (row % 2 == 0 ? 0 : 1), (size_t)Display::Width()); //-V2533
+            std::memcpy(POINTER_BUFFER(0, row), pointer + (row % 2 == 0 ? 0 : 1), (size_t)Display::Width());
         }
     }
 }
@@ -194,10 +194,10 @@ void Display::EndScene()
         {
             for (int col = 0; col < WIDTH_BUFFER; col++)
             {
-                data[col] = COLOR(buffer[row][col]);
+                data[col] = glob_set.colors[buffer[row][col]];
             }
         
-            VCP::SendDataAsynch((const uint8 *)data, WIDTH_BUFFER * 4); //-V2533
+            VCP::SendDataAsynch((const uint8 *)data, WIDTH_BUFFER * 4);
         }
 
         if (numPart == NUM_PARTS - 1)
@@ -334,8 +334,8 @@ void Line::Draw(int x1, int y1, int x2, int y2)
     }
     int x = x1;
     int y = y1;
-    int dx = (int)std::fabsf((float)(x2 - x1)); //-V2533
-    int dy = (int)std::fabsf((float)(y2 - y1)); //-V2533
+    int dx = (int)std::fabsf((float)(x2 - x1));
+    int dy = (int)std::fabsf((float)(y2 - y1));
     int s1 = Math::Sign(x2 - x1);
     int s2 = Math::Sign(y2 - y1);
     int temp;

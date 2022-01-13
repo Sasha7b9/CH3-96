@@ -25,7 +25,7 @@ void VCP::Send64BytesOrLess(const uint8 *buffer, uint size)
 
     size = Math::Min(size, SIZE_BUFFER);
     while (!HAL_USBD::PrevSendingComplete()) {};
-    std::memcpy(trBuf, buffer, (uint)size); //-V2533
+    std::memcpy(trBuf, buffer, (uint)size);
 
     HAL_USBD::SetBufferTX(trBuf, size);
 }
@@ -69,7 +69,7 @@ void VCP::SendDataSynch(const void *_buffer, uint size)
 {
     if (CONNECTED_TO_USB)
     {
-        char *buffer = (char *)_buffer; //-V2533 //-V2567
+        char *buffer = (char *)_buffer; //-V2567
         if (size == 0)
         {
             size = std::strlen(buffer); //-V2513
@@ -82,13 +82,13 @@ void VCP::SendDataSynch(const void *_buffer, uint size)
 
 void VCP::SendStringAsynch(const char *data)
 {
-    SendDataAsynch((uint8 *)data, std::strlen(data)); //-V2513 //-V2533 //-V2567
+    SendDataAsynch((uint8 *)data, std::strlen(data)); //-V2513 //-V2567
 }
 
 
 void VCP::SendStringSynch(char *data)
 {
-    SendDataSynch((uint8 *)data, std::strlen(data)); //-V2513 //-V2533
+    SendDataSynch((uint8 *)data, std::strlen(data)); //-V2513
 }
 
 
@@ -102,7 +102,7 @@ void VCP::SendFormatStringAsynch(char *format, ...)
         vsprintf(buffer, format, args);
         va_end(args);
         std::strcat(buffer, "\r\n"); //-V2513
-        SendDataAsynch((uint8 *)buffer, std::strlen(buffer)); //-V2513 //-V2533
+        SendDataAsynch((uint8 *)buffer, std::strlen(buffer)); //-V2513
     }
 }
 
@@ -115,7 +115,7 @@ void VCP::SendFormatStringSynch(char *format, ...)
     std::vsprintf(buffer, format, args);
     va_end(args);
     std::strcat(buffer, "\r\n"); //-V2513
-    SendDataSynch((uint8 *)buffer, std::strlen(buffer)); //-V2513 //-V2533
+    SendDataSynch((uint8 *)buffer, std::strlen(buffer)); //-V2513
 }
 
 
