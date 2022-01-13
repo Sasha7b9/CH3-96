@@ -39,7 +39,7 @@ static void Draw_Statistics()
 
     for (int i = startElement; i < ValueFrequency_Comparator::values.Size(); i++)
     {
-        Text(String("%d - %f", i, ValueFrequency_Comparator::values[i])).Write(x0 + 330, y0 + 1 + 15 * (i - startElement), Color::WHITE);
+        Text(String("%d - %f", i, ValueFrequency_Comparator::values[i])).Write(x0 + 330, y0 + 1 + 15 * (i - startElement), Color::_WHITE);
     }
 
     double min = 1e100;

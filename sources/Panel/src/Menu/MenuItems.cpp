@@ -181,7 +181,7 @@ void Page::Draw(int x, int y, int, bool)
         {
             bool selected = (i == selectedItem);
 
-            Rectangle(WidthItem(i) - 1, HEIGHT - 1).FillRounded(x, y + 1, 2, ColorBackground(selected), Color::WHITE);
+            Rectangle(WidthItem(i) - 1, HEIGHT - 1).FillRounded(x, y + 1, 2, ColorBackground(selected), Color::_WHITE);
 
             items[i]->Draw(x, y + 5, WidthItem(i), selected);
 
@@ -419,7 +419,7 @@ void GovernorChannelColor::Draw(int _x, int _y, int _width, bool selected)
         Rectangle(width, height).DrawRounded(x, y, 1, ColorFill());
     }
 
-    Text(String("%0.3d", (int)*state)).Write(_x, _y + 6, _width, Color::WHITE);
+    Text(String("%0.3d", (int)*state)).Write(_x, _y + 6, _width, Color::_WHITE);
 }
 
 
@@ -515,7 +515,7 @@ Color Item::ColorBackground(bool selected)
 
 Color Item::ColorDraw(bool selected)
 {
-    return selected ? Color::BLACK : Color::WHITE;
+    return selected ? Color::BLACK : Color::_WHITE;
 }
 
 

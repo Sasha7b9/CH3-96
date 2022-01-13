@@ -7,7 +7,7 @@
 
 
 Color Color::BLACK(0);
-Color Color::WHITE(1);
+Color Color::_WHITE(1);
 Color Color::YELLOW(2);
 Color Color::BLUE(3);
 Color Color::RED(4);

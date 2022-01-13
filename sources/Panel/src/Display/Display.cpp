@@ -113,7 +113,7 @@ static void DrawValue(pString string, int x, int y)
 {
     Rectangle(Font::GetLengthText(string) + 5, 20).FillRounded(x - 3, y - 3, 2, Color::GREEN_20, Color::GRAY_20);
 
-    Text(string).Write(x, y, Color::WHITE);
+    Text(string).Write(x, y, Color::_WHITE);
 }
 
 
@@ -128,7 +128,7 @@ void Display::DrawWelcomeScreen()
             SetTopRow(i);
             BeginScene();
             Text(String(LANG_IS_RU ? "OAO МНИПИ, Ч3-96/2, %s" : "OAO MNIPI, Ch3-96/2, %s",
-                STR_NUM_VERSION)).Write(100, 110, Color::WHITE);
+                STR_NUM_VERSION)).Write(100, 110, Color::_WHITE);
             EndScene();
         }
     }
@@ -144,7 +144,7 @@ void Display::DrawKeyboardFailScreen()
         {
             SetTopRow(i);
             BeginScene();
-            Text(LANG_IS_RU ? "ОШИБКА КЛАВИАТУРЫ" : "ERROR KEYBOARD").Write(100, 110, Color::WHITE);
+            Text(LANG_IS_RU ? "ОШИБКА КЛАВИАТУРЫ" : "ERROR KEYBOARD").Write(100, 110, Color::_WHITE);
             EndScene();
         }
     }
@@ -273,7 +273,7 @@ void Display::DrawScreen()
 {
     if(PageIndication::calibrationMode.IsEnabled())
     {
-        Text(LANG_IS_RU ? "---Режим Калибровка---" : "---Calibration mode---").Write(140, 10, Color::WHITE);
+        Text(LANG_IS_RU ? "---Режим Калибровка---" : "---Calibration mode---").Write(140, 10, Color::_WHITE);
         Text(LANG_IS_RU ? "Нажмите ЭНК. для сохранения" : "Click ENC. to preserve").Write(125, 40);
         Text(LANG_IS_RU ? "Нажмите любую кнопку для выхода" : "Press any button to exit").Write(105, 70);
         Text(SU::Int2String(FPGA::GovernorData::ValueCalibrator()).c_str()).Write(210, 100);
@@ -307,7 +307,7 @@ static void DrawHint(int x, int y)
     {
         Rectangle(360, 30).FillRounded(x, y, 2, Color::GREEN_20, Color::GREEN_20);
 
-        Text(FPGA::Auto::Give().c_str()).Write(x + dX, y + dY, Color::WHITE);
+        Text(FPGA::Auto::Give().c_str()).Write(x + dX, y + dY, Color::_WHITE);
 
         FreqMeter::UnloadAuto();
     }
@@ -319,7 +319,7 @@ static void DrawHint(int x, int y)
             {
                 Rectangle(360, 30).FillRounded(x, y, 2, Color::GREEN_20, Color::GREEN_20);
 
-                Text(FPGA::Auto::Give().c_str()).Write(x + dX, y + dY, Color::WHITE);
+                Text(FPGA::Auto::Give().c_str()).Write(x + dX, y + dY, Color::_WHITE);
                 FPGA::SwitchAuto();
                 timeAutoHint = TIME_MS;
                 autoFlag = true;
@@ -328,7 +328,7 @@ static void DrawHint(int x, int y)
             {
                 Rectangle(360, 30).FillRounded(x, y, 2, Color::GREEN_20, Color::GREEN_20);
                 Text(LANG_IS_RU ? "Установка уровня синхронизации" : "Setting the sync level").
-                    Write(x + dX, y + dY, Color::WHITE);
+                    Write(x + dX, y + dY, Color::_WHITE);
                 timeAutoHint = 0;
             }
         }
@@ -337,7 +337,7 @@ static void DrawHint(int x, int y)
             if (Hint::Text()[0] != 0)
             {
                 Rectangle(360, 30).FillRounded(x, y, 2, Color::GREEN_20, Color::GREEN_20);
-                Text(Hint::Text()).Write(x + dX, y + dY, Color::WHITE);
+                Text(Hint::Text()).Write(x + dX, y + dY, Color::_WHITE);
             }
             autoFlag = false;
         }

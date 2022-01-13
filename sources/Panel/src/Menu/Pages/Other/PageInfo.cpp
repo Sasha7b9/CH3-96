@@ -15,11 +15,11 @@ using namespace Primitives;
 
 static void Draw_Info()
 {
-    Rectangle(470, 225).FillRounded(5, 5, 1, Color::GREEN_20, Color::WHITE);
+    Rectangle(470, 225).FillRounded(5, 5, 1, Color::GREEN_20, Color::_WHITE);
 
     int dy = 5;
 
-    Text(NAME_MODEL).Write(0, 30 + dy, Display::PHYSICAL_WIDTH, Color::WHITE);
+    Text(NAME_MODEL).Write(0, 30 + dy, Display::PHYSICAL_WIDTH, Color::_WHITE);
 
     Text("---------------------------------------------").Write(40, 75 + dy);
 
