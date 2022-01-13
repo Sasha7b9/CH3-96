@@ -9,8 +9,8 @@
 #include "Menu/MenuItemsDef.h"
 #include "Menu/Pages/Channels/Channels.h"
 #include "Menu/Pages/Modes/Modes.h"
-#include "Menu/Pages/Other/PageStatistics.h"
 #include "Utils/String.h"
+#include "Menu/Pages/Pages.h"
 
 
 using namespace Primitives;

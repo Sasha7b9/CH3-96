@@ -929,6 +929,11 @@
           <GroupName>Menu/Pages</GroupName>
           <Files>
             <File>
+              <FileName>Pages.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\Menu\Pages\Pages.h</FilePath>
+            </File>
+            <File>
               <FileName>PageIndication.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\src\Menu\Pages\PageIndication.h</FilePath>
@@ -937,11 +942,6 @@
               <FileName>PageIndication.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\Menu\Pages\PageIndication.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>PageService.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\Menu\Pages\PageService.h</FilePath>
             </File>
             <File>
               <FileName>PageService.cpp</FileName>
@@ -1029,29 +1029,14 @@
           <GroupName>Menu/Pages/Other</GroupName>
           <Files>
             <File>
-              <FileName>PageColors.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\Menu\Pages\Other\PageColors.h</FilePath>
-            </File>
-            <File>
               <FileName>PageColors.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\Menu\Pages\Other\PageColors.cpp</FilePath>
             </File>
             <File>
-              <FileName>PageInfo.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\Menu\Pages\Other\PageInfo.h</FilePath>
-            </File>
-            <File>
               <FileName>PageInfo.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\Menu\Pages\Other\PageInfo.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>PageStatistics.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\Menu\Pages\Other\PageStatistics.h</FilePath>
             </File>
             <File>
               <FileName>PageStatistics.cpp</FileName>
@@ -2170,6 +2155,11 @@
           <GroupName>Menu/Pages</GroupName>
           <Files>
             <File>
+              <FileName>Pages.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\Menu\Pages\Pages.h</FilePath>
+            </File>
+            <File>
               <FileName>PageIndication.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\src\Menu\Pages\PageIndication.h</FilePath>
@@ -2178,11 +2168,6 @@
               <FileName>PageIndication.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\Menu\Pages\PageIndication.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>PageService.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\Menu\Pages\PageService.h</FilePath>
             </File>
             <File>
               <FileName>PageService.cpp</FileName>
@@ -2270,29 +2255,14 @@
           <GroupName>Menu/Pages/Other</GroupName>
           <Files>
             <File>
-              <FileName>PageColors.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\Menu\Pages\Other\PageColors.h</FilePath>
-            </File>
-            <File>
               <FileName>PageColors.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\Menu\Pages\Other\PageColors.cpp</FilePath>
             </File>
             <File>
-              <FileName>PageInfo.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\Menu\Pages\Other\PageInfo.h</FilePath>
-            </File>
-            <File>
               <FileName>PageInfo.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\Menu\Pages\Other\PageInfo.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>PageStatistics.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\Menu\Pages\Other\PageStatistics.h</FilePath>
             </File>
             <File>
               <FileName>PageStatistics.cpp</FileName>

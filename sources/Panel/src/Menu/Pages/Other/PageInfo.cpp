@@ -1,13 +1,12 @@
 // 2022/01/11 09:34:24 (c) Aleksandr Shevchenko e-mail : Sasha7b9@tut.by
 #include "defines.h"
-#include "Menu/Pages/Other/PageInfo.h"
 #include "Menu/Menu.h"
-#include "Menu/Pages/PageService.h"
 #include "Menu/MenuItemsDef.h"
 #include "Display/Primitives.h"
 #include "Display/Text.h"
 #include "Display/Display.h"
 #include "Settings.h"
+#include "Menu/Pages/Pages.h"
 
 
 using namespace Primitives;

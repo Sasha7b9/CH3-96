@@ -4,11 +4,12 @@
 #include "Menu/Menu.h"
 #include "Menu/Pages/Channels/Channels.h"
 #include "Menu/Pages/PageIndication.h"
-#include "Menu/Pages/PageService.h"
 #include "SCPI/SCPI.h"
 #include "SCPI/UtilsSCPI.h"
 #include "Utils/String.h"
 #include "Hardware/FreqMeter.h"
+#include "Menu/Pages/Pages.h"
+
 
 static pchar FuncIDN(pchar);
 static pchar FuncReset(pchar);

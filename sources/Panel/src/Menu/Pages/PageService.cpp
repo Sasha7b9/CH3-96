@@ -3,11 +3,9 @@
 #include "Settings.h"
 #include "Menu/Menu.h"
 #include "Menu/MenuItemsDef.h"
-#include "Menu/Pages/PageService.h"
 #include "Menu/Pages/Modes/Modes.h"
-#include "Menu/Pages/Other/PageInfo.h"
 #include "Menu/Hint.h"
-#include "Menu/Pages/Other/PageColors.h"
+#include "Menu/Pages/Pages.h"
 
 
 static void OnPress_Information()

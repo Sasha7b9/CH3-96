@@ -10,13 +10,10 @@
 #include "Menu/MenuItems.h"
 #include "Menu/Menu.h"
 #include "Menu/Pages/PageIndication.h"
-#include "Menu/Pages/PageService.h"
 #include "Menu/Pages/Channels/Channels.h"
-#include "Menu/Pages/Other/PageStatistics.h"
 #include "Utils/Math.h"
 #include "Utils/StringUtils.h"
-#include "Menu/Pages/Other/PageInfo.h"
-#include "Menu/Pages/Other/PageColors.h"
+#include "Menu/Pages/Pages.h"
 #include <cstring>
 
 

@@ -17,7 +17,6 @@
 #include "Menu/Pages/PageIndication.h"
 #include "Utils/String.h"
 #include "Utils/StringUtils.h"
-#include "Menu/Pages/Other/PageInfo.h"
 #include "Display/RedrawingZone.h"
 #include <cstdio>
 #include <cstdlib>

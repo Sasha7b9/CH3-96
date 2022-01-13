@@ -11,11 +11,10 @@
 #include "Menu/Menu.h"
 #include "Menu/Pages/PageIndication.h"
 #include "Menu/Pages/Channels/Channels.h"
-#include "Menu/Pages/Other/PageStatistics.h"
 #include "Utils/Math.h"
 #include "Utils/String.h"
 #include "Utils/StringUtils.h"
-#include "Menu/Pages/Other/PageInfo.h"
+#include "Menu/Pages/Pages.h"
 #include <cctype>
 #include <cstdlib>
 #include <cstring>

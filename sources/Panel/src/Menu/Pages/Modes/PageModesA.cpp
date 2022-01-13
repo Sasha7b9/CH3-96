@@ -7,8 +7,8 @@
 #include "Menu/Menu.h"
 #include "Menu/MenuItemsDef.h"
 #include "Menu/MenuItems.h"
-#include "Menu/Pages/Other/PageStatistics.h"
 #include "Utils/Math.h"
+#include "Menu/Pages/Pages.h"
 
 
 using namespace Primitives;
