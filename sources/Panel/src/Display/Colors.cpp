@@ -6,8 +6,6 @@
 #include "Settings.h"
 
 
-Color Color::BLACK(0);
-Color Color::WHITE(1);
 Color Color::YELLOW(2);
 Color Color::BLUE(3);
 Color Color::RED(4);
@@ -24,9 +22,10 @@ Color Color::GREEN_15(14);
 Color Color::GREEN_12(15);
 Color Color::GRAY_75(16);
 
-Color Color::BACKGROUND_1(17);
-Color Color::BACKGROUND_2(18);
-Color Color::FILL(19);
+Color Color::BACK(17);
+Color Color::FILL(18);
+Color Color::BACKGROUND_1(19);
+Color Color::BACKGROUND_2(20);
 
 Color Color::TYPE_RED(29);
 Color Color::TYPE_GREEN(30);

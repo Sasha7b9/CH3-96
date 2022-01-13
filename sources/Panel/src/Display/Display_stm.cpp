@@ -216,7 +216,7 @@ void Display::Sender::SendToFSMC(int x0, int y0)
 }
 
 
-static Color current = Color::BLACK;
+static Color current = Color::BACK;
 
 Color Color::GetCurrent()
 {

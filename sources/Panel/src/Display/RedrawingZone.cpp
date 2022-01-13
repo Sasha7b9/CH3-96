@@ -126,7 +126,7 @@ bool DataZone::Draw()
             }
             else
             {
-                Indicator::DrawDataAboutRight(data.c_str(), x0 + RIGHT_DIGITS, y0 + 1, Color::FILL, Color::BLACK);
+                Indicator::DrawDataAboutRight(data.c_str(), x0 + RIGHT_DIGITS, y0 + 1, Color::FILL, Color::BACK);
             }
         }
         else
@@ -144,7 +144,7 @@ bool DataZone::Draw()
             }
             else
             {
-                Indicator::DrawDataAboutRight(data.c_str(), RIGHT_DIGITS, y0 + 1, Color::FILL, Color::BLACK);
+                Indicator::DrawDataAboutRight(data.c_str(), RIGHT_DIGITS, y0 + 1, Color::FILL, Color::BACK);
             }
         }
     }

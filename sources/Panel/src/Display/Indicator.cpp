@@ -17,7 +17,7 @@ static const int bold = 2;
 
 
 Color Indicator::colorDraw(Color::FILL);
-Color Indicator::colorBack(Color::BLACK);
+Color Indicator::colorBack(Color::BACK);
 
 
 

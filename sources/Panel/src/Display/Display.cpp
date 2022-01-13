@@ -254,7 +254,7 @@ void Display::DrawPartScreen(int num, bool debugInfo)
 
     if (num == 0 && debugInfo && glob_set.showStatistics)
     {
-        Text(String("%d", timeFrame)).Write(440, 0, Color::BLACK);
+        Text(String("%d", timeFrame)).Write(440, 0, Color::BACK);
         Text(String("%d", fps)).Write(440, 15);
         Text(String("%d", timePaint)).Write(440, 30);
     }

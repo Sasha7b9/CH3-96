@@ -12,8 +12,8 @@ static Settings def_set =
 {
     0,                                  // size
     {
-        Color::Make(0,   0,   0),       // BLACK
-        Color::Make(255, 255, 255),     // WHITE
+        0,
+        0,
         Color::Make(0,   255, 255),     // YELLOW
         Color::Make(0,   0,   255),     // BLUE
         Color::Make(255, 0,   0),       // RED
@@ -29,18 +29,18 @@ static Settings def_set =
         Color::Make(0,   38,  0),       // GREEN_15
         Color::Make(0,   31,  0),       // GREEN_12
         Color::Make(191, 191, 191),     // GRAY_75
+        Color::Make(0,   0,   0),       // BACK
+        Color::Make(255, 255, 255),     // FILL
         Color::Make(0,   25,  0),       // BACKGROUND_1
         Color::Make(0,   64,  0),       // BACKGROUND_2
-        Color::Make(255, 255, 255),     // FILL
-        Color::Make(0,   0,   0),
-        Color::Make(0,   0,   0),
-        Color::Make(0,   0,   0),
-        Color::Make(0,   0,   0),
-        Color::Make(0,   0,   0),
-        Color::Make(0,   0,   0),
-        Color::Make(0,   0,   0),
-        Color::Make(0,   0,   0),
-        Color::Make(0,   0,   0),
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
         Color::Make(255, 0,   0),       // TYPE_RED
         Color::Make(0,   255, 0),       // TYPE_GREEN
         Color::Make(0,   0,   255)      // TYPE_BLUE

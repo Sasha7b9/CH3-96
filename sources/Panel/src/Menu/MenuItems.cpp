@@ -515,7 +515,7 @@ Color Item::ColorBackground(bool selected)
 
 Color Item::ColorDraw(bool selected)
 {
-    return selected ? Color::BLACK : Color::FILL;
+    return selected ? Color::BACK: Color::FILL;
 }
 
 
