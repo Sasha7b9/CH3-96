@@ -82,8 +82,4 @@ private:
 
     #define MAKE_COLOR(r, g, b) ((uint)((r) | ((g) << 8) | ((b) << 16)))
 
-    #define RED_FROM_COLOR(color)  ((uint8)((color) & 0xFF))
-    #define GREEN_FROM_COLOR(color) ((uint8)(((color) >> 8) & 0xFF))
-    #define BLUE_FROM_COLOR(color)   ((uint8)(((color) >> 16) & 0xFF))
-
 #endif
