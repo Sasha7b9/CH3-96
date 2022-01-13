@@ -180,10 +180,6 @@ static void DetectRegulator()
             pulseCountRight = 0;
         }
     }
-    else
-    {
-        // здесь ничего
-    }
 }
 
 static bool KeyboardCheck()
