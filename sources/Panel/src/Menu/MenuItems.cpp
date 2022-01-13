@@ -509,7 +509,7 @@ Item::Item(pchar hintRu, pchar hintEn)
 
 Color Item::ColorBackground(bool selected)
 {
-    return selected ? Color::GRAY_75 : Color::GRAY_10;
+    return selected ? Color::GRAY_75 : Color::BACK_UNSELECT;
 }
 
 

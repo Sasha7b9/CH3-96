@@ -7,7 +7,7 @@ struct Color
 {
     static Color WHITE;
 
-    static Color GRAY_10;   // 10% серого
+    static Color BACK_UNSELECT;
     static Color GRAY_20;   // 20% серого
     static Color GRAY_50;   // 50% серого
     static Color GRAY_75;   // 75% серого
