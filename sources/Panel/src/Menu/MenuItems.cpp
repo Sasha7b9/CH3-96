@@ -462,6 +462,8 @@ void GovernorChannelColor::OnRotateGovernor(const Control &control)
     }
 
     funcChanged(*state);
+
+    SetValue(*state);
 }
 
 
