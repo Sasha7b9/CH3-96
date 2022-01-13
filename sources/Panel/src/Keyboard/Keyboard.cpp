@@ -130,10 +130,6 @@ static void Update()
                             AddAction(controls[sl][rl], Control::Action::Long);
                             alreadyLong[sl][rl] = true;
                         }
-                        else
-                        {
-                            // остальное не обрабатываем
-                        }
                     }
                 }
                 else if (BUTTON_IS_PRESS(state) && !alreadyLong[sl][rl])
@@ -141,10 +137,6 @@ static void Update()
                     timePress[sl][rl] = time;
                     AddAction(controls[sl][rl], Control::Action::Press);
                     prevRepeat = 0;
-                }
-                else
-                {
-                    // остальное не обрабатываем
                 }
             }
         }
@@ -215,10 +207,6 @@ static bool KeyboardCheck()
                 if (BUTTON_IS_PRESS(state))
                 {
                     keyboardFail = true;
-                }
-                else
-                {
-                    // остальное не обрабатываем
                 }
             }
         }
