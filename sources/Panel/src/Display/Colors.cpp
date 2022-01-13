@@ -11,7 +11,6 @@ Color Color::BACK_UNSELECT(6);
 Color Color::GRAY_50(7);
 Color Color::GRAY_20(8);
 Color Color::GREEN_20(12);
-Color Color::GREEN_5(13);
 Color Color::GRAY_75(16);
 
 Color Color::BACK(17);
