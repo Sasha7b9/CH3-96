@@ -182,13 +182,13 @@ void ProgressBarTimeMeasureZone::Reset()
 
 void SynchroZone::BeforeDraw()
 {
-    oldColor = COLOR(Color::WHITE.index);
+    oldColor = Color::WHITE.Value();
 }
 
 
 void SynchroZone::AfterDraw()
 {
-    COLOR(Color::WHITE.index) = oldColor;
+    Color::WHITE.SetValue(oldColor);
 }
 
 

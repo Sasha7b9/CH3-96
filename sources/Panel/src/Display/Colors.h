@@ -5,8 +5,6 @@
 
 struct Color
 {
-    uint8 index;
-
     static Color BLACK;
     static Color WHITE;
 
@@ -43,6 +41,31 @@ struct Color
 
     void SetAsCurrent() const;
     static Color GetCurrent();
+
+    uint8 Index() const { return index;  }
+
+    uint Value() const;
+
+    void SetValue(uint value) const;
+
+    // —сылка на значение
+    uint &RefValue();
+
+    void SetRED(uint8 red);
+
+    void SetGREEN(uint8 green);
+
+    void SetBLUE(uint8 blue);
+
+    uint8 GetRED() const { return ((uint8)(Value() & 0xFF)); }
+
+    uint8 GetGREEN() const { return ((uint8)((Value() >> 8) & 0xFF)); }
+
+    uint8 GetBLUE() const { return ((uint8)((Value() >> 16) & 0xFF)); }
+
+private:
+
+    uint8 index;
 };
 
 
@@ -63,5 +86,6 @@ struct Color
     #define BLUE_FROM_COLOR(color)   ((uint8)(((color) >> 16) & 0xFF))
 
 #endif
+
 
 #define COLOR(x) glob_set.colors[x]

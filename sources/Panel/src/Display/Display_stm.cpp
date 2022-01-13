@@ -142,8 +142,8 @@ void Display::InitHardware()
 
     for (int i = 0; i < Display::PHYSICAL_WIDTH * 2; i += 2)
     {
-        *pointer++ = Color::BACKGROUND_1.index;
-        *pointer++ = Color::BACKGROUND_2.index;
+        *pointer++ = Color::BACKGROUND_1.Index();
+        *pointer++ = Color::BACKGROUND_2.Index();
     }
 }
 
@@ -244,7 +244,7 @@ void Point::Draw(int x, int y, Color color)
 
     if (x >= 0 && x < Display::Width() && y >= 0 && y < Ymax())
     {
-        *POINTER_BUFFER(x, y) = current.index;
+        *POINTER_BUFFER(x, y) = current.Index();
     }
 }
 
@@ -255,7 +255,7 @@ void Point::Draw(int x, int y)
 
     if (x >= 0 && x < Display::Width() && y >= 0 && y < Ymax())
     {
-        *POINTER_BUFFER(x, y) = current.index; 
+        *POINTER_BUFFER(x, y) = current.Index(); 
     }
 }
 
@@ -285,7 +285,7 @@ void HLine::Draw(int x, int y)
 
         for (int i = x; i < end; i++)
         {
-            *pointer++ = current.index;
+            *pointer++ = current.Index();
         }
     }
 }
@@ -316,7 +316,7 @@ void VLine::Draw(int x, int y)
 
                 while (pointer < endBuffer && height > 0)
                 {
-                    *pointer = current.index;
+                    *pointer = current.Index();
                     pointer += Display::Width();
                     height--;
                 }

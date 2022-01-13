@@ -3,6 +3,7 @@
 #include "Colors.h"
 #include "Display/Display.h"
 #include "Display/Primitives.h"
+#include "Settings.h"
 
 
 Color Color::BLACK(0);
@@ -29,3 +30,39 @@ Color Color::BACKGROUND_2(18);
 Color Color::TYPE_RED(29);
 Color Color::TYPE_GREEN(30);
 Color Color::TYPE_BLUE(31);
+
+
+uint Color::Value() const
+{
+    return COLOR(index);
+}
+
+
+void Color::SetValue(uint value) const
+{
+    COLOR(index) = value;
+}
+
+
+uint &Color::RefValue()
+{
+    return COLOR(index);
+}
+
+
+void Color::SetRED(uint8 red)
+{
+    RefValue() = MAKE_COLOR(red, GetGREEN(), GetBLUE());
+}
+
+
+void Color::SetGREEN(uint8 green)
+{
+    RefValue() = MAKE_COLOR(GetRED(), green, GetBLUE());
+}
+
+
+void Color::SetBLUE(uint8 blue)
+{
+    RefValue() = MAKE_COLOR(GetRED(), GetGREEN(), blue);
+}
