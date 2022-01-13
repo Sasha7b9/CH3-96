@@ -9,8 +9,6 @@ Color Color::WHITE(0);
 
 Color Color::YELLOW(2);
 Color Color::BLUE(3);
-Color Color::RED(4);
-Color Color::GREEN(5);
 Color Color::BACK_UNSELECT(6);
 Color Color::GRAY_50(7);
 Color Color::GRAY_20(8);

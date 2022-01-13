@@ -6,15 +6,10 @@
 struct Color
 {
     static Color WHITE;
-
     static Color BACK_UNSELECT;
     static Color GRAY_20;   // 20% серого
     static Color GRAY_50;   // 50% серого
     static Color GRAY_75;   // 75% серого
-
-    static Color RED;
-
-    static Color GREEN;
     static Color GREEN_5;
     static Color GREEN_10;
     static Color GREEN_12;
@@ -22,16 +17,12 @@ struct Color
     static Color GREEN_20;
     static Color GREEN_25;
     static Color GREEN_50;
-
     static Color BLUE;
-
     static Color YELLOW;
-
     static Color BACK;
     static Color FILL;
     static Color BACKGROUND_1;
     static Color BACKGROUND_2;
-
     static Color TYPE_RED;          // Красный компонент для настройки
     static Color TYPE_GREEN;        // Зелёный компонент для настройки
     static Color TYPE_BLUE;         // Синий компонент для настройки
