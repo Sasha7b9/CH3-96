@@ -60,7 +60,7 @@ struct Settings
     bool         showStatistics;    // Показывать ли статистику по FPS
     StyleGUI     styleGUI;
     Language::E  language;
-    int          colorScheme;
+    uint8        colorScheme;
 
     void Save();
     void Load();

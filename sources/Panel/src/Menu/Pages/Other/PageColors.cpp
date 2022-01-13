@@ -49,9 +49,24 @@ DEF_BUTTON(bReset,
 );
 
 
+static void OnChanged_Scheme()
+{
+    PageTuneColors::Init();
+}
+
+
+DEF_CHOICE_3(cScheme,
+    "Âûבמנ צגועמגמי סץולû", "Choosing a color scheme",
+    "Ñץולא 1", "Ñץולא 2", "Ñץולא 3",
+    "Scheme 1", "Scheme 2", "Scheme 3",
+    glob_set.colorScheme, OnChanged_Scheme
+);
+
+
 static Item *items[7] =
 {
     &bExit,
+    &cScheme,
     &bTune,
     &bReset,
     nullptr
