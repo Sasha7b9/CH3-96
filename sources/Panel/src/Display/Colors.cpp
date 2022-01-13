@@ -44,6 +44,12 @@ void Color::SetValue(uint value) const
 }
 
 
+void Color::SetValue(uint8 red, uint8 green, uint8 blue) const
+{
+    glob_set.colors[index] = ((uint)((red) | ((green) << 8) | ((blue) << 16)));
+}
+
+
 uint &Color::RefValue()
 {
     return glob_set.colors[index];

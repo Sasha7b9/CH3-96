@@ -47,6 +47,7 @@ struct Color
     uint Value() const;
 
     void SetValue(uint value) const;
+    void SetValue(uint8 red, uint8 green, uint8 blue) const;
 
     // —сылка на значение
     uint &RefValue();
