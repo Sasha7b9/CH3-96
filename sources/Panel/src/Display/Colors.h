@@ -64,6 +64,8 @@ struct Color
 
     uint8 GetBLUE() const { return ((uint8)((Value() >> 16) & 0xFF)); }
 
+    static uint Make(uint8 r, uint8 g, uint8 b) { return ((uint)((r) | ((g) << 8) | ((b) << 16))); }
+
 private:
 
     uint8 index;
@@ -77,9 +79,5 @@ private:
     #define RED_FROM_COLOR(color)   ((uint8)(((color) >> 16) & 0xFF))
     #define GREEN_FROM_COLOR(color) ((uint8)(((color) >> 8) & 0xFF))
     #define BLUE_FROM_COLOR(color)  ((uint8)((color) & 0xFF))
-
-#else
-
-    #define MAKE_COLOR(r, g, b) ((uint)((r) | ((g) << 8) | ((b) << 16)))
 
 #endif

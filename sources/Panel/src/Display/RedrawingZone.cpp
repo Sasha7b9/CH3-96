@@ -211,7 +211,7 @@ uint SynchroZone::CalculateColor()
 {
     uint8 color = (uint8)((1.0F - CalculateRelativeTime() * CalculateRelativeTime()) * 0xFF);
 
-    return MAKE_COLOR(color, color, color);
+    return Color::Make(color, color, color);
 }
 
 

@@ -62,8 +62,6 @@ struct Settings
     StyleGUI     styleGUI;
     Language::E  language;
 
-    int unused[8];
-
     void Save();
     void Load();
 };

@@ -4,44 +4,45 @@
 #include "Hardware/FPGA.h"
 #include "Menu/Pages/Channels/Channels.h"
 #include "Utils/Math.h"
+#include "Display/Colors.h"
 
 
 Settings glob_set =
 {
-    0,                              // size
+    0,                                  // size
     {
-        MAKE_COLOR(0,   0,   0),    // BLACK
-        MAKE_COLOR(255, 255, 255),  // WHITE
-        MAKE_COLOR(0,   255, 255),  // YELLOW
-        MAKE_COLOR(0,   0,   255),  // BLUE
-        MAKE_COLOR(255, 0,   0),    // RED
-        MAKE_COLOR(0,   255, 0),    // GREEN
-        MAKE_COLOR(25,  25,  25),   // GRAY_10
-        MAKE_COLOR(127, 127, 127),  // GRAY_50
-        MAKE_COLOR(51,  51,  51),   // GRAY_20
-        MAKE_COLOR(0,   127, 0),    // GREEN_50
-        MAKE_COLOR(0,   64,  0),    // GREEN_25
-        MAKE_COLOR(0,   25,  0),    // GREEN_10
-        MAKE_COLOR(0,   51,  0),    // GREEN_20
-        MAKE_COLOR(0,   13,  0),    // GREEN_5
-        MAKE_COLOR(0,   38,  0),    // GREEN_15
-        MAKE_COLOR(0,   31,  0),    // GREEN_12
-        MAKE_COLOR(191, 191, 191),  // GRAY_75
-        MAKE_COLOR(0,   25,  0),    // BACKGROUND_1
-        MAKE_COLOR(0,   64,  0),    // BACKGROUND_2
-        MAKE_COLOR(0,   0,   0),
-        MAKE_COLOR(0,   0,   0),
-        MAKE_COLOR(0,   0,   0),
-        MAKE_COLOR(0,   0,   0),
-        MAKE_COLOR(0,   0,   0),
-        MAKE_COLOR(0,   0,   0),
-        MAKE_COLOR(0,   0,   0),
-        MAKE_COLOR(0,   0,   0),
-        MAKE_COLOR(0,   0,   0),
-        MAKE_COLOR(0,   0,   0),
-        MAKE_COLOR(255, 0,   0),    // TYPE_RED
-        MAKE_COLOR(0,   255, 0),    // TYPE_GREEN
-        MAKE_COLOR(0,   0,   255)   // TYPE_BLUE
+        Color::Make(0,   0,   0),       // BLACK
+        Color::Make(255, 255, 255),     // WHITE
+        Color::Make(0,   255, 255),     // YELLOW
+        Color::Make(0,   0,   255),     // BLUE
+        Color::Make(255, 0,   0),       // RED
+        Color::Make(0,   255, 0),       // GREEN
+        Color::Make(25,  25,  25),      // GRAY_10
+        Color::Make(127, 127, 127),     // GRAY_50
+        Color::Make(51,  51,  51),      // GRAY_20
+        Color::Make(0,   127, 0),       // GREEN_50
+        Color::Make(0,   64,  0),       // GREEN_25
+        Color::Make(0,   25,  0),       // GREEN_10
+        Color::Make(0,   51,  0),       // GREEN_20
+        Color::Make(0,   13,  0),       // GREEN_5
+        Color::Make(0,   38,  0),       // GREEN_15
+        Color::Make(0,   31,  0),       // GREEN_12
+        Color::Make(191, 191, 191),     // GRAY_75
+        Color::Make(0,   25,  0),       // BACKGROUND_1
+        Color::Make(0,   64,  0),       // BACKGROUND_2
+        Color::Make(0,   0,   0),
+        Color::Make(0,   0,   0),
+        Color::Make(0,   0,   0),
+        Color::Make(0,   0,   0),
+        Color::Make(0,   0,   0),
+        Color::Make(0,   0,   0),
+        Color::Make(0,   0,   0),
+        Color::Make(0,   0,   0),
+        Color::Make(0,   0,   0),
+        Color::Make(0,   0,   0),
+        Color::Make(255, 0,   0),       // TYPE_RED
+        Color::Make(0,   255, 0),       // TYPE_GREEN
+        Color::Make(0,   0,   255)      // TYPE_BLUE
     },
     {
         {0, 1}, {0, 1}                          // levelSynch
