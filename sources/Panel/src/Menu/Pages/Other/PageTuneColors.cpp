@@ -72,21 +72,21 @@ DEF_CHOICE_4(cColor,
 
 DEF_COLOR_GOVERNOR(gRed,
     GovernorChannelColor::Red,
-    "Красный", "Red",
+    "Настройка красного", "Red setting",
     OnChanged_Red
 );
 
 
 DEF_COLOR_GOVERNOR(gGreen,
     GovernorChannelColor::Green,
-    "Зеленый", "Green",
+    "Настройка зеленого", "Green setting",
     OnChanged_Green
 );
 
 
 DEF_COLOR_GOVERNOR(gBlue,
     GovernorChannelColor::Blue,
-    "Синий", "Blue",
+    "Настройка синего", "Blue setting",
     OnChanged_Blue
 );
 
