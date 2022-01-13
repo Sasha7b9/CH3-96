@@ -11,6 +11,7 @@
 static void OnPress_Exit()
 {
     Menu::SetOpenedPage(PageService::self);
+    glob_set.Save();
 }
 
 
@@ -45,21 +46,19 @@ static void OnChanged_Color()
 
 static void OnChanged_Red(uint8)
 {
-//    uint color_value = *colors[cColor.Value()];
-
-
+    colors[cColor.Value()].SetRED((uint8)gRed.Value());
 }
 
 
 static void OnChanged_Green(uint8)
 {
-
+    colors[cColor.Value()].SetGREEN((uint8)gGreen.Value());
 }
 
 
 static void OnChanged_Blue(uint8)
 {
-
+    colors[cColor.Value()].SetBLUE((uint8)gBlue.Value());
 }
 
 

@@ -23,6 +23,9 @@ DEF_BUTTON(bInformation,
 
 static void OnPress_ResetSettings()
 {
+    glob_set.LoadDefault();
+    glob_set.Save();
+
     TimeMeasure::Set(TimeMeasure::_1ms);
     NumberPeriods::Set(NumberPeriods::_1);
     PeriodTimeLabels::Set(PeriodTimeLabels::T_8);
@@ -56,7 +59,8 @@ static void OnPress_ResetSettings()
 DEF_BUTTON(bResetSettings,
     "—брос", "Reset",
     "—брос настроек в состо€ние по умолчанию", "Resetting the settings to the default state",
-    OnPress_ResetSettings);
+    OnPress_ResetSettings
+);
 
 
 static void OnPress_Language()

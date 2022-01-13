@@ -7,7 +7,7 @@
 #include "Display/Colors.h"
 
 
-Settings glob_set =
+static Settings def_set =
 {
     0,                                  // size
     {
@@ -53,7 +53,10 @@ Settings glob_set =
     false,
     StyleGUI(StyleGUI::Modern),
     Language::RU
-}; 
+};
+
+
+Settings glob_set = def_set;
 
 
 void InputCouple::LoadToFPGA()
@@ -200,4 +203,10 @@ void Settings::Load()
 void Settings::Save()
 {
     HAL_EEPROM::SaveSettings(this);
+}
+
+
+void Settings::LoadDefault()
+{
+    glob_set = def_set;
 }
