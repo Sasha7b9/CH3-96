@@ -7,22 +7,22 @@
 
 Color Color::WHITE(0);
 
-Color Color::BACK(17);
-Color Color::FILL(18);
+Color Color::BACK(1);
+Color Color::FILL(2);
 
-Color Color::BACK_1(19);
-Color Color::BACK_2(20);
-Color Color::BACK_3(12);
+Color Color::BACK_1(3);
+Color Color::BACK_2(4);
+Color Color::BACK_3(5);
 
 Color Color::BACK_UNSELECT(6);
-Color Color::BACK_SELECT(16);
+Color Color::BACK_SELECT(7);
 
-Color Color::BACK_STAT(7);
-Color Color::BACK_VALUE(8);
+Color Color::BACK_STAT(8);
+Color Color::BACK_VALUE(9);
 
-Color Color::TYPE_RED(29);
-Color Color::TYPE_GREEN(30);
-Color Color::TYPE_BLUE(31);
+Color Color::TYPE_RED(10);
+Color Color::TYPE_GREEN(11);
+Color Color::TYPE_BLUE(12);
 
 
 uint &Color::Value() const

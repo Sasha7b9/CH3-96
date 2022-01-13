@@ -12,38 +12,24 @@ static Settings def_set =
 {
     0,                                  // size
     {
-        Color::Make(255, 255, 255),     // WHITE
-        0,
-        Color::Make(0,   255, 255),     // YELLOW
-        Color::Make(0,   0,   255),     // BLUE
-        Color::Make(255, 0,   0),       // RED
-        Color::Make(0,   255, 0),       // GREEN
-        Color::Make(25,  25,  25),      // GRAY_10
-        Color::Make(127, 127, 127),     // GRAY_50
-        Color::Make(51,  51,  51),      // GRAY_20
-        Color::Make(0,   127, 0),       // GREEN_50
-        Color::Make(0,   64,  0),       // GREEN_25
-        Color::Make(0,   25,  0),       // GREEN_10
-        Color::Make(0,   51,  0),       // GREEN_20
-        Color::Make(0,   13,  0),       // GREEN_5
-        Color::Make(0,   38,  0),       // GREEN_15
-        Color::Make(0,   31,  0),       // GREEN_12
-        Color::Make(191, 191, 191),     // GRAY_75
-        Color::Make(0,   0,   0),       // BACK
-        Color::Make(255, 255, 255),     // FILL
-        Color::Make(0,   25,  0),       // BACK_1
-        Color::Make(0,   64,  0),       // BACK_2
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        Color::Make(255, 0,   0),       // TYPE_RED
-        Color::Make(0,   255, 0),       // TYPE_GREEN
-        Color::Make(0,   0,   255)      // TYPE_BLUE
+        Color::Make(255, 255, 255),     // WHITE            0
+
+        Color::Make(0,   0,   0),       // BACK             1
+        Color::Make(255, 255, 255),     // FILL             2
+
+        Color::Make(0,   25,  0),       // BACK_1           3
+        Color::Make(0,   64,  0),       // BACK_2           4
+        Color::Make(0,   32,  0),       // BACK_3           5
+
+        Color::Make(0,   0,   0),       // BACK_UNSELECT    6
+        Color::Make(0,   0,   0),       // BACK_SELECT      7
+
+        Color::Make(0,   0,   0),       // BACK_STAT        8
+        Color::Make(0,   0,   0),       // BACK_VALUE       9
+
+        Color::Make(255, 0,   0),       // TYPE_RED         10
+        Color::Make(0,   255, 0),       // TYPE_GREEN       11
+        Color::Make(0,   0,   255)      // TYPE_BLUE        12
     },
     {
         {0, 1}, {0, 1}                          // levelSynch
