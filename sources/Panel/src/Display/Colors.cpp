@@ -5,6 +5,7 @@
 #include "Display/Primitives.h"
 #include "Settings.h"
 
+Color Color::WHITE(0);
 
 Color Color::YELLOW(2);
 Color Color::BLUE(3);

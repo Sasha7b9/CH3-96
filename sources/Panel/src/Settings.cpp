@@ -12,7 +12,7 @@ static Settings def_set =
 {
     0,                                  // size
     {
-        0,
+        Color::Make(255, 255, 255),     // WHITE
         0,
         Color::Make(0,   255, 255),     // YELLOW
         Color::Make(0,   0,   255),     // BLUE
