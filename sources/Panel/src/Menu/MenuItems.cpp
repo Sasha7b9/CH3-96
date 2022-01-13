@@ -396,7 +396,7 @@ void GovernorChannelColor::Draw(int _x, int _y, int _width, bool selected)
         HLine hLine(2);
         Point point;
 
-        hLine.Draw(x, y, Color::GRAY_75);
+        hLine.Draw(x, y, Color::BACK_SELECT);
         point.Draw(x, y + 1);
 
         hLine.Draw(x + width - 2, y);
@@ -509,7 +509,7 @@ Item::Item(pchar hintRu, pchar hintEn)
 
 Color Item::ColorBackground(bool selected)
 {
-    return selected ? Color::GRAY_75 : Color::BACK_UNSELECT;
+    return selected ? Color::BACK_SELECT: Color::BACK_UNSELECT;
 }
 
 
