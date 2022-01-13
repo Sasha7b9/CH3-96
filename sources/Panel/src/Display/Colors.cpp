@@ -9,7 +9,7 @@ Color Color::WHITE(0);
 
 Color Color::BACK_UNSELECT(6);
 Color Color::BACK_STAT(7);
-Color Color::GRAY_20(8);
+Color Color::BACK_VALUE(8);
 Color Color::GREEN_20(12);
 Color Color::GRAY_75(16);
 Color Color::BACK(17);
