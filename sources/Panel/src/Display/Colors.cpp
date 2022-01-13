@@ -58,17 +58,17 @@ uint &Color::RefValue()
 
 void Color::SetRED(uint8 red)
 {
-    RefValue() = MAKE_COLOR(red, GetGREEN(), GetBLUE());
+    SetValue(red, GetGREEN(), GetBLUE());
 }
 
 
 void Color::SetGREEN(uint8 green)
 {
-    RefValue() = MAKE_COLOR(GetRED(), green, GetBLUE());
+    SetValue(GetRED(), green, GetBLUE());
 }
 
 
 void Color::SetBLUE(uint8 blue)
 {
-    RefValue() = MAKE_COLOR(GetRED(), GetGREEN(), blue);
+    SetValue(GetRED(), GetGREEN(), blue);
 }
