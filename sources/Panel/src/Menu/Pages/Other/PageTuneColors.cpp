@@ -25,13 +25,14 @@ extern GovernorChannelColor gRed;
 extern GovernorChannelColor gGreen;
 extern GovernorChannelColor gBlue;
 
-static Color colors[5] =
+static Color colors[6] =
 {
     Color::BACK,
     Color::FILL,
     Color::BACKGROUND_1,
     Color::BACKGROUND_2,
-    Color::BACK_UNSELECT
+    Color::BACK_UNSELECT,
+    Color::BACK_STAT
 };
 
 
@@ -63,10 +64,10 @@ static void OnChanged_Blue(uint8)
 }
 
 
-DEF_CHOICE_5(cColor,
+DEF_CHOICE_6(cColor,
     "Выбор настраиваемого цвета", "Choosing a custom color",
-    "Фон",  "Зап",  "Фон 1",  "Фон 2",  "Фон 3",
-    "Back", "Fill", "Back 1", "Back 2", "Back 3",
+    "Фон",  "Зап",  "Фон 1",  "Фон 2",  "Фон 3",  "Фон 4",
+    "Back", "Fill", "Back 1", "Back 2", "Back 3", "Back 4",
     OnChanged_Color
 );
 

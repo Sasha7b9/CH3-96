@@ -32,6 +32,14 @@ static pchar n##name##En[] = { nameEn1, nameEn2, nameEn3, nameEn4, nameEn5, null
 static uint8 state##name;                                                                                           \
 static Choice name(hintRu, hintEn, n##name##Ru, n##name##En, func, &state##name);
 
+#define DEF_CHOICE_6(name, hintRu, hintEn,                                                                          \
+    nameRu1, nameRu2, nameRu3, nameRu4, nameRu5, nameRu6,                                                           \
+    nameEn1, nameEn2, nameEn3, nameEn4, nameEn5, nameEn6, func)                                                     \
+static pchar n##name##Ru[] = { nameRu1, nameRu2, nameRu3, nameRu4, nameRu5, nameRu6, nullptr };                     \
+static pchar n##name##En[] = { nameEn1, nameEn2, nameEn3, nameEn4, nameEn5, nameEn6, nullptr };                     \
+static uint8 state##name;                                                                                           \
+static Choice name(hintRu, hintEn, n##name##Ru, n##name##En, func, &state##name);
+
 #define DEF_COLOR_GOVERNOR(name, type, hintRu, hintEn, func)                                                        \
 static uint8 state##name;                                                                                           \
 static GovernorChannelColor name(type, hintRu, hintEn, &state##name, func)

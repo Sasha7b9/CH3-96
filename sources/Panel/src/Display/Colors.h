@@ -6,13 +6,13 @@
 struct Color
 {
     static Color GRAY_20;   // 20% серого
-    static Color GRAY_50;   // 50% серого
     static Color GRAY_75;   // 75% серого
     static Color GREEN_20;
 
     static Color WHITE;             // Белый
 
     static Color BACK_UNSELECT;     // Фон невыделенного итема
+    static Color BACK_STAT;         // Цвет фона для графика статистики
     static Color BACK;              // Чёрный фон
     static Color FILL;              // Цвет белых надписей
     static Color BACKGROUND_1;

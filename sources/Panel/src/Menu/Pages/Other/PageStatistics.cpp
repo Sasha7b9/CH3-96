@@ -23,7 +23,7 @@ static void Draw_Statistics()
     int width = Display::PHYSICAL_WIDTH - 20;
     int height = 91;
 
-    Rectangle(width, height).Fill(x0, y0, Color::GRAY_50);
+    Rectangle(width, height).Fill(x0, y0, Color::BACK_STAT);
 
     if (ValueFrequency_Comparator::values.Size() < 2)
     {
@@ -79,7 +79,7 @@ static void Draw_Statistics()
     String strMAX("%f", max);
     String strMIN("%f", min);
 
-    Rectangle(Font::GetLengthText(strMAX.c_str()) + 2, 16).Fill(10, 10, Color::GRAY_50);
+    Rectangle(Font::GetLengthText(strMAX.c_str()) + 2, 16).Fill(10, 10, Color::BACK_STAT);
     Rectangle(Font::GetLengthText(strMIN.c_str()) + 2, 16).Fill(10, height - 6);
 
     Text(strMAX).Write(11, 11, Color::BACK);
