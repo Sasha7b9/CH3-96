@@ -391,7 +391,7 @@ void GovernorChannelColor::Draw(int _x, int _y, int _width, bool selected)
         const int width = _width - 8;
         const int height = HEIGHT - 8;
 
-        Rectangle(width, height).Fill(x, y, color);
+        Rectangle(width, height).Fill(x, y, ColorFill());
 
         HLine hLine(2);
         Point point;
@@ -415,11 +415,44 @@ void GovernorChannelColor::Draw(int _x, int _y, int _width, bool selected)
         const int width = _width - 3;
         const int height = HEIGHT - 3;
 
-        Rectangle(width - 1, height - 1).Fill(x + 1, y + 1, color);
-        Rectangle(width, height).DrawRounded(x, y, 1, color);
+        Rectangle(width - 1, height - 1).Fill(x + 1, y + 1, ColorFill());
+        Rectangle(width, height).DrawRounded(x, y, 1, ColorFill());
     }
 
     Text(String("%0.3d", (int)*state)).Write(_x, _y + 6, _width, Color::WHITE);
+}
+
+
+Color GovernorChannelColor::ColorFill() const
+{
+    static Color colors[3] = { Color::TYPE_RED, Color::TYPE_GREEN, Color::TYPE_BLUE };
+
+    return colors[typeColor];
+}
+
+
+void GovernorChannelColor::SetValue(uint8 value)
+{
+    *state = value;
+
+    uint color = COLOR(ColorFill().value);
+
+    uint8 red = RED_FROM_COLOR(color);
+    uint8 green = GREEN_FROM_COLOR(color);
+    uint8 blue = BLUE_FROM_COLOR(color);
+
+    if (typeColor == Red)
+    {
+        COLOR(Color::TYPE_RED.value) = MAKE_COLOR(*state, green, blue);
+    }
+    else if (typeColor == Green)
+    {
+        COLOR(Color::TYPE_GREEN.value) = MAKE_COLOR(red, *state, blue);
+    }
+    else
+    {
+        COLOR(Color::TYPE_BLUE.value) = MAKE_COLOR(red, green, *state);
+    }
 }
 
 

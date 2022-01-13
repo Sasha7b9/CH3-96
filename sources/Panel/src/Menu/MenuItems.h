@@ -117,19 +117,28 @@ private:
 class GovernorChannelColor : public Item
 {
 public:
-    GovernorChannelColor(pchar hintRu, pchar hintEn, const Color &_color, uint8 *_state, void (*func)(uint8)) :
-        Item(hintRu, hintEn), state(_state), color(_color), funcChanged(func)
+
+    enum Type
+    {
+        Red,
+        Green,
+        Blue
+    };
+
+    GovernorChannelColor(Type type, pchar hintRu, pchar hintEn, uint8 *_state, void (*func)(uint8)) :
+        Item(hintRu, hintEn), state(_state), typeColor(type), funcChanged(func)
     {
     }
     virtual void Draw(int x, int y, int width, bool selected = false);
     virtual void OnRotateGovernor(const Control &);
     int Value() const { return (int)*state; }
-    void SetValue(uint8 value) { *state = value; }
+    void SetValue(uint8 value);
 private:
     uint8 *state;
-    const Color color;
+    Type typeColor;
     virtual void CreateHint(String &) const;
     void (*funcChanged)(uint8);
+    Color ColorFill() const;
 };
 
 

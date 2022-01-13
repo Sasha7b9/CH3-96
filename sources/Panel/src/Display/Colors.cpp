@@ -25,3 +25,7 @@ Color Color::GRAY_75(16);
 
 Color Color::BACKGROUND_1(17);
 Color Color::BACKGROUND_2(18);
+
+Color Color::TYPE_RED(29);
+Color Color::TYPE_GREEN(30);
+Color Color::TYPE_BLUE(31);

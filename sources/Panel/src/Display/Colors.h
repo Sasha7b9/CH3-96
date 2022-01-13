@@ -33,6 +33,10 @@ struct Color
     static Color BACKGROUND_1;
     static Color BACKGROUND_2;
 
+    static Color TYPE_RED;          // Красный компонент для настройки
+    static Color TYPE_GREEN;        // Зелёный компонент для настройки
+    static Color TYPE_BLUE;         // Синий компонент для настройки
+
     static const int Count = 32;
 
     explicit Color(uint8 val) : value(val) {};
@@ -43,13 +47,21 @@ struct Color
 
 
 #ifdef WIN32
-    #define MAKE_COLOR(r, g, b)     ((uint)((b) | ((g) << 8) | ((r) << 16)))
-#else
-    #define MAKE_COLOR(r, g, b) ((uint)((r) | ((g) << 8) | ((b) << 16)))
-#endif
 
-#define RED_FROM_COLOR(color)   ((uint8)(((color) >> 16) & 0xFF))
-#define GREEN_FROM_COLOR(color) ((uint8)(((color) >> 8) & 0xFF))
-#define BLUE_FROM_COLOR(color)  ((uint8)((color) & 0xFF))
+    #define MAKE_COLOR(r, g, b)     ((uint)((b) | ((g) << 8) | ((r) << 16)))
+
+    #define RED_FROM_COLOR(color)   ((uint8)(((color) >> 16) & 0xFF))
+    #define GREEN_FROM_COLOR(color) ((uint8)(((color) >> 8) & 0xFF))
+    #define BLUE_FROM_COLOR(color)  ((uint8)((color) & 0xFF))
+
+#else
+
+    #define MAKE_COLOR(r, g, b) ((uint)((r) | ((g) << 8) | ((b) << 16)))
+
+    #define RED_FROM_COLOR(color)  ((uint8)((color) & 0xFF))
+    #define GREEN_FROM_COLOR(color) ((uint8)(((color) >> 8) & 0xFF))
+    #define BLUE_FROM_COLOR(color)   ((uint8)(((color) >> 16) & 0xFF))
+
+#endif
 
 #define COLOR(x) glob_set.colors[x]

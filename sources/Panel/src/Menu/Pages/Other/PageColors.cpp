@@ -44,6 +44,8 @@ static void OnChanged_Color()
 
 static void OnChanged_Red(uint8)
 {
+//    uint color_value = *colors[cColor.Value()];
+
 
 }
 
@@ -69,22 +71,22 @@ DEF_CHOICE_2(cColor,
 
 
 DEF_COLOR_GOVERNOR(gRed,
+    GovernorChannelColor::Red,
     "", "",
-    Color::RED,
     OnChanged_Red
 );
 
 
 DEF_COLOR_GOVERNOR(gGreen,
+    GovernorChannelColor::Green,
     "", "",
-    Color::GREEN_50,
     OnChanged_Green
 );
 
 
 DEF_COLOR_GOVERNOR(gBlue,
+    GovernorChannelColor::Blue,
     "", "",
-    Color::BLUE,
     OnChanged_Blue
 );
 

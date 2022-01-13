@@ -28,7 +28,20 @@ Settings glob_set =
         MAKE_COLOR(0,   31,  0),    // GREEN_12
         MAKE_COLOR(191, 191, 191),  // GRAY_75
         MAKE_COLOR(0,   25,  0),    // BACKGROUND_1
-        MAKE_COLOR(0,   64,  0)     // BACKGROUND_2
+        MAKE_COLOR(0,   64,  0),    // BACKGROUND_2
+        MAKE_COLOR(0,   0,   0),
+        MAKE_COLOR(0,   0,   0),
+        MAKE_COLOR(0,   0,   0),
+        MAKE_COLOR(0,   0,   0),
+        MAKE_COLOR(0,   0,   0),
+        MAKE_COLOR(0,   0,   0),
+        MAKE_COLOR(0,   0,   0),
+        MAKE_COLOR(0,   0,   0),
+        MAKE_COLOR(0,   0,   0),
+        MAKE_COLOR(0,   0,   0),
+        MAKE_COLOR(255, 0,   0),    // TYPE_RED
+        MAKE_COLOR(0,   255, 0),    // TYPE_GREEN
+        MAKE_COLOR(0,   0,   255)   // TYPE_BLUE
     },
     {
         {0, 1}, {0, 1}                          // levelSynch
