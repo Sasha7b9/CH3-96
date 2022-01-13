@@ -77,20 +77,20 @@ static int8_t CDC_Itf_Control (uint8 cmd, uint8* pbuf, uint16)
         break;
 
     case CDC_SET_LINE_CODING:
-        LineCoding.bitrate    = (uint32_t)(pbuf[0] | (pbuf[1] << 8) | (pbuf[2] << 16) | (pbuf[3] << 24)); //-V2563
-        LineCoding.format     = pbuf[4]; //-V2563
-        LineCoding.paritytype = pbuf[5]; //-V2563
-        LineCoding.datatype   = pbuf[6]; //-V2563
+        LineCoding.bitrate    = (uint32_t)(pbuf[0] | (pbuf[1] << 8) | (pbuf[2] << 16) | (pbuf[3] << 24));
+        LineCoding.format     = pbuf[4];
+        LineCoding.paritytype = pbuf[5];
+        LineCoding.datatype   = pbuf[6];
         break;
 
     case CDC_GET_LINE_CODING:
-        pbuf[0] = (uint8_t)(LineCoding.bitrate); //-V2533 //-V2563
-        pbuf[1] = (uint8_t)(LineCoding.bitrate >> 8); //-V2533 //-V2563
-        pbuf[2] = (uint8_t)(LineCoding.bitrate >> 16); //-V2533 //-V2563
-        pbuf[3] = (uint8_t)(LineCoding.bitrate >> 24); //-V2533 //-V2563
-        pbuf[4] = LineCoding.format; //-V2563
-        pbuf[5] = LineCoding.paritytype; //-V2563
-        pbuf[6] = LineCoding.datatype; //-V2563
+        pbuf[0] = (uint8_t)(LineCoding.bitrate); //-V2533
+        pbuf[1] = (uint8_t)(LineCoding.bitrate >> 8); //-V2533
+        pbuf[2] = (uint8_t)(LineCoding.bitrate >> 16); //-V2533
+        pbuf[3] = (uint8_t)(LineCoding.bitrate >> 24); //-V2533
+        pbuf[4] = LineCoding.format;
+        pbuf[5] = LineCoding.paritytype;
+        pbuf[6] = LineCoding.datatype;
         /* Add your code here */
         break;
 

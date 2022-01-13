@@ -34,7 +34,7 @@ using namespace Primitives;
 static uint8 buffer[HEIGHT_BUFFER][WIDTH_BUFFER];
 
 static const uint8 *startBuffer = &buffer[0][0];
-static const uint8 *endBuffer = startBuffer + WIDTH_BUFFER * HEIGHT_BUFFER; //-V2563
+static const uint8 *endBuffer = startBuffer + WIDTH_BUFFER * HEIGHT_BUFFER;
 
 
 uint8 lineBackground[Display::PHYSICAL_WIDTH * 2];    // Эта последовательность байт используется для отрисовки фона
@@ -142,8 +142,8 @@ void Display::InitHardware()
 
     for (int i = 0; i < Display::PHYSICAL_WIDTH * 2; i += 2)
     {
-        *pointer++ = Color::BACKGROUND_1.value;
-        *pointer++ = Color::BACKGROUND_2.value;
+        *pointer++ = Color::BACKGROUND_1.index;
+        *pointer++ = Color::BACKGROUND_2.index;
     }
 }
 
@@ -160,7 +160,7 @@ void Display::BeginScene(int x, int y)
         for (int i = 0; i < PHYSICAL_HEIGHT / NUM_PARTS; i += 2)
         {
             std::memcpy(&buffer[i][0], lineBackground, PHYSICAL_WIDTH);
-            std::memcpy(&buffer[i + 1][0], lineBackground + 1, PHYSICAL_WIDTH); //-V2563
+            std::memcpy(&buffer[i + 1][0], lineBackground + 1, PHYSICAL_WIDTH);
         }
     }
     else
@@ -174,7 +174,7 @@ void Display::BeginScene(int x, int y)
 
         for (int row = 0; row < Display::Height(); row++)
         {
-            std::memcpy(POINTER_BUFFER(0, row), pointer + (row % 2 == 0 ? 0 : 1), (size_t)Display::Width()); //-V2533 //-V2563
+            std::memcpy(POINTER_BUFFER(0, row), pointer + (row % 2 == 0 ? 0 : 1), (size_t)Display::Width()); //-V2533
         }
     }
 }
@@ -226,7 +226,7 @@ Color Color::GetCurrent()
 
 void Color::SetAsCurrent() const
 {
-    current = Color(value);
+    current = Color(index);
 }
 
 
@@ -244,7 +244,7 @@ void Point::Draw(int x, int y, Color color)
 
     if (x >= 0 && x < Display::Width() && y >= 0 && y < Ymax())
     {
-        *POINTER_BUFFER(x, y) = current.value; //-V2563
+        *POINTER_BUFFER(x, y) = current.index;
     }
 }
 
@@ -255,7 +255,7 @@ void Point::Draw(int x, int y)
 
     if (x >= 0 && x < Display::Width() && y >= 0 && y < Ymax())
     {
-        *POINTER_BUFFER(x, y) = current.value;  //-V2563
+        *POINTER_BUFFER(x, y) = current.index; 
     }
 }
 
@@ -281,11 +281,11 @@ void HLine::Draw(int x, int y)
             end = Display::Width() - 1;
         }
 
-        uint8 *pointer = POINTER_BUFFER(x, y); //-V2563
+        uint8 *pointer = POINTER_BUFFER(x, y);
 
         for (int i = x; i < end; i++)
         {
-            *pointer++ = current.value;
+            *pointer++ = current.index;
         }
     }
 }
@@ -312,12 +312,12 @@ void VLine::Draw(int x, int y)
         {
             if (y < Ymax())
             {
-                uint8 *pointer = POINTER_BUFFER(x, y); //-V2563
+                uint8 *pointer = POINTER_BUFFER(x, y);
 
                 while (pointer < endBuffer && height > 0)
                 {
-                    *pointer = current.value;
-                    pointer += Display::Width(); //-V2563
+                    *pointer = current.index;
+                    pointer += Display::Width();
                     height--;
                 }
             }

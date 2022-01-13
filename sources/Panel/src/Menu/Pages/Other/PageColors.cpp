@@ -27,8 +27,8 @@ extern GovernorChannelColor gGreen;
 extern GovernorChannelColor gBlue;
 
 static uint *colors[2] = {
-    &COLOR(Color::BACKGROUND_1.value),
-    &COLOR(Color::BACKGROUND_2.value)
+    &COLOR(Color::BACKGROUND_1.index),
+    &COLOR(Color::BACKGROUND_2.index)
 };
 
 

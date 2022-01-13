@@ -44,7 +44,7 @@ void VCP::SendDataAsynch(const uint8 *buffer, uint size)
         {
             Send64BytesOrLess(buffer, 64);
             size -= 64;
-            buffer += 64; //-V2563
+            buffer += 64;
         }
     }
 }
@@ -98,7 +98,7 @@ void VCP::SendFormatStringAsynch(char *format, ...)
     {
         static char buffer[200];
         std::va_list args;
-        va_start(args, format); //-V2563 //-V2567
+        va_start(args, format); //-V2567
         vsprintf(buffer, format, args);
         va_end(args);
         std::strcat(buffer, "\r\n"); //-V2513
@@ -111,7 +111,7 @@ void VCP::SendFormatStringSynch(char *format, ...)
 {
     char buffer[200];
     std::va_list args;
-    va_start(args, format); //-V2563 //-V2567
+    va_start(args, format); //-V2567
     std::vsprintf(buffer, format, args);
     va_end(args);
     std::strcat(buffer, "\r\n"); //-V2513

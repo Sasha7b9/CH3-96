@@ -66,16 +66,16 @@ void HAL_USBD::SendDataSynch(int sizeBuffer, uint sizeSend, uint8 *buffSend, cha
             while (pCDC->TxState == 1) {
             }; //-V712
 
-            std::memcpy(buffSend + sizeBuffer, (void *)buffer, (uint)reqBytes); //-V2533 //-V2563
+            std::memcpy(buffSend + sizeBuffer, (void *)buffer, (uint)reqBytes); //-V2533
             USBD_CDC_SetTxBuffer(&hUSBD, buffSend, SIZE_BUFFER_VCP);
             USBD_CDC_TransmitPacket(&hUSBD);
             sizeSend -= reqBytes;
-            buffer += reqBytes; //-V2563
+            buffer += reqBytes;
             sizeBuffer = 0;
         }
         else
         {
-            std::memcpy(buffSend + sizeBuffer, (void *)buffer, (uint)sizeSend); //-V2533 //-V2563
+            std::memcpy(buffSend + sizeBuffer, (void *)buffer, (uint)sizeSend); //-V2533
             sizeBuffer += sizeSend;
             sizeSend = 0;
         }

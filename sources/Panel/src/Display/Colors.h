@@ -5,7 +5,7 @@
 
 struct Color
 {
-    uint8 value;
+    uint8 index;
 
     static Color BLACK;
     static Color WHITE;
@@ -39,7 +39,7 @@ struct Color
 
     static const int Count = 32;
 
-    explicit Color(uint8 val) : value(val) {};
+    explicit Color(uint8 i) : index(i) {};
 
     void SetAsCurrent() const;
     static Color GetCurrent();

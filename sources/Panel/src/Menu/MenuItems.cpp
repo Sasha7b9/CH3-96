@@ -435,7 +435,7 @@ void GovernorChannelColor::SetValue(uint8 value)
 {
     *state = value;
 
-    uint color = COLOR(ColorFill().value);
+    uint color = COLOR(ColorFill().index);
 
     uint8 red = RED_FROM_COLOR(color);
     uint8 green = GREEN_FROM_COLOR(color);
@@ -443,15 +443,15 @@ void GovernorChannelColor::SetValue(uint8 value)
 
     if (typeColor == Red)
     {
-        COLOR(Color::TYPE_RED.value) = MAKE_COLOR(*state, green, blue);
+        COLOR(Color::TYPE_RED.index) = MAKE_COLOR(*state, green, blue);
     }
     else if (typeColor == Green)
     {
-        COLOR(Color::TYPE_GREEN.value) = MAKE_COLOR(red, *state, blue);
+        COLOR(Color::TYPE_GREEN.index) = MAKE_COLOR(red, *state, blue);
     }
     else
     {
-        COLOR(Color::TYPE_BLUE.value) = MAKE_COLOR(red, green, *state);
+        COLOR(Color::TYPE_BLUE.index) = MAKE_COLOR(red, green, *state);
     }
 }
 
