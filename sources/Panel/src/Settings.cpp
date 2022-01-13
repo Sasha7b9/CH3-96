@@ -19,7 +19,7 @@ static Settings def_set =
 
         Color::Make(0,   25,  0),       // BACK_1           3
         Color::Make(0,   64,  0),       // BACK_2           4
-        Color::Make(0,   32,  0),       // BACK_3           5
+        Color::Make(0,   51,  0),       // BACK_3           5
 
         Color::Make(0,   0,   0),       // BACK_UNSELECT    6
         Color::Make(0,   0,   0),       // BACK_SELECT      7
