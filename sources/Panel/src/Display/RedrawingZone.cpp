@@ -115,7 +115,7 @@ bool DataZone::Draw()
 {
     String data = ValueFPGA::GiveDigits();
 
-    Color::_WHITE.SetAsCurrent();
+    Color::FILL.SetAsCurrent();
 
     if (data[0] != 0)
     {
@@ -127,7 +127,7 @@ bool DataZone::Draw()
             }
             else
             {
-                Indicator::DrawDataAboutRight(data.c_str(), x0 + RIGHT_DIGITS, y0 + 1, Color::_WHITE, Color::BLACK);
+                Indicator::DrawDataAboutRight(data.c_str(), x0 + RIGHT_DIGITS, y0 + 1, Color::FILL, Color::BLACK);
             }
         }
         else
@@ -145,7 +145,7 @@ bool DataZone::Draw()
             }
             else
             {
-                Indicator::DrawDataAboutRight(data.c_str(), RIGHT_DIGITS, y0 + 1, Color::_WHITE, Color::BLACK);
+                Indicator::DrawDataAboutRight(data.c_str(), RIGHT_DIGITS, y0 + 1, Color::FILL, Color::BLACK);
             }
         }
     }
@@ -168,7 +168,7 @@ bool ProgressBarTimeMeasureZone::Draw()
 
         LIMITATION(w, 0, Width() - 1); //-V2516
 
-        Primitives::Rectangle(w, 5).Fill(x0, y0, Color::_WHITE);
+        Primitives::Rectangle(w, 5).Fill(x0, y0, Color::FILL);
     }
 
     return true;
@@ -182,13 +182,13 @@ void ProgressBarTimeMeasureZone::Reset()
 
 void SynchroZone::BeforeDraw()
 {
-    oldColor = Color::_WHITE.Value();
+    oldColor = Color::FILL.Value();
 }
 
 
 void SynchroZone::AfterDraw()
 {
-    Color::_WHITE.SetValue(oldColor);
+    Color::FILL.SetValue(oldColor);
 }
 
 
@@ -200,7 +200,7 @@ bool SynchroZone::Draw()
     {
         int d = (MAX_SIZE - size) / 2;
 
-        Primitives::Rectangle(size, size).Fill(x0 + d, y0 + d, Color::_WHITE);
+        Primitives::Rectangle(size, size).Fill(x0 + d, y0 + d, Color::FILL);
     }
 
     return true;

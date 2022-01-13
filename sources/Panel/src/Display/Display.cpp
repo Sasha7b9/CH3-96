@@ -113,7 +113,7 @@ static void DrawValue(pString string, int x, int y)
 {
     Rectangle(Font::GetLengthText(string) + 5, 20).FillRounded(x - 3, y - 3, 2, Color::GREEN_20, Color::GRAY_20);
 
-    Text(string).Write(x, y, Color::_WHITE);
+    Text(string).Write(x, y, Color::FILL);
 }
 
 
@@ -128,7 +128,7 @@ void Display::DrawWelcomeScreen()
             SetTopRow(i);
             BeginScene();
             Text(String(LANG_IS_RU ? "OAO ÌÍÈÏÈ, ×3-96/2, %s" : "OAO MNIPI, Ch3-96/2, %s",
-                STR_NUM_VERSION)).Write(100, 110, Color::_WHITE);
+                STR_NUM_VERSION)).Write(100, 110, Color::FILL);
             EndScene();
         }
     }
@@ -144,7 +144,7 @@ void Display::DrawKeyboardFailScreen()
         {
             SetTopRow(i);
             BeginScene();
-            Text(LANG_IS_RU ? "ÎØÈÁÊÀ ÊËÀÂÈÀÒÓÐÛ" : "ERROR KEYBOARD").Write(100, 110, Color::_WHITE);
+            Text(LANG_IS_RU ? "ÎØÈÁÊÀ ÊËÀÂÈÀÒÓÐÛ" : "ERROR KEYBOARD").Write(100, 110, Color::FILL);
             EndScene();
         }
     }
@@ -273,7 +273,7 @@ void Display::DrawScreen()
 {
     if(PageIndication::calibrationMode.IsEnabled())
     {
-        Text(LANG_IS_RU ? "---Ðåæèì Êàëèáðîâêà---" : "---Calibration mode---").Write(140, 10, Color::_WHITE);
+        Text(LANG_IS_RU ? "---Ðåæèì Êàëèáðîâêà---" : "---Calibration mode---").Write(140, 10, Color::FILL);
         Text(LANG_IS_RU ? "Íàæìèòå ÝÍÊ. äëÿ ñîõðàíåíèÿ" : "Click ENC. to preserve").Write(125, 40);
         Text(LANG_IS_RU ? "Íàæìèòå ëþáóþ êíîïêó äëÿ âûõîäà" : "Press any button to exit").Write(105, 70);
         Text(SU::Int2String(FPGA::GovernorData::ValueCalibrator()).c_str()).Write(210, 100);
@@ -307,7 +307,7 @@ static void DrawHint(int x, int y)
     {
         Rectangle(360, 30).FillRounded(x, y, 2, Color::GREEN_20, Color::GREEN_20);
 
-        Text(FPGA::Auto::Give().c_str()).Write(x + dX, y + dY, Color::_WHITE);
+        Text(FPGA::Auto::Give().c_str()).Write(x + dX, y + dY, Color::FILL);
 
         FreqMeter::UnloadAuto();
     }
@@ -319,7 +319,7 @@ static void DrawHint(int x, int y)
             {
                 Rectangle(360, 30).FillRounded(x, y, 2, Color::GREEN_20, Color::GREEN_20);
 
-                Text(FPGA::Auto::Give().c_str()).Write(x + dX, y + dY, Color::_WHITE);
+                Text(FPGA::Auto::Give().c_str()).Write(x + dX, y + dY, Color::FILL);
                 FPGA::SwitchAuto();
                 timeAutoHint = TIME_MS;
                 autoFlag = true;
@@ -328,7 +328,7 @@ static void DrawHint(int x, int y)
             {
                 Rectangle(360, 30).FillRounded(x, y, 2, Color::GREEN_20, Color::GREEN_20);
                 Text(LANG_IS_RU ? "Óñòàíîâêà óðîâíÿ ñèíõðîíèçàöèè" : "Setting the sync level").
-                    Write(x + dX, y + dY, Color::_WHITE);
+                    Write(x + dX, y + dY, Color::FILL);
                 timeAutoHint = 0;
             }
         }
@@ -337,7 +337,7 @@ static void DrawHint(int x, int y)
             if (Hint::Text()[0] != 0)
             {
                 Rectangle(360, 30).FillRounded(x, y, 2, Color::GREEN_20, Color::GREEN_20);
-                Text(Hint::Text()).Write(x + dX, y + dY, Color::_WHITE);
+                Text(Hint::Text()).Write(x + dX, y + dY, Color::FILL);
             }
             autoFlag = false;
         }
@@ -349,16 +349,24 @@ static void DrawInfo()
 {
     if(PageIndication::memoryMode == MemoryMode::On)
     {
-        if(CURRENT_CHANNEL_IS_A && Channel::A->mod.modeFrequency.IsTachometer() && (Channel::A->mod.typeMeasure.IsFrequency()))
+        if( CURRENT_CHANNEL_IS_A &&
+            Channel::A->mod.modeFrequency.IsTachometer() &&
+            (Channel::A->mod.typeMeasure.IsFrequency()))
         {
         }
-        else if(CURRENT_CHANNEL_IS_B && Channel::B->mod.modeFrequency.IsTachometer() && Channel::B->mod.typeMeasure.IsFrequency())
+        else if(CURRENT_CHANNEL_IS_B &&
+            Channel::B->mod.modeFrequency.IsTachometer() &&
+            Channel::B->mod.typeMeasure.IsFrequency())
         {
         }
-        else if(CURRENT_CHANNEL_IS_A && Channel::A->mod.typeMeasure.IsCountPulse() && Channel::A->mod.modeCountPulse.Is_StartStop())
+        else if(CURRENT_CHANNEL_IS_A &&
+            Channel::A->mod.typeMeasure.IsCountPulse() &&
+            Channel::A->mod.modeCountPulse.Is_StartStop())
         {
         }
-        else if(CURRENT_CHANNEL_IS_B && Channel::B->mod.typeMeasure.IsCountPulse() && Channel::B->mod.modeCountPulse.Is_StartStop())
+        else if(CURRENT_CHANNEL_IS_B &&
+            Channel::B->mod.typeMeasure.IsCountPulse() &&
+            Channel::B->mod.modeCountPulse.Is_StartStop())
         {
         }
         else

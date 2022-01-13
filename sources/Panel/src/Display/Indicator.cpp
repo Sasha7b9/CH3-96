@@ -16,7 +16,7 @@ static const int height = sizeLine * 2;
 static const int bold = 2;
 
 
-Color Indicator::colorDraw(Color::_WHITE);
+Color Indicator::colorDraw(Color::FILL);
 Color Indicator::colorBack(Color::BLACK);
 
 
