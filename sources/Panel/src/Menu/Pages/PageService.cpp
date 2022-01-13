@@ -21,9 +21,6 @@ DEF_BUTTON(bInformation,
 
 static void OnPress_ResetSettings()
 {
-    glob_set.LoadDefault();
-    glob_set.Save();
-
     TimeMeasure::Set(TimeMeasure::_1ms);
     NumberPeriods::Set(NumberPeriods::_1);
     PeriodTimeLabels::Set(PeriodTimeLabels::T_8);

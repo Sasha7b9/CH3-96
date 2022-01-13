@@ -5,6 +5,7 @@
 #include "Menu/Pages/Channels/Channels.h"
 #include "Utils/Math.h"
 #include "Display/Colors.h"
+#include <string.h>
 
 
 static Settings def_set =
@@ -206,7 +207,7 @@ void Settings::Save()
 }
 
 
-void Settings::LoadDefault()
+void Settings::LoadDefaultColors()
 {
-    glob_set = def_set;
+    memcpy(&glob_set.colors[0], &def_set.colors, sizeof(uint) * Color::Count);
 }

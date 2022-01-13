@@ -8,8 +8,6 @@ class Page;
 struct PageColors
 {
     static Page *self;
-
-    static void Init();
 };
 
 
@@ -19,19 +17,22 @@ struct PageInfo
 };
 
 
-class PageService
+struct PageService
 {
-public:
-    static void UseReset();
     static Page *self;
+    static void UseReset();
 };
 
 
-class PageStatistics
+struct PageStatistics
 {
-public:
-
     static Page *self;
-
     static void Clear();
+};
+
+
+struct PageTuneColors
+{
+    static Page *self;
+    static void Init();
 };
