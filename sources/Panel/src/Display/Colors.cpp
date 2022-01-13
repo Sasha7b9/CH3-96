@@ -32,43 +32,7 @@ Color Color::TYPE_GREEN(30);
 Color Color::TYPE_BLUE(31);
 
 
-uint Color::Value() const
+uint &Color::Value() const
 {
     return glob_set.colors[index];
-}
-
-
-void Color::SetValue(uint value) const
-{
-    glob_set.colors[index] = value;
-}
-
-
-void Color::SetValue(uint8 red, uint8 green, uint8 blue) const
-{
-    glob_set.colors[index] = ((uint)((red) | ((green) << 8) | ((blue) << 16)));
-}
-
-
-uint &Color::RefValue()
-{
-    return glob_set.colors[index];
-}
-
-
-void Color::SetRED(uint8 red)
-{
-    SetValue(red, GetGREEN(), GetBLUE());
-}
-
-
-void Color::SetGREEN(uint8 green)
-{
-    SetValue(GetRED(), green, GetBLUE());
-}
-
-
-void Color::SetBLUE(uint8 blue)
-{
-    SetValue(GetRED(), GetGREEN(), blue);
 }

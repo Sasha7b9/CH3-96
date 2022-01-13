@@ -44,19 +44,17 @@ struct Color
 
     uint8 Index() const { return index;  }
 
-    uint Value() const;
-
-    void SetValue(uint value) const;
-    void SetValue(uint8 red, uint8 green, uint8 blue) const;
+    void SetValue(uint value) const { Value() = value; }
+    void SetValue(uint8 red, uint8 green, uint8 blue) const { Value() = Make(red, green, blue); }
 
     // —сылка на значение
-    uint &RefValue();
+    uint &Value() const;
 
-    void SetRED(uint8 red);
+    void SetRED(uint8 red) { SetValue(red, GetGREEN(), GetBLUE()); }
 
-    void SetGREEN(uint8 green);
+    void SetGREEN(uint8 green) { SetValue(GetRED(), green, GetBLUE()); }
 
-    void SetBLUE(uint8 blue);
+    void SetBLUE(uint8 blue) { SetValue(GetRED(), GetGREEN(), blue); }
 
     uint8 GetRED() const { return ((uint8)(Value() & 0xFF)); }
 
