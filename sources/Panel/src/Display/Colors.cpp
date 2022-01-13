@@ -27,5 +27,11 @@ Color Color::TYPE_BLUE(12);
 
 uint &Color::Value() const
 {
-    return glob_set.colors[index];
+    return ColorScheme::Current().colors[index];
+}
+
+
+ColorScheme &ColorScheme::Current()
+{
+    return glob_set.schemes[glob_set.colorScheme];
 }

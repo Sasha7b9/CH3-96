@@ -54,13 +54,13 @@ struct Language
 struct Settings
 {
     uint         size;
-    uint         colors[Color::COUNT];
-
+    ColorScheme  schemes[ColorScheme::COUNT];
     int          levelSynch[4][2];  // Уровень синхронизации
     TypeSynch::E typeSynch[4];      // Тип синхронизации для каждого из каналов
     bool         showStatistics;    // Показывать ли статистику по FPS
     StyleGUI     styleGUI;
     Language::E  language;
+    int          colorScheme;
 
     void Save();
     void Load();

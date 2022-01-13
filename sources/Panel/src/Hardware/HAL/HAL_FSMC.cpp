@@ -314,10 +314,12 @@ void HAL_FSMC::SendBuffer(uint8 *buffer, int x, int y, int width, int height, in
 
     PORT_D_C->BSRR = PIN_D_C;
 
+    uint *colors = ColorScheme::Current().colors;
+
     for(int i = 0; i < width * height / 2 / k; i++)
     {
-        uint color1 = glob_set.colors[*buffer++];
-        uint color2 = glob_set.colors[*buffer++];
+        uint color1 = colors[*buffer++];
+        uint color2 = colors[*buffer++];
 
         PORT_WR->BSRR = PIN_WR << 16;
         GPIOC->ODR = (GPIOC->ODR & 0xff00) + (color1 & 0xFF);       // r1

@@ -5,31 +5,36 @@
 #include "Menu/Pages/Channels/Channels.h"
 #include "Utils/Math.h"
 #include "Display/Colors.h"
-#include <string.h>
+
+
+static ColorScheme def_colors =
+{
+    Color::Make(255, 255, 255),     // WHITE            0
+
+    Color::Make(0,   0,   0),       // BACK             1
+    Color::Make(255, 255, 255),     // FILL             2
+
+    Color::Make(0,   25,  0),       // BACK_1           3
+    Color::Make(0,   64,  0),       // BACK_2           4
+    Color::Make(0,   51,  0),       // BACK_3           5
+
+    Color::Make(25,  25,  25),      // BACK_UNSELECT    6
+    Color::Make(191, 191, 191),     // BACK_SELECT      7
+
+    Color::Make(127, 127, 127),     // BACK_STAT        8
+    Color::Make(51,  51,  51),      // BACK_VALUE       9
+
+    Color::Make(255, 0,   0),       // TYPE_RED         10
+    Color::Make(0,   255, 0),       // TYPE_GREEN       11
+    Color::Make(0,   0,   255)      // TYPE_BLUE        12
+};
 
 
 static Settings def_set =
 {
     0,                                  // size
     {
-        Color::Make(255, 255, 255),     // WHITE            0
-
-        Color::Make(0,   0,   0),       // BACK             1
-        Color::Make(255, 255, 255),     // FILL             2
-
-        Color::Make(0,   25,  0),       // BACK_1           3
-        Color::Make(0,   64,  0),       // BACK_2           4
-        Color::Make(0,   51,  0),       // BACK_3           5
-
-        Color::Make(25,  25,  25),      // BACK_UNSELECT    6
-        Color::Make(191, 191, 191),     // BACK_SELECT      7
-
-        Color::Make(127, 127, 127),     // BACK_STAT        8
-        Color::Make(51,  51,  51),      // BACK_VALUE       9
-
-        Color::Make(255, 0,   0),       // TYPE_RED         10
-        Color::Make(0,   255, 0),       // TYPE_GREEN       11
-        Color::Make(0,   0,   255)      // TYPE_BLUE        12
+        def_colors, def_colors, def_colors
     },
     {
         {0, 1}, {0, 1}                          // levelSynch
@@ -39,7 +44,8 @@ static Settings def_set =
     },
     false,
     StyleGUI(StyleGUI::Modern),
-    Language::RU
+    Language::RU,
+    0                                           // colorScheme
 };
 
 
@@ -195,5 +201,5 @@ void Settings::Save()
 
 void Settings::LoadDefaultColors()
 {
-    memcpy(&glob_set.colors[0], &def_set.colors, sizeof(uint) * Color::COUNT);
+    glob_set.schemes[glob_set.colorScheme] = def_colors;
 }

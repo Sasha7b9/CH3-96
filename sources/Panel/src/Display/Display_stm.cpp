@@ -189,12 +189,14 @@ void Display::EndScene()
         int numPart = (PHYSICAL_HEIGHT / NUM_PARTS) / TopRow();
         
         uint data[WIDTH_BUFFER];
+
+        uint *colors = ColorScheme::Current().colors;
         
         for (int row = 0; row < HEIGHT_BUFFER; row++)
         {
             for (int col = 0; col < WIDTH_BUFFER; col++)
             {
-                data[col] = glob_set.colors[buffer[row][col]];
+                data[col] = colors[buffer[row][col]];
             }
         
             VCP::SendDataAsynch((const uint8 *)data, WIDTH_BUFFER * 4);
