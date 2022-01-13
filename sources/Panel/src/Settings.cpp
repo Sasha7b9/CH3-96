@@ -31,8 +31,8 @@ static Settings def_set =
         Color::Make(191, 191, 191),     // GRAY_75
         Color::Make(0,   0,   0),       // BACK
         Color::Make(255, 255, 255),     // FILL
-        Color::Make(0,   25,  0),       // BACKGROUND_1
-        Color::Make(0,   64,  0),       // BACKGROUND_2
+        Color::Make(0,   25,  0),       // BACK_1
+        Color::Make(0,   64,  0),       // BACK_2
         0,
         0,
         0,

@@ -110,7 +110,7 @@ void Display::Init()
 
 static void DrawValue(pString string, int x, int y)
 {
-    Rectangle(Font::GetLengthText(string) + 5, 20).FillRounded(x - 3, y - 3, 2, Color::GREEN_20, Color::BACK_VALUE);
+    Rectangle(Font::GetLengthText(string) + 5, 20).FillRounded(x - 3, y - 3, 2, Color::BACK_3, Color::BACK_VALUE);
 
     Text(string).Write(x, y, Color::FILL);
 }
@@ -304,7 +304,7 @@ static void DrawHint(int x, int y)
 
     if((TIME_MS < timeAutoHint + 10000) && timeAutoHint != 0 && autoFlag)
     {
-        Rectangle(360, 30).FillRounded(x, y, 2, Color::GREEN_20, Color::GREEN_20);
+        Rectangle(360, 30).FillRounded(x, y, 2, Color::BACK_3, Color::BACK_3);
 
         Text(FPGA::Auto::Give().c_str()).Write(x + dX, y + dY, Color::FILL);
 
@@ -316,7 +316,7 @@ static void DrawHint(int x, int y)
         {
             if((FPGA::Auto::Mid() != 0) || (FPGA::Auto::Max() != 0) || (FPGA::Auto::Min() != 0))
             {
-                Rectangle(360, 30).FillRounded(x, y, 2, Color::GREEN_20, Color::GREEN_20);
+                Rectangle(360, 30).FillRounded(x, y, 2, Color::BACK_3, Color::BACK_3);
 
                 Text(FPGA::Auto::Give().c_str()).Write(x + dX, y + dY, Color::FILL);
                 FPGA::SwitchAuto();
@@ -325,7 +325,7 @@ static void DrawHint(int x, int y)
             }
             else
             {
-                Rectangle(360, 30).FillRounded(x, y, 2, Color::GREEN_20, Color::GREEN_20);
+                Rectangle(360, 30).FillRounded(x, y, 2, Color::BACK_3, Color::BACK_3);
                 Text(LANG_IS_RU ? "Установка уровня синхронизации" : "Setting the sync level").
                     Write(x + dX, y + dY, Color::FILL);
                 timeAutoHint = 0;
@@ -335,7 +335,7 @@ static void DrawHint(int x, int y)
         {
             if (Hint::Text()[0] != 0)
             {
-                Rectangle(360, 30).FillRounded(x, y, 2, Color::GREEN_20, Color::GREEN_20);
+                Rectangle(360, 30).FillRounded(x, y, 2, Color::BACK_3, Color::BACK_3);
                 Text(Hint::Text()).Write(x + dX, y + dY, Color::FILL);
             }
             autoFlag = false;

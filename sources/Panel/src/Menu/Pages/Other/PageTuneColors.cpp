@@ -29,8 +29,8 @@ static Color colors[8] =
 {
     Color::BACK,
     Color::FILL,
-    Color::BACKGROUND_1,
-    Color::BACKGROUND_2,
+    Color::BACK_1,
+    Color::BACK_2,
     Color::BACK_UNSELECT,
     Color::BACK_SELECT,
     Color::BACK_STAT,

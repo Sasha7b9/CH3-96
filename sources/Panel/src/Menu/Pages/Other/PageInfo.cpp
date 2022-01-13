@@ -14,7 +14,7 @@ using namespace Primitives;
 
 static void Draw_Info()
 {
-    Rectangle(470, 225).FillRounded(5, 5, 1, Color::GREEN_20, Color::FILL);
+    Rectangle(470, 225).FillRounded(5, 5, 1, Color::BACK_3, Color::FILL);
 
     int dy = 5;
 
