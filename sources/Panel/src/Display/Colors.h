@@ -18,7 +18,7 @@ struct Color
     static Color GREEN_25;
     static Color GREEN_50;
     static Color BLUE;
-    static Color YELLOW;
+
     static Color BACK;
     static Color FILL;
     static Color BACKGROUND_1;

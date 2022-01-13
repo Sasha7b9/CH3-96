@@ -7,7 +7,6 @@
 
 Color Color::WHITE(0);
 
-Color Color::YELLOW(2);
 Color Color::BLUE(3);
 Color Color::BACK_UNSELECT(6);
 Color Color::GRAY_50(7);
