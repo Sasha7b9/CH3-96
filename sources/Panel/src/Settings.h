@@ -54,7 +54,7 @@ struct Language
 struct Settings
 {
     uint         size;
-    uint         colors[Color::Count];
+    uint         colors[Color::COUNT];
 
     int          levelSynch[4][2];  // Уровень синхронизации
     TypeSynch::E typeSynch[4];      // Тип синхронизации для каждого из каналов

@@ -23,7 +23,8 @@ struct Color
     static Color TYPE_GREEN;        // Зелёный компонент для настройки
     static Color TYPE_BLUE;         // Синий компонент для настройки
 
-    static const int Count = 13;
+    static const int COUNT = 13;
+    static const int NUM_SCHEMES = 3;
 
     explicit Color(uint8 i) : index(i) {};
 
@@ -55,6 +56,12 @@ struct Color
 private:
 
     uint8 index;
+};
+
+
+struct ColorScheme
+{
+    uint colors[Color::COUNT];
 };
 
 

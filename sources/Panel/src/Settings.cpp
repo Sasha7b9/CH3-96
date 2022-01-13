@@ -195,5 +195,5 @@ void Settings::Save()
 
 void Settings::LoadDefaultColors()
 {
-    memcpy(&glob_set.colors[0], &def_set.colors, sizeof(uint) * Color::Count);
+    memcpy(&glob_set.colors[0], &def_set.colors, sizeof(uint) * Color::COUNT);
 }
