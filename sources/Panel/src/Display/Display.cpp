@@ -242,12 +242,12 @@ static void DrawRectangle(int, int)
     VLine vline(cell);
     HLine hline(cell);
 
-    int x_start = 0;
-    int x_end = Display::PHYSICAL_WIDTH;
-    int y = 0;
-    int y_start = 0;
-    int y_end = Display::PHYSICAL_HEIGHT;
-    int x = 0;
+    const int x_start = 0;
+    const int x_end = Display::PHYSICAL_WIDTH;
+    const int y = 0;
+    const int y_start = 0;
+    const int y_end = Display::PHYSICAL_HEIGHT;
+    const int x = 0;
 
     for (int i = x_start + delta; i < x_end; i += cell)
     {
@@ -256,7 +256,7 @@ static void DrawRectangle(int, int)
 
     for (int i = y_start + delta; i < y_end; i += cell)
     {
-        Line().Draw(x_end - cell, i, x_end - cell + cell, i + cell);
+        Line().Draw(x_end, i, x_end - cell, i + cell);
     }
 
     for (int i = x_end - delta; i >= x_start; i -= cell)
@@ -266,7 +266,7 @@ static void DrawRectangle(int, int)
 
     for (int i = y_end - delta; i >= y_start; i -= cell)
     {
-        Line().Draw(x, i, x + cell, i + cell);
+        Line().Draw(x, i, x + cell, i - cell);
     }
 }
 
