@@ -122,14 +122,17 @@ void Display::DrawWelcomeScreen()
     
     while (TIME_MS - startTime < 3000)
     {
+        int counter = 0;
         for (int i = 0; i < NUM_PARTS; i++)
         {
             SetTopRow(i);
             BeginScene();
             Text(String(LANG_IS_RU ? "OAO ÌÍÈÏÈ, ×3-96/2, %s" : "OAO MNIPI, Ch3-96/2, %s",
                 STR_NUM_VERSION)).Write(100, 110, Color::FILL);
+            Rectangle(PHYSICAL_WIDTH, PHYSICAL_HEIGHT).Draw(0, 0);
             EndScene();
         }
+        counter++;
     }
 }
 
