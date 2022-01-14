@@ -233,7 +233,7 @@ static void DrawRectangle(int, int)
 
     static uint time_start = TIME_MS;
 
-    int cell = 20;
+    int cell = 18;
 
     Rectangle(Display::PHYSICAL_WIDTH - cell * 2, Display::PHYSICAL_HEIGHT - cell * 2).Draw(cell, cell);
 
@@ -251,22 +251,22 @@ static void DrawRectangle(int, int)
 
     for (int i = x_start + delta; i < x_end; i += cell)
     {
-        vline.Draw(i, y);
+        Line().Draw(i, y, i + cell, y + cell);
     }
 
     for (int i = y_start + delta; i < y_end; i += cell)
     {
-        hline.Draw(x_end - cell, i);
+        Line().Draw(x_end - cell, i, x_end - cell + cell, i + cell);
     }
 
     for (int i = x_end - delta; i >= x_start; i -= cell)
     {
-        vline.Draw(i, y_end - cell);
+        Line().Draw(i, y_end - cell, i + cell, y_end - cell + cell);
     }
 
     for (int i = y_end - delta; i >= y_start; i -= cell)
     {
-        hline.Draw(x, i);
+        Line().Draw(x, i, x + cell, i + cell);
     }
 }
 
