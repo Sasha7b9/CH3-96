@@ -60,8 +60,8 @@ static void OnPress_Filter()
 DEF_SWITCH_UGO_2(sLowpassFilter,
     "ФНЧ", "LPF",
     "Включение/отключение фильтра НЧ", "Enable/disable Low Pass Filter",
-    "Откл.", "Вкл.",
-    "Off",   "On",
+    "Вкл.", "Откл.",
+    "On",   "Off",
     "ФНЧ", "",
     "LPF", "",
     Channel::A->set.modeFilter, OnPress_Filter

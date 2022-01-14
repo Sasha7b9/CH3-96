@@ -72,7 +72,7 @@ static GovernorChannelColor name(type, hintRu, hintEn, &state##name, func)
 #define DEF_SWITCH_UGO_2(name, titleRu, titleEn, hintRu, hintEn,                                                    \
     nameRu1, nameRu2, nameEn1, nameEn2, ugoRu1, ugoRu2, ugoEn1, ugoEn2, state, func)                                \
 static pchar n##name##Ru[] = { nameRu1, nameRu2, nullptr };                                                         \
-static pchar n##name##En[] = { nameEn2, nameEn2, nullptr };                                                         \
+static pchar n##name##En[] = { nameEn1, nameEn2, nullptr };                                                         \
 static pchar ugo##name##Ru[] = { ugoRu1, ugoRu2, nullptr };                                                         \
 static pchar ugo##name##En[] = { ugoEn1, ugoEn2, nullptr };                                                         \
 static Switch name(titleRu, titleEn, hintRu, hintEn, n##name##Ru, n##name##En, ugo##name##Ru, ugo##name##En,        \

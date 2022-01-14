@@ -68,7 +68,7 @@ static uint timePress[NUM_SL][NUM_RL];
 
 /// Время последнего автонажатия нопки
 volatile uint prevRepeat = 0;
-volatile uint prevPause  = 0;
+volatile uint prevPause = 0;
 
 
 
@@ -149,8 +149,8 @@ static void Update()
 }
 
 static void DetectRegulator()
-{  
-// Детектируем поворот
+{
+    // Детектируем поворот
     static bool prevStatesIsOne = false;
 
     bool stateLeft = (HAL_GPIO_ReadPin(PORT_ENC1, PIN_ENC1) == GPIO_PIN_SET);
@@ -164,7 +164,7 @@ static void DetectRegulator()
     {
         prevStatesIsOne = false;
         pulseCountLeft++;
-        if(pulseCountLeft == 2)
+        if (pulseCountLeft == 2)
         {
             AddAction(Control::GovLeft, Control::Action::Press);
             pulseCountLeft = 0;
@@ -174,7 +174,7 @@ static void DetectRegulator()
     {
         prevStatesIsOne = false;
         pulseCountRight++;
-        if(pulseCountRight == 2)
+        if (pulseCountRight == 2)
         {
             AddAction(Control::GovRight, Control::Action::Press);
             pulseCountRight = 0;
@@ -185,7 +185,7 @@ static void DetectRegulator()
 static bool KeyboardCheck()
 {
     bool keyboardFail = false;
-    
+
     Set_All_SL(1);
 
     for (int sl = 0; sl < NUM_SL; ++sl)
@@ -230,7 +230,7 @@ bool Keyboard::Init()
 
 void Set_All_SL(int st)
 {
-    for(int i = 0; i < 4; i++)
+    for (int i = 0; i < 4; i++)
     {
         Set_SL(i, st);
     }
@@ -239,18 +239,18 @@ void Set_All_SL(int st)
 
 void Set_SL(int bus, int st)
 {
-    static const GPIO_TypeDef *ports[4]= {PORT_SL0, PORT_SL1, PORT_SL2, PORT_SL3};
-    static const uint16 pins[4] =        {PIN_SL0,  PIN_SL1,  PIN_SL2,  PIN_SL3};
-    static const GPIO_PinState state [2] = {GPIO_PIN_RESET, GPIO_PIN_SET};
-    
+    static const GPIO_TypeDef *ports[4] = { PORT_SL0, PORT_SL1, PORT_SL2, PORT_SL3 };
+    static const uint16 pins[4] = { PIN_SL0,  PIN_SL1,  PIN_SL2,  PIN_SL3 };
+    static const GPIO_PinState state[2] = { GPIO_PIN_RESET, GPIO_PIN_SET };
+
     HAL_GPIO_WritePin((GPIO_TypeDef *)ports[bus], pins[bus], state[st]); //-V2567
 }
 
 
 int Read_RL(int rl)
 {
-    static const GPIO_TypeDef *ports[4] = { PORT_RL0, PORT_RL1, PORT_RL2, PORT_RL3};
-    static const uint16 pins[4] =         { PIN_RL0,  PIN_RL1,  PIN_RL2, PIN_RL3};
+    static const GPIO_TypeDef *ports[4] = { PORT_RL0, PORT_RL1, PORT_RL2, PORT_RL3 };
+    static const uint16 pins[4] = { PIN_RL0,  PIN_RL1,  PIN_RL2, PIN_RL3 };
 
     return HAL_GPIO_ReadPin((GPIO_TypeDef *)ports[rl], pins[rl]); //-V2567
 }
@@ -262,7 +262,7 @@ static void InitPins()
     __HAL_RCC_GPIOD_CLK_ENABLE();
     __HAL_RCC_GPIOC_CLK_ENABLE();
     __HAL_RCC_GPIOA_CLK_ENABLE();
-    
+
     GPIO_InitTypeDef is =
     {
         PIN_SL0 | PIN_SL1 | PIN_SL2 | PIN_SL3 | PIN_RL0 | PIN_RL1,
@@ -277,10 +277,10 @@ static void InitPins()
 
     is.Pin = PIN_RL2;
     HAL_GPIO_Init(GPIOD, &is);
-    
+
     is.Pin = PIN_RL3;
     HAL_GPIO_Init(GPIOA, &is);
-    
+
     is.Pin = PIN_ENC1 | PIN_ENC2;
     HAL_GPIO_Init(GPIOC, &is);
 }
@@ -324,7 +324,7 @@ static void AddAction(Control control, Control::Action::E action)
 
     control.action = action;
     actions[numActions++] = control;
-    
+
 }
 
 
