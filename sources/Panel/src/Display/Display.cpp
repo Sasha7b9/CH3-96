@@ -116,6 +116,12 @@ static void DrawValue(pString string, int x, int y)
 }
 
 
+static void DrawRectangle(int x, int y)
+{
+    Rectangle(Display::PHYSICAL_WIDTH - x * 2, Display::PHYSICAL_HEIGHT - y * 2).Draw(x, y);
+}
+
+
 void Display::DrawWelcomeScreen()
 {
     uint startTime = TIME_MS;
@@ -130,7 +136,7 @@ void Display::DrawWelcomeScreen()
             BeginScene();
             Text(String(LANG_IS_RU ? "OAO ÃÕ»œ», ◊3-96/2, %s" : "OAO MNIPI, Ch3-96/2, %s",
                 STR_NUM_VERSION)).Write(100, 110, Color::FILL);
-            Rectangle(PHYSICAL_WIDTH - counter * 2, PHYSICAL_HEIGHT - counter * 2).Draw(counter, counter);
+            DrawRectangle(counter, counter);
             EndScene();
         }
 
