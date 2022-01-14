@@ -16,19 +16,34 @@ static void Draw_Info()
 {
     Rectangle(470, 225).FillRounded(5, 5, 1, Color::BACK_3, Color::FILL);
 
-    int dy = 5;
+    Text(NAME_MODEL).Write(0, 35, Display::PHYSICAL_WIDTH, Color::FILL);
 
-    Text(NAME_MODEL).Write(0, 30 + dy, Display::PHYSICAL_WIDTH, Color::FILL);
+    Text("---------------------------------------------").Write(40, 68);
 
-    Text("---------------------------------------------").Write(40, 75 + dy);
+    int x0 = LANG_IS_RU ? 250 : 250;
+    int y = 100;
+    int dy = 30;
+    int x = 100;
 
-    Text(String("%s : %s",
-        LANG_IS_RU ? "Программное обеспечение" : "Software",
-        STR_NUM_VERSION)).Write(50, 120 + dy);
+    Text(LANG_IS_RU ? "Производитель" : "Manufacturer").Write(x, y);
+    Text(LANG_IS_RU ? ": ОАО МНИПИ" : " : OAO MNIPI").Write(x0, y);
 
-    Text(String("CRC32 : %s", STR_CRC32)).Write(50, 160 + dy);
+    y += dy;
+
+    Text(LANG_IS_RU ? "Программное обеспечение" : "Software").Write(x, y);
+
+    y += dy;
+
+    x += 50;
+
+    Text(LANG_IS_RU ? "Версия" : "Version").Write(x, y);
+    Text(String("%: %s", STR_NUM_VERSION)).Write(x0, y);
+
+    y += dy;
+
+    Text("CRC32").Write(x, y);
+    Text(String(": %s", STR_CRC32)).Write(x0, y);
 }
-
 
 static void OnPress_Exit()
 {
