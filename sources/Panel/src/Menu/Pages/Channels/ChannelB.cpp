@@ -60,10 +60,10 @@ static void OnPress_Filter()
 DEF_SWITCH_UGO_2(sLowpassFilter,
     "ÔÍ×", "LPF",
     "Âêëþ÷åíèå/îòêëþ÷åíèå ôèëüòðà Í×", "Enable/disable Low Pass Filter",
-    "Îòêë.", "Âêë.",
-    "Off",   "On",
-    "ÔÍ×", "",
-    "LPF", "",
+    "Âêë.", "Îòêë.",
+    "On",   "Off",
+    "ÔÍ×",  "",
+    "LPF",  "",
     Channel::B->set.modeFilter, OnPress_Filter
 );
 
