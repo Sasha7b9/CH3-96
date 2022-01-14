@@ -31,10 +31,7 @@ int main(void)
 
     //    Tests::Run();
 
-    while (true)
-    {
-        Display::DrawWelcomeScreen();
-    }
+    Display::DrawWelcomeScreen();
 
     while (1)
     {
