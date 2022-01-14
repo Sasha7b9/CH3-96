@@ -116,9 +116,158 @@ static void DrawValue(pString string, int x, int y)
 }
 
 
-static void DrawRectangle(int x, int y)
+void DrawRectangle1(int x, int y)
 {
-    Rectangle(Display::PHYSICAL_WIDTH - x * 2, Display::PHYSICAL_HEIGHT - y * 2).Draw(x, y);
+    static uint time_start = TIME_MS;
+
+    const int w = Display::PHYSICAL_WIDTH - x * 2;
+    const int h = Display::PHYSICAL_HEIGHT - y * 2;
+    const int x_start = x;
+    const int x_end = x + w;
+    const int y_start = y;
+    const int y_end = y + h;
+
+    int cell = 10;
+
+    Rectangle(w, h).Draw(x, y);
+    Rectangle(w - cell * 2, h - cell * 2).Draw(x + cell, y + cell);
+
+    VLine vline(cell);
+    HLine hline(cell);
+
+    int delta = (int)((float)(TIME_MS - time_start) / 5.0f);
+
+    while (delta > cell)
+    {
+        delta -= cell;
+    }
+
+    for (int i = x_start + delta; i < x_end; i += cell)
+    {
+        vline.Draw(i, y);
+    }
+
+    for (int i = y_start + delta; i < y_end; i += cell)
+    {
+        hline.Draw(x_end - cell, i);
+    }
+
+    for (int i = x_end - delta; i >= x_start; i -= cell)
+    {
+        vline.Draw(i, y_end - cell);
+    }
+
+    for (int i = y_end - delta; i >= y_start; i -= cell)
+    {
+        hline.Draw(x, i);
+    }
+}
+
+
+void DrawRectangle2(int x, int y)
+{
+    int cell = 15;
+
+    while (x >= 0)
+    {
+        int w = Display::PHYSICAL_WIDTH - x * 2;
+        int h = Display::PHYSICAL_HEIGHT - y * 2;
+
+        Rectangle(w, h).Draw(x, y);
+
+        x -= cell;
+        y -= cell;
+    }
+
+    Rectangle(Display::PHYSICAL_WIDTH, Display::PHYSICAL_HEIGHT).Draw(0, 0);
+}
+
+
+void DrawRectangle3(int, int)
+{
+    Rectangle(Display::PHYSICAL_WIDTH, Display::PHYSICAL_HEIGHT).Draw(0, 0);
+
+    static uint time_start = TIME_MS;
+
+    int cell = 20;
+
+    Rectangle(Display::PHYSICAL_WIDTH - cell * 2, Display::PHYSICAL_HEIGHT - cell * 2).Draw(cell, cell);
+
+    int delta = ((int)(TIME_MS - time_start) / 20) % cell;
+
+    VLine vline(cell);
+    HLine hline(cell);
+
+    int x_start = 0;
+    int x_end = Display::PHYSICAL_WIDTH;
+    int y = 0;
+    int y_start = 0;
+    int y_end = Display::PHYSICAL_HEIGHT;
+    int x = 0;
+
+    for (int i = x_start + delta; i < x_end; i += cell)
+    {
+        vline.Draw(i, y);
+    }
+
+    for (int i = y_start + delta; i < y_end; i += cell)
+    {
+        hline.Draw(x_end - cell, i);
+    }
+
+    for (int i = x_end - delta; i >= x_start; i -= cell)
+    {
+        vline.Draw(i, y_end - cell);
+    }
+
+    for (int i = y_end - delta; i >= y_start; i -= cell)
+    {
+        hline.Draw(x, i);
+    }
+}
+
+
+static void DrawRectangle(int, int)
+{
+    Rectangle(Display::PHYSICAL_WIDTH, Display::PHYSICAL_HEIGHT).Draw(0, 0);
+
+    static uint time_start = TIME_MS;
+
+    int cell = 20;
+
+    Rectangle(Display::PHYSICAL_WIDTH - cell * 2, Display::PHYSICAL_HEIGHT - cell * 2).Draw(cell, cell);
+
+    int delta = ((int)(TIME_MS - time_start) / 20) % cell;
+
+    VLine vline(cell);
+    HLine hline(cell);
+
+    int x_start = 0;
+    int x_end = Display::PHYSICAL_WIDTH;
+    int y = 0;
+    int y_start = 0;
+    int y_end = Display::PHYSICAL_HEIGHT;
+    int x = 0;
+
+    for (int i = x_start + delta; i < x_end; i += cell)
+    {
+        vline.Draw(i, y);
+    }
+
+    for (int i = y_start + delta; i < y_end; i += cell)
+    {
+        hline.Draw(x_end - cell, i);
+    }
+
+    for (int i = x_end - delta; i >= x_start; i -= cell)
+    {
+        vline.Draw(i, y_end - cell);
+    }
+
+    for (int i = y_end - delta; i >= y_start; i -= cell)
+    {
+        hline.Draw(x, i);
+    }
 }
 
 
