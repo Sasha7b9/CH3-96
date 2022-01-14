@@ -237,7 +237,7 @@ static void DrawRectangle(int, int)
 
     Rectangle(Display::PHYSICAL_WIDTH - cell * 2, Display::PHYSICAL_HEIGHT - cell * 2).Draw(cell, cell);
 
-    const int delta = ((int)(TIME_MS - time_start) / 20) % cell;
+    const int delta = ((int)(TIME_MS - time_start) / 40) % cell;
 
     VLine vline(cell);
     HLine hline(cell);
