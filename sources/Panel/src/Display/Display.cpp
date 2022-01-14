@@ -75,7 +75,7 @@ static Coord coordLaunch = { 130, yString };
 
 
 static const int MAX_OBJECTS = 10;
-static RedrawingZone*objects[MAX_OBJECTS];
+static RedrawingZone *objects[MAX_OBJECTS];
 static int numObjects = 0;
 
 static DataZone sDataZone;
@@ -88,7 +88,7 @@ static SynchroZone sSynchroZone;
 SynchroZone *zoneSynchro = &sSynchroZone;
 
 
-static void AddObject(RedrawingZone*object)
+static void AddObject(RedrawingZone *object)
 {
     objects[numObjects++] = object;
 }
@@ -119,19 +119,21 @@ static void DrawValue(pString string, int x, int y)
 void Display::DrawWelcomeScreen()
 {
     uint startTime = TIME_MS;
-    
+
+    int counter = 0;
+
     while (TIME_MS - startTime < 3000)
     {
-        int counter = 0;
         for (int i = 0; i < NUM_PARTS; i++)
         {
             SetTopRow(i);
             BeginScene();
             Text(String(LANG_IS_RU ? "OAO МНИПИ, Ч3-96/2, %s" : "OAO MNIPI, Ch3-96/2, %s",
                 STR_NUM_VERSION)).Write(100, 110, Color::FILL);
-            Rectangle(PHYSICAL_WIDTH, PHYSICAL_HEIGHT).Draw(0, 0);
+            Rectangle(PHYSICAL_WIDTH - counter * 2, PHYSICAL_HEIGHT - counter * 2).Draw(counter, counter);
             EndScene();
         }
+
         counter++;
     }
 }
@@ -139,7 +141,7 @@ void Display::DrawWelcomeScreen()
 void Display::DrawKeyboardFailScreen()
 {
     uint startTime = TIME_MS;
-    
+
     while (TIME_MS - startTime < 3000)
     {
         for (int i = 0; i < NUM_PARTS; i++)
@@ -273,7 +275,7 @@ void Display::DrawPartScreen(int num, bool debugInfo)
 
 void Display::DrawScreen()
 {
-    if(PageIndication::calibrationMode.IsEnabled())
+    if (PageIndication::calibrationMode.IsEnabled())
     {
         Text(LANG_IS_RU ? "---Режим Калибровка---" : "---Calibration mode---").Write(140, 10, Color::FILL);
         Text(LANG_IS_RU ? "Нажмите ЭНК. для сохранения" : "Click ENC. to preserve").Write(125, 40);
@@ -285,9 +287,9 @@ void Display::DrawScreen()
         Channel::Current()->DrawMode(10, 57);
 
         Channel::Current()->DrawSettings(10, 15);
-        
+
         DrawHint(10, Display::PHYSICAL_HEIGHT - Item::HEIGHT - 30);
-        
+
         DrawInfo();
 
         for (int i = 0; i < numObjects; i++)
@@ -305,7 +307,7 @@ static void DrawHint(int x, int y)
     int dX = 4;
     int dY = 6;
 
-    if((TIME_MS < timeAutoHint + 10000) && timeAutoHint != 0 && autoFlag)
+    if ((TIME_MS < timeAutoHint + 10000) && timeAutoHint != 0 && autoFlag)
     {
         Rectangle(360, 30).FillRounded(x, y, 2, Color::BACK_3, Color::BACK_3);
 
@@ -315,9 +317,9 @@ static void DrawHint(int x, int y)
     }
     else
     {
-        if(FPGA::AutoMode())
+        if (FPGA::AutoMode())
         {
-            if((FPGA::Auto::Mid() != 0) || (FPGA::Auto::Max() != 0) || (FPGA::Auto::Min() != 0))
+            if ((FPGA::Auto::Mid() != 0) || (FPGA::Auto::Max() != 0) || (FPGA::Auto::Min() != 0))
             {
                 Rectangle(360, 30).FillRounded(x, y, 2, Color::BACK_3, Color::BACK_3);
 
@@ -349,24 +351,24 @@ static void DrawHint(int x, int y)
 
 static void DrawInfo()
 {
-    if(PageIndication::memoryMode == MemoryMode::On)
+    if (PageIndication::memoryMode == MemoryMode::On)
     {
-        if( CURRENT_CHANNEL_IS_A &&
+        if (CURRENT_CHANNEL_IS_A &&
             Channel::A->mod.modeFrequency.IsTachometer() &&
             (Channel::A->mod.typeMeasure.IsFrequency()))
         {
         }
-        else if(CURRENT_CHANNEL_IS_B &&
+        else if (CURRENT_CHANNEL_IS_B &&
             Channel::B->mod.modeFrequency.IsTachometer() &&
             Channel::B->mod.typeMeasure.IsFrequency())
         {
         }
-        else if(CURRENT_CHANNEL_IS_A &&
+        else if (CURRENT_CHANNEL_IS_A &&
             Channel::A->mod.typeMeasure.IsCountPulse() &&
             Channel::A->mod.modeCountPulse.Is_StartStop())
         {
         }
-        else if(CURRENT_CHANNEL_IS_B &&
+        else if (CURRENT_CHANNEL_IS_B &&
             Channel::B->mod.typeMeasure.IsCountPulse() &&
             Channel::B->mod.modeCountPulse.Is_StartStop())
         {
@@ -374,15 +376,15 @@ static void DrawInfo()
         else
         {
             DrawValue("M", coordMemory.x, coordMemory.y);
-        } 
+        }
     }
 
-    if(FreqMeter::modeTest.IsEnabled())
+    if (FreqMeter::modeTest.IsEnabled())
     {
         DrawValue("Тест", coordTest.x, coordTest.y);
     }
 
-    if(PageIndication::refGenerator == RefGenerator::External)
+    if (PageIndication::refGenerator == RefGenerator::External)
     {
         DrawValue("ОГ", coordExtGenerator.x, coordExtGenerator.y);
     }
@@ -396,22 +398,22 @@ static void DrawInfo()
         DrawValue("Зап:однокр", coordLaunch.x, coordLaunch.y);
     }
 
-    if((CURRENT_CHANNEL_IS_A && Channel::A->mod.typeMeasure.IsCountPulse() && Channel::A->mod.modeCountPulse.Is_StartStop()) ||
-       (CURRENT_CHANNEL_IS_B && Channel::B->mod.typeMeasure.IsCountPulse() && Channel::B->mod.modeCountPulse.Is_StartStop()))
+    if ((CURRENT_CHANNEL_IS_A && Channel::A->mod.typeMeasure.IsCountPulse() && Channel::A->mod.modeCountPulse.Is_StartStop()) ||
+        (CURRENT_CHANNEL_IS_B && Channel::B->mod.typeMeasure.IsCountPulse() && Channel::B->mod.modeCountPulse.Is_StartStop()))
     {
         Text(ModeStartStop::IsEnabled() ? (LANG_IS_RU ? "Старт" : "Start") : (LANG_IS_RU ? "Стоп" : "Stop")).Write(430, 60);
     }
 
-    if(PageIndication::launchSource == LaunchSource::OneTime)
+    if (PageIndication::launchSource == LaunchSource::OneTime)
     {
-        if(PageIndication::OnceLaunch() == true)
+        if (PageIndication::OnceLaunch() == true)
         {
-            if(second == 0)
+            if (second == 0)
             {
                 second = (int)TIME_MS;
             }
             Text(LANG_IS_RU ? "ПУСК" : "START").Write(430, 110);
-            if((second + 1000) < (int)TIME_MS)
+            if ((second + 1000) < (int)TIME_MS)
             {
                 second = 0;
                 PageIndication::OnceLaunchSwitchFalse();
@@ -434,7 +436,7 @@ int Display::TopRow()
 void Display::SendToSCPI()
 {
     sendToSCPI = true;
-    
+
     Refresh();
 }
 

@@ -20,7 +20,7 @@ int main(void)
     FPGA::Init();
     Display::Init();
 
-    if(Keyboard::Init())
+    if (Keyboard::Init())
     {
         Display::DrawKeyboardFailScreen();
         HAL_TIM::DelayMS(5000);
@@ -31,8 +31,11 @@ int main(void)
 
     //    Tests::Run();
 
-    Display::DrawWelcomeScreen();
-    
+    while (true)
+    {
+        Display::DrawWelcomeScreen();
+    }
+
     while (1)
     {
         FPGA::Update();
