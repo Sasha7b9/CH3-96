@@ -50,6 +50,19 @@ namespace Primitives
         const int length;
     };
 
+
+    // Диагональная линия - под углом 45 градусов
+    class DLine
+    {
+    public:
+        DLine(int _length, int _dx, int _dy) : length(_length), dx(_dx), dy(_dy) {};
+        void Draw(int x, int y);
+    private:
+        const int length;
+        const int dx;
+        const int dy;
+    };
+
     class Line
     {
     public:

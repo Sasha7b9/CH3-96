@@ -237,7 +237,7 @@ static void DrawRectangle(int, int)
 
     Rectangle(Display::PHYSICAL_WIDTH - cell * 2, Display::PHYSICAL_HEIGHT - cell * 2).Draw(cell, cell);
 
-    int delta = ((int)(TIME_MS - time_start) / 20) % cell;
+    const int delta = ((int)(TIME_MS - time_start) / 20) % cell;
 
     VLine vline(cell);
     HLine hline(cell);
@@ -249,22 +249,22 @@ static void DrawRectangle(int, int)
 
     for (int i = x_start + delta; i < x_end; i += cell)
     {
-        Line().Draw(i, y_start, i + cell, y_start + cell);
+        DLine(cell, 1, 1).Draw(i, y_start);
     }
 
-    for (int i = y_start + delta; i < y_end; i += cell)
+    for (int i = y_end - delta - 8; i >= y_start; i -= cell)
     {
-        Line().Draw(x_end, i, x_end - cell, i + cell);
+        DLine(cell, 1, 1).Draw(x_end - cell, i);
     }
 
-    for (int i = x_end - delta; i >= x_start; i -= cell)
+    for (int i = x_start + delta + 1; i < x_end + cell; i += cell)
     {
-        Line().Draw(i, y_end - cell, i + cell, y_end - cell + cell);
+        DLine(cell, -1, -1).Draw(i, y_end - 1);
     }
 
-    for (int i = y_end - delta; i >= y_start; i -= cell)
+    for (int i = y_end - delta - 2; i >= y_start; i -= cell)
     {
-        Line().Draw(x_start, i, x_start + cell, i - cell);
+        Line().Draw(x_start, i, x_start + cell, i + cell);
     }
 }
 
