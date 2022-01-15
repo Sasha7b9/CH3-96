@@ -481,6 +481,7 @@ static void DrawHint(int x, int y)
                 FPGA::DisableAuto();
                 timeAutoHint = TIME_MS;
                 autoFlag = true;
+                Display::Refresh();
             }
             else
             {
