@@ -300,10 +300,7 @@ void Switch::NextChoice()
         } while (state->correct[state->value] == false);
     }
 
-    if (funcOnPress)
-    {
-        funcOnPress();
-    }
+    FuncOnPress();
 }
 
 
