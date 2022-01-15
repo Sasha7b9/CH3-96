@@ -326,16 +326,15 @@ void FPGA::GovernorData::SetN(int num)
 }
 
 
-void FPGA::SwitchAuto()
+void FPGA::EnableAuto()
 {
-    if(!autoMode)
-    {
-        autoMode = true;
-    }
-    else
-    {
-        autoMode = false;
-    }
+    autoMode = true;
+}
+
+
+void FPGA::DisableAuto()
+{
+    autoMode = false;
 }
 
 
@@ -544,6 +543,12 @@ int FPGA::Auto::Min()
 int FPGA::Auto::Max()
 {
     return (int)fpgaMax;
+}
+
+
+bool FPGA::Auto::ObtainedResult()
+{
+    return (FPGA::Auto::Mid() != 0) || (FPGA::Auto::Max() != 0) || (FPGA::Auto::Min() != 0);
 }
 
 

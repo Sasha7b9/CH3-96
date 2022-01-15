@@ -49,7 +49,8 @@ struct FPGA
     static void Update();
     static void WriteCommand(const Command &command);
 
-    static void SwitchAuto();
+    static void EnableAuto();
+    static void DisableAuto();
     // Возвращает true, если находится в режиме АВТО
     static bool GetAutoMode();
 
@@ -86,6 +87,8 @@ public:
         static int Mid();
         static int Min();
         static int Max();
+        // Возвращает true, если получен результат
+        static bool ObtainedResult();
 
         static String Give();
 

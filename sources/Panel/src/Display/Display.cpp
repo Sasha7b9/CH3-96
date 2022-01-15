@@ -472,12 +472,12 @@ static void DrawHint(int x, int y)
     {
         if (FPGA::GetAutoMode())
         {
-            if ((FPGA::Auto::Mid() != 0) || (FPGA::Auto::Max() != 0) || (FPGA::Auto::Min() != 0))
+            if (FPGA::Auto::ObtainedResult())
             {
                 Rectangle(360, 30).FillRounded(x, y, 2, Color::BACK_3, Color::BACK_3);
 
                 Text(FPGA::Auto::Give().c_str()).Write(x + dX, y + dY, Color::FILL);
-                FPGA::SwitchAuto();
+                FPGA::DisableAuto();
                 timeAutoHint = TIME_MS;
                 autoFlag = true;
             }

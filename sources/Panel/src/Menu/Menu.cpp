@@ -211,7 +211,7 @@ bool Menu::Input::OnControl(const Control &control)
         {
             FPGA::Auto::Refresh();
             FreqMeter::LoadAuto();
-            FPGA::SwitchAuto();
+            FPGA::EnableAuto();
         }
         break;
 
