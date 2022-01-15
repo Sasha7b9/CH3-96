@@ -97,10 +97,6 @@ public:
 
     private:
 
-        static int Mid();
-        static int Min();
-        static int Max();
-
         static uint fpgaMin;
         static uint fpgaMid;
         static uint fpgaMax;

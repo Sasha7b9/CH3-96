@@ -528,27 +528,9 @@ String FPGA::BinToString(pString bin, int num)
 }
 
 
-int FPGA::Auto::Mid()
-{
-    return (int)fpgaMid;
-}
-
-
-int FPGA::Auto::Min()
-{
-    return (int)fpgaMin;
-}
-
-
-int FPGA::Auto::Max()
-{
-    return (int)fpgaMax;
-}
-
-
 bool FPGA::Auto::ObtainedResult()
 {
-    return (FPGA::Auto::Mid() != 0) || (FPGA::Auto::Max() != 0) || (FPGA::Auto::Min() != 0);
+    return (fpgaMid != 0) || (fpgaMax != 0) || (fpgaMin != 0);
 }
 
 
