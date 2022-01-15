@@ -306,10 +306,14 @@ void Switch::NextChoice()
 
 void Switch::OnEnterKeyGovernor(const Control &control)
 {
+    if (!control.action.IsPress())
+    {
+
+    }
+
     if (PageIndication::calibrationMode.IsEnabled())
     {
-        if (control.action.IsPress() &&
-            (control.value != Control::GovRight || control.value != Control::GovLeft)) //-V560      // \todo разобраться, что за дела
+        if (control.value == Control::GovButton)
         {
             if (Hint::UnderItem() == this)
             {
@@ -321,36 +325,33 @@ void Switch::OnEnterKeyGovernor(const Control &control)
     }
     else
     {
-        if (control.action.IsPress())
+        if (control.value == Control::GovButton)
         {
-            if (control.value == Control::GovButton)
+            if (Hint::Text()[0] != 0 && Hint::UnderItem() == this)
             {
-                if (Hint::Text()[0] != 0 && Hint::UnderItem() == this)
-                {
-                    NextChoice();
-                }
+                NextChoice();
+            }
+
+            Hint::Create(this);
+        }
+        else if (control.value == Control::Enter)
+        {
+            if (PageIndication::launchSource == LaunchSource::OneTime)
+            {
+                PageIndication::OnceLaunchSwitchTrue();
+                FreqMeter::LoadOneTime();
+            }
+            else if ((CURRENT_CHANNEL_IS_A && Channel::A->mod.typeMeasure.IsCountPulse() && Channel::A->mod.modeCountPulse.Is_StartStop()) ||
+                (CURRENT_CHANNEL_IS_B && Channel::B->mod.typeMeasure.IsCountPulse() && Channel::B->mod.modeCountPulse.Is_StartStop()))
+            {
+                ModeStartStop::Toggle();
+                ModeStartStop::LoadToFPGA();
+            }
+            else
+            {
+                NextChoice();
 
                 Hint::Create(this);
-            }
-            else if (control.value == Control::Enter)
-            {
-                if (PageIndication::launchSource == LaunchSource::OneTime)
-                {
-                    PageIndication::OnceLaunchSwitchTrue();
-                    FreqMeter::LoadOneTime();
-                }
-                else if ((CURRENT_CHANNEL_IS_A && Channel::A->mod.typeMeasure.IsCountPulse() && Channel::A->mod.modeCountPulse.Is_StartStop()) ||
-                    (CURRENT_CHANNEL_IS_B && Channel::B->mod.typeMeasure.IsCountPulse() && Channel::B->mod.modeCountPulse.Is_StartStop()))
-                {
-                    ModeStartStop::Toggle();
-                    ModeStartStop::LoadToFPGA();
-                }
-                else
-                {
-                    NextChoice();
-
-                    Hint::Create(this);
-                }
             }
         }
     }
