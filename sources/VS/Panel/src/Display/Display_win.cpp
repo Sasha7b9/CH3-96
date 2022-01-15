@@ -219,7 +219,7 @@ static void SetPositionAndSize(Frame *frame)
 }
 
 
-static void CreateButton(Control::E key, Frame *frame, const wxPoint &pos, const wxSize &size) //-V2506
+static void CreateButton(Control::E key, Frame *frame, const wxPoint &pos, const wxSize &size)
 {
     if (key == Control::None)
     {

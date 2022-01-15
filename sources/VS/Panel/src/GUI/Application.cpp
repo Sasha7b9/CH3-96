@@ -51,7 +51,7 @@ int main(int argc, char **argv)
 }
 
 
-bool Application::OnInit() //-V2506
+bool Application::OnInit()
 {
     if (!wxApp::OnInit())
     {
@@ -98,6 +98,8 @@ Frame::Frame(const wxString& title)
     timerLongPress.SetOwner(this, TIMER_LONG_ID);
 
     self = this;
+
+    Bind(wxEVT_CLOSE_WINDOW, &Frame::OnClose, this);
 
     ConsoleSCPI::Self()->Show();
 }
@@ -150,6 +152,16 @@ void Frame::OnSize(wxCommandEvent&)
 void Frame::OnQuit(wxCommandEvent& WXUNUSED(event))
 {
     Close(true);
+}
+
+
+void Frame::OnClose(wxCloseEvent &)
+{
+    ConsoleSCPI::Self()->Destroy();
+
+    timer.Stop();
+
+    Destroy();
 }
 
 

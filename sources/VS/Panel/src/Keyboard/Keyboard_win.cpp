@@ -23,7 +23,7 @@ bool Keyboard::Init()
 }
 
 
-static void AddAction(Control control, Control::Action::E action) //-V2506
+static void AddAction(Control control, Control::Action::E action)
 {
     if (action != Control::Action::Press)
     {
@@ -77,7 +77,7 @@ bool Keyboard::Empty()
 }
 
 
-Control Keyboard::NextControl() //-V2506
+Control Keyboard::NextControl()
 {
     if (Empty())
     {

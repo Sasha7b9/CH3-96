@@ -19,12 +19,13 @@ public:
 
     Frame(const wxString& title);
 
-    void OnSize(wxCommandEvent& event);
-    void OnQuit(wxCommandEvent& event);
-    void OnSCPI(wxCommandEvent &event);
-    void OnAbout(wxCommandEvent& event);
-    void OnTimer(wxTimerEvent& event);
-    void OnTimerLong(wxTimerEvent& event);
+    void OnSize(wxCommandEvent &);
+    void OnQuit(wxCommandEvent &);
+    void OnSCPI(wxCommandEvent &);
+    void OnAbout(wxCommandEvent &);
+    void OnTimer(wxTimerEvent &);
+    void OnTimerLong(wxTimerEvent &);
+    void OnClose(wxCloseEvent &);
 
     static Frame *Self();
 

@@ -82,7 +82,7 @@ void ConsoleSCPI::OnSize(wxSizeEvent &)
 }
 
 
-static int Consist0D(char *buffer, int size) //-V2506
+static int Consist0D(char *buffer, int size)
 {
     int i = 0;
     while (*buffer != 0x0d)
@@ -298,7 +298,7 @@ void ConsoleSCPI::History::Add(const wxString &txt)
 }
 
 
-wxString ConsoleSCPI::History::Next() //-V2506
+wxString ConsoleSCPI::History::Next()
 {
     if (history.size() == 0)
     {
@@ -317,7 +317,7 @@ wxString ConsoleSCPI::History::Next() //-V2506
 }
 
 
-wxString ConsoleSCPI::History::Prev() //-V2506
+wxString ConsoleSCPI::History::Prev()
 {
     if (history.size() == 0)
     {

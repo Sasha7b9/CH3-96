@@ -8,7 +8,7 @@
 static int openedPort = -1;
 
 
-bool ComPort::Open() //-V2506
+bool ComPort::Open()
 {
     char mode[] = { '8', 'N', '1', '\0' };
 
@@ -62,7 +62,7 @@ void ComPort::Send(const char *buffer)
     }
 }
 
-int ComPort::Receive(char *buffer, int size) //-V2506
+int ComPort::Receive(char *buffer, int size)
 {
     if (IsOpened())
     {
