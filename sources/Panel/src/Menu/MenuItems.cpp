@@ -321,34 +321,36 @@ void Switch::OnEnterKeyGovernor(const Control &control)
     }
     else
     {
-        if (control.action.IsPress() && (control.value == Control::GovButton))
+        if (control.action.IsPress())
         {
-            if (Hint::Text()[0] != 0 && Hint::UnderItem() == this)
+            if (control.value == Control::GovButton)
             {
-                NextChoice();
-            }
-
-            Hint::Create(this);
-        }
-
-        if (control.action.IsPress() && (control.value == Control::Enter))
-        {
-            if (PageIndication::launchSource == LaunchSource::OneTime)
-            {
-                PageIndication::OnceLaunchSwitchTrue();
-                FreqMeter::LoadOneTime();
-            }
-            else if ((CURRENT_CHANNEL_IS_A && Channel::A->mod.typeMeasure.IsCountPulse() && Channel::A->mod.modeCountPulse.Is_StartStop()) ||
-                (CURRENT_CHANNEL_IS_B && Channel::B->mod.typeMeasure.IsCountPulse() && Channel::B->mod.modeCountPulse.Is_StartStop()))
-            {
-                ModeStartStop::Toggle();
-                ModeStartStop::LoadToFPGA();
-            }
-            else
-            {
-                NextChoice();
+                if (Hint::Text()[0] != 0 && Hint::UnderItem() == this)
+                {
+                    NextChoice();
+                }
 
                 Hint::Create(this);
+            }
+            else if (control.value == Control::Enter)
+            {
+                if (PageIndication::launchSource == LaunchSource::OneTime)
+                {
+                    PageIndication::OnceLaunchSwitchTrue();
+                    FreqMeter::LoadOneTime();
+                }
+                else if ((CURRENT_CHANNEL_IS_A && Channel::A->mod.typeMeasure.IsCountPulse() && Channel::A->mod.modeCountPulse.Is_StartStop()) ||
+                    (CURRENT_CHANNEL_IS_B && Channel::B->mod.typeMeasure.IsCountPulse() && Channel::B->mod.modeCountPulse.Is_StartStop()))
+                {
+                    ModeStartStop::Toggle();
+                    ModeStartStop::LoadToFPGA();
+                }
+                else
+                {
+                    NextChoice();
+
+                    Hint::Create(this);
+                }
             }
         }
     }
