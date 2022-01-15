@@ -27,10 +27,6 @@ enum
 };
 
 wxBEGIN_EVENT_TABLE(Frame, wxFrame)
-    EVT_MENU(FILE_SIZE, Frame::OnSize)
-    EVT_MENU(FILE_QUIT, Frame::OnQuit)
-    EVT_MENU(HELP_ABOUT, Frame::OnAbout)
-    EVT_TIMER(TIMER_ID, Frame::OnTimer)
     EVT_TIMER(TIMER_LONG_ID, Frame::OnTimerLong)
 wxEND_EVENT_TABLE()
 
@@ -71,7 +67,7 @@ Frame::Frame(const wxString& title)
 
     wxMenu *fileMenu = new wxMenu;
     //fileMenu->Append(File_Size, "&Size", "Resize screen");
-    fileMenu->Append(FILE_QUIT, "E&xit\tAlt-X", "Quit this program");
+fileMenu->Append(FILE_QUIT, "E&xit\tAlt-X", "Quit this program");
 
     wxMenu *toolsMenu = new wxMenu;
     toolsMenu->Append(TOOL_SCPI, "SCPI");
@@ -90,8 +86,12 @@ Frame::Frame(const wxString& title)
     SetStatusText("Welcome to wxWidgets!");
 
     Bind(wxEVT_MENU, &Frame::OnSCPI, this, TOOL_SCPI);
+    Bind(wxEVT_MENU, &Frame::OnQuit, this, FILE_QUIT);
+    Bind(wxEVT_MENU, &Frame::OnSize, this, FILE_SIZE);
+    Bind(wxEVT_MENU, &Frame::OnAbout, this, HELP_ABOUT);
+    Bind(wxEVT_CLOSE_WINDOW, &Frame::OnClose, this);
 
-    timer.SetOwner(this, TIMER_ID);
+    timer.Bind(wxEVT_TIMER, &Frame::OnTimer, this);
 
     timer.Start(0);
 
@@ -99,7 +99,7 @@ Frame::Frame(const wxString& title)
 
     self = this;
 
-    Bind(wxEVT_CLOSE_WINDOW, &Frame::OnClose, this);
+
 
     ConsoleSCPI::Self()->Show();
 }
