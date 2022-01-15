@@ -168,8 +168,8 @@ static void OnChanged_ModeDuration()
 DEF_SWITCH_5(sModeDuration,
     "Режим", "Mode",
     "Измерение длительности", "Duration measurement",
-    "ndt", "ndt/1нс", "СтартА-СтопВ", "Коэфф. зап.", "Фаза",
-    "ndt", "ndt/1нс", "StartА-StopВ", "Fill factor", "Phase",
+    "ndt", "ndt/1нс", "Интервал", "Коэфф. зап.", "Фаза",
+    "ndt", "ndt/1нс", "Interval", "Fill factor", "Phase",
     Channel::A->mod.modeDuration, OnChanged_ModeDuration
 );
 
