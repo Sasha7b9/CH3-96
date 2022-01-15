@@ -21,22 +21,8 @@ enum
     Help_About = wxID_ABOUT
 };
 
-enum
-{
-    TIMER_ID = 1,
-    TIMER_LONG_ID = 2
-};
-
-wxBEGIN_EVENT_TABLE(Frame, wxFrame)
-    EVT_MENU(File_Size, Frame::OnSize)
-    EVT_MENU(File_Quit, Frame::OnQuit)
-    EVT_MENU(Help_About, Frame::OnAbout)
-    EVT_TIMER(TIMER_ID, Frame::OnTimer)
-    EVT_TIMER(TIMER_LONG_ID, Frame::OnTimerLong)
-wxEND_EVENT_TABLE()
 
 wxIMPLEMENT_APP_NO_MAIN(Application);
-
 
 
 Frame *Frame::self = nullptr;
@@ -80,16 +66,18 @@ Frame::Frame(const wxString& title)
     menuBar->Append(fileMenu, "&File");
     menuBar->Append(helpMenu, "&Help");
 
+    Bind(wxEVT_MENU, &Frame::OnSize, this, File_Size);
+    Bind(wxEVT_MENU, &Frame::OnQuit, this, File_Quit);
+    Bind(wxEVT_MENU, &Frame::OnAbout, this, Help_About);
+
     SetMenuBar(menuBar);
 
     CreateStatusBar(2);
     SetStatusText("Welcome to wxWidgets!");
 
-    timer.SetOwner(this, TIMER_ID);
+    timer.Bind(wxEVT_TIMER, &Frame::OnTimer, this);
 
     timer.Start(0);
-
-    timerLongPress.SetOwner(this, TIMER_LONG_ID);
 
     self = this;
 

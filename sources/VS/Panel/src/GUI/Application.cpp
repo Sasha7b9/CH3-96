@@ -55,7 +55,7 @@ Frame::Frame(const wxString& title)
 
     wxMenu *fileMenu = new wxMenu;
     //fileMenu->Append(File_Size, "&Size", "Resize screen");
-fileMenu->Append(FILE_QUIT, "E&xit\tAlt-X", "Quit this program");
+    fileMenu->Append(FILE_QUIT, "E&xit\tAlt-X", "Quit this program");
 
     wxMenu *toolsMenu = new wxMenu;
     toolsMenu->Append(TOOL_SCPI, "SCPI");
