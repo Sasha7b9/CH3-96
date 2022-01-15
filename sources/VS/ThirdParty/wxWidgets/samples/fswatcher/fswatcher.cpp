@@ -9,6 +9,9 @@
 
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 #ifndef WX_PRECOMP
     #include "wx/wx.h"
 #endif
@@ -70,7 +73,7 @@ class MyApp : public wxApp
 {
 public:
     // 'Main program' equivalent: the program execution "starts" here
-    virtual bool OnInit() wxOVERRIDE
+    virtual bool OnInit()
     {
         if ( !wxApp::OnInit() )
             return false;
@@ -86,7 +89,7 @@ public:
     }
 
     // create the file system watcher here, because it needs an active loop
-    virtual void OnEventLoopEnter(wxEventLoopBase* WXUNUSED(loop)) wxOVERRIDE
+    virtual void OnEventLoopEnter(wxEventLoopBase* WXUNUSED(loop))
     {
         if ( m_frame->CreateWatcherIfNecessary() )
         {
@@ -95,7 +98,7 @@ public:
         }
     }
 
-    virtual void OnInitCmdLine(wxCmdLineParser& parser) wxOVERRIDE
+    virtual void OnInitCmdLine(wxCmdLineParser& parser)
     {
         wxApp::OnInitCmdLine(parser);
         parser.AddParam("directory to watch",
@@ -103,7 +106,7 @@ public:
                         wxCMD_LINE_PARAM_OPTIONAL);
     }
 
-    virtual bool OnCmdLineParsed(wxCmdLineParser& parser) wxOVERRIDE
+    virtual bool OnCmdLineParsed(wxCmdLineParser& parser)
     {
         if ( !wxApp::OnCmdLineParsed(parser) )
             return false;
@@ -126,7 +129,7 @@ private:
 // static object for many reasons) and also declares the accessor function
 // wxGetApp() which will return the reference of the right type (i.e. MyApp and
 // not wxApp)
-wxIMPLEMENT_APP(MyApp);
+IMPLEMENT_APP(MyApp)
 
 
 // ============================================================================
@@ -177,7 +180,8 @@ MyFrame::MyFrame(const wxString& title)
                                   _("If checked, dereference symlinks")
                                  );
     it->Check(false);
-    Bind(wxEVT_MENU, &MyFrame::OnFollowLinks, this, MENU_ID_DEREFERENCE);
+    Connect(MENU_ID_DEREFERENCE, wxEVT_MENU,
+            wxCommandEventHandler(MyFrame::OnFollowLinks));
 #endif // __UNIX__
 
     // the "About" item should be in the help menu
@@ -241,7 +245,8 @@ MyFrame::MyFrame(const wxString& title)
                                wxTE_MULTILINE|wxTE_READONLY|wxHSCROLL);
 
     // set monospace font to have output in nice columns
-    wxFont font(wxFontInfo(9).Family(wxFONTFAMILY_TELETYPE));
+    wxFont font(9, wxFONTFAMILY_TELETYPE,
+                wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
     headerText->SetFont(font);
     m_evtConsole->SetFont(font);
 
@@ -262,18 +267,28 @@ MyFrame::MyFrame(const wxString& title)
     // event handlers & show
 
     // menu
-    Bind(wxEVT_MENU, &MyFrame::OnClear, this, MENU_ID_CLEAR);
-    Bind(wxEVT_MENU, &MyFrame::OnQuit, this, MENU_ID_QUIT);
-    Bind(wxEVT_MENU, &MyFrame::OnWatch, this, MENU_ID_WATCH);
-    Bind(wxEVT_MENU, &MyFrame::OnAbout, this, wxID_ABOUT);
+    Connect(MENU_ID_CLEAR, wxEVT_MENU,
+            wxCommandEventHandler(MyFrame::OnClear));
+    Connect(MENU_ID_QUIT, wxEVT_MENU,
+            wxCommandEventHandler(MyFrame::OnQuit));
+    Connect(MENU_ID_WATCH, wxEVT_MENU,
+            wxCommandEventHandler(MyFrame::OnWatch));
+    Connect(wxID_ABOUT, wxEVT_MENU,
+            wxCommandEventHandler(MyFrame::OnAbout));
 
     // buttons
-    Bind(wxEVT_BUTTON, &MyFrame::OnAdd, this, BTN_ID_ADD);
-    Bind(wxEVT_BUTTON, &MyFrame::OnAddTree, this, BTN_ID_ADD_TREE);
-    Bind(wxEVT_BUTTON, &MyFrame::OnRemove, this, BTN_ID_REMOVE);
-    Bind(wxEVT_UPDATE_UI, &MyFrame::OnRemoveUpdateUI, this, BTN_ID_REMOVE);
-    Bind(wxEVT_BUTTON, &MyFrame::OnRemoveAll, this, BTN_ID_REMOVE_ALL);
-    Bind(wxEVT_UPDATE_UI, &MyFrame::OnRemoveAllUpdateUI, this, BTN_ID_REMOVE_ALL);
+    Connect(BTN_ID_ADD, wxEVT_BUTTON,
+            wxCommandEventHandler(MyFrame::OnAdd));
+    Connect(BTN_ID_ADD_TREE, wxEVT_BUTTON,
+            wxCommandEventHandler(MyFrame::OnAddTree));
+    Connect(BTN_ID_REMOVE, wxEVT_BUTTON,
+            wxCommandEventHandler(MyFrame::OnRemove));
+    Connect(BTN_ID_REMOVE, wxEVT_UPDATE_UI,
+            wxUpdateUIEventHandler(MyFrame::OnRemoveUpdateUI));
+    Connect(BTN_ID_REMOVE_ALL, wxEVT_BUTTON,
+            wxCommandEventHandler(MyFrame::OnRemoveAll));
+    Connect(BTN_ID_REMOVE_ALL, wxEVT_UPDATE_UI,
+            wxUpdateUIEventHandler(MyFrame::OnRemoveAllUpdateUI));
 
     // and show itself (the frames, unlike simple controls, are not shown when
     // created initially)
@@ -291,7 +306,8 @@ bool MyFrame::CreateWatcherIfNecessary()
         return false;
 
     CreateWatcher();
-    Bind(wxEVT_FSWATCHER, &MyFrame::OnFileSystemEvent, this);
+    Connect(wxEVT_FSWATCHER,
+            wxFileSystemWatcherEventHandler(MyFrame::OnFileSystemEvent));
 
     return true;
 }

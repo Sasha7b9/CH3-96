@@ -11,6 +11,9 @@
 // For compilers that support precompilation, includes "wx/wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 // for all others, include the necessary headers (this file is usually all you
 // need because it includes almost all standard wxWidgets headers
@@ -20,17 +23,12 @@
     #include "wx/log.h"
 #endif
 
-#include "wx/checkbox.h"
 #include "wx/choicdlg.h"
 #include "wx/fontdlg.h"
 #include "wx/fontenum.h"
 #include "wx/fontmap.h"
 #include "wx/encconv.h"
-#include "wx/sizer.h"
-#include "wx/spinctrl.h"
 #include "wx/splitter.h"
-#include "wx/statline.h"
-#include "wx/stdpaths.h"
 #include "wx/textfile.h"
 #include "wx/settings.h"
 
@@ -42,10 +40,7 @@
 #endif
 
 // used as title for several dialog boxes
-static wxString GetSampleTitle()
-{
-    return "wxWidgets Font Sample";
-}
+static const wxChar SAMPLE_TITLE[] = wxT("wxWidgets Font Sample");
 
 // ----------------------------------------------------------------------------
 // private classes
@@ -61,88 +56,17 @@ public:
     // this one is called on application startup and is a good place for the app
     // initialization (doing it here and not in the ctor allows to have an error
     // return: if OnInit() returns false, the application terminates)
-    virtual bool OnInit() wxOVERRIDE;
+    virtual bool OnInit();
 };
 
-// FontPanel contains controls allowing to specify the font properties
-class FontPanel : public wxPanel
+// MyCanvas is a canvas on which we show the font sample
+class MyCanvas: public wxWindow
 {
 public:
-    explicit FontPanel(wxWindow* parent);
+    MyCanvas( wxWindow *parent );
+    virtual ~MyCanvas(){};
 
-    void ShowFont(const wxFont& font) { m_font = font; DoUpdate(); }
-
-    wxFontInfo GetFontInfo() const;
-
-private:
-    // Update m_useXXX flags depending on which control was changed last.
-    void OnFacename(wxCommandEvent& e) { m_useFamily = false; e.Skip(); }
-    void OnFamily(wxCommandEvent& e) { m_useFamily = true; e.Skip(); }
-
-    void OnWeightChoice(wxCommandEvent& e) { m_useNumericWeight = false; e.Skip(); }
-    void OnWeightSpin(wxCommandEvent& e) { m_useNumericWeight = true; e.Skip(); }
-
-
-    // Unlike wxFontXXX, the elements of these enum are consecutive, which is
-    // more convenient here.
-    enum Family
-    {
-        Family_Default,
-        Family_Decorative,
-        Family_Roman,
-        Family_Script,
-        Family_Swiss,
-        Family_Modern,
-        Family_Teletype
-    };
-
-    enum Style
-    {
-        Style_Normal,
-        Style_Italic,
-        Style_Slant
-    };
-
-    enum Weight
-    {
-        Weight_Thin,
-        Weight_Extralight,
-        Weight_Light,
-        Weight_Normal,
-        Weight_Medium,
-        Weight_Semibold,
-        Weight_Bold,
-        Weight_Extrabold,
-        Weight_Heavy,
-        Weight_Extraheavy
-    };
-
-    void DoUpdate();
-
-    wxFont m_font;
-
-    wxTextCtrl* m_textFaceName;
-    wxChoice* m_choiceFamily;
-    wxSpinCtrlDouble* m_spinPointSize;
-    wxChoice* m_choiceStyle;
-    wxChoice* m_choiceWeight;
-    wxSpinCtrl* m_spinWeight;
-    wxCheckBox* m_checkUnderlined;
-    wxCheckBox* m_checkStrikethrough;
-    wxCheckBox* m_checkFixedWidth;
-    wxStaticText* m_labelInfo;
-
-    bool m_useFamily;
-    bool m_useNumericWeight;
-};
-
-// FontCanvas shows the font characters.
-class FontCanvas : public wxWindow
-{
-public:
-    explicit FontCanvas( wxWindow *parent );
-
-    // accessors for FontWindow
+    // accessors for the frame
     const wxFont& GetTextFont() const { return m_font; }
     const wxColour& GetColour() const { return m_colour; }
     void SetTextFont(const wxFont& font) { m_font = font; }
@@ -151,12 +75,6 @@ public:
     // event handlers
     void OnPaint( wxPaintEvent &event );
 
-protected:
-    virtual wxSize DoGetBestClientSize() const wxOVERRIDE
-    {
-        return wxSize(80*GetCharWidth(), 15*GetCharHeight());
-    }
-
 private:
     wxColour m_colour;
     wxFont   m_font;
@@ -164,37 +82,20 @@ private:
     wxDECLARE_EVENT_TABLE();
 };
 
-// FontWindow contains both FontPanel and FontCanvas
-class FontWindow : public wxWindow
-{
-public:
-    explicit FontWindow(wxWindow *parent);
-
-    const wxFont& GetTextFont() const { return m_canvas->GetTextFont(); }
-    const wxColour& GetColour() const { return m_canvas->GetColour(); }
-
-    wxFont MakeNewFont() const { return m_panel->GetFontInfo(); }
-
-    void UpdateFont(const wxFont& font, const wxColour& colour);
-
-private:
-    FontPanel* const m_panel;
-    FontCanvas* const m_canvas;
-};
-
 // Define a new frame type: this is going to be our main frame
 class MyFrame : public wxFrame
 {
 public:
     // ctor(s)
-    MyFrame();
+    MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size);
+
+    // accessors
+    MyCanvas *GetCanvas() const { return m_canvas; }
 
     // event handlers (these functions should _not_ be virtual)
     void OnQuit(wxCommandEvent& event);
     void OnAbout(wxCommandEvent& event);
 
-    void OnGetBaseFont(wxCommandEvent& WXUNUSED(event))
-        { DoChangeFont(m_fontWindow->GetTextFont().GetBaseFont()); }
     void OnIncFont(wxCommandEvent& WXUNUSED(event)) { DoResizeFont(+2); }
     void OnDecFont(wxCommandEvent& WXUNUSED(event)) { DoResizeFont(-2); }
 
@@ -227,10 +128,6 @@ public:
     void OnSetFamily(wxCommandEvent& event);
     void OnSetFaceName(wxCommandEvent& event);
     void OnSetEncoding(wxCommandEvent& event);
-    void OnPrivateFont(wxCommandEvent& event);
-
-    void OnFontPanelApply(wxCommandEvent& WXUNUSED(event))
-        { DoChangeFont(m_fontWindow->MakeNewFont()); }
 
 protected:
     bool DoEnumerateFamilies(bool fixedWidthOnly,
@@ -248,8 +145,10 @@ protected:
     // wxFONTFAMILY_DEFAULT if the dialog was cancelled
     wxFontFamily GetFamilyFromUser();
 
+    size_t      m_fontSize; // in points
+
     wxTextCtrl *m_textctrl;
-    FontWindow *m_fontWindow;
+    MyCanvas   *m_canvas;
 
 private:
     // any class wishing to process wxWidgets events must use this macro
@@ -272,8 +171,6 @@ enum
 
     Font_IncSize,
     Font_DecSize,
-
-    Font_GetBaseFont,
 
     Font_Bold,
     Font_Light,
@@ -311,8 +208,6 @@ enum
     Font_SetFamily,
     Font_SetFaceName,
     Font_SetEncoding,
-
-    Font_Private,
     Font_Max
 };
 
@@ -329,7 +224,6 @@ wxBEGIN_EVENT_TABLE(MyFrame, wxFrame)
     EVT_MENU(Font_ViewMsg, MyFrame::OnViewMsg)
     EVT_MENU(Font_About, MyFrame::OnAbout)
 
-    EVT_MENU(Font_GetBaseFont, MyFrame::OnGetBaseFont)
     EVT_MENU(Font_IncSize, MyFrame::OnIncFont)
     EVT_MENU(Font_DecSize, MyFrame::OnDecFont)
 
@@ -366,7 +260,6 @@ wxBEGIN_EVENT_TABLE(MyFrame, wxFrame)
     EVT_MENU(Font_EnumFamilies, MyFrame::OnEnumerateFamilies)
     EVT_MENU(Font_EnumFixedFamilies, MyFrame::OnEnumerateFixedFamilies)
     EVT_MENU(Font_EnumEncodings, MyFrame::OnEnumerateEncodings)
-    EVT_MENU(Font_Private, MyFrame::OnPrivateFont)
 wxEND_EVENT_TABLE()
 
 // Create a new application object: this macro will allow wxWidgets to create
@@ -374,7 +267,7 @@ wxEND_EVENT_TABLE()
 // static object for many reasons) and also declares the accessor function
 // wxGetApp() which will return the reference of the right type (i.e. MyApp and
 // not wxApp)
-wxIMPLEMENT_APP(MyApp);
+IMPLEMENT_APP(MyApp)
 
 // ============================================================================
 // implementation
@@ -391,7 +284,8 @@ bool MyApp::OnInit()
         return false;
 
     // Create the main application window
-    MyFrame *frame = new MyFrame();
+    MyFrame *frame = new MyFrame(wxT("Font wxWidgets demo"),
+                                 wxPoint(50, 50), wxSize(600, 400));
 
     // Show it
     frame->Show(true);
@@ -407,159 +301,116 @@ bool MyApp::OnInit()
 // ----------------------------------------------------------------------------
 
 // frame constructor
-MyFrame::MyFrame()
-       : wxFrame(NULL, wxID_ANY, "wxWidgets font sample")
+MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
+       : wxFrame((wxFrame *)NULL, wxID_ANY, title, pos, size), m_textctrl(NULL)
 {
+    m_fontSize = wxNORMAL_FONT->GetPointSize();
+
     SetIcon(wxICON(sample));
 
     // create a menu bar
     wxMenu *menuFile = new wxMenu;
 
-    menuFile->Append(Font_TestTextValue, "&Test text value",
-                     "Verify that getting and setting text value doesn't change it");
-    menuFile->Append(Font_ViewMsg, "&View...\tCtrl-V",
-                     "View an email message file");
+    menuFile->Append(Font_TestTextValue, wxT("&Test text value"),
+                     wxT("Verify that getting and setting text value doesn't change it"));
+    menuFile->Append(Font_ViewMsg, wxT("&View...\tCtrl-V"),
+                     wxT("View an email message file"));
     menuFile->AppendSeparator();
-    menuFile->Append(Font_About, "&About\tCtrl-A", "Show about dialog");
+    menuFile->Append(Font_About, wxT("&About\tCtrl-A"), wxT("Show about dialog"));
     menuFile->AppendSeparator();
-    menuFile->Append(Font_Quit, "E&xit\tAlt-X", "Quit this program");
+    menuFile->Append(Font_Quit, wxT("E&xit\tAlt-X"), wxT("Quit this program"));
 
     wxMenu *menuFont = new wxMenu;
-    menuFont->Append(Font_IncSize, "&Increase font size by 2 points\tCtrl-I");
-    menuFont->Append(Font_DecSize, "&Decrease font size by 2 points\tCtrl-D");
-    menuFont->Append(Font_GetBaseFont, "Use &base version of the font\tCtrl-0");
+    menuFont->Append(Font_IncSize, wxT("&Increase font size by 2 points\tCtrl-I"));
+    menuFont->Append(Font_DecSize, wxT("&Decrease font size by 2 points\tCtrl-D"));
     menuFont->AppendSeparator();
-    menuFont->AppendCheckItem(Font_Bold, "&Bold\tCtrl-B", "Toggle bold state");
-    menuFont->AppendCheckItem(Font_Light, "&Light\tCtrl-L", "Toggle light state");
+    menuFont->AppendCheckItem(Font_Bold, wxT("&Bold\tCtrl-B"), wxT("Toggle bold state"));
+    menuFont->AppendCheckItem(Font_Light, wxT("&Light\tCtrl-L"), wxT("Toggle light state"));
     menuFont->AppendSeparator();
-    menuFont->AppendCheckItem(Font_Italic, "&Oblique\tCtrl-O", "Toggle italic state");
+    menuFont->AppendCheckItem(Font_Italic, wxT("&Oblique\tCtrl-O"), wxT("Toggle italic state"));
 #ifndef __WXMSW__
     // under wxMSW slant == italic so there's no reason to provide another menu item for the same thing
-    menuFont->AppendCheckItem(Font_Slant, "&Slant\tCtrl-S", "Toggle slant state");
+    menuFont->AppendCheckItem(Font_Slant, wxT("&Slant\tCtrl-S"), wxT("Toggle slant state"));
 #endif
     menuFont->AppendSeparator();
-    menuFont->AppendCheckItem(Font_Underlined, "&Underlined\tCtrl-U",
-                              "Toggle underlined state");
-    menuFont->AppendCheckItem(Font_Strikethrough, "&Strikethrough",
-                              "Toggle strikethrough state");
+    menuFont->AppendCheckItem(Font_Underlined, wxT("&Underlined\tCtrl-U"),
+                              wxT("Toggle underlined state"));
+    menuFont->AppendCheckItem(Font_Strikethrough, wxT("&Strikethrough"),
+                              wxT("Toggle strikethrough state"));
 
     menuFont->AppendSeparator();
     menuFont->Append(Font_SetNativeDesc,
-                     "Set native font &description\tShift-Ctrl-D");
+                     wxT("Set native font &description\tShift-Ctrl-D"));
     menuFont->Append(Font_SetNativeUserDesc,
-                     "Set &user font description\tShift-Ctrl-U");
+                     wxT("Set &user font description\tShift-Ctrl-U"));
     menuFont->AppendSeparator();
-    menuFont->Append(Font_SetFamily, "Set font family");
-    menuFont->Append(Font_SetFaceName, "Set font face name");
-    menuFont->Append(Font_SetEncoding, "Set font &encoding\tShift-Ctrl-E");
+    menuFont->Append(Font_SetFamily, wxT("Set font family"));
+    menuFont->Append(Font_SetFaceName, wxT("Set font face name"));
+    menuFont->Append(Font_SetEncoding, wxT("Set font &encoding\tShift-Ctrl-E"));
 
     wxMenu *menuSelect = new wxMenu;
-    menuSelect->Append(Font_Choose, "&Select font...\tCtrl-S",
-                       "Select a standard font");
+    menuSelect->Append(Font_Choose, wxT("&Select font...\tCtrl-S"),
+                       wxT("Select a standard font"));
 
     wxMenu *menuStdFonts = new wxMenu;
-    menuStdFonts->Append(Font_wxNORMAL_FONT, "wxNORMAL_FONT", "Normal font used by wxWidgets");
-    menuStdFonts->Append(Font_wxSMALL_FONT,  "wxSMALL_FONT",  "Small font used by wxWidgets");
-    menuStdFonts->Append(Font_wxITALIC_FONT, "wxITALIC_FONT", "Italic font used by wxWidgets");
-    menuStdFonts->Append(Font_wxSWISS_FONT,  "wxSWISS_FONT",  "Swiss font used by wxWidgets");
-    menuStdFonts->Append(Font_wxFont_Default,  "wxFont()",  "wxFont constructed from default wxFontInfo");
-    menuSelect->Append(Font_Standard, "Standar&d fonts", menuStdFonts);
+    menuStdFonts->Append(Font_wxNORMAL_FONT, wxT("wxNORMAL_FONT"), wxT("Normal font used by wxWidgets"));
+    menuStdFonts->Append(Font_wxSMALL_FONT,  wxT("wxSMALL_FONT"),  wxT("Small font used by wxWidgets"));
+    menuStdFonts->Append(Font_wxITALIC_FONT, wxT("wxITALIC_FONT"), wxT("Italic font used by wxWidgets"));
+    menuStdFonts->Append(Font_wxSWISS_FONT,  wxT("wxSWISS_FONT"),  wxT("Swiss font used by wxWidgets"));
+    menuStdFonts->Append(Font_wxFont_Default,  wxT("wxFont()"),  wxT("wxFont constructed from default wxFontInfo"));
+    menuSelect->Append(Font_Standard, wxT("Standar&d fonts"), menuStdFonts);
 
     wxMenu *menuSettingFonts = new wxMenu;
-    menuSettingFonts->Append(Font_wxSYS_OEM_FIXED_FONT, "wxSYS_OEM_FIXED_FONT",
-                         "Original equipment manufacturer dependent fixed-pitch font.");
-    menuSettingFonts->Append(Font_wxSYS_ANSI_FIXED_FONT,  "wxSYS_ANSI_FIXED_FONT",
-                         "Windows fixed-pitch (monospaced) font. ");
-    menuSettingFonts->Append(Font_wxSYS_ANSI_VAR_FONT, "wxSYS_ANSI_VAR_FONT",
-                         "Windows variable-pitch (proportional) font.");
-    menuSettingFonts->Append(Font_wxSYS_SYSTEM_FONT,  "wxSYS_SYSTEM_FONT",
-                         "System font.");
-    menuSettingFonts->Append(Font_wxSYS_DEVICE_DEFAULT_FONT,  "wxSYS_DEVICE_DEFAULT_FONT",
-                         "Device-dependent font.");
-    menuSettingFonts->Append(Font_wxSYS_DEFAULT_GUI_FONT,  "wxSYS_DEFAULT_GUI_FONT",
-                         "Default font for user interface objects such as menus and dialog boxes. ");
-    menuSelect->Append(Font_SystemSettings, "System fonts", menuSettingFonts);
+    menuSettingFonts->Append(Font_wxSYS_OEM_FIXED_FONT, wxT("wxSYS_OEM_FIXED_FONT"),
+                         wxT("Original equipment manufacturer dependent fixed-pitch font."));
+    menuSettingFonts->Append(Font_wxSYS_ANSI_FIXED_FONT,  wxT("wxSYS_ANSI_FIXED_FONT"),
+                         wxT("Windows fixed-pitch (monospaced) font. "));
+    menuSettingFonts->Append(Font_wxSYS_ANSI_VAR_FONT, wxT("wxSYS_ANSI_VAR_FONT"),
+                         wxT("Windows variable-pitch (proportional) font."));
+    menuSettingFonts->Append(Font_wxSYS_SYSTEM_FONT,  wxT("wxSYS_SYSTEM_FONT"),
+                         wxT("System font."));
+    menuSettingFonts->Append(Font_wxSYS_DEVICE_DEFAULT_FONT,  wxT("wxSYS_DEVICE_DEFAULT_FONT"),
+                         wxT("Device-dependent font."));
+    menuSettingFonts->Append(Font_wxSYS_DEFAULT_GUI_FONT,  wxT("wxSYS_DEFAULT_GUI_FONT"),
+                         wxT("Default font for user interface objects such as menus and dialog boxes. "));
+    menuSelect->Append(Font_SystemSettings, wxT("System fonts"), menuSettingFonts);
+
 
     menuSelect->AppendSeparator();
-    menuSelect->Append(Font_EnumFamilies, "Enumerate font &families\tCtrl-F");
+    menuSelect->Append(Font_EnumFamilies, wxT("Enumerate font &families\tCtrl-F"));
     menuSelect->Append(Font_EnumFixedFamilies,
-                     "Enumerate fi&xed font families\tCtrl-X");
+                     wxT("Enumerate fi&xed font families\tCtrl-X"));
     menuSelect->Append(Font_EnumEncodings,
-                     "Enumerate &encodings\tCtrl-E");
+                     wxT("Enumerate &encodings\tCtrl-E"));
     menuSelect->Append(Font_EnumFamiliesForEncoding,
-                     "Find font for en&coding...\tCtrl-C",
-                     "Find font families for given encoding");
-
-#if wxUSE_PRIVATE_FONTS
-    // Try to use a private font, under most platforms we just look for it in
-    // the current directory but under OS X it must be in a specific location
-    // so look for it there.
-    //
-    // For OS X you also need to ensure that you actually do put wxprivate.ttf
-    // in font.app/Contents/Resources/Fonts and add the following snippet
-    //
-    //     <plist version="0.9">
-    //       <dict>
-    //         ...
-    //         <key>ATSApplicationFontsPath</key>
-    //         <string>Fonts</string>
-    //         ...
-    //       </dict>
-    //     </plist>
-    //
-    // to your font.app/Contents/Info.plist.
-
-    wxString privfont;
-#ifdef __WXOSX__
-    privfont << wxStandardPaths::Get().GetResourcesDir() << "/Fonts/";
-#endif
-    privfont << "wxprivate.ttf";
-
-    if ( !wxFont::AddPrivateFont(privfont) )
-    {
-        wxLogWarning("Failed to add private font from \"%s\"", privfont);
-    }
-    else
-    {
-        menuSelect->AppendSeparator();
-        menuSelect->Append(Font_Private,
-                           "Select private font",
-                           "Select a font available only in this application");
-    }
-#endif // wxUSE_PRIVATE_FONTS
-
+                     wxT("Find font for en&coding...\tCtrl-C"),
+                     wxT("Find font families for given encoding"));
 
     // now append the freshly created menu to the menu bar...
     wxMenuBar *menuBar = new wxMenuBar;
-    menuBar->Append(menuFile, "&File");
-    menuBar->Append(menuFont, "F&ont");
-    menuBar->Append(menuSelect, "&Select");
+    menuBar->Append(menuFile, wxT("&File"));
+    menuBar->Append(menuFont, wxT("F&ont"));
+    menuBar->Append(menuSelect, wxT("&Select"));
 
     // ... and attach this menu bar to the frame
     SetMenuBar(menuBar);
 
     wxSplitterWindow *splitter = new wxSplitterWindow(this);
 
-    m_fontWindow = new FontWindow(splitter);
-
-    m_fontWindow->Bind(wxEVT_BUTTON, &MyFrame::OnFontPanelApply, this);
-
     m_textctrl = new wxTextCtrl(splitter, wxID_ANY,
-                                "Paste text here to see how it looks\nlike in the given font",
-                                wxDefaultPosition,
-                                wxSize(-1, 6*GetCharHeight()),
+                                wxT("Paste text here to see how it looks\nlike in the given font"),
+                                wxDefaultPosition, wxDefaultSize,
                                 wxTE_MULTILINE);
 
-    splitter->SplitHorizontally(m_fontWindow, m_textctrl, 0);
+    m_canvas = new MyCanvas(splitter);
+
+    splitter->SplitHorizontally(m_textctrl, m_canvas, 100);
 
 #if wxUSE_STATUSBAR
     // create a status bar just for fun (by default with 1 pane only)
     CreateStatusBar();
-    SetStatusText("Welcome to wxWidgets font demo!");
+    SetStatusText(wxT("Welcome to wxWidgets font demo!"));
 #endif // wxUSE_STATUSBAR
-
-    SetClientSize(splitter->GetBestSize());
-    splitter->SetSashPosition(m_fontWindow->GetBestSize().y);
 }
 
 // --------------------------------------------------------
@@ -575,11 +426,11 @@ public:
 
 protected:
     virtual bool OnFontEncoding(const wxString& facename,
-                                const wxString& encoding) wxOVERRIDE
+                                const wxString& encoding)
     {
         wxString text;
-        text.Printf("Encoding %u: %s (available in facename '%s')\n",
-                    (unsigned int) ++m_n, encoding, facename);
+        text.Printf(wxT("Encoding %u: %s (available in facename '%s')\n"),
+                    (unsigned int) ++m_n, encoding.c_str(), facename.c_str());
         m_text += text;
         return true;
     }
@@ -595,8 +446,8 @@ void MyFrame::OnEnumerateEncodings(wxCommandEvent& WXUNUSED(event))
 
     fontEnumerator.EnumerateEncodings();
 
-    wxLogMessage("Enumerating all available encodings:\n%s",
-                 fontEnumerator.GetText());
+    wxLogMessage(wxT("Enumerating all available encodings:\n%s"),
+                 fontEnumerator.GetText().c_str());
 }
 
 // -------------------------------------------------------------
@@ -611,7 +462,7 @@ public:
         { return m_facenames; }
 
 protected:
-    virtual bool OnFacename(const wxString& facename) wxOVERRIDE
+    virtual bool OnFacename(const wxString& facename)
     {
         m_facenames.Add(facename);
         return true;
@@ -619,7 +470,7 @@ protected:
 
     private:
         wxArrayString m_facenames;
-};
+} fontEnumerator;
 
 bool MyFrame::DoEnumerateFamilies(bool fixedWidthOnly,
                                   wxFontEncoding encoding,
@@ -634,8 +485,8 @@ bool MyFrame::DoEnumerateFamilies(bool fixedWidthOnly,
         int nFacenames = fontEnumerator.GetFacenames().GetCount();
         if ( !silent )
         {
-            wxLogStatus(this, "Found %d %sfonts",
-                        nFacenames, fixedWidthOnly ? "fixed width " : "");
+            wxLogStatus(this, wxT("Found %d %sfonts"),
+                        nFacenames, fixedWidthOnly ? wxT("fixed width ") : wxT(""));
         }
 
         wxString facename;
@@ -655,8 +506,8 @@ bool MyFrame::DoEnumerateFamilies(bool fixedWidthOnly,
 
             n = wxGetSingleChoiceIndex
                 (
-                    "Choose a facename",
-                    GetSampleTitle(),
+                    wxT("Choose a facename"),
+                    SAMPLE_TITLE,
                     nFacenames,
                     facenames,
                     this
@@ -679,7 +530,7 @@ bool MyFrame::DoEnumerateFamilies(bool fixedWidthOnly,
     }
     else if ( !silent )
     {
-        wxLogWarning("No such fonts found.");
+        wxLogWarning(wxT("No such fonts found."));
     }
 
     return false;
@@ -698,9 +549,9 @@ void MyFrame::OnSetNativeDesc(wxCommandEvent& WXUNUSED(event))
 {
     wxString fontInfo = wxGetTextFromUser
                         (
-                            "Enter native font string",
-                            "Input font description",
-                            m_fontWindow->GetTextFont().GetNativeFontInfoDesc(),
+                            wxT("Enter native font string"),
+                            wxT("Input font description"),
+                            m_canvas->GetTextFont().GetNativeFontInfoDesc(),
                             this
                         );
     if ( fontInfo.empty() )
@@ -710,8 +561,8 @@ void MyFrame::OnSetNativeDesc(wxCommandEvent& WXUNUSED(event))
     font.SetNativeFontInfo(fontInfo);
     if ( !font.IsOk() )
     {
-        wxLogError("Font info string \"%s\" is invalid.",
-                   fontInfo);
+        wxLogError(wxT("Font info string \"%s\" is invalid."),
+                   fontInfo.c_str());
         return;
     }
 
@@ -720,10 +571,10 @@ void MyFrame::OnSetNativeDesc(wxCommandEvent& WXUNUSED(event))
 
 void MyFrame::OnSetNativeUserDesc(wxCommandEvent& WXUNUSED(event))
 {
-    wxString fontdesc = m_fontWindow->GetTextFont().GetNativeFontInfoUserDesc();
+    wxString fontdesc = GetCanvas()->GetTextFont().GetNativeFontInfoUserDesc();
     wxString fontUserInfo = wxGetTextFromUser(
-            "Here you can edit current font description",
-            "Input font description", fontdesc,
+            wxT("Here you can edit current font description"),
+            wxT("Input font description"), fontdesc,
             this);
     if (fontUserInfo.IsEmpty())
         return;     // user clicked "Cancel" - do nothing
@@ -731,13 +582,13 @@ void MyFrame::OnSetNativeUserDesc(wxCommandEvent& WXUNUSED(event))
     wxFont font;
     if (font.SetNativeFontInfoUserDesc(fontUserInfo))
     {
-        wxASSERT_MSG(font.IsOk(), "The font should now be valid");
+        wxASSERT_MSG(font.IsOk(), wxT("The font should now be valid"));
         DoChangeFont(font);
     }
     else
     {
-        wxASSERT_MSG(!font.IsOk(), "The font should now be invalid");
-        wxMessageBox("Error trying to create a font with such description...");
+        wxASSERT_MSG(!font.IsOk(), wxT("The font should now be invalid"));
+        wxMessageBox(wxT("Error trying to create a font with such description..."));
     }
 }
 
@@ -745,32 +596,32 @@ void MyFrame::OnSetFamily(wxCommandEvent& WXUNUSED(event))
 {
     wxFontFamily f = GetFamilyFromUser();
 
-    wxFont font = m_fontWindow->GetTextFont();
+    wxFont font = m_canvas->GetTextFont();
     font.SetFamily(f);
     DoChangeFont(font);
 }
 
 void MyFrame::OnSetFaceName(wxCommandEvent& WXUNUSED(event))
 {
-    wxString facename = m_fontWindow->GetTextFont().GetFaceName();
+    wxString facename = GetCanvas()->GetTextFont().GetFaceName();
     wxString newFaceName = wxGetTextFromUser(
-            "Here you can edit current font face name.",
-            "Input font facename", facename,
+            wxT("Here you can edit current font face name."),
+            wxT("Input font facename"), facename,
             this);
     if (newFaceName.IsEmpty())
         return;     // user clicked "Cancel" - do nothing
 
-    wxFont font(m_fontWindow->GetTextFont());
+    wxFont font(GetCanvas()->GetTextFont());
     if (font.SetFaceName(newFaceName))      // change facename only
     {
-        wxASSERT_MSG(font.IsOk(), "The font should now be valid");
+        wxASSERT_MSG(font.IsOk(), wxT("The font should now be valid"));
         DoChangeFont(font);
     }
     else
     {
-        wxASSERT_MSG(!font.IsOk(), "The font should now be invalid");
-        wxMessageBox("There is no font with such face name...",
-                     "Invalid face name", wxOK|wxICON_ERROR, this);
+        wxASSERT_MSG(!font.IsOk(), wxT("The font should now be invalid"));
+        wxMessageBox(wxT("There is no font with such face name..."),
+                     wxT("Invalid face name"), wxOK|wxICON_ERROR, this);
     }
 }
 
@@ -780,7 +631,7 @@ void MyFrame::OnSetEncoding(wxCommandEvent& WXUNUSED(event))
     if ( enc == wxFONTENCODING_SYSTEM )
         return;
 
-    wxFont font = m_fontWindow->GetTextFont();
+    wxFont font = m_canvas->GetTextFont();
     font.SetEncoding(enc);
     DoChangeFont(font);
 }
@@ -803,8 +654,8 @@ wxFontEncoding MyFrame::GetEncodingFromUser()
 
     int i = wxGetSingleChoiceIndex
             (
-                "Choose the encoding",
-                GetSampleTitle(),
+                wxT("Choose the encoding"),
+                SAMPLE_TITLE,
                 names,
                 this
             );
@@ -833,8 +684,8 @@ wxFontFamily MyFrame::GetFamilyFromUser()
 
     int i = wxGetSingleChoiceIndex
             (
-                "Choose the family",
-                GetSampleTitle(),
+                wxT("Choose the family"),
+                SAMPLE_TITLE,
                 names,
                 this
             );
@@ -844,7 +695,7 @@ wxFontFamily MyFrame::GetFamilyFromUser()
 
 void MyFrame::DoResizeFont(int diff)
 {
-    wxFont font = m_fontWindow->GetTextFont();
+    wxFont font = m_canvas->GetTextFont();
 
     font.SetPointSize(font.GetPointSize() + diff);
     DoChangeFont(font);
@@ -852,7 +703,7 @@ void MyFrame::DoResizeFont(int diff)
 
 void MyFrame::OnBold(wxCommandEvent& event)
 {
-    wxFont font = m_fontWindow->GetTextFont();
+    wxFont font = m_canvas->GetTextFont();
 
     font.SetWeight(event.IsChecked() ? wxFONTWEIGHT_BOLD : wxFONTWEIGHT_NORMAL);
     DoChangeFont(font);
@@ -860,7 +711,7 @@ void MyFrame::OnBold(wxCommandEvent& event)
 
 void MyFrame::OnLight(wxCommandEvent& event)
 {
-    wxFont font = m_fontWindow->GetTextFont();
+    wxFont font = m_canvas->GetTextFont();
 
     font.SetWeight(event.IsChecked() ? wxFONTWEIGHT_LIGHT : wxFONTWEIGHT_NORMAL);
     DoChangeFont(font);
@@ -868,7 +719,7 @@ void MyFrame::OnLight(wxCommandEvent& event)
 
 void MyFrame::OnItalic(wxCommandEvent& event)
 {
-    wxFont font = m_fontWindow->GetTextFont();
+    wxFont font = m_canvas->GetTextFont();
 
     font.SetStyle(event.IsChecked() ? wxFONTSTYLE_ITALIC : wxFONTSTYLE_NORMAL);
     DoChangeFont(font);
@@ -876,7 +727,7 @@ void MyFrame::OnItalic(wxCommandEvent& event)
 
 void MyFrame::OnSlant(wxCommandEvent& event)
 {
-    wxFont font = m_fontWindow->GetTextFont();
+    wxFont font = m_canvas->GetTextFont();
 
     font.SetStyle(event.IsChecked() ? wxFONTSTYLE_SLANT : wxFONTSTYLE_NORMAL);
     DoChangeFont(font);
@@ -884,7 +735,7 @@ void MyFrame::OnSlant(wxCommandEvent& event)
 
 void MyFrame::OnUnderline(wxCommandEvent& event)
 {
-    wxFont font = m_fontWindow->GetTextFont();
+    wxFont font = m_canvas->GetTextFont();
 
     font.SetUnderlined(event.IsChecked());
     DoChangeFont(font);
@@ -892,7 +743,7 @@ void MyFrame::OnUnderline(wxCommandEvent& event)
 
 void MyFrame::OnStrikethrough(wxCommandEvent& event)
 {
-    wxFont font = m_fontWindow->GetTextFont();
+    wxFont font = m_canvas->GetTextFont();
     font.SetStrikethrough(event.IsChecked());
     DoChangeFont(font);
 }
@@ -920,7 +771,7 @@ void MyFrame::OnwxPointerFont(wxCommandEvent& event)
             break;
 
         default:
-            wxFAIL_MSG( "unknown standard font" );
+            wxFAIL_MSG( wxT("unknown standard font") );
             return;
     }
 
@@ -963,7 +814,7 @@ void MyFrame::OnwxSystemSettingsFont(wxCommandEvent& event)
             break;
 
         default:
-            wxFAIL_MSG( "unknown standard font" );
+            wxFAIL_MSG( wxT("unknown standard font") );
             return;
     }
 
@@ -972,7 +823,10 @@ void MyFrame::OnwxSystemSettingsFont(wxCommandEvent& event)
 
 void MyFrame::DoChangeFont(const wxFont& font, const wxColour& col)
 {
-    m_fontWindow->UpdateFont(font, col);
+    m_canvas->SetTextFont(font);
+    if ( col.IsOk() )
+        m_canvas->SetColour(col);
+    m_canvas->Refresh();
 
     m_textctrl->SetFont(font);
     if ( col.IsOk() )
@@ -999,8 +853,8 @@ void MyFrame::DoChangeFont(const wxFont& font, const wxColour& col)
 void MyFrame::OnSelectFont(wxCommandEvent& WXUNUSED(event))
 {
     wxFontData data;
-    data.SetInitialFont(m_fontWindow->GetTextFont());
-    data.SetColour(m_fontWindow->GetColour());
+    data.SetInitialFont(m_canvas->GetTextFont());
+    data.SetColour(m_canvas->GetColour());
 
     wxFontDialog dialog(this, data);
     if ( dialog.ShowModal() == wxID_OK )
@@ -1010,20 +864,6 @@ void MyFrame::OnSelectFont(wxCommandEvent& WXUNUSED(event))
         wxColour colour = retData.GetColour();
 
         DoChangeFont(font, colour);
-    }
-}
-
-void MyFrame::OnPrivateFont(wxCommandEvent& WXUNUSED(event))
-{
-    wxFont font(m_fontWindow->GetTextFont());
-    if (font.SetFaceName("wxprivate"))
-    {
-        wxASSERT_MSG( font.IsOk(), "The font should now be valid") ;
-        DoChangeFont(font);
-    }
-    else
-    {
-        wxLogError("Failed to use private font.");
     }
 }
 
@@ -1039,7 +879,7 @@ void MyFrame::OnTestTextValue(wxCommandEvent& WXUNUSED(event))
     m_textctrl->SetValue(value);
     if ( m_textctrl->GetValue() != value )
     {
-        wxLogError("Text value changed after getting and setting it");
+        wxLogError(wxT("Text value changed after getting and setting it"));
     }
 }
 
@@ -1048,7 +888,7 @@ void MyFrame::OnViewMsg(wxCommandEvent& WXUNUSED(event))
 #if wxUSE_FILEDLG
     // first, choose the file
     static wxString s_dir, s_file;
-    wxFileDialog dialog(this, "Open an email message file",
+    wxFileDialog dialog(this, wxT("Open an email message file"),
                         s_dir, s_file);
     if ( dialog.ShowModal() != wxID_OK )
         return;
@@ -1066,7 +906,7 @@ void MyFrame::OnViewMsg(wxCommandEvent& WXUNUSED(event))
 
     wxString charset;
 
-    wxString prefix = "Content-Type: text/plain; charset=";
+    static const wxChar *prefix = wxT("Content-Type: text/plain; charset=");
     const size_t len = wxStrlen(prefix);
 
     size_t n, count = file.GetLineCount();
@@ -1085,10 +925,10 @@ void MyFrame::OnViewMsg(wxCommandEvent& WXUNUSED(event))
         {
             // found!
             const wxChar *pc = line.c_str() + len;
-            if ( *pc == '"')
+            if ( *pc == wxT('"') )
                 pc++;
 
-            while ( *pc && *pc != '"')
+            while ( *pc && *pc != wxT('"') )
             {
                 charset += *pc++;
             }
@@ -1099,8 +939,8 @@ void MyFrame::OnViewMsg(wxCommandEvent& WXUNUSED(event))
 
     if ( !charset )
     {
-        wxLogError("The file '%s' doesn't contain charset information.",
-                   filename);
+        wxLogError(wxT("The file '%s' doesn't contain charset information."),
+                   filename.c_str());
 
         return;
     }
@@ -1109,7 +949,7 @@ void MyFrame::OnViewMsg(wxCommandEvent& WXUNUSED(event))
     wxFontEncoding fontenc = wxFontMapper::Get()->CharsetToEncoding(charset);
     if ( fontenc == wxFONTENCODING_SYSTEM )
     {
-        wxLogError("Charset '%s' is unsupported.", charset);
+        wxLogError(wxT("Charset '%s' is unsupported."), charset.c_str());
         return;
     }
 
@@ -1131,14 +971,14 @@ void MyFrame::OnViewMsg(wxCommandEvent& WXUNUSED(event))
             }
             else
             {
-                wxLogWarning("Cannot convert from '%s' to '%s'.",
-                             wxFontMapper::GetEncodingDescription(fontenc),
-                             wxFontMapper::GetEncodingDescription(encAlt));
+                wxLogWarning(wxT("Cannot convert from '%s' to '%s'."),
+                             wxFontMapper::GetEncodingDescription(fontenc).c_str(),
+                             wxFontMapper::GetEncodingDescription(encAlt).c_str());
             }
         }
         else
-            wxLogWarning("No fonts for encoding '%s' on this system.",
-                         wxFontMapper::GetEncodingDescription(fontenc));
+            wxLogWarning(wxT("No fonts for encoding '%s' on this system."),
+                         wxFontMapper::GetEncodingDescription(fontenc).c_str());
     }
 
     // and now create the correct font
@@ -1151,8 +991,8 @@ void MyFrame::OnViewMsg(wxCommandEvent& WXUNUSED(event))
         }
         else
         {
-            wxLogWarning("No fonts for encoding '%s' on this system.",
-                         wxFontMapper::GetEncodingDescription(fontenc));
+            wxLogWarning(wxT("No fonts for encoding '%s' on this system."),
+                         wxFontMapper::GetEncodingDescription(fontenc).c_str());
         }
     }
 #endif // wxUSE_FILEDLG
@@ -1160,324 +1000,27 @@ void MyFrame::OnViewMsg(wxCommandEvent& WXUNUSED(event))
 
 void MyFrame::OnAbout(wxCommandEvent& WXUNUSED(event))
 {
-    wxMessageBox("wxWidgets font sample\n"
-                 "(c) 1999-2006 Vadim Zeitlin",
-                 wxString("About ") + GetSampleTitle(),
+    wxMessageBox(wxT("wxWidgets font sample\n")
+                 wxT("(c) 1999-2006 Vadim Zeitlin"),
+                 wxString(wxT("About ")) + SAMPLE_TITLE,
                  wxOK | wxICON_INFORMATION, this);
 }
 
 // ----------------------------------------------------------------------------
-// FontWindow
+// MyCanvas
 // ----------------------------------------------------------------------------
 
-FontWindow::FontWindow(wxWindow *parent)
-          : wxWindow(parent, wxID_ANY),
-            m_panel(new FontPanel(this)),
-            m_canvas(new FontCanvas(this))
-{
-    wxSizer* const sizer = new wxBoxSizer(wxVERTICAL);
-    sizer->Add(m_panel, wxSizerFlags().Expand().Border());
-    sizer->Add(new wxStaticLine(this), wxSizerFlags().Expand());
-    sizer->Add(m_canvas, wxSizerFlags(1).Expand());
-    SetSizer(sizer);
-}
-
-void FontWindow::UpdateFont(const wxFont& font, const wxColour& colour)
-{
-    m_panel->ShowFont(font);
-
-    m_canvas->SetTextFont(font);
-    if ( colour.IsOk() )
-        m_canvas->SetColour(colour);
-    m_canvas->Refresh();
-}
-
-// ----------------------------------------------------------------------------
-// FontPanel
-// ----------------------------------------------------------------------------
-
-FontPanel::FontPanel(wxWindow* parent)
-         : wxPanel(parent)
-{
-    m_useFamily =
-    m_useNumericWeight = false;
-
-    m_textFaceName = new wxTextCtrl(this, wxID_ANY, wxString(),
-                                    wxDefaultPosition, wxDefaultSize,
-                                    wxTE_PROCESS_ENTER);
-    m_textFaceName->Bind(wxEVT_TEXT, &FontPanel::OnFacename, this);
-
-    // Must be in sync with the Family enum.
-    const wxString familiesNames[] =
-    {
-        "Default",
-        "Decorative",
-        "Roman",
-        "Script",
-        "Swiss",
-        "Modern",
-        "Teletype",
-    };
-    m_choiceFamily = new wxChoice(this, wxID_ANY,
-                                  wxDefaultPosition, wxDefaultSize,
-                                  WXSIZEOF(familiesNames), familiesNames);
-    m_choiceFamily->Bind(wxEVT_CHOICE, &FontPanel::OnFamily, this);
-
-    m_spinPointSize = new wxSpinCtrlDouble(this, wxID_ANY, wxString(),
-                                           wxDefaultPosition, wxDefaultSize,
-                                           wxSP_ARROW_KEYS,
-                                           1.0, 100.0, 10.0, 0.1);
-
-    m_spinPointSize->SetInitialSize
-        (
-         m_spinPointSize->GetSizeFromTextSize(GetTextExtent("999.9").x)
-        );
-
-    // Must be in sync with the Style enum.
-    const wxString stylesNames[] =
-    {
-        "Normal",
-        "Italic",
-        "Slant",
-    };
-
-    m_choiceStyle = new wxChoice(this, wxID_ANY,
-                                 wxDefaultPosition, wxDefaultSize,
-                                 WXSIZEOF(stylesNames), stylesNames);
-
-    // Must be in sync with the Weight enum.
-    const wxString weightsNames[] =
-    {
-        "Thin",
-        "Extra light",
-        "Light",
-        "Normal",
-        "Medium",
-        "Semi-bold",
-        "Bold",
-        "Extra bold",
-        "Heavy",
-        "Extra heavy",
-    };
-
-    m_choiceWeight = new wxChoice(this, wxID_ANY,
-                                 wxDefaultPosition, wxDefaultSize,
-                                 WXSIZEOF(weightsNames), weightsNames);
-    m_choiceWeight->Bind(wxEVT_CHOICE, &FontPanel::OnWeightChoice, this);
-
-    m_spinWeight = new wxSpinCtrl(this, wxID_ANY, wxString(),
-                                  wxDefaultPosition, wxDefaultSize,
-                                  wxSP_ARROW_KEYS,
-                                  1, wxFONTWEIGHT_MAX);
-    m_spinWeight->SetInitialSize
-        (
-         m_spinWeight->GetSizeFromTextSize(GetTextExtent("9999").x)
-        );
-    m_spinWeight->Bind(wxEVT_SPINCTRL, &FontPanel::OnWeightSpin, this);
-
-    m_checkUnderlined = new wxCheckBox(this, wxID_ANY, wxString());
-    m_checkStrikethrough = new wxCheckBox(this, wxID_ANY, wxString());
-    m_checkFixedWidth = new wxCheckBox(this, wxID_ANY, wxString());
-    m_checkFixedWidth->Disable(); // Can't be changed by the user.
-
-    m_labelInfo = new wxStaticText(this, wxID_ANY, "\n\n\n");
-
-
-    const int border = wxSizerFlags::GetDefaultBorder();
-
-    // Columns are: label, control, gap, label, control, label, control (there
-    // is no second gap column because we don't want any gap in the weight row).
-    wxFlexGridSizer* const sizer = new wxFlexGridSizer(7, wxSize(border, border));
-
-    const wxSizerFlags flagsLabel = wxSizerFlags().CentreVertical();
-    const wxSizerFlags flagsValue = wxSizerFlags().Expand().CentreVertical();
-
-    sizer->Add(new wxStaticText(this, wxID_ANY, "Face &name:"), flagsLabel);
-    sizer->Add(m_textFaceName, flagsValue);
-
-    sizer->AddSpacer(2*border);
-
-    sizer->Add(new wxStaticText(this, wxID_ANY, "&Family:"), flagsLabel);
-    sizer->Add(m_choiceFamily, flagsValue);
-
-    sizer->Add(new wxStaticText(this, wxID_ANY, "&Point size:"),
-               wxSizerFlags().DoubleBorder(wxLEFT).CentreVertical());
-    sizer->Add(m_spinPointSize, flagsValue);
-
-
-    sizer->Add(new wxStaticText(this, wxID_ANY, "&Style:"), flagsLabel);
-    sizer->Add(m_choiceStyle, flagsValue);
-
-    sizer->AddSpacer(0);
-
-    sizer->Add(new wxStaticText(this, wxID_ANY, "&Weight:"), flagsLabel);
-    sizer->Add(m_choiceWeight, flagsValue);
-
-    sizer->Add(new wxStaticText(this, wxID_ANY, "or &raw value:"), flagsLabel);
-    sizer->Add(m_spinWeight, flagsValue);
-
-
-    sizer->Add(new wxStaticText(this, wxID_ANY, "&Underlined:"), flagsLabel);
-    sizer->Add(m_checkUnderlined, flagsValue);
-
-    sizer->AddSpacer(0);
-
-    sizer->Add(new wxStaticText(this, wxID_ANY, "&Strike through:"), flagsLabel);
-    sizer->Add(m_checkStrikethrough, flagsValue);
-
-    sizer->Add(new wxStaticText(this, wxID_ANY, "Fixed width:"), flagsLabel);
-    sizer->Add(m_checkFixedWidth, flagsValue);
-
-    wxSizer* const sizerTop = new wxBoxSizer(wxVERTICAL);
-    sizerTop->Add(sizer, wxSizerFlags().Expand().Border(wxBOTTOM));
-    sizerTop->Add(new wxButton(this, wxID_APPLY, "&Apply changes"),
-                  wxSizerFlags().Border(wxBOTTOM).Centre());
-    sizerTop->Add(m_labelInfo, wxSizerFlags().Expand().Border(wxTOP));
-    SetSizer(sizerTop);
-
-    ShowFont(*wxNORMAL_FONT);
-}
-
-void FontPanel::DoUpdate()
-{
-    m_textFaceName->ChangeValue(m_font.GetFaceName());
-
-    Family family = Family_Default;
-    switch ( m_font.GetFamily() )
-    {
-        case wxFONTFAMILY_DECORATIVE: family = Family_Decorative; break;
-        case wxFONTFAMILY_ROMAN:      family = Family_Roman;      break;
-        case wxFONTFAMILY_SCRIPT:     family = Family_Script;     break;
-        case wxFONTFAMILY_SWISS:      family = Family_Swiss;      break;
-        case wxFONTFAMILY_MODERN:     family = Family_Modern;     break;
-        case wxFONTFAMILY_TELETYPE:   family = Family_Teletype;   break;
-
-        case wxFONTFAMILY_DEFAULT:
-        case wxFONTFAMILY_UNKNOWN:
-            // Leave family as Family_Default, what else can we do.
-            break;
-    }
-    m_choiceFamily->SetSelection(family);
-
-    m_spinPointSize->SetValue(m_font.GetFractionalPointSize());
-
-    Style style = Style_Normal;
-    switch ( m_font.GetStyle() )
-    {
-        case wxFONTSTYLE_ITALIC: style = Style_Italic; break;
-        case wxFONTSTYLE_SLANT:  style = Style_Slant;  break;
-
-        case wxFONTSTYLE_NORMAL:
-        case wxFONTSTYLE_MAX:
-            break;
-    }
-    m_choiceStyle->SetSelection(style);
-
-    Weight weight = Weight_Normal;
-    switch ( m_font.GetWeight() )
-    {
-        case wxFONTWEIGHT_THIN:         weight = Weight_Thin;       break;
-        case wxFONTWEIGHT_EXTRALIGHT:   weight = Weight_Extralight; break;
-        case wxFONTWEIGHT_LIGHT:        weight = Weight_Light;      break;
-        case wxFONTWEIGHT_MEDIUM:       weight = Weight_Medium;     break;
-        case wxFONTWEIGHT_SEMIBOLD:     weight = Weight_Semibold;   break;
-        case wxFONTWEIGHT_BOLD:         weight = Weight_Bold;       break;
-        case wxFONTWEIGHT_EXTRABOLD:    weight = Weight_Extrabold;  break;
-        case wxFONTWEIGHT_HEAVY:        weight = Weight_Heavy;      break;
-        case wxFONTWEIGHT_EXTRAHEAVY:   weight = Weight_Extraheavy; break;
-
-        case wxFONTWEIGHT_NORMAL:
-        case wxFONTWEIGHT_INVALID:
-            break;
-    }
-    m_choiceWeight->SetSelection(weight);
-    m_spinWeight->SetValue(m_font.GetNumericWeight());
-
-    m_checkUnderlined->SetValue(m_font.GetUnderlined());
-    m_checkStrikethrough->SetValue(m_font.GetStrikethrough());
-    m_checkFixedWidth->SetValue(m_font.IsFixedWidth());
-
-    const wxSize pixelSize = m_font.GetPixelSize();
-    wxClientDC dc(this);
-    dc.SetFont(m_font);
-
-    m_labelInfo->SetLabelText
-        (
-            wxString::Format
-            (
-                "Font info string: %s\n"
-                "Size in pixels: %d*%d, "
-                "average char size: %d*%d",
-                m_font.GetNativeFontInfoDesc(),
-                pixelSize.x, pixelSize.y,
-                dc.GetCharWidth(), dc.GetCharHeight()
-            )
-        );
-}
-
-wxFontInfo FontPanel::GetFontInfo() const
-{
-    wxFontInfo info(m_spinPointSize->GetValue());
-
-    if ( m_useFamily )
-    {
-        const wxFontFamily families[] =
-        {
-            wxFONTFAMILY_DEFAULT,
-            wxFONTFAMILY_DECORATIVE,
-            wxFONTFAMILY_ROMAN,
-            wxFONTFAMILY_SCRIPT,
-            wxFONTFAMILY_SWISS,
-            wxFONTFAMILY_MODERN,
-            wxFONTFAMILY_TELETYPE,
-        };
-        info.Family(families[m_choiceFamily->GetSelection()]);
-    }
-    else
-    {
-        info.FaceName(m_textFaceName->GetValue());
-    }
-
-    switch ( m_choiceStyle->GetSelection() )
-    {
-        case Style_Normal:
-            break;
-
-        case Style_Italic:
-            info.Italic();
-            break;
-
-        case Style_Slant:
-            info.Slant();
-            break;
-    }
-
-    info.Weight(m_useNumericWeight ? m_spinWeight->GetValue()
-                                   : (m_choiceWeight->GetSelection() + 1)*100);
-
-    if ( m_checkUnderlined->GetValue() )
-        info.Underlined();
-    if ( m_checkStrikethrough->GetValue() )
-        info.Strikethrough();
-
-    return info;
-}
-
-// ----------------------------------------------------------------------------
-// FontCanvas
-// ----------------------------------------------------------------------------
-
-wxBEGIN_EVENT_TABLE(FontCanvas, wxWindow)
-    EVT_PAINT(FontCanvas::OnPaint)
+wxBEGIN_EVENT_TABLE(MyCanvas, wxWindow)
+    EVT_PAINT(MyCanvas::OnPaint)
 wxEND_EVENT_TABLE()
 
-FontCanvas::FontCanvas( wxWindow *parent )
-          : wxWindow( parent, wxID_ANY ),
-            m_colour(*wxRED), m_font(*wxNORMAL_FONT)
+MyCanvas::MyCanvas( wxWindow *parent )
+        : wxWindow( parent, wxID_ANY ),
+          m_colour(*wxRED), m_font(*wxNORMAL_FONT)
 {
 }
 
-void FontCanvas::OnPaint( wxPaintEvent &WXUNUSED(event) )
+void MyCanvas::OnPaint( wxPaintEvent &WXUNUSED(event) )
 {
     wxPaintDC dc(this);
     PrepareDC(dc);
@@ -1487,16 +1030,61 @@ void FontCanvas::OnPaint( wxPaintEvent &WXUNUSED(event) )
     dc.Clear();
     dc.SetFont(m_font);
 
+    // one text line height
+    wxCoord hLine = dc.GetCharHeight();
+
     // the current text origin
     wxCoord x = 5,
             y = 5;
+
+    // output the font name/info
+    wxString fontInfo;
+
+    fontInfo.Printf(wxT("Face name: %s, family: %s"),
+                    m_font.GetFaceName().c_str(),
+                    m_font.GetFamilyString().c_str());
+
+    dc.DrawText(fontInfo, x, y);
+    y += hLine;
+
+    fontInfo.Printf(wxT("Size: %d points or %d pixels; %d*%d average char size"),
+                    m_font.GetPointSize(),
+                    m_font.GetPixelSize().y,
+                    dc.GetCharWidth(), dc.GetCharHeight());
+
+    dc.DrawText(fontInfo, x, y);
+    y += hLine;
+
+    fontInfo.Printf(wxT("Style: %s, weight: %s, fixed width: %s, encoding: %s"),
+                    m_font.GetStyleString().c_str(),
+                    m_font.GetWeightString().c_str(),
+                    m_font.IsFixedWidth() ? wxT("yes") : wxT("no"),
+                    wxFontMapper::GetEncodingDescription(m_font.GetEncoding()));
+
+    dc.DrawText(fontInfo, x, y);
+    y += hLine;
+
+    if ( m_font.IsOk() )
+    {
+        const wxNativeFontInfo *info = m_font.GetNativeFontInfo();
+        if ( info )
+        {
+            wxString fontDesc = m_font.GetNativeFontInfoUserDesc();
+            fontInfo.Printf(wxT("Native font info: %s"), fontDesc.c_str());
+
+            dc.DrawText(fontInfo, x, y);
+            y += hLine;
+        }
+    }
+
+    y += hLine;
 
     // prepare to draw the font
     dc.SetTextForeground(m_colour);
 
     // the size of one cell (Normally biggest char + small margin)
     wxCoord maxCharWidth, maxCharHeight;
-    dc.GetTextExtent("W", &maxCharWidth, &maxCharHeight);
+    dc.GetTextExtent(wxT("W"), &maxCharWidth, &maxCharHeight);
     int w = maxCharWidth + 5,
         h = maxCharHeight + 4;
 

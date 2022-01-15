@@ -11,6 +11,9 @@
 // For compilers that support precompilation, includes "wx/wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 // for all others, include the necessary headers (this file is usually all you
 // need because it includes almost all "standard" wxWidgets headers
@@ -37,16 +40,16 @@ TAG_HANDLER_PROC(tag)
     int ax, ay;
     int fl = 0;
 
-    tag.ScanParam("X", "%i", &ax);
-    tag.ScanParam("Y", "%i", &ay);
+    tag.ScanParam(wxT("X"), wxT("%i"), &ax);
+    tag.ScanParam(wxT("Y"), wxT("%i"), &ay);
 
-    if (tag.HasParam("FLOAT")) fl = ax;
+    if (tag.HasParam(wxT("FLOAT"))) fl = ax;
 
     wnd = new wxTextCtrl
               (
                 m_WParser->GetWindowInterface()->GetHTMLWindow(),
                 wxID_ANY,
-                tag.GetParam("NAME"),
+                tag.GetParam(wxT("NAME")),
                 wxPoint(0,0),
                 wxSize(ax, ay),
                 wxTE_MULTILINE
@@ -84,7 +87,7 @@ public:
     // this one is called on application startup and is a good place for the app
     // initialization (doing it here and not in the ctor allows to have an error
     // return: if OnInit() returns false, the application terminates)
-    virtual bool OnInit() wxOVERRIDE;
+    virtual bool OnInit();
 };
 
 // Define a new frame type: this is going to be our main frame
@@ -138,7 +141,7 @@ wxEND_EVENT_TABLE()
 // static object for many reasons) and also declares the accessor function
 // wxGetApp() which will return the reference of the right type (i.e. MyApp and
 // not wxApp)
-wxIMPLEMENT_APP(MyApp);
+IMPLEMENT_APP(MyApp)
 
 // ============================================================================
 // implementation
@@ -206,7 +209,7 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
 #if wxUSE_STATUSBAR
     html -> SetRelatedStatusBar(1);
 #endif // wxUSE_STATUSBAR
-    html -> LoadPage("start.htm");
+    html -> LoadPage(wxT("start.htm"));
 
 }
 

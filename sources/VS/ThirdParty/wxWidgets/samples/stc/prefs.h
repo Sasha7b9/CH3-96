@@ -136,10 +136,10 @@ extern const int g_LanguagePrefsSize;
 //----------------------------------------------------------------------------
 // StyleInfo
 struct StyleInfo {
-    const wxString name;
-    const wxString foreground;
-    const wxString background;
-    const wxString fontname;
+    const wxChar *name;
+    const wxChar *foreground;
+    const wxChar *background;
+    const wxChar *fontname;
     int fontsize;
     int fontstyle;
     int lettercase;

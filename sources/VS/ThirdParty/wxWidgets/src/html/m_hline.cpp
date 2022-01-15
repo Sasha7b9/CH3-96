@@ -8,6 +8,9 @@
 
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #if wxUSE_HTML && wxUSE_STREAMS
 
@@ -34,8 +37,8 @@ class wxHtmlLineCell : public wxHtmlCell
     public:
         wxHtmlLineCell(int size, bool shading) : wxHtmlCell() {m_Height = size; m_HasShading = shading;}
         void Draw(wxDC& dc, int x, int y, int view_y1, int view_y2,
-                  wxHtmlRenderingInfo& info) wxOVERRIDE;
-        void Layout(int w) wxOVERRIDE
+                  wxHtmlRenderingInfo& info);
+        void Layout(int w)
             { m_Width = w; wxHtmlCell::Layout(w); }
 
     private:

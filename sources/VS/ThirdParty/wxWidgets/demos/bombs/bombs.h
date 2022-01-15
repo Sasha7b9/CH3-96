@@ -21,7 +21,7 @@ class BombsFrame;
 class BombsApp: public wxApp
 {
 public:
-    virtual bool OnInit() wxOVERRIDE;
+    virtual bool OnInit();
 
 private :
     BombsFrame *m_frame;
@@ -30,7 +30,7 @@ private :
 
 };
 
-wxDECLARE_APP(BombsApp);
+DECLARE_APP(BombsApp)
 
 class BombsCanvas;
 
@@ -62,7 +62,7 @@ private:
     // Subwindows for reference within the program.
     BombsCanvas *m_canvas;
 
-    wxDECLARE_EVENT_TABLE();
+    DECLARE_EVENT_TABLE()
 };
 
 // App specific menu identifiers
@@ -106,7 +106,7 @@ private:
     int m_cellWidth;
     int m_cellHeight;
 
-    wxDECLARE_EVENT_TABLE();
+    DECLARE_EVENT_TABLE()
 };
 
 /* The following sizes should probably be redefined */
@@ -118,7 +118,11 @@ private:
  * BombsCanvas::x_cell and y_cell
  */
 
-#define BOMBS_FONT wxFont(wxFontInfo(14).Family(wxFONTFAMILY_ROMAN))
+#ifdef __WXWINCE__
+#define BOMBS_FONT wxFont(12, wxSWISS, wxNORMAL, wxNORMAL)
+#else
+#define BOMBS_FONT wxFont(14, wxROMAN, wxNORMAL, wxNORMAL)
+#endif
 
 #endif // #ifndef _WX_DEMOS_BOMBS_BOMBS_H_
 

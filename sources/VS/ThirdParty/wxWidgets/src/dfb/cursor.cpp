@@ -10,6 +10,9 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #include "wx/cursor.h"
 #include "wx/bitmap.h"
@@ -46,7 +49,7 @@ public:
 // wxCursor
 //-----------------------------------------------------------------------------
 
-wxIMPLEMENT_DYNAMIC_CLASS(wxCursor, wxObject);
+IMPLEMENT_DYNAMIC_CLASS(wxCursor, wxObject)
 
 void wxCursor::InitFromStock(wxStockCursor cursorId)
 {

@@ -10,6 +10,9 @@
 
 #if wxUSE_BITMAPCOMBOBOX
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #ifndef WX_PRECOMP
     #include "wx/app.h"
@@ -21,6 +24,9 @@
 #include "itemcontainertest.h"
 #include "asserthelper.h"
 
+//Test only if we are based off of wxComboBox
+#ifndef wxGENERIC_BITMAPCOMBOBOX
+
 class BitmapComboBoxTestCase : public TextEntryTestCase,
                                public ItemContainerTestCase,
                                public CppUnit::TestCase
@@ -28,17 +34,17 @@ class BitmapComboBoxTestCase : public TextEntryTestCase,
 public:
     BitmapComboBoxTestCase() { }
 
-    virtual void setUp() wxOVERRIDE;
-    virtual void tearDown() wxOVERRIDE;
+    virtual void setUp();
+    virtual void tearDown();
 
 private:
-    virtual wxTextEntry *GetTestEntry() const wxOVERRIDE { return m_combo; }
-    virtual wxWindow *GetTestWindow() const wxOVERRIDE { return m_combo; }
+    virtual wxTextEntry *GetTestEntry() const { return m_combo; }
+    virtual wxWindow *GetTestWindow() const { return m_combo; }
 
-    virtual wxItemContainer *GetContainer() const wxOVERRIDE { return m_combo; }
-    virtual wxWindow *GetContainerWindow() const wxOVERRIDE { return m_combo; }
+    virtual wxItemContainer *GetContainer() const { return m_combo; }
+    virtual wxWindow *GetContainerWindow() const { return m_combo; }
 
-    virtual void CheckStringSelection(const char * WXUNUSED(sel)) wxOVERRIDE
+    virtual void CheckStringSelection(const char * WXUNUSED(sel))
     {
         // do nothing here, as explained in TextEntryTestCase comment, our
         // GetStringSelection() is the wxChoice, not wxTextEntry, one and there
@@ -55,11 +61,15 @@ private:
 
     wxBitmapComboBox *m_combo;
 
-    wxDECLARE_NO_COPY_CLASS(BitmapComboBoxTestCase);
+    DECLARE_NO_COPY_CLASS(BitmapComboBoxTestCase)
 };
 
-wxREGISTER_UNIT_TEST_WITH_TAGS(BitmapComboBoxTestCase,
-                               "[BitmapComboBoxTestCase][item-container]");
+// register in the unnamed registry so that these tests are run by default
+CPPUNIT_TEST_SUITE_REGISTRATION( BitmapComboBoxTestCase );
+
+// also include in its own registry so that these tests can be run alone
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( BitmapComboBoxTestCase,
+                                      "BitmapComboBoxTestCase" );
 
 void BitmapComboBoxTestCase::setUp()
 {
@@ -76,9 +86,9 @@ void BitmapComboBoxTestCase::Bitmap()
     wxArrayString items;
     items.push_back("item 0");
     items.push_back("item 1");
-    // TODO: Add wxBitmapComboBoxBase::Append(wxArrayString )
-    for( unsigned int i = 0; i < items.size(); ++i )
-        m_combo->Append(items[i]);
+
+    //We need this otherwise MSVC complains as it cannot find a suitable append
+    static_cast<wxComboBox*>(m_combo)->Append(items);
 
     CPPUNIT_ASSERT(!m_combo->GetItemBitmap(0).IsOk());
 
@@ -98,10 +108,8 @@ void BitmapComboBoxTestCase::Bitmap()
     CPPUNIT_ASSERT(m_combo->GetItemBitmap(0).IsOk());
 
     CPPUNIT_ASSERT_EQUAL(wxSize(16, 16), m_combo->GetBitmapSize());
-
-    m_combo->SetSelection( 1 );
-
-    CPPUNIT_ASSERT_EQUAL( m_combo->GetStringSelection(), "item with bitmap" );
 }
+
+#endif //wxGENERIC_BITMAPCOMBOBOX
 
 #endif //wxUSE_BITMAPCOMBOBOX

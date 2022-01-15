@@ -12,6 +12,10 @@
 // For compilers that support precompilation, includes "wx/wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+#pragma hdrstop
+#endif
+
 // for all others, include the necessary headers (this file is usually all you
 // need because it includes almost all "standard" wxWidgets headers
 #ifndef WX_PRECOMP
@@ -35,7 +39,7 @@ protected:
                                   const wxSize& size);
 };
 
-wxIMPLEMENT_APP(hvApp);
+IMPLEMENT_APP(hvApp)
 
 hvApp::hvApp()
 {
@@ -51,6 +55,11 @@ bool hvApp::OnInit()
 #endif
 
     wxArtProvider::Push(new AlternateArtProvider);
+
+#if defined( __WXOSX_MAC__ ) && wxOSX_USE_CARBON
+    wxApp::s_macAboutMenuItemId = wxID_ABOUT;
+    wxFileName::MacRegisterDefaultTypeAndCreator( wxT("htb") , 'HTBD' , 'HTBA' ) ;
+#endif
 
     int istyle = wxHF_DEFAULT_STYLE;
 
@@ -115,15 +124,15 @@ bool hvApp::OnInit()
         }
         else if ( argStr.Find( wxT("--Style") )  >= 0 )
         {
-            long style;
+            long i;
             wxString numb = argStr.AfterLast(wxT('e'));
-            if ( !(numb.ToLong(&style) ) )
+            if ( !(numb.ToLong(&i) ) )
             {
                 wxLogError( wxT("Integer conversion failed for --Style") );
             }
             else
             {
-                istyle = style;
+                istyle = i;
             }
         }
         else

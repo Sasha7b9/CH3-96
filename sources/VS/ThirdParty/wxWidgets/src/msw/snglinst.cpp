@@ -20,8 +20,11 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
-#if wxUSE_SNGLINST_CHECKER
+#if wxUSE_SNGLINST_CHECKER && defined(__WIN32__)
 
 #ifndef WX_PRECOMP
     #include "wx/string.h"

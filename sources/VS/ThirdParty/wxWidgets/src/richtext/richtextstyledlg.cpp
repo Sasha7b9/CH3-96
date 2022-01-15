@@ -11,6 +11,10 @@
 // For compilers that support precompilation, includes "wx/wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+#pragma hdrstop
+#endif
+
 #if wxUSE_RICHTEXT
 
 #ifndef WX_PRECOMP
@@ -26,13 +30,13 @@
 
 bool wxRichTextStyleOrganiserDialog::sm_showToolTips = false;
 
-wxIMPLEMENT_DYNAMIC_CLASS(wxRichTextStyleOrganiserDialog, wxDialog);
+IMPLEMENT_DYNAMIC_CLASS( wxRichTextStyleOrganiserDialog, wxDialog )
 
 /*!
  * wxRichTextStyleOrganiserDialog event table definition
  */
 
-wxBEGIN_EVENT_TABLE(wxRichTextStyleOrganiserDialog, wxDialog)
+BEGIN_EVENT_TABLE( wxRichTextStyleOrganiserDialog, wxDialog )
 
     EVT_LISTBOX(wxID_ANY, wxRichTextStyleOrganiserDialog::OnListSelection)
 
@@ -56,7 +60,7 @@ wxBEGIN_EVENT_TABLE(wxRichTextStyleOrganiserDialog, wxDialog)
     EVT_BUTTON( wxID_HELP, wxRichTextStyleOrganiserDialog::OnHelpClick )
 ////@end wxRichTextStyleOrganiserDialog event table entries
 
-wxEND_EVENT_TABLE()
+END_EVENT_TABLE()
 
 IMPLEMENT_HELP_PROVISION(wxRichTextStyleOrganiserDialog)
 

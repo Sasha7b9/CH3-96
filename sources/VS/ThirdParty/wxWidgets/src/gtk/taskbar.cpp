@@ -15,23 +15,20 @@
 
 #include "wx/taskbar.h"
 
-#ifndef __WXGTK4__
-
 #ifndef WX_PRECOMP
     #include "wx/toplevel.h"
     #include "wx/menu.h"
     #include "wx/icon.h"
 #endif
 
-#include "wx/gtk/private/wrapgtk.h"
+#include <gtk/gtk.h>
 #ifdef GDK_WINDOWING_X11
     #include <gdk/gdkx.h>
 #endif
 #ifndef __WXGTK3__
     #include "eggtrayicon.h"
 #endif
-
-wxGCC_WARNING_SUPPRESS(deprecated-declarations)
+#include "wx/gtk/private/gtk2-compat.h"
 
 #if !GTK_CHECK_VERSION(2,10,0)
     typedef struct _GtkStatusIcon GtkStatusIcon;
@@ -131,11 +128,8 @@ status_icon_popup_menu(GtkStatusIcon*, guint, guint, wxTaskBarIcon* taskBarIcon)
 bool wxTaskBarIconBase::IsAvailable()
 {
 #ifdef GDK_WINDOWING_X11
-#ifdef __WXGTK3__
-    GdkDisplay* display = gdk_display_get_default();
-    if (strcmp("GdkX11Display", g_type_name(G_TYPE_FROM_INSTANCE(display))) != 0)
+    if (!GDK_IS_X11_DISPLAY(gdk_display_get_default()))
         return false;
-#endif
 
     char name[32];
     g_snprintf(name, sizeof(name), "_NET_SYSTEM_TRAY_S%d",
@@ -191,7 +185,7 @@ wxTaskBarIcon::Private::~Private()
 void wxTaskBarIcon::Private::SetIcon()
 {
 #if GTK_CHECK_VERSION(2,10,0)
-    if (wx_is_at_least_gtk2(10))
+    if (GTK_CHECK_VERSION(3,0,0) || gtk_check_version(2,10,0) == NULL)
     {
         if (m_statusIcon)
             gtk_status_icon_set_from_pixbuf(m_statusIcon, m_bitmap.GetPixbuf());
@@ -241,7 +235,7 @@ void wxTaskBarIcon::Private::SetIcon()
     if (m_statusIcon)
     {
 #if GTK_CHECK_VERSION(2,16,0)
-        if (wx_is_at_least_gtk2(16))
+        if (GTK_CHECK_VERSION(3,0,0) || gtk_check_version(2,16,0) == NULL)
             gtk_status_icon_set_tooltip_text(m_statusIcon, tip_text);
         else
 #endif
@@ -294,7 +288,7 @@ void wxTaskBarIcon::Private::size_allocate(int width, int height)
 #endif
 //-----------------------------------------------------------------------------
 
-wxIMPLEMENT_DYNAMIC_CLASS(wxTaskBarIcon, wxEvtHandler);
+IMPLEMENT_DYNAMIC_CLASS(wxTaskBarIcon, wxEvtHandler)
 
 wxTaskBarIcon::wxTaskBarIcon(wxTaskBarIconType WXUNUSED(iconType))
 {
@@ -348,36 +342,4 @@ bool wxTaskBarIcon::PopupMenu(wxMenu* menu)
     return true;
 }
 
-#else
-wxIMPLEMENT_DYNAMIC_CLASS(wxTaskBarIcon, wxEvtHandler);
-
-wxTaskBarIcon::wxTaskBarIcon(wxTaskBarIconType)
-{
-    m_priv = NULL;
-}
-
-wxTaskBarIcon::~wxTaskBarIcon()
-{
-}
-
-bool wxTaskBarIcon::SetIcon(const wxIcon&, const wxString&)
-{
-    return false;
-}
-
-bool wxTaskBarIcon::RemoveIcon()
-{
-    return false;
-}
-
-bool wxTaskBarIcon::IsIconInstalled() const
-{
-    return false;
-}
-
-bool wxTaskBarIcon::PopupMenu(wxMenu*)
-{
-    return false;
-}
-#endif // __WXGTK4__
 #endif // wxUSE_TASKBARICON

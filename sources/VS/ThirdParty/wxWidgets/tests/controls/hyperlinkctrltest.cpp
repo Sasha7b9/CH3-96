@@ -10,6 +10,9 @@
 
 #if wxUSE_HYPERLINKCTRL
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #ifndef WX_PRECOMP
     #include "wx/app.h"
@@ -25,8 +28,8 @@ class HyperlinkCtrlTestCase : public CppUnit::TestCase
 public:
     HyperlinkCtrlTestCase() { }
 
-    void setUp() wxOVERRIDE;
-    void tearDown() wxOVERRIDE;
+    void setUp();
+    void tearDown();
 
 private:
     CPPUNIT_TEST_SUITE( HyperlinkCtrlTestCase );
@@ -41,7 +44,7 @@ private:
 
     wxHyperlinkCtrl* m_hyperlink;
 
-    wxDECLARE_NO_COPY_CLASS(HyperlinkCtrlTestCase);
+    DECLARE_NO_COPY_CLASS(HyperlinkCtrlTestCase)
 };
 
 // register in the unnamed registry so that these tests are run by default
@@ -89,7 +92,7 @@ void HyperlinkCtrlTestCase::Url()
 
 void HyperlinkCtrlTestCase::Click()
 {
-#if wxUSE_UIACTIONSIMULATOR
+#if wxUSE_UIACTIONSIMULATOR && !defined(__WXGTK__)
     EventCounter hyperlink(m_hyperlink, wxEVT_HYPERLINK);
 
     wxUIActionSimulator sim;

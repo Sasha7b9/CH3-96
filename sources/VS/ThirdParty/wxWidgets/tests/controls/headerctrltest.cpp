@@ -12,6 +12,9 @@
 
 #include "testprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #ifndef WX_PRECOMP
     #include "wx/app.h"
@@ -28,8 +31,8 @@ class HeaderCtrlTestCase : public CppUnit::TestCase
 public:
     HeaderCtrlTestCase() { }
 
-    virtual void setUp() wxOVERRIDE;
-    virtual void tearDown() wxOVERRIDE;
+    virtual void setUp();
+    virtual void tearDown();
 
 private:
     CPPUNIT_TEST_SUITE( HeaderCtrlTestCase );
@@ -44,7 +47,7 @@ private:
 
     wxHeaderCtrlSimple *m_header;
 
-    wxDECLARE_NO_COPY_CLASS(HeaderCtrlTestCase);
+    DECLARE_NO_COPY_CLASS(HeaderCtrlTestCase)
 };
 
 // register in the unnamed registry so that these tests are run by default

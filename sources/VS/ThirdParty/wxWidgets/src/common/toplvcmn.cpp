@@ -18,6 +18,9 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #include "wx/toplevel.h"
 
@@ -28,22 +31,20 @@
 
 #include "wx/display.h"
 
-#include "wx/private/tlwgeom.h"
-
 // ----------------------------------------------------------------------------
 // event table
 // ----------------------------------------------------------------------------
 
-wxBEGIN_EVENT_TABLE(wxTopLevelWindowBase, wxWindow)
+BEGIN_EVENT_TABLE(wxTopLevelWindowBase, wxWindow)
     EVT_CLOSE(wxTopLevelWindowBase::OnCloseWindow)
     EVT_SIZE(wxTopLevelWindowBase::OnSize)
-wxEND_EVENT_TABLE()
+END_EVENT_TABLE()
 
 // ============================================================================
 // implementation
 // ============================================================================
 
-wxIMPLEMENT_ABSTRACT_CLASS(wxTopLevelWindow, wxWindow);
+IMPLEMENT_ABSTRACT_CLASS(wxTopLevelWindow, wxWindow)
 
 // ----------------------------------------------------------------------------
 // construction/destruction
@@ -246,7 +247,8 @@ void wxTopLevelWindowBase::DoCentre(int dir)
     // we need the display rect anyhow so store it first: notice that we should
     // be centered on the same display as our parent window, the display of
     // this window itself is not really defined yet
-    wxDisplay dpy(GetParent() ? GetParent() : this);
+    int nDisplay = wxDisplay::GetFromWindow(GetParent() ? GetParent() : this);
+    wxDisplay dpy(nDisplay == wxNOT_FOUND ? 0 : nDisplay);
     const wxRect rectDisplay(dpy.GetClientArea());
 
     // what should we centre this window on?
@@ -309,28 +311,6 @@ void wxTopLevelWindowBase::DoCentre(int dir)
 }
 
 // ----------------------------------------------------------------------------
-// Saving/restoring geometry
-// ----------------------------------------------------------------------------
-
-bool wxTopLevelWindowBase::SaveGeometry(const GeometrySerializer& ser) const
-{
-    wxTLWGeometry geom;
-    if ( !geom.GetFrom(static_cast<const wxTopLevelWindow*>(this)) )
-        return false;
-
-    return geom.Save(ser);
-}
-
-bool wxTopLevelWindowBase::RestoreToGeometry(GeometrySerializer& ser)
-{
-    wxTLWGeometry geom;
-    if ( !geom.Restore(ser) )
-        return false;
-
-    return geom.ApplyTo(static_cast<wxTopLevelWindow*>(this));
-}
-
-// ----------------------------------------------------------------------------
 // wxTopLevelWindow size management: we exclude the areas taken by
 // menu/status/toolbars from the client area, so the client area is what's
 // really available for the frame contents
@@ -363,7 +343,11 @@ void wxTopLevelWindowBase::DoClientToScreen(int *x, int *y) const
 
 bool wxTopLevelWindowBase::IsAlwaysMaximized() const
 {
+#if defined(__SMARTPHONE__) || defined(__POCKETPC__)
+    return true;
+#else
     return false;
+#endif
 }
 
 // ----------------------------------------------------------------------------
@@ -390,43 +374,22 @@ void wxTopLevelWindowBase::SetIcon(const wxIcon& icon)
 // event handlers
 // ----------------------------------------------------------------------------
 
-bool wxTopLevelWindowBase::IsTopNavigationDomain(NavigationKind kind) const
-{
-    // This switch only exists to generate a compiler warning and force us to
-    // revisit this code if any new kinds of navigation are added in the
-    // future, but for now we block of them by default (some derived classes
-    // relax this however).
-    switch ( kind )
-    {
-        case Navigation_Tab:
-        case Navigation_Accel:
-            break;
-    }
-
-    return true;
-}
-
 // default resizing behaviour - if only ONE subwindow, resize to fill the
 // whole client area
-bool wxTopLevelWindowBase::Layout()
+void wxTopLevelWindowBase::DoLayout()
 {
     // We are called during the window destruction several times, e.g. as
     // wxFrame tries to adjust to its tool/status bars disappearing. But
     // actually doing the layout is pretty useless in this case as the window
     // will disappear anyhow -- so just don't bother.
     if ( IsBeingDeleted() )
-        return false;
+        return;
 
 
-    // if we're using sizers or constraints - do use them
-    if ( GetAutoLayout()
-            || GetSizer()
-#if wxUSE_CONSTRAINTS
-                    || GetConstraints()
-#endif
-                                        )
+    // if we're using constraints or sizers - do use them
+    if ( GetAutoLayout() )
     {
-        return wxNonOwnedWindow::Layout();
+        Layout();
     }
     else
     {
@@ -445,7 +408,7 @@ bool wxTopLevelWindowBase::Layout()
             {
                 if ( child )
                 {
-                    return false; // it's our second subwindow - nothing to do
+                    return;     // it's our second subwindow - nothing to do
                 }
 
                 child = win;
@@ -460,12 +423,8 @@ bool wxTopLevelWindowBase::Layout()
             DoGetClientSize(&clientW, &clientH);
 
             child->SetSize(0, 0, clientW, clientH);
-
-            return true;
         }
     }
-
-    return false;
 }
 
 // The default implementation for the close window event.

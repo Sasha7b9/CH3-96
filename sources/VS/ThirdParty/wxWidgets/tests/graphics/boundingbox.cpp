@@ -3,6 +3,7 @@
 // Purpose:     wxGCDC bounding box unit tests
 // Author:      Vadim Zeitlin / Maarten Spoek / Toni Ruža
 // Created:     2011-01-36
+// RCS-ID:      $Id$
 // Copyright:   (c) 2011 Vadim Zeitlin <vadim@wxwidgets.org>
 //              (c) 2014 Toni Ruža <toni.ruza@gmail.com>
 ///////////////////////////////////////////////////////////////////////////////
@@ -13,8 +14,9 @@
 
 #include "testprec.h"
 
-
-#if wxUSE_GRAPHICS_CONTEXT
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #include "wx/bitmap.h"
 #include "wx/dcmemory.h"
@@ -22,6 +24,7 @@
 #include "wx/icon.h"
 #include "wx/colour.h"
 #include "wx/gdicmn.h"
+
 
 // ----------------------------------------------------------------------------
 // test class
@@ -44,7 +47,7 @@ public:
         m_bmp = wxNullBitmap;
     }
 
-    virtual void setUp() wxOVERRIDE
+    virtual void setUp()
     {
         m_gcdc->ResetBoundingBox();
     }
@@ -52,7 +55,6 @@ public:
 private:
     wxBitmap m_bmp;
     wxMemoryDC m_dc;
-
     wxGCDC *m_gcdc;
 
     void AssertBox(int minX, int minY, int width, int height, int margin = 0)
@@ -99,10 +101,7 @@ private:
         CPPUNIT_TEST( DrawPolygon );
         CPPUNIT_TEST( DrawPolyPolygon );
         CPPUNIT_TEST( DrawRectangle );
-        CPPUNIT_TEST( DrawTwoRectangles );
-        CPPUNIT_TEST( DrawRectsOnTransformedDC );
         CPPUNIT_TEST( DrawRoundedRectangle );
-        CPPUNIT_TEST( DrawRectangleAndReset );
         CPPUNIT_TEST( DrawEllipse );
         CPPUNIT_TEST( Blit );
         CPPUNIT_TEST( StretchBlit );
@@ -127,10 +126,7 @@ private:
     void DrawPolygon();
     void DrawPolyPolygon();
     void DrawRectangle();
-    void DrawTwoRectangles();
-    void DrawRectsOnTransformedDC();
     void DrawRoundedRectangle();
-    void DrawRectangleAndReset();
     void DrawEllipse();
     void Blit();
     void StretchBlit();
@@ -140,7 +136,7 @@ private:
     void GradientFillConcentric();
     void DrawCheckMark();
 
-    wxDECLARE_NO_COPY_CLASS(GCDCBoundingBoxTestCase);
+    DECLARE_NO_COPY_CLASS(GCDCBoundingBoxTestCase)
 };
 
 // register in the unnamed registry so that these tests are run by default
@@ -337,28 +333,3 @@ void GCDCBoundingBoxTestCase::DrawCheckMark()
     m_gcdc->DrawCheckMark(32, 24, 16, 16);
     AssertBox(32, 24, 16, 16);
 }
-
-void GCDCBoundingBoxTestCase::DrawRectangleAndReset()
-{
-    m_gcdc->DrawRectangle(2, 2, 12, 12);
-    m_gcdc->ResetBoundingBox();
-    AssertBox(0, 0, 0, 0);
-}
-
-void GCDCBoundingBoxTestCase::DrawTwoRectangles()
-{
-    m_gcdc->DrawRectangle(10, 15, 50, 30);
-    m_gcdc->DrawRectangle(15, 20, 55, 35);
-    AssertBox(10, 15, 60, 40);
-}
-
-void GCDCBoundingBoxTestCase::DrawRectsOnTransformedDC()
-{
-    m_gcdc->DrawRectangle(10, 15, 50, 30);
-    m_gcdc->SetDeviceOrigin(15, 20);
-    m_gcdc->DrawRectangle(15, 20, 45, 35);
-    m_gcdc->SetDeviceOrigin(5, 10);
-    AssertBox(5, 5, 65, 60);
-}
-
-#endif // wxUSE_GRAPHICS_CONTEXT

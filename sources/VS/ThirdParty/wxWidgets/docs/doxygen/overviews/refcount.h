@@ -108,7 +108,7 @@ class-specific shared data. For example:
 @code
 MyClassRefData* GetData() const
 {
-    return static_cast<MyClassRefData*>(m_refData);
+    return wx_static_cast(MyClassRefData*, m_refData);
 }
 @endcode
 

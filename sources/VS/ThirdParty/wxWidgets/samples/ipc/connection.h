@@ -24,13 +24,13 @@ protected:
     {
         wxString s;
         if (topic.IsEmpty() && item.IsEmpty())
-            s.Printf("%s(", command);
+            s.Printf("%s(", command.c_str());
         else if (topic.IsEmpty())
-            s.Printf("%s(item=\"%s\",", command, item);
+            s.Printf("%s(item=\"%s\",", command.c_str(), item.c_str());
         else if (item.IsEmpty())
-            s.Printf("%s(topic=\"%s\",", command, topic);
+            s.Printf("%s(topic=\"%s\",", command.c_str(), topic.c_str());
         else
-            s.Printf("%s(topic=\"%s\",item=\"%s\",", command, topic, item);
+            s.Printf("%s(topic=\"%s\",item=\"%s\",", command.c_str(), topic.c_str(), item.c_str());
 
         switch (format)
         {
@@ -69,7 +69,7 @@ protected:
               break;
         }
 
-        wxLogMessage("%s,%lu)", s, (unsigned long)size);
+        wxLogMessage("%s,%d)", s, size);
     }
 };
 

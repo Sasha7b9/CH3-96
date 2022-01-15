@@ -13,6 +13,9 @@
 
 #include "testprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #ifndef WX_PRECOMP
     #include "wx/wx.h"
@@ -174,7 +177,7 @@ private:
     wxIF_LONG_LONG_TYPE( void RefwxULongLongCompare(); )
     wxIF_WCHAR_T_TYPE( void RefWideCharCompare(); )
 
-    wxDECLARE_NO_COPY_CLASS(UniCharTestCase);
+    DECLARE_NO_COPY_CLASS(UniCharTestCase)
 };
 
 // register in the unnamed registry so that these tests are run by default

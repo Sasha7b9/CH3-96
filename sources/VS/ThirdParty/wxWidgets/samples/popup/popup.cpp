@@ -19,6 +19,9 @@
 // For compilers that support precompilation, includes "wx/wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 // for all others, include the necessary headers (this file is usually all you
 // need because it includes almost all "standard" wxWidgets headers)
@@ -33,7 +36,7 @@
 // resources
 // ----------------------------------------------------------------------------
 
-// the application icon (under Windows it is in resources and even
+// the application icon (under Windows and OS/2 it is in resources and even
 // though we could still include the XPM here it would be unused)
 #ifndef wxHAS_IMAGES_IN_RESOURCES
     #include "../sample.xpm"
@@ -66,10 +69,10 @@ public:
     virtual ~SimpleTransientPopup();
 
     // wxPopupTransientWindow virtual methods are all overridden to log them
-    virtual void Popup(wxWindow *focus = NULL) wxOVERRIDE;
-    virtual void OnDismiss() wxOVERRIDE;
-    virtual bool ProcessLeftDown(wxMouseEvent& event) wxOVERRIDE;
-    virtual bool Show( bool show = true ) wxOVERRIDE;
+    virtual void Popup(wxWindow *focus = NULL);
+    virtual void OnDismiss();
+    virtual bool ProcessLeftDown(wxMouseEvent& event);
+    virtual bool Show( bool show = true );
 
 private:
     wxScrolledWindow *m_panel;
@@ -93,7 +96,7 @@ private:
 //----------------------------------------------------------------------------
 // SimpleTransientPopup
 //----------------------------------------------------------------------------
-wxIMPLEMENT_CLASS(SimpleTransientPopup,wxPopupTransientWindow);
+IMPLEMENT_CLASS(SimpleTransientPopup,wxPopupTransientWindow)
 
 wxBEGIN_EVENT_TABLE(SimpleTransientPopup,wxPopupTransientWindow)
     EVT_MOUSE_EVENTS( SimpleTransientPopup::OnMouse )
@@ -105,9 +108,7 @@ wxBEGIN_EVENT_TABLE(SimpleTransientPopup,wxPopupTransientWindow)
 wxEND_EVENT_TABLE()
 
 SimpleTransientPopup::SimpleTransientPopup( wxWindow *parent, bool scrolled )
-                     :wxPopupTransientWindow( parent,
-                                              wxBORDER_NONE |
-                                              wxPU_CONTAINS_CONTROLS )
+                     :wxPopupTransientWindow( parent )
 {
     m_panel = new wxScrolledWindow( this, wxID_ANY );
     m_panel->SetBackgroundColour( *wxLIGHT_GREY );
@@ -115,27 +116,27 @@ SimpleTransientPopup::SimpleTransientPopup( wxWindow *parent, bool scrolled )
     // Keep this code to verify if mouse events work, they're required if
     // you're making a control like a combobox where the items are highlighted
     // under the cursor, the m_panel is set focus in the Popup() function
-    m_panel->Bind(wxEVT_MOTION, &SimpleTransientPopup::OnMouse, this);
+    m_panel->Connect(wxEVT_MOTION,
+                     wxMouseEventHandler(SimpleTransientPopup::OnMouse),
+                     NULL, this);
 
     wxStaticText *text = new wxStaticText( m_panel, wxID_ANY,
-                          "wxPopupTransientWindow is a\n"
-                          "wxPopupWindow which disappears\n"
-                          "automatically when the user\n"
-                          "clicks the mouse outside it or if it\n"
-                          "(or its first child) loses focus in \n"
-                          "any other way." );
+                          wxT("wxPopupTransientWindow is a\n")
+                          wxT("wxPopupWindow which disappears\n")
+                          wxT("automatically when the user\n")
+                          wxT("clicks the mouse outside it or if it\n")
+                          wxT("(or its first child) loses focus in \n")
+                          wxT("any other way.") );
 
-    m_button = new wxButton(m_panel, Minimal_PopupButton, "Press Me");
-    m_spinCtrl = new wxSpinCtrl(m_panel, Minimal_PopupSpinctrl, "Hello");
+    m_button = new wxButton(m_panel, Minimal_PopupButton, wxT("Press Me"));
+    m_spinCtrl = new wxSpinCtrl(m_panel, Minimal_PopupSpinctrl, wxT("Hello"));
     m_mouseText = new wxStaticText(m_panel, wxID_ANY,
-                                   "<- Test Mouse ->");
+                                   wxT("<- Test Mouse ->"));
 
     wxBoxSizer *topSizer = new wxBoxSizer( wxVERTICAL );
     topSizer->Add( text, 0, wxALL, 5 );
     topSizer->Add( m_button, 0, wxALL, 5 );
     topSizer->Add( m_spinCtrl, 0, wxALL, 5 );
-    topSizer->Add( new wxTextCtrl(m_panel, wxID_ANY, "Try to type here"),
-                   0, wxEXPAND|wxALL, 5 );
     topSizer->Add( m_mouseText, 0, wxCENTRE|wxALL, 5 );
 
     if ( scrolled )
@@ -236,10 +237,10 @@ void SimpleTransientPopup::OnButton(wxCommandEvent& event)
     wxLogMessage( "%p SimpleTransientPopup::OnButton ID %d", this, event.GetId());
 
     wxButton *button = wxDynamicCast(event.GetEventObject(), wxButton);
-    if (button->GetLabel() == "Press Me")
-        button->SetLabel("Pressed");
+    if (button->GetLabel() == wxT("Press Me"))
+        button->SetLabel(wxT("Pressed"));
     else
-        button->SetLabel("Press Me");
+        button->SetLabel(wxT("Press Me"));
 
     event.Skip();
 }
@@ -293,7 +294,7 @@ private:
 class MyApp : public wxApp
 {
 public:
-    virtual bool OnInit() wxOVERRIDE;
+    virtual bool OnInit();
 
     MyFrame *m_frame;
 };
@@ -303,7 +304,7 @@ public:
 // ----------------------------------------------------------------------------
 
 
-wxIMPLEMENT_APP(MyApp);
+IMPLEMENT_APP(MyApp)
 
 // 'Main program' equivalent: the program execution "starts" here
 bool MyApp::OnInit()
@@ -312,7 +313,7 @@ bool MyApp::OnInit()
         return false;
 
     // create the main application window
-    m_frame = new MyFrame("Popup wxWidgets App");
+    m_frame = new MyFrame(wxT("Popup wxWidgets App"));
 
     // and show it (the frames, unlike simple controls, are not shown when
     // created initially)
@@ -349,15 +350,15 @@ MyFrame::MyFrame(const wxString& title)
 
     // the "About" item should be in the help menu
     wxMenu *helpMenu = new wxMenu;
-    helpMenu->Append(Minimal_About, "&About\tF1", "Show about dialog");
+    helpMenu->Append(Minimal_About, wxT("&About\tF1"), wxT("Show about dialog"));
 
-    menuFile->Append(Minimal_TestDialog, "&Test dialog\tAlt-T", "Test dialog");
-    menuFile->Append(Minimal_Quit, "E&xit\tAlt-X", "Quit this program");
+    menuFile->Append(Minimal_TestDialog, wxT("&Test dialog\tAlt-T"), wxT("Test dialog"));
+    menuFile->Append(Minimal_Quit, wxT("E&xit\tAlt-X"), wxT("Quit this program"));
 
     // now append the freshly created menu to the menu bar...
     wxMenuBar *menuBar = new wxMenuBar();
-    menuBar->Append(menuFile, "&File");
-    menuBar->Append(helpMenu, "&Help");
+    menuBar->Append(menuFile, wxT("&File"));
+    menuBar->Append(helpMenu, wxT("&Help"));
 
     // ... and attach this menu bar to the frame
     SetMenuBar(menuBar);
@@ -366,12 +367,12 @@ MyFrame::MyFrame(const wxString& title)
 #if wxUSE_STATUSBAR
     // create a status bar just for fun (by default with 1 pane only)
     CreateStatusBar(2);
-    SetStatusText("Welcome to wxWidgets!");
+    SetStatusText(wxT("Welcome to wxWidgets!"));
 #endif // wxUSE_STATUSBAR
 
     wxPanel *panel = new wxPanel(this, -1);
-    wxButton *button1 = new wxButton( panel, Minimal_StartSimplePopup, "Show simple popup", wxPoint(20,20) );
-    wxButton *button2 = new wxButton( panel, Minimal_StartScrolledPopup, "Show scrolled popup", wxPoint(20,70) );
+    wxButton *button1 = new wxButton( panel, Minimal_StartSimplePopup, wxT("Show simple popup"), wxPoint(20,20) );
+    wxButton *button2 = new wxButton( panel, Minimal_StartScrolledPopup, wxT("Show scrolled popup"), wxPoint(20,70) );
 
     m_logWin = new wxTextCtrl( panel, wxID_ANY, wxEmptyString, wxDefaultPosition,
                                wxDefaultSize, wxTE_MULTILINE );
@@ -399,12 +400,12 @@ MyFrame::~MyFrame()
 
 void MyFrame::OnActivate(wxActivateEvent& WXUNUSED(event))
 {
-    wxLogMessage( "In activate..." );
+    wxLogMessage( wxT("In activate...") );
 }
 
 void MyFrame::OnStartSimplePopup(wxCommandEvent& event)
 {
-    wxLogMessage( "================================================" );
+    wxLogMessage( wxT("================================================") );
     delete m_simplePopup;
     m_simplePopup = new SimpleTransientPopup( this, false );
     wxWindow *btn = (wxWindow*) event.GetEventObject();
@@ -417,7 +418,7 @@ void MyFrame::OnStartSimplePopup(wxCommandEvent& event)
 
 void MyFrame::OnStartScrolledPopup(wxCommandEvent& event)
 {
-    wxLogMessage( "================================================" );
+    wxLogMessage( wxT("================================================") );
     delete m_scrolledPopup;
     m_scrolledPopup = new SimpleTransientPopup( this, true );
     wxWindow *btn = (wxWindow*) event.GetEventObject();
@@ -430,7 +431,7 @@ void MyFrame::OnStartScrolledPopup(wxCommandEvent& event)
 
 void MyFrame::OnTestDialog(wxCommandEvent& WXUNUSED(event))
 {
-    MyDialog dialog( "Test" );
+    MyDialog dialog( wxT("Test") );
     dialog.ShowModal();
 }
 
@@ -443,10 +444,10 @@ void MyFrame::OnQuit(wxCommandEvent& WXUNUSED(event))
 void MyFrame::OnAbout(wxCommandEvent& WXUNUSED(event))
 {
     wxString msg;
-    msg.Printf( "This is the About dialog of the popup sample.\n"
-                "Welcome to %s", wxVERSION_STRING);
+    msg.Printf( wxT("This is the About dialog of the popup sample.\n")
+                wxT("Welcome to %s"), wxVERSION_STRING);
 
-    wxMessageBox(msg, "About Popup", wxOK | wxICON_INFORMATION, this);
+    wxMessageBox(msg, wxT("About Popup"), wxOK | wxICON_INFORMATION, this);
 }
 
 // ----------------------------------------------------------------------------
@@ -464,10 +465,10 @@ MyDialog::MyDialog(const wxString& title)
     m_simplePopup = m_scrolledPopup = NULL;
     wxPanel *panel = new wxPanel(this, -1);
 
-    wxButton *button1 = new wxButton( panel, Minimal_StartSimplePopup, "Show simple popup", wxPoint(20,20) );
-    wxButton *button2 = new wxButton( panel, Minimal_StartScrolledPopup, "Show scrolled popup", wxPoint(20,60) );
+    wxButton *button1 = new wxButton( panel, Minimal_StartSimplePopup, wxT("Show simple popup"), wxPoint(20,20) );
+    wxButton *button2 = new wxButton( panel, Minimal_StartScrolledPopup, wxT("Show scrolled popup"), wxPoint(20,60) );
 
-    wxButton *okButton = new wxButton( panel, wxID_OK, "OK", wxPoint(20,200) );
+    wxButton *okButton = new wxButton( panel, wxID_OK, wxT("OK"), wxPoint(20,200) );
 
     wxBoxSizer *topSizer = new wxBoxSizer( wxVERTICAL );
     topSizer->Add( button1, 0, wxALL, 5 );
@@ -480,7 +481,7 @@ MyDialog::MyDialog(const wxString& title)
 
 void MyDialog::OnStartSimplePopup(wxCommandEvent& event)
 {
-    wxLogMessage( "================================================" );
+    wxLogMessage( wxT("================================================") );
     delete m_simplePopup;
     m_simplePopup = new SimpleTransientPopup( this, false );
     wxWindow *btn = (wxWindow*) event.GetEventObject();
@@ -493,7 +494,7 @@ void MyDialog::OnStartSimplePopup(wxCommandEvent& event)
 
 void MyDialog::OnStartScrolledPopup(wxCommandEvent& event)
 {
-    wxLogMessage( "================================================" );
+    wxLogMessage( wxT("================================================") );
     delete m_scrolledPopup;
     m_scrolledPopup = new SimpleTransientPopup( this, true );
     wxWindow *btn = (wxWindow*) event.GetEventObject();

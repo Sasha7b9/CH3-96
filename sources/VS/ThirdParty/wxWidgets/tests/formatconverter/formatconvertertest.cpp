@@ -37,6 +37,9 @@
 // For compilers that support precompilation, includes "wx/wx.h".
 #include "testprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 // for all others, include the necessary headers
 #ifndef WX_PRECOMP
@@ -308,9 +311,7 @@ void FormatConverterTestCase::check(const wxString& input,
 #if wxUSE_UNICODE && !wxUSE_UTF8_LOCALE_ONLY
     result = (const wchar_t*)wxFormatString(input);
 
-#if defined(__WINDOWS__) && \
-    !defined(__CYGWIN__) && \
-    !defined(__MINGW32__)
+#ifdef __WINDOWS__
     wxString expectedWchar(expectedWcharWindows);
 #else
     wxString expectedWchar(expectedWcharUnix);

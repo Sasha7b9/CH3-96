@@ -12,6 +12,9 @@
 
 #include "testprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #include "wx/timer.h"
 
@@ -39,7 +42,7 @@ private:
 
     void TestExit();
 
-    wxDECLARE_NO_COPY_CLASS(EvtloopTestCase);
+    DECLARE_NO_COPY_CLASS(EvtloopTestCase)
 };
 
 // register in the unnamed registry so that these tests are run by default
@@ -60,7 +63,7 @@ public:
     {
     }
 
-    virtual void Notify() wxOVERRIDE
+    virtual void Notify()
     {
         m_loop.ScheduleExit(m_rc);
     }
@@ -84,7 +87,7 @@ public:
     {
     }
 
-    virtual void Notify() wxOVERRIDE
+    virtual void Notify()
     {
         wxEventLoop loopInner;
         ScheduleLoopExitTimer timerInner(loopInner, EXIT_CODE_INNER_LOOP);

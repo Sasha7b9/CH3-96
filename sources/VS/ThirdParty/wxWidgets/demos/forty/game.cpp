@@ -13,6 +13,10 @@
 // For compilers that support precompilation, includes "wx/wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+#pragma hdrstop
+#endif
+
 #ifndef WX_PRECOMP
 #include "wx/wx.h"
 #endif
@@ -211,7 +215,7 @@ void Game::DoMove(wxDC& dc, Pile* src, Pile* dest)
 void Game::DisplayScore(wxDC& dc)
 {
     wxColour bgColour = FortyApp::BackgroundColour();
-    wxPen* pen = wxThePenList->FindOrCreatePen(bgColour);
+    wxPen* pen = wxThePenList->FindOrCreatePen(bgColour, 1, wxSOLID);
     dc.SetTextBackground(bgColour);
     dc.SetTextForeground(FortyApp::TextColour());
     dc.SetBrush(FortyApp::BackgroundBrush());
@@ -791,7 +795,7 @@ void Pack::Redraw(wxDC& dc)
     wxString str;
     str.Printf(wxT("%d  "), m_topCard + 1);
 
-    dc.SetBackgroundMode( wxBRUSHSTYLE_SOLID );
+    dc.SetBackgroundMode( wxSOLID );
     dc.SetTextBackground(FortyApp::BackgroundColour());
     dc.SetTextForeground(FortyApp::TextColour());
     dc.DrawText(str, m_x + CardWidth + 5, m_y + CardHeight / 2);

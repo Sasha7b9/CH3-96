@@ -3,7 +3,7 @@
 // Purpose:     implements wxGenericAboutBox() function
 // Author:      Vadim Zeitlin
 // Created:     2006-10-08
-// Copyright:   (c) 2006 Vadim Zeitlin <vadim@wxwidgets.org>
+// Copyright:   (c) 2006 Vadim Zeitlin <vadim@wxwindows.org>
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -18,6 +18,9 @@
 // for compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #if wxUSE_ABOUTDLG
 
@@ -81,10 +84,10 @@ wxString wxAboutDialogInfo::GetDescriptionAndCredits() const
 wxIcon wxAboutDialogInfo::GetIcon() const
 {
     wxIcon icon = m_icon;
-    if ( !icon.IsOk() )
+    if ( !icon.IsOk() && wxTheApp )
     {
         const wxTopLevelWindow * const
-            tlw = wxDynamicCast(wxApp::GetMainTopWindow(), wxTopLevelWindow);
+            tlw = wxDynamicCast(wxTheApp->GetTopWindow(), wxTopLevelWindow);
         if ( tlw )
             icon = tlw->GetIcon();
     }
@@ -144,7 +147,7 @@ bool wxGenericAboutDialog::Create(const wxAboutDialogInfo& info, wxWindow* paren
         nameAndVersion << wxT(' ') << info.GetVersion();
     wxStaticText *label = new wxStaticText(this, wxID_ANY, nameAndVersion);
     wxFont fontBig(*wxNORMAL_FONT);
-    fontBig.SetFractionalPointSize(fontBig.GetFractionalPointSize() + 2.0);
+    fontBig.SetPointSize(fontBig.GetPointSize() + 2);
     fontBig.SetWeight(wxFONTWEIGHT_BOLD);
     label->SetFont(fontBig);
 
@@ -217,8 +220,10 @@ bool wxGenericAboutDialog::Create(const wxAboutDialogInfo& info, wxWindow* paren
     CentreOnParent();
 
 #if !wxUSE_MODAL_ABOUT_DIALOG
-    Bind(wxEVT_CLOSE_WINDOW, &wxGenericAboutDialog::OnCloseWindow, this);
-    Bind(wxEVT_BUTTON, &wxGenericAboutDialog::OnOK, this, wxID_OK);
+    Connect(wxEVT_CLOSE_WINDOW,
+            wxCloseEventHandler(wxGenericAboutDialog::OnCloseWindow));
+    Connect(wxID_OK, wxEVT_BUTTON,
+            wxCommandEventHandler(wxGenericAboutDialog::OnOK));
 #endif // !wxUSE_MODAL_ABOUT_DIALOG
 
     return true;

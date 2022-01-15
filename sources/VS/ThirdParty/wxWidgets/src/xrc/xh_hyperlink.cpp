@@ -19,6 +19,10 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+#pragma hdrstop
+#endif
+
 #if wxUSE_XRC && wxUSE_HYPERLINKCTRL
 
 //---------------------------------------------------------------------------
@@ -42,7 +46,7 @@
 //---------------------------------------------------------------------------
 
 // Register with wxWindows' dynamic class subsystem.
-wxIMPLEMENT_DYNAMIC_CLASS(wxHyperlinkCtrlXmlHandler, wxXmlResourceHandler);
+IMPLEMENT_DYNAMIC_CLASS(wxHyperlinkCtrlXmlHandler, wxXmlResourceHandler)
 
 wxHyperlinkCtrlXmlHandler::wxHyperlinkCtrlXmlHandler()
 {

@@ -11,6 +11,9 @@
 #include "wx/html/htmltag.h"
 #include "wx/html/styleparams.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #if wxUSE_HTML
 
@@ -39,7 +42,7 @@ wxHtmlStyleParams::wxHtmlStyleParams(const wxHtmlTag& tag)
         else
         {
             // Syntax problem change to blank string
-            wd.clear();
+            wd = "";
         }
     }
 

@@ -79,7 +79,7 @@ public:
     void OnEditSelectAll (wxCommandEvent &event);
     void OnEditSelectLine (wxCommandEvent &event);
     //! view
-    void OnHighlightLang (wxCommandEvent &event);
+    void OnHilightLang (wxCommandEvent &event);
     void OnDisplayEOL (wxCommandEvent &event);
     void OnIndentGuide (wxCommandEvent &event);
     void OnLineNumber (wxCommandEvent &event);
@@ -98,25 +98,18 @@ public:
     //! extra
     void OnChangeCase (wxCommandEvent &event);
     void OnConvertEOL (wxCommandEvent &event);
-    void OnMultipleSelections(wxCommandEvent& event);
-    void OnMultiPaste(wxCommandEvent& event);
-    void OnMultipleSelectionsTyping(wxCommandEvent& event);
-    void OnCustomPopup(wxCommandEvent& evt);
-    void OnTechnology(wxCommandEvent& event);
     // stc
     void OnMarginClick (wxStyledTextEvent &event);
     void OnCharAdded  (wxStyledTextEvent &event);
-    void OnCallTipClick(wxStyledTextEvent &event);
+    void OnKey  (wxStyledTextEvent &event);
 
     void OnKeyDown(wxKeyEvent &event);
-
-    // call tips
-    void ShowCallTipAt(int position);
 
     //! language/lexer
     wxString DeterminePrefs (const wxString &filename);
     bool InitializePrefs (const wxString &filename);
-    LanguageInfo const* GetLanguageInfo () {return m_language;}
+    bool UserSettings (const wxString &filename);
+    LanguageInfo const* GetLanguageInfo () {return m_language;};
 
     //! load/save file
     bool LoadFile ();
@@ -124,8 +117,8 @@ public:
     bool SaveFile ();
     bool SaveFile (const wxString &filename);
     bool Modified ();
-    wxString GetFilename () {return m_filename;}
-    void SetFilename (const wxString &filename) {m_filename = filename;}
+    wxString GetFilename () {return m_filename;};
+    void SetFilename (const wxString &filename) {m_filename = filename;};
 
 private:
     // file
@@ -140,9 +133,6 @@ private:
     int m_FoldingID;
     int m_FoldingMargin;
     int m_DividerID;
-
-    // call tip data
-    int m_calltipNo;
 
     wxDECLARE_EVENT_TABLE();
 };
@@ -169,19 +159,19 @@ class EditPrint: public wxPrintout {
 public:
 
     //! constructor
-    EditPrint (Edit *edit, const wxString& title = "");
+    EditPrint (Edit *edit, const wxChar *title = wxT(""));
 
     //! event handlers
-    bool OnPrintPage (int page) wxOVERRIDE;
-    bool OnBeginDocument (int startPage, int endPage) wxOVERRIDE;
+    bool OnPrintPage (int page);
+    bool OnBeginDocument (int startPage, int endPage);
 
     //! print functions
-    bool HasPage (int page) wxOVERRIDE;
-    void GetPageInfo (int *minPage, int *maxPage, int *selPageFrom, int *selPageTo) wxOVERRIDE;
+    bool HasPage (int page);
+    void GetPageInfo (int *minPage, int *maxPage, int *selPageFrom, int *selPageTo);
 
 private:
     Edit *m_edit;
-    wxArrayInt m_pageEnds;
+    int m_printed;
     wxRect m_pageRect;
     wxRect m_printRect;
 

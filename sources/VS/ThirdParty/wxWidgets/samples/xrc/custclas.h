@@ -56,11 +56,11 @@ public:
                          const wxSize &size = wxDefaultSize,
                          long style = wxLC_REPORT,
                          const wxValidator& validator = wxDefaultValidator,
-                         const wxString &name = "myResizableListCtrl"
+                         const wxString &name = wxT("myResizableListCtrl")
                        );
 
     // Destructor.
-    ~MyResizableListCtrl(){}
+    ~MyResizableListCtrl(){};
 
 protected:
 

@@ -8,6 +8,10 @@
 
 #include "testprec.h"
 
+#ifdef __BORLANDC__
+#   pragma hdrstop
+#endif
+
 #include "wx/typeinfo.h"
 
 // ----------------------------------------------------------------------------
@@ -26,7 +30,7 @@ private:
 
     void Test();
 
-    wxDECLARE_NO_COPY_CLASS(TypeInfoTestCase);
+    DECLARE_NO_COPY_CLASS(TypeInfoTestCase)
 };
 
 // register in the unnamed registry so that these tests are run by default

@@ -29,10 +29,7 @@ enum
 // wxTimePickerCtrl: Allow the user to enter the time.
 // ----------------------------------------------------------------------------
 
-// The template argument must be a class deriving from wxDateTimePickerCtrlBase
-// (i.e. in practice either this class itself or wxDateTimePickerCtrl).
-template <typename Base>
-class wxTimePickerCtrlCommonBase : public Base
+class WXDLLIMPEXP_ADV wxTimePickerCtrlBase : public wxDateTimePickerCtrl
 {
 public:
     /*
@@ -70,7 +67,7 @@ public:
             return false;
         }
 
-        this->SetValue(dt);
+        SetValue(dt);
 
         return true;
     }
@@ -81,7 +78,7 @@ public:
         wxCHECK_MSG( hour && min && sec, false,
                      wxS("Time component pointers must be non-NULL") );
 
-        const wxDateTime::Tm tm = this->GetValue().GetTm();
+        const wxDateTime::Tm tm = GetValue().GetTm();
         *hour = tm.hour;
         *min = tm.min;
         *sec = tm.sec;
@@ -89,10 +86,6 @@ public:
         return true;
     }
 };
-
-// This class is defined mostly for compatibility and is used as the base class
-// by native wxTimePickerCtrl implementations.
-typedef wxTimePickerCtrlCommonBase<wxDateTimePickerCtrl> wxTimePickerCtrlBase;
 
 #if defined(__WXMSW__) && !defined(__WXUNIVERSAL__)
     #include "wx/msw/timectrl.h"

@@ -11,6 +11,9 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #if wxUSE_HELP
 
@@ -19,6 +22,6 @@
 
 #include "wx/helpbase.h"
 
-wxIMPLEMENT_CLASS(wxHelpControllerBase, wxObject);
+IMPLEMENT_CLASS(wxHelpControllerBase, wxObject)
 
 #endif // wxUSE_HELP

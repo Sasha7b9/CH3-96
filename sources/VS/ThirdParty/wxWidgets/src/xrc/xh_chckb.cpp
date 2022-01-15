@@ -10,6 +10,9 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #if wxUSE_XRC && wxUSE_CHECKBOX
 
@@ -19,7 +22,7 @@
     #include "wx/checkbox.h"
 #endif
 
-wxIMPLEMENT_DYNAMIC_CLASS(wxCheckBoxXmlHandler, wxXmlResourceHandler);
+IMPLEMENT_DYNAMIC_CLASS(wxCheckBoxXmlHandler, wxXmlResourceHandler)
 
 wxCheckBoxXmlHandler::wxCheckBoxXmlHandler()
 : wxXmlResourceHandler()

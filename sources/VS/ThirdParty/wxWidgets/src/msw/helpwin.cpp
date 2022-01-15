@@ -11,6 +11,9 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #if wxUSE_HELP
 
@@ -38,7 +41,7 @@ static HWND GetSuitableHWND(wxWinHelpController* controller)
         return GetDesktopWindow();
 }
 
-wxIMPLEMENT_DYNAMIC_CLASS(wxWinHelpController, wxHelpControllerBase);
+IMPLEMENT_DYNAMIC_CLASS(wxWinHelpController, wxHelpControllerBase)
 
 bool wxWinHelpController::Initialize(const wxString& filename)
 {
@@ -53,7 +56,7 @@ bool wxWinHelpController::LoadFile(const wxString& file)
     return true;
 }
 
-bool wxWinHelpController::DisplayContents()
+bool wxWinHelpController::DisplayContents(void)
 {
     if (m_helpFile.empty()) return false;
 
@@ -99,7 +102,7 @@ bool wxWinHelpController::KeywordSearch(const wxString& k,
 }
 
 // Can't close the help window explicitly in WinHelp
-bool wxWinHelpController::Quit()
+bool wxWinHelpController::Quit(void)
 {
     return WinHelp(GetSuitableHWND(this), 0, HELP_QUIT, 0) != 0;
 }

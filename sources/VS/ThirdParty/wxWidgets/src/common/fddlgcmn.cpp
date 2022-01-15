@@ -19,6 +19,9 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #if wxUSE_FINDREPLDLG
 
@@ -31,7 +34,7 @@
 // wxWin macros
 // ----------------------------------------------------------------------------
 
-wxIMPLEMENT_DYNAMIC_CLASS(wxFindDialogEvent, wxCommandEvent);
+IMPLEMENT_DYNAMIC_CLASS(wxFindDialogEvent, wxCommandEvent)
 
 wxDEFINE_EVENT( wxEVT_FIND, wxFindDialogEvent );
 wxDEFINE_EVENT( wxEVT_FIND_NEXT, wxFindDialogEvent );

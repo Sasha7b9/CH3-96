@@ -21,11 +21,11 @@
 class MyApp: public wxApp
 {
 public:
-    bool OnInit() wxOVERRIDE;
-    int OnExit() wxOVERRIDE;
+    bool OnInit();
+    int OnExit();
 };
 
-wxDECLARE_APP(MyApp);
+DECLARE_APP(MyApp)
 
 // Define a new canvas which can receive some events
 class MyCanvas: public wxWindow
@@ -41,7 +41,7 @@ public:
 private:
     wxMenu *m_popupMenu;
 
-    wxDECLARE_EVENT_TABLE();
+    DECLARE_EVENT_TABLE()
 };
 
 // Define a new frame
@@ -94,7 +94,7 @@ private:
     // Icons
     wxIcon *m_corners[4];
 
-    wxDECLARE_EVENT_TABLE();
+    DECLARE_EVENT_TABLE()
 };
 
 // Menu items

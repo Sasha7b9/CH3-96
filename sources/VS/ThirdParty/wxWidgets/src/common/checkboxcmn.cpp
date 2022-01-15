@@ -19,6 +19,9 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #if wxUSE_CHECKBOX
 
@@ -61,7 +64,7 @@ wxBEGIN_FLAGS( wxCheckBoxStyle )
 
 wxEND_FLAGS( wxCheckBoxStyle )
 
-wxIMPLEMENT_DYNAMIC_CLASS_XTI(wxCheckBox, wxControl, "wx/checkbox.h");
+wxIMPLEMENT_DYNAMIC_CLASS_XTI(wxCheckBox, wxControl, "wx/checkbox.h")
 
 wxBEGIN_PROPERTIES_TABLE(wxCheckBox)
     wxEVENT_PROPERTY( Click, wxEVT_CHECKBOX, wxCommandEvent )

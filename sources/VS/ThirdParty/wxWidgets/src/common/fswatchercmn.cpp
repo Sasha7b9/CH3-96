@@ -10,6 +10,9 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #if wxUSE_FSWATCHER
 
@@ -58,7 +61,7 @@ static wxString GetFSWEventChangeTypeName(int type)
 // wxFileSystemWatcherEvent implementation
 // ============================================================================
 
-wxIMPLEMENT_DYNAMIC_CLASS(wxFileSystemWatcherEvent, wxEvent);
+IMPLEMENT_DYNAMIC_CLASS(wxFileSystemWatcherEvent, wxEvent);
 
 wxString wxFileSystemWatcherEvent::ToString() const
 {
@@ -84,7 +87,10 @@ wxFileSystemWatcherBase::wxFileSystemWatcherBase() :
 wxFileSystemWatcherBase::~wxFileSystemWatcherBase()
 {
     RemoveAll();
-    delete m_service;
+    if (m_service)
+    {
+        delete m_service;
+    }
 }
 
 bool wxFileSystemWatcherBase::Add(const wxFileName& path, int events)
@@ -121,15 +127,17 @@ wxFileSystemWatcherBase::AddAny(const wxFileName& path,
     if (canonical.IsEmpty())
         return false;
 
-    // Check if the patch isn't already being watched.
+    // adding a path in a platform specific way
+    wxFSWatchInfo watch(canonical, events, type, filespec);
+    if ( !m_service->Add(watch) )
+        return false;
+
+    // on success, either add path to our 'watch-list'
+    // or, if already watched, inc the refcount. This may happen if
+    // a dir is Add()ed, then later AddTree() is called on a parent dir
     wxFSWatchInfoMap::iterator it = m_watches.find(canonical);
     if ( it == m_watches.end() )
     {
-        // It isn't, so start watching it in a platform specific way:
-        wxFSWatchInfo watch(canonical, events, type, filespec);
-        if ( !m_service->Add(watch) )
-            return false;
-
         wxFSWatchInfoMap::value_type val(canonical, watch);
         m_watches.insert(val);
     }
@@ -137,7 +145,6 @@ wxFileSystemWatcherBase::AddAny(const wxFileName& path,
     {
         wxFSWatchInfo& watch2 = it->second;
         const int count = watch2.IncRef();
-
         wxLogTrace(wxTRACE_FSWATCHER,
                    "'%s' is now watched %d times", canonical, count);
 
@@ -187,14 +194,14 @@ bool wxFileSystemWatcherBase::AddTree(const wxFileName& path, int events,
         {
         }
 
-        virtual wxDirTraverseResult OnFile(const wxString& WXUNUSED(filename)) wxOVERRIDE
+        virtual wxDirTraverseResult OnFile(const wxString& WXUNUSED(filename))
         {
             // There is no need to watch individual files as we watch the
             // parent directory which will notify us about any changes in them.
             return wxDIR_CONTINUE;
         }
 
-        virtual wxDirTraverseResult OnDir(const wxString& dirname) wxOVERRIDE
+        virtual wxDirTraverseResult OnDir(const wxString& dirname)
         {
             if ( m_watcher->AddAny(wxFileName::DirName(dirname),
                                    m_events, wxFSWPath_Tree, m_filespec) )
@@ -243,14 +250,14 @@ bool wxFileSystemWatcherBase::RemoveTree(const wxFileName& path)
         {
         }
 
-        virtual wxDirTraverseResult OnFile(const wxString& WXUNUSED(filename)) wxOVERRIDE
+        virtual wxDirTraverseResult OnFile(const wxString& WXUNUSED(filename))
         {
             // We never watch the individual files when watching the tree, so
             // nothing to do here.
             return wxDIR_CONTINUE;
         }
 
-        virtual wxDirTraverseResult OnDir(const wxString& dirname) wxOVERRIDE
+        virtual wxDirTraverseResult OnDir(const wxString& dirname)
         {
             m_watcher->Remove(wxFileName::DirName(dirname));
             return wxDIR_CONTINUE;

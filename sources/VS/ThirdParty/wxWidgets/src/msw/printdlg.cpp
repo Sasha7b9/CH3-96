@@ -19,6 +19,9 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 // Don't use the Windows print dialog if we're in wxUniv mode and using
 // the PostScript architecture
@@ -144,9 +147,7 @@ wxCreateDevNames(const wxString& driverName,
                            ( driverName.length() + 1 +
             printerName.length() + 1 +
                              portName.length()+1 ) * sizeof(wxChar) );
-
-        GlobalPtrLock ptr(hDev);
-        LPDEVNAMES lpDev = (LPDEVNAMES)ptr.Get();
+        LPDEVNAMES lpDev = (LPDEVNAMES)GlobalLock(hDev);
         lpDev->wDriverOffset = sizeof(WORD) * 4 / sizeof(wxChar);
         wxStrcpy((wxChar*)lpDev + lpDev->wDriverOffset, driverName);
 
@@ -159,12 +160,14 @@ wxCreateDevNames(const wxString& driverName,
         wxStrcpy((wxChar*)lpDev + lpDev->wOutputOffset, portName);
 
         lpDev->wDefault = 0;
+
+        GlobalUnlock(hDev);
     }
 
     return hDev;
 }
 
-wxIMPLEMENT_CLASS(wxWindowsPrintNativeData, wxPrintNativeDataBase);
+IMPLEMENT_CLASS(wxWindowsPrintNativeData, wxPrintNativeDataBase)
 
 wxWindowsPrintNativeData::wxWindowsPrintNativeData()
 {
@@ -448,7 +451,11 @@ void wxWindowsPrintNativeData::InitializeDevMode(const wxString& printerName, Wi
         PRINTDLG pd;
 
         memset(&pd, 0, sizeof(PRINTDLG));
+#ifdef __WXWINCE__
+        pd.cbStruct    = sizeof(PRINTDLG);
+#else
         pd.lStructSize    = sizeof(PRINTDLG);
+#endif
 
         pd.hwndOwner      = NULL;
         pd.hDevMode       = NULL; // Will be created by PrintDlg
@@ -693,7 +700,7 @@ bool wxWindowsPrintNativeData::TransferFrom( const wxPrintData &data )
 // wxPrintDialog
 // ---------------------------------------------------------------------------
 
-wxIMPLEMENT_CLASS(wxWindowsPrintDialog, wxPrintDialogBase);
+IMPLEMENT_CLASS(wxWindowsPrintDialog, wxPrintDialogBase)
 
 wxWindowsPrintDialog::wxWindowsPrintDialog(wxWindow *p, wxPrintDialogData* data)
 {
@@ -740,14 +747,16 @@ int wxWindowsPrintDialog::ShowModal()
 {
     WX_HOOK_MODAL_DIALOG();
 
-    wxWindow* const parent = GetParentForModalDialog(m_parent, GetWindowStyle());
-    WXHWND hWndParent = parent ? GetHwndOf(parent) : NULL;
-
     ConvertToNative( m_printDialogData );
 
     PRINTDLG *pd = (PRINTDLG*) m_printDlg;
 
-    pd->hwndOwner = hWndParent;
+    if (m_dialogParent)
+        pd->hwndOwner = (HWND) m_dialogParent->GetHWND();
+    else if (wxTheApp->GetTopWindow())
+        pd->hwndOwner = (HWND) wxTheApp->GetTopWindow()->GetHWND();
+    else
+        pd->hwndOwner = 0;
 
     bool ret = (PrintDlg( pd ) != 0);
 
@@ -792,6 +801,24 @@ bool wxWindowsPrintDialog::ConvertToNative( wxPrintDialogData &data )
     pd = new PRINTDLG;
     memset( pd, 0, sizeof(PRINTDLG) );
     m_printDlg = (void*) pd;
+
+    pd->lStructSize    = sizeof(PRINTDLG);
+    pd->hwndOwner      = NULL;
+    pd->hDevMode       = NULL; // Will be created by PrintDlg
+    pd->hDevNames      = NULL; // Ditto
+
+    pd->Flags          = PD_RETURNDEFAULT;
+    pd->nCopies        = 1;
+
+    // Pass the devmode data to the PRINTDLG structure, since it'll
+    // be needed when PrintDlg is called.
+    if (pd->hDevMode)
+        GlobalFree(pd->hDevMode);
+
+    // Pass the devnames data to the PRINTDLG structure, since it'll
+    // be needed when PrintDlg is called.
+    if (pd->hDevNames)
+        GlobalFree(pd->hDevNames);
 
     pd->hDevMode = static_cast<HGLOBAL>(native_data->GetDevMode());
     native_data->SetDevMode(NULL);
@@ -902,7 +929,7 @@ bool wxWindowsPrintDialog::ConvertFromNative( wxPrintDialogData &data )
 // wxWidnowsPageSetupDialog
 // ---------------------------------------------------------------------------
 
-wxIMPLEMENT_CLASS(wxWindowsPageSetupDialog, wxPageSetupDialogBase);
+IMPLEMENT_CLASS(wxWindowsPageSetupDialog, wxPageSetupDialogBase)
 
 wxWindowsPageSetupDialog::wxWindowsPageSetupDialog()
 {

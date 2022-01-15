@@ -14,7 +14,7 @@
 class MyApp : public wxApp
 {
 public:
-    bool OnInit() wxOVERRIDE;
+    bool OnInit();
 };
 
 // Define a new frame
@@ -36,20 +36,17 @@ public:
     void OnSetBgColor(wxCommandEvent& event);
     void OnStop(wxCommandEvent& event);
 
-#ifdef wxHAS_NATIVE_ANIMATIONCTRL
-    void OnUseGeneric(wxCommandEvent& event);
-#endif // wxHAS_NATIVE_ANIMATIONCTRL
-
     void OnUpdateUI(wxUpdateUIEvent& event);
 
 #if wxUSE_FILEDLG
     void OnOpen(wxCommandEvent& event);
 #endif // wxUSE_FILEDLG
 
+    wxAnimationCtrl* GetAnimationCtrl() const { return m_animationCtrl; }
+
+protected:
+    wxAnimationCtrl*    m_animationCtrl;
+
 private:
-    void RecreateAnimation(long style);
-
-    wxAnimationCtrlBase* m_animationCtrl;
-
     wxDECLARE_EVENT_TABLE();
 };

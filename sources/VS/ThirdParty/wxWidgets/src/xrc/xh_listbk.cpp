@@ -10,6 +10,9 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #if wxUSE_XRC && wxUSE_LISTBOOK
 
@@ -23,7 +26,7 @@
 #include "wx/listbook.h"
 #include "wx/imaglist.h"
 
-wxIMPLEMENT_DYNAMIC_CLASS(wxListbookXmlHandler, wxXmlResourceHandler);
+IMPLEMENT_DYNAMIC_CLASS(wxListbookXmlHandler, wxXmlResourceHandler)
 
 wxListbookXmlHandler::wxListbookXmlHandler()
                      :wxXmlResourceHandler(),

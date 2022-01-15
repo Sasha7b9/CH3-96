@@ -10,6 +10,9 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #if wxUSE_XRC && wxUSE_COMBOBOX
 
@@ -23,7 +26,7 @@
 
 #include "wx/xml/xml.h"
 
-wxIMPLEMENT_DYNAMIC_CLASS(wxComboBoxXmlHandler, wxXmlResourceHandler);
+IMPLEMENT_DYNAMIC_CLASS(wxComboBoxXmlHandler, wxXmlResourceHandler)
 
 wxComboBoxXmlHandler::wxComboBoxXmlHandler()
                      :wxXmlResourceHandler()
@@ -64,10 +67,6 @@ wxObject *wxComboBoxXmlHandler::DoCreateResource()
 
         SetupWindow(control);
 
-        const wxString hint = GetText(wxS("hint"));
-        if ( !hint.empty() )
-            control->SetHint(hint);
-
         strList.Clear();    // dump the strings
 
         return control;
@@ -78,7 +77,10 @@ wxObject *wxComboBoxXmlHandler::DoCreateResource()
         // handle <item>Label</item>
 
         // add to the list
-        strList.Add(GetNodeText(m_node, wxXRC_TEXT_NO_ESCAPE));
+        wxString str = GetNodeContent(m_node);
+        if (m_resource->GetFlags() & wxXRC_USE_LOCALE)
+            str = wxGetTranslation(str, m_resource->GetDomain());
+        strList.Add(str);
 
         return NULL;
     }

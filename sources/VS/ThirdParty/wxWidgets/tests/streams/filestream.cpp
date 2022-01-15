@@ -10,6 +10,9 @@
 // and "wx/cppunit.h"
 #include "testprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 // for all others, include the necessary headers
 #ifndef WX_PRECOMP
@@ -34,6 +37,7 @@ class fileStream : public BaseStreamTestCase<wxFileInputStream, wxFileOutputStre
 {
 public:
     fileStream();
+    virtual ~fileStream();
 
     CPPUNIT_TEST_SUITE(fileStream);
         // Base class stream tests the fileStream supports.
@@ -62,9 +66,9 @@ protected:
 
 private:
     // Implement base class functions.
-    virtual wxFileInputStream  *DoCreateInStream() wxOVERRIDE;
-    virtual wxFileOutputStream *DoCreateOutStream() wxOVERRIDE;
-    virtual void DoDeleteOutStream() wxOVERRIDE;
+    virtual wxFileInputStream  *DoCreateInStream();
+    virtual wxFileOutputStream *DoCreateOutStream();
+    virtual void DoDeleteOutStream();
 
 private:
     wxString GetInFileName() const;
@@ -73,6 +77,13 @@ private:
 fileStream::fileStream()
 {
     m_bSeekInvalidBeyondEnd = false;
+}
+
+fileStream::~fileStream()
+{
+    // Remove the temp test file...
+    ::wxRemoveFile(FILENAME_FILEINSTREAM);
+    ::wxRemoveFile(FILENAME_FILEOUTSTREAM);
 }
 
 wxFileInputStream *fileStream::DoCreateInStream()
@@ -95,37 +106,12 @@ void fileStream::DoDeleteOutStream()
 
 wxString fileStream::GetInFileName() const
 {
-    class AutoRemoveFile
+    static bool bFileCreated = false;
+    if (!bFileCreated)
     {
-    public:
-        AutoRemoveFile()
-        {
-            m_created = false;
-        }
+        // Create the file only once
+        bFileCreated = true;
 
-        ~AutoRemoveFile()
-        {
-            if ( m_created )
-                wxRemoveFile(FILENAME_FILEINSTREAM);
-        }
-
-        bool ShouldCreate()
-        {
-            if ( m_created )
-                return false;
-
-            m_created = true;
-
-            return true;
-        }
-
-    private:
-        bool m_created;
-    };
-
-    static AutoRemoveFile autoFile;
-    if ( autoFile.ShouldCreate() )
-    {
         // Make sure we have a input file...
         char buf[DATABUFFER_SIZE];
         wxFileOutputStream out(FILENAME_FILEINSTREAM);

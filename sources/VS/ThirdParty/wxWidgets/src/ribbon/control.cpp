@@ -10,6 +10,9 @@
 
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #if wxUSE_RIBBON
 
@@ -23,7 +26,7 @@
 #include "wx/msw/private.h"
 #endif
 
-wxIMPLEMENT_CLASS(wxRibbonControl, wxControl);
+IMPLEMENT_CLASS(wxRibbonControl, wxControl)
 
 bool wxRibbonControl::Create(wxWindow *parent, wxWindowID id,
                     const wxPoint& pos,

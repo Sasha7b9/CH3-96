@@ -8,6 +8,10 @@
 
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+#pragma hdrstop
+#endif
+
 #if wxUSE_FS_ARCHIVE
 
 #include "wx/fs_arc.h"
@@ -17,7 +21,12 @@
     #include "wx/log.h"
 #endif
 
-#include "wx/archive.h"
+#if WXWIN_COMPATIBILITY_2_6 && wxUSE_ZIPSTREAM
+    #include "wx/zipstrm.h"
+#else
+    #include "wx/archive.h"
+#endif
+
 #include "wx/private/fileback.h"
 
 //---------------------------------------------------------------------------
@@ -301,13 +310,14 @@ wxArchiveFSCacheData *wxArchiveFSCache::Get(const wxString& name)
 // wxArchiveFSHandler
 //----------------------------------------------------------------------------
 
-wxIMPLEMENT_DYNAMIC_CLASS(wxArchiveFSHandler, wxFileSystemHandler);
+IMPLEMENT_DYNAMIC_CLASS(wxArchiveFSHandler, wxFileSystemHandler)
 
 wxArchiveFSHandler::wxArchiveFSHandler()
  :  wxFileSystemHandler()
 {
     m_Archive = NULL;
     m_FindEntry = NULL;
+    m_ZipFile = m_Pattern = m_BaseDir = wxEmptyString;
     m_AllowDirs = m_AllowFiles = true;
     m_DirsFound = NULL;
     m_cache = NULL;
@@ -393,6 +403,11 @@ wxFSFile* wxArchiveFSHandler::OpenFile(
         return NULL;
     }
 
+#if WXWIN_COMPATIBILITY_2_6 && wxUSE_ZIPSTREAM
+    if (wxDynamicCast(factory, wxZipClassFactory))
+        ((wxZipInputStream*)s)->m_allowSeeking = true;
+#endif // WXWIN_COMPATIBILITY_2_6
+
     return new wxFSFile(s,
                         key + right,
                         wxEmptyString,
@@ -472,9 +487,9 @@ wxString wxArchiveFSHandler::FindNext()
 wxString wxArchiveFSHandler::DoFind()
 {
     wxString namestr, dir, filename;
-    wxString match;
+    wxString match = wxEmptyString;
 
-    while (match.empty())
+    while (match == wxEmptyString)
     {
         m_FindEntry = m_Archive->GetNext(m_FindEntry);
 

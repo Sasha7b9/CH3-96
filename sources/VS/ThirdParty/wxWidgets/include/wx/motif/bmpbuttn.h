@@ -22,22 +22,19 @@ public:
     virtual ~wxBitmapButton();
     wxBitmapButton(wxWindow *parent, wxWindowID id, const wxBitmap& bitmap,
         const wxPoint& pos = wxDefaultPosition,
-        const wxSize& size = wxDefaultSize, long style = 0,
+        const wxSize& size = wxDefaultSize, long style = wxBU_AUTODRAW,
         const wxValidator& validator = wxDefaultValidator,
-        const wxString& name = wxASCII_STR(wxButtonNameStr))
+        const wxString& name = wxButtonNameStr)
     {
         Create(parent, id, bitmap, pos, size, style, validator, name);
     }
 
     bool Create(wxWindow *parent, wxWindowID id, const wxBitmap& bitmap,
         const wxPoint& pos = wxDefaultPosition,
-        const wxSize& size = wxDefaultSize, long style = 0,
+        const wxSize& size = wxDefaultSize, long style = wxBU_AUTODRAW,
         const wxValidator& validator = wxDefaultValidator,
-        const wxString& name = wxASCII_STR(wxButtonNameStr));
+        const wxString& name = wxButtonNameStr);
 
-    bool CreateCloseButton(wxWindow* parent,
-                           wxWindowID winid,
-                           const wxString& name = wxString());
     // Implementation
     virtual void ChangeBackgroundColour();
 
@@ -55,7 +52,7 @@ protected:
 
     WXPixmap m_insensPixmap;
 
-    wxDECLARE_DYNAMIC_CLASS(wxBitmapButton);
+    DECLARE_DYNAMIC_CLASS(wxBitmapButton)
 };
 
 #endif // _WX_BMPBUTTN_H_

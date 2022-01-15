@@ -11,6 +11,9 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #if wxUSE_XRC && wxUSE_LISTCTRL
 
@@ -33,7 +36,7 @@ const char *LISTCOL_CLASS_NAME = "listcol";
 } // anonymous namespace
 
 
-wxIMPLEMENT_DYNAMIC_CLASS(wxListCtrlXmlHandler, wxXmlResourceHandler);
+IMPLEMENT_DYNAMIC_CLASS(wxListCtrlXmlHandler, wxXmlResourceHandler)
 
 wxListCtrlXmlHandler::wxListCtrlXmlHandler()
     : wxXmlResourceHandler()

@@ -19,6 +19,10 @@
 // For compilers that support precompilation, includes "wx/wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+#  pragma hdrstop
+#endif
+
 // for all others, include the necessary headers
 #ifndef WX_PRECOMP
 #  include "wx/wx.h"
@@ -28,7 +32,7 @@
 #include "wx/url.h"
 #include "wx/sstream.h"
 #include "wx/thread.h"
-#include "wx/scopedptr.h"
+#include <memory>
 
 // --------------------------------------------------------------------------
 // resources
@@ -47,7 +51,7 @@
 class MyApp : public wxApp
 {
 public:
-  virtual bool OnInit() wxOVERRIDE;
+  virtual bool OnInit();
 };
 
 // Define a new frame type: this is going to be our main frame
@@ -168,7 +172,7 @@ wxBEGIN_EVENT_TABLE(MyFrame, wxFrame)
   EVT_SOCKET(SOCKET_ID,     MyFrame::OnSocketEvent)
 wxEND_EVENT_TABLE()
 
-wxIMPLEMENT_APP(MyApp);
+IMPLEMENT_APP(MyApp)
 
 // ==========================================================================
 // implementation
@@ -221,7 +225,7 @@ MyFrame::MyFrame() : wxFrame((wxFrame *)NULL, wxID_ANY,
   m_menuSocket->Append(CLIENT_TEST2, _("Test &2\tCtrl-F2"), _("Test ReadMsg and WriteMsg"));
   m_menuSocket->Append(CLIENT_TEST3, _("Test &3\tCtrl-F3"), _("Test large data transfer"));
   m_menuSocket->AppendSeparator();
-  m_menuSocket->Append(CLIENT_CLOSE, _("&Close session\tCtrl-C"), _("Close connection"));
+  m_menuSocket->Append(CLIENT_CLOSE, _("&Close session\tCtrl-Q"), _("Close connection"));
 
   m_menuDatagramSocket = new wxMenu();
   m_menuDatagramSocket->Append(CLIENT_DGRAM, _("&Datagram test\tCtrl-D"), _("Test UDP sockets"));
@@ -590,7 +594,7 @@ void DoDownload(const wxString& urlname)
 
     // Try to get the input stream (connects to the given URL)
     wxLogMessage("Establishing connection to \"%s\"...", urlname);
-    const wxScopedPtr<wxInputStream> data(url.GetInputStream());
+    const std::auto_ptr<wxInputStream> data(url.GetInputStream());
     if ( !data.get() )
     {
         wxLogError("Failed to retrieve URL \"%s\"", urlname);
@@ -641,7 +645,7 @@ void MyFrame::OnTestURL(wxCommandEvent& WXUNUSED(event))
             Run();
         }
 
-        virtual void* Entry() wxOVERRIDE
+        virtual void* Entry()
         {
             DoDownload(m_url);
 

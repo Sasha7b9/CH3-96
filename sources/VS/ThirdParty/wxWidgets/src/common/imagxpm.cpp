@@ -64,6 +64,9 @@ license is as follows:
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #if wxUSE_XPM
 
@@ -78,7 +81,7 @@ license is as follows:
 #include "wx/xpmdecod.h"
 #include "wx/filename.h"
 
-wxIMPLEMENT_DYNAMIC_CLASS(wxXPMHandler,wxImageHandler);
+IMPLEMENT_DYNAMIC_CLASS(wxXPMHandler,wxImageHandler)
 
 //-----------------------------------------------------------------------------
 // wxXPMHandler

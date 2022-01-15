@@ -9,6 +9,9 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #if wxUSE_IMAGE && wxUSE_LIBJPEG
 
@@ -34,7 +37,17 @@
     #define boolean wxHACK_BOOLEAN
 #endif
 
-#include "jpeglib.h"
+extern "C"
+{
+    #if defined(__WXMSW__)
+        #define XMD_H
+    #endif
+    #include "jpeglib.h"
+}
+
+#ifndef HAVE_WXJPEG_BOOLEAN
+typedef boolean wxjpeg_boolean;
+#endif
 
 #include "wx/filefn.h"
 #include "wx/wfstream.h"
@@ -66,7 +79,7 @@
 // wxJPEGHandler
 //-----------------------------------------------------------------------------
 
-wxIMPLEMENT_DYNAMIC_CLASS(wxJPEGHandler,wxImageHandler);
+IMPLEMENT_DYNAMIC_CLASS(wxJPEGHandler,wxImageHandler)
 
 #if wxUSE_STREAMS
 
@@ -90,7 +103,7 @@ CPP_METHODDEF(void) wx_init_source ( j_decompress_ptr WXUNUSED(cinfo) )
 {
 }
 
-CPP_METHODDEF(boolean) wx_fill_input_buffer ( j_decompress_ptr cinfo )
+CPP_METHODDEF(wxjpeg_boolean) wx_fill_input_buffer ( j_decompress_ptr cinfo )
 {
     wx_src_ptr src = (wx_src_ptr) cinfo->src;
 
@@ -135,25 +148,10 @@ CPP_METHODDEF(void) wx_term_source ( j_decompress_ptr cinfo )
 
 // JPEG error manager:
 
-#ifdef __VISUALC__
-    // We don't care about the size of this struct, but we still get an
-    // annoying warning C4324 here:
-    //
-    //  'wx_error_mgr' : structure was padded due to __declspec(align())
-    //
-    // and suppressing it seems to be the only way to avoid it.
-    #pragma warning(push)
-    #pragma warning(disable: 4324)
-#endif
-
 struct wx_error_mgr : public jpeg_error_mgr
 {
   jmp_buf setjmp_buffer;    /* for return to caller */
 };
-
-#ifdef __VISUALC__
-    #pragma warning(pop)
-#endif
 
 /*
  * Here's the routine that will replace the standard error_exit method:
@@ -182,9 +180,6 @@ CPP_METHODDEF(void) wx_ignore_message (j_common_ptr WXUNUSED(cinfo))
 {
 }
 
-} // extern "C"
-
-static
 void wx_jpeg_io_src( j_decompress_ptr cinfo, wxInputStream& infile )
 {
     wx_src_ptr src;
@@ -206,6 +201,8 @@ void wx_jpeg_io_src( j_decompress_ptr cinfo, wxInputStream& infile )
     src->pub.resync_to_restart = jpeg_resync_to_restart; /* use default method */
     src->pub.term_source = wx_term_source;
 }
+
+} // extern "C"
 
 static inline void wx_cmyk_to_rgb(unsigned char* rgb, const unsigned char* cmyk)
 {
@@ -374,7 +371,7 @@ CPP_METHODDEF(void) wx_init_destination (j_compress_ptr cinfo)
     dest->pub.free_in_buffer = OUTPUT_BUF_SIZE;
 }
 
-CPP_METHODDEF(boolean) wx_empty_output_buffer (j_compress_ptr cinfo)
+CPP_METHODDEF(wxjpeg_boolean) wx_empty_output_buffer (j_compress_ptr cinfo)
 {
     wx_dest_ptr dest = (wx_dest_ptr) cinfo->dest;
 
@@ -393,9 +390,7 @@ CPP_METHODDEF(void) wx_term_destination (j_compress_ptr cinfo)
         dest->stream->Write(dest->buffer, datacount);
 }
 
-} // extern "C"
-
-static void wx_jpeg_io_dest(j_compress_ptr cinfo, wxOutputStream& outfile)
+GLOBAL(void) wx_jpeg_io_dest (j_compress_ptr cinfo, wxOutputStream& outfile)
 {
     wx_dest_ptr dest;
 
@@ -411,6 +406,8 @@ static void wx_jpeg_io_dest(j_compress_ptr cinfo, wxOutputStream& outfile)
     dest->pub.term_destination = wx_term_destination;
     dest->stream = &outfile;
 }
+
+} // extern "C"
 
 bool wxJPEGHandler::SaveFile( wxImage *image, wxOutputStream& stream, bool verbose )
 {
@@ -503,11 +500,7 @@ bool wxJPEGHandler::DoCanRead( wxInputStream& stream )
 
 /*static*/ wxVersionInfo wxJPEGHandler::GetLibraryVersionInfo()
 {
-#if defined(JPEG_LIB_VERSION_MAJOR) && defined(JPEG_LIB_VERSION_MINOR)
-    return wxVersionInfo("libjpeg", JPEG_LIB_VERSION_MAJOR, JPEG_LIB_VERSION_MINOR);
-#else
-    return wxVersionInfo("libjpeg", JPEG_LIB_VERSION / 10, JPEG_LIB_VERSION % 10);
-#endif
+    return wxVersionInfo("libjpeg", JPEG_LIB_VERSION/10, JPEG_LIB_VERSION%10);
 }
 
 #endif   // wxUSE_LIBJPEG

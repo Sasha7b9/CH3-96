@@ -19,6 +19,9 @@
 // for compilers that support precompilation, includes "wx/wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #if wxUSE_COLOURPICKERCTRL
 
@@ -60,12 +63,13 @@ class ColourPickerWidgetsPage : public WidgetsPage
 {
 public:
     ColourPickerWidgetsPage(WidgetsBookCtrl *book, wxImageList *imaglist);
+    virtual ~ColourPickerWidgetsPage(){};
 
-    virtual wxWindow *GetWidget() const wxOVERRIDE { return m_clrPicker; }
-    virtual void RecreateWidget() wxOVERRIDE { RecreatePicker(); }
+    virtual wxControl *GetWidget() const { return m_clrPicker; }
+    virtual void RecreateWidget() { RecreatePicker(); }
 
     // lazy creation of the content
-    virtual void CreateContent() wxOVERRIDE;
+    virtual void CreateContent();
 
 protected:
 
@@ -78,11 +82,11 @@ protected:
     // restore the checkboxes state to the initial values
     void Reset();
 
+    // get the initial style for the picker of the given kind
+    long GetPickerStyle();
+
 
     void OnColourChange(wxColourPickerEvent &ev);
-    void OnColourCurrentChanged(wxColourPickerEvent &ev);
-    void OnColourDialogCancelled(wxColourPickerEvent &ev);
-
     void OnCheckBox(wxCommandEvent &ev);
     void OnButtonReset(wxCommandEvent &ev);
 
@@ -94,8 +98,7 @@ protected:
     // --------------
 
     wxCheckBox *m_chkColourTextCtrl,
-               *m_chkColourShowLabel,
-               *m_chkColourShowAlpha;
+               *m_chkColourShowLabel;
     wxBoxSizer *m_sizer;
 
 private:
@@ -111,8 +114,6 @@ wxBEGIN_EVENT_TABLE(ColourPickerWidgetsPage, WidgetsPage)
     EVT_BUTTON(PickerPage_Reset, ColourPickerWidgetsPage::OnButtonReset)
 
     EVT_COLOURPICKER_CHANGED(PickerPage_Colour, ColourPickerWidgetsPage::OnColourChange)
-    EVT_COLOURPICKER_CURRENT_CHANGED(PickerPage_Colour, ColourPickerWidgetsPage::OnColourCurrentChanged)
-    EVT_COLOURPICKER_DIALOG_CANCELLED(PickerPage_Colour, ColourPickerWidgetsPage::OnColourDialogCancelled)
 
     EVT_CHECKBOX(wxID_ANY, ColourPickerWidgetsPage::OnCheckBox)
 wxEND_EVENT_TABLE()
@@ -121,13 +122,13 @@ wxEND_EVENT_TABLE()
 // implementation
 // ============================================================================
 
-#if defined(__WXGTK20__)
+#if defined(__WXGTK24__)
     #define FAMILY_CTRLS NATIVE_CTRLS
 #else
     #define FAMILY_CTRLS GENERIC_CTRLS
 #endif
 
-IMPLEMENT_WIDGETS_PAGE(ColourPickerWidgetsPage, "ColourPicker",
+IMPLEMENT_WIDGETS_PAGE(ColourPickerWidgetsPage, wxT("ColourPicker"),
                        PICKER_CTRLS | FAMILY_CTRLS);
 
 ColourPickerWidgetsPage::ColourPickerWidgetsPage(WidgetsBookCtrl *book,
@@ -141,13 +142,12 @@ void ColourPickerWidgetsPage::CreateContent()
     // left pane
     wxSizer *boxleft = new wxBoxSizer(wxVERTICAL);
 
-    wxStaticBoxSizer *clrbox = new wxStaticBoxSizer(wxVERTICAL, this, "&ColourPicker style");
-    m_chkColourTextCtrl = CreateCheckBoxAndAddToSizer(clrbox, "With textctrl");
-    m_chkColourShowLabel = CreateCheckBoxAndAddToSizer(clrbox, "With label");
-    m_chkColourShowAlpha = CreateCheckBoxAndAddToSizer(clrbox, "With opacity");
+    wxStaticBoxSizer *clrbox = new wxStaticBoxSizer(wxVERTICAL, this, wxT("&ColourPicker style"));
+    m_chkColourTextCtrl = CreateCheckBoxAndAddToSizer(clrbox, wxT("With textctrl"));
+    m_chkColourShowLabel = CreateCheckBoxAndAddToSizer(clrbox, wxT("With label"));
     boxleft->Add(clrbox, 0, wxALL|wxGROW, 5);
 
-    boxleft->Add(new wxButton(this, PickerPage_Reset, "&Reset"),
+    boxleft->Add(new wxButton(this, PickerPage_Reset, wxT("&Reset")),
                  0, wxALIGN_CENTRE_HORIZONTAL | wxALL, 15);
 
     Reset();    // set checkboxes state
@@ -174,7 +174,14 @@ void ColourPickerWidgetsPage::CreatePicker()
 {
     delete m_clrPicker;
 
-    long style = GetAttrs().m_defaultFlags;
+    m_clrPicker = new wxColourPickerCtrl(this, PickerPage_Colour, *wxRED,
+                                            wxDefaultPosition, wxDefaultSize,
+                                            GetPickerStyle());
+}
+
+long ColourPickerWidgetsPage::GetPickerStyle()
+{
+    long style = 0;
 
     if ( m_chkColourTextCtrl->GetValue() )
         style |= wxCLRP_USE_TEXTCTRL;
@@ -182,12 +189,7 @@ void ColourPickerWidgetsPage::CreatePicker()
     if ( m_chkColourShowLabel->GetValue() )
         style |= wxCLRP_SHOW_LABEL;
 
-    if ( m_chkColourShowAlpha->GetValue() )
-        style |= wxCLRP_SHOW_ALPHA;
-
-    m_clrPicker = new wxColourPickerCtrl(this, PickerPage_Colour, *wxRED,
-                                         wxDefaultPosition, wxDefaultSize,
-                                         style);
+    return style;
 }
 
 void ColourPickerWidgetsPage::RecreatePicker()
@@ -203,7 +205,6 @@ void ColourPickerWidgetsPage::Reset()
 {
     m_chkColourTextCtrl->SetValue((wxCLRP_DEFAULT_STYLE & wxCLRP_USE_TEXTCTRL) != 0);
     m_chkColourShowLabel->SetValue((wxCLRP_DEFAULT_STYLE & wxCLRP_SHOW_LABEL) != 0);
-    m_chkColourShowAlpha->SetValue((wxCLRP_DEFAULT_STYLE & wxCLRP_SHOW_ALPHA) != 0);
 }
 
 
@@ -219,27 +220,14 @@ void ColourPickerWidgetsPage::OnButtonReset(wxCommandEvent& WXUNUSED(event))
 
 void ColourPickerWidgetsPage::OnColourChange(wxColourPickerEvent& event)
 {
-    wxLogMessage("The colour changed to '%s' !",
-                 event.GetColour().GetAsString(wxC2S_CSS_SYNTAX));
-}
-
-void ColourPickerWidgetsPage::OnColourCurrentChanged(wxColourPickerEvent& event)
-{
-    wxLogMessage("The currently selected colour changed to '%s'",
-        event.GetColour().GetAsString(wxC2S_CSS_SYNTAX));
-}
-
-void ColourPickerWidgetsPage::OnColourDialogCancelled(wxColourPickerEvent& event)
-{
-    wxLogMessage("Colour selection dialog cancelled, current colour is '%s'",
-        event.GetColour().GetAsString(wxC2S_CSS_SYNTAX));
+    wxLogMessage(wxT("The colour changed to '%s' !"),
+                 event.GetColour().GetAsString(wxC2S_CSS_SYNTAX).c_str());
 }
 
 void ColourPickerWidgetsPage::OnCheckBox(wxCommandEvent &event)
 {
     if (event.GetEventObject() == m_chkColourTextCtrl ||
-        event.GetEventObject() == m_chkColourShowLabel ||
-        event.GetEventObject() == m_chkColourShowAlpha)
+        event.GetEventObject() == m_chkColourShowLabel)
         RecreatePicker();
 }
 

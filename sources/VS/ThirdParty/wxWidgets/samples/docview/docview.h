@@ -13,7 +13,6 @@
 #define _WX_SAMPLES_DOCVIEW_DOCVIEW_H_
 
 #include "wx/docview.h"
-#include "wx/vector.h"
 
 class MyCanvas;
 
@@ -27,9 +26,6 @@ public:
 #if wxUSE_MDI_ARCHITECTURE
         Mode_MDI,   // MDI mode: multiple documents, single top level window
 #endif // wxUSE_MDI_ARCHITECTURE
-#if wxUSE_AUI
-        Mode_AUI,   // MDI AUI mode
-#endif // wxUSE_AUI
         Mode_SDI,   // SDI mode: multiple documents, multiple top level windows
         Mode_Single // single document mode (and hence single top level window)
     };
@@ -37,15 +33,11 @@ public:
     MyApp();
 
     // override some wxApp virtual methods
-    virtual bool OnInit() wxOVERRIDE;
-    virtual int OnExit() wxOVERRIDE;
+    virtual bool OnInit();
+    virtual int OnExit();
 
-    virtual void OnInitCmdLine(wxCmdLineParser& parser) wxOVERRIDE;
-    virtual bool OnCmdLineParsed(wxCmdLineParser& parser) wxOVERRIDE;
-
-#ifdef __WXMAC__
-    virtual void MacNewFile() wxOVERRIDE;
-#endif // __WXMAC__
+    virtual void OnInitCmdLine(wxCmdLineParser& parser);
+    virtual bool OnCmdLineParsed(wxCmdLineParser& parser);
 
     // our specific methods
     Mode GetMode() const { return m_mode; }
@@ -76,8 +68,6 @@ private:
     // application object itself
     void OnAbout(wxCommandEvent& event);
 
-    // contains the file names given on the command line, possibly empty
-    wxVector<wxString> m_filesFromCmdLine;
 
     // the currently used mode
     Mode m_mode;
@@ -90,6 +80,6 @@ private:
     wxDECLARE_NO_COPY_CLASS(MyApp);
 };
 
-wxDECLARE_APP(MyApp);
+DECLARE_APP(MyApp)
 
 #endif // _WX_SAMPLES_DOCVIEW_DOCVIEW_H_

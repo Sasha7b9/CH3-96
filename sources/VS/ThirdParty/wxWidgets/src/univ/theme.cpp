@@ -19,6 +19,9 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #ifndef WX_PRECOMP
     #include "wx/intl.h"
@@ -92,7 +95,6 @@ wxThemeInfo::wxThemeInfo(Constructor c,
 #ifdef wxUNIV_DEFAULT_THEME
     else // use native theme by default
     {
-        WX_USE_THEME(wxUNIV_DEFAULT_THEME);
         nameDefTheme = wxSTRINGIZE_T(wxUNIV_DEFAULT_THEME);
     }
 #endif // wxUNIV_DEFAULT_THEME

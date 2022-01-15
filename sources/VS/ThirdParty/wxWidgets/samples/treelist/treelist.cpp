@@ -17,6 +17,9 @@
 
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #if !wxUSE_TREELISTCTRL
     #error "wxUSE_TREELISTCTRL must be 1 for this sample."
@@ -62,8 +65,6 @@ enum
     Id_CheckboxesUser3State,
     Id_Checkboxes_End,
 
-    Id_DeleteAllItems,
-
     Id_DumpSelection,
     Id_Check_HTMLDocs,
     Id_Uncheck_HTMLDocs,
@@ -94,7 +95,7 @@ public:
     Compare(wxTreeListCtrl* treelist,
             unsigned column,
             wxTreeListItem item1,
-            wxTreeListItem item2) wxOVERRIDE
+            wxTreeListItem item2)
     {
         wxString text1 = treelist->GetItemText(item1, column),
                  text2 = treelist->GetItemText(item2, column);
@@ -161,7 +162,7 @@ private:
 class MyApp : public wxApp
 {
 public:
-    virtual bool OnInit() wxOVERRIDE;
+    virtual bool OnInit();
 };
 
 // ----------------------------------------------------------------------------
@@ -185,8 +186,6 @@ private:
 
     void OnAbout(wxCommandEvent& event);
     void OnExit(wxCommandEvent& event);
-
-    void OnDeleteAllItems(wxCommandEvent& event);
 
     void OnSelectionChanged(wxTreeListEvent& event);
     void OnItemExpanding(wxTreeListEvent& event);
@@ -273,8 +272,6 @@ wxBEGIN_EVENT_TABLE(MyFrame, wxFrame)
     EVT_MENU(wxID_ABOUT, MyFrame::OnAbout)
     EVT_MENU(wxID_EXIT, MyFrame::OnExit)
 
-    EVT_MENU(Id_DeleteAllItems, MyFrame::OnDeleteAllItems)
-
     EVT_TREELIST_SELECTION_CHANGED(wxID_ANY, MyFrame::OnSelectionChanged)
     EVT_TREELIST_ITEM_EXPANDING(wxID_ANY, MyFrame::OnItemExpanding)
     EVT_TREELIST_ITEM_EXPANDED(wxID_ANY, MyFrame::OnItemExpanded)
@@ -316,8 +313,6 @@ MyFrame::MyFrame()
     treeOper->Append(Id_Uncheck_HTMLDocs, "&Uncheck Doc/HTML item\tCtrl-U");
     treeOper->Append(Id_Indet_HTMLDocs, "Make Doc/HTML &indeterminate\tCtrl-I");
     treeOper->Append(Id_Select_HTMLDocs, "&Select Doc/HTML item\tCtrl-S");
-
-    treeOper->Append(Id_DeleteAllItems, "DeleteAllItems");
 
     wxMenu* helpMenu = new wxMenu;
     helpMenu->Append(wxID_ABOUT);
@@ -370,7 +365,7 @@ void MyFrame::InitImageList()
     m_imageList = new wxImageList(iconSize.x, iconSize.y);
 
     // The order should be the same as for the enum elements.
-    static const wxString icons[] =
+    static const char* const icons[] =
     {
         wxART_NORMAL_FILE,
         wxART_FOLDER,
@@ -574,17 +569,12 @@ void MyFrame::OnAbout(wxCommandEvent& WXUNUSED(event))
     info.SetDescription("wxTreeListCtrl wxWidgets sample.");
     info.SetCopyright("(C) 2011 Vadim Zeitlin <vadim@wxwidgets.org>");
 
-    wxAboutBox(info, this);
+    wxAboutBox(info);
 }
 
 void MyFrame::OnExit(wxCommandEvent& WXUNUSED(event))
 {
     Close(true);
-}
-
-void MyFrame::OnDeleteAllItems(wxCommandEvent& WXUNUSED(event))
-{
-    m_treelist->DeleteAllItems();
 }
 
 wxString MyFrame::DumpItem(wxTreeListItem item) const
@@ -692,7 +682,7 @@ void MyFrame::OnItemContextMenu(wxTreeListEvent& event)
 
         default:
             wxFAIL_MSG( "Unexpected menu selection" );
-            wxFALLTHROUGH;
+            // Fall through.
 
         case wxID_NONE:
             return;

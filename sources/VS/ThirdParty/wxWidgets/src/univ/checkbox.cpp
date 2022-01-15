@@ -18,6 +18,9 @@
 
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #if wxUSE_CHECKBOX
 
@@ -213,7 +216,6 @@ void wxCheckBox::DoSet3StateValue(wxCheckBoxState state)
         case wxCHK_UNCHECKED:    status = Status_Unchecked;   break;
         case wxCHK_CHECKED:      status = Status_Checked; break;
         default:                 wxFAIL_MSG(wxT("Unknown checkbox state"));
-        wxFALLTHROUGH;
         case wxCHK_UNDETERMINED: status = Status_3rdState;  break;
     }
     if ( status != m_status )

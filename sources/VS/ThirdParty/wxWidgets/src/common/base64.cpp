@@ -8,6 +8,9 @@
 
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #if wxUSE_BASE64
 
@@ -124,7 +127,7 @@ wxBase64Decode(void *dst_, size_t dstLen,
             case WSP:
                 if ( mode == wxBase64DecodeMode_SkipWS )
                     continue;
-                wxFALLTHROUGH;
+                // fall through
 
             case INV:
                 if ( mode == wxBase64DecodeMode_Relaxed )

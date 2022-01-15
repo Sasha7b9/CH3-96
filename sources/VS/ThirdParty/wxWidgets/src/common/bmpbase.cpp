@@ -10,6 +10,9 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #include "wx/bitmap.h"
 
@@ -78,8 +81,8 @@ wxBitmap wxBitmapHelpers::NewFromPNGData(const void* data, size_t size)
 #endif // WX_PRECOMP
 
 
-wxIMPLEMENT_ABSTRACT_CLASS(wxBitmapBase, wxGDIObject);
-wxIMPLEMENT_ABSTRACT_CLASS(wxBitmapHandler, wxObject);
+IMPLEMENT_ABSTRACT_CLASS(wxBitmapBase, wxGDIObject)
+IMPLEMENT_ABSTRACT_CLASS(wxBitmapHandler, wxObject)
 
 wxList wxBitmapBase::sm_handlers;
 
@@ -160,14 +163,14 @@ void wxBitmapBase::CleanUpHandlers()
 
 class wxBitmapBaseModule: public wxModule
 {
-    wxDECLARE_DYNAMIC_CLASS(wxBitmapBaseModule);
+DECLARE_DYNAMIC_CLASS(wxBitmapBaseModule)
 public:
     wxBitmapBaseModule() {}
-    bool OnInit() wxOVERRIDE { wxBitmap::InitStandardHandlers(); return true; }
-    void OnExit() wxOVERRIDE { wxBitmap::CleanUpHandlers(); }
+    bool OnInit() { wxBitmap::InitStandardHandlers(); return true; }
+    void OnExit() { wxBitmap::CleanUpHandlers(); }
 };
 
-wxIMPLEMENT_DYNAMIC_CLASS(wxBitmapBaseModule, wxModule);
+IMPLEMENT_DYNAMIC_CLASS(wxBitmapBaseModule, wxModule)
 
 #endif // wxUSE_BITMAP_BASE
 
@@ -175,7 +178,7 @@ wxIMPLEMENT_DYNAMIC_CLASS(wxBitmapBaseModule, wxModule);
 // wxBitmap common
 // ----------------------------------------------------------------------------
 
-#if !(defined(__WXGTK__) || defined(__WXMOTIF__) || defined(__WXX11__) || defined(__WXQT__))
+#if !(defined(__WXGTK__) || defined(__WXMOTIF__) || defined(__WXX11__))
 
 wxBitmap::wxBitmap(const char* const* bits)
 {

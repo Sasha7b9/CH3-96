@@ -49,13 +49,11 @@ public:
 
     // implementation
     GdkBitmap   *m_bitmap;
-    int m_width;
-    int m_height;
 
-    wxBitmap GetBitmap() const;
+    GdkBitmap *GetBitmap() const;
 
 private:
-    wxDECLARE_DYNAMIC_CLASS(wxMask);
+    DECLARE_DYNAMIC_CLASS(wxMask)
 };
 
 //-----------------------------------------------------------------------------
@@ -70,8 +68,15 @@ public:
     wxBitmap( const wxSize& sz, int depth = -1 ) { Create( sz, depth ); }
     wxBitmap( const char bits[], int width, int height, int depth = 1 );
     wxBitmap( const char* const* bits );
+#ifdef wxNEEDS_CHARPP
+    // needed for old GCC
+    wxBitmap(char** data)
+    {
+        *this = wxBitmap(const_cast<const char* const*>(data));
+    }
+#endif
     wxBitmap( const wxString &filename, wxBitmapType type = wxBITMAP_DEFAULT_TYPE );
-    wxBitmap( const wxImage& image, int depth = -1, double WXUNUSED(scale) = 1.0 ) { (void)CreateFromImage(image, depth); }
+    wxBitmap( const wxImage& image, int depth = -1 ) { (void)CreateFromImage(image, depth); }
     virtual ~wxBitmap();
 
     bool Create(int width, int height, int depth = wxBITMAP_SCREEN_DEPTH);
@@ -142,7 +147,7 @@ private:
     friend class wxBitmapHandler;
 
 private:
-    wxDECLARE_DYNAMIC_CLASS(wxBitmap);
+    DECLARE_DYNAMIC_CLASS(wxBitmap)
 };
 
 

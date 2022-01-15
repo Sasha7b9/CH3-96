@@ -11,6 +11,9 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #if wxUSE_OWNER_DRAWN
 
@@ -19,6 +22,12 @@
 #include "wx/msw/private.h"
 #include "wx/msw/private/dc.h"
 #include "wx/msw/wrapcctl.h"            // for HIMAGELIST
+
+// ----------------------------------------------------------------------------
+// constants for base class
+// ----------------------------------------------------------------------------
+
+int wxOwnerDrawnBase::ms_defaultMargin = 3;
 
 // ============================================================================
 // implementation of wxOwnerDrawn class

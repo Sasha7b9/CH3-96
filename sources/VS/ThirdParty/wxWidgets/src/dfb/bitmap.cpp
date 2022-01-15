@@ -10,6 +10,9 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #ifndef WX_PRECOMP
     #include "wx/app.h"
@@ -388,7 +391,7 @@ public:
 // wxBitmap
 //-----------------------------------------------------------------------------
 
-wxIMPLEMENT_DYNAMIC_CLASS(wxBitmap, wxBitmapBase);
+IMPLEMENT_DYNAMIC_CLASS(wxBitmap, wxBitmapBase)
 
 bool wxBitmap::Create(const wxIDirectFBSurfacePtr& surface)
 {
@@ -417,7 +420,7 @@ bool wxBitmap::CreateWithFormat(int width, int height, int dfbFormat)
 }
 
 #if wxUSE_IMAGE
-wxBitmap::wxBitmap(const wxImage& imageOrig, int depth, double WXUNUSED(scale))
+wxBitmap::wxBitmap(const wxImage& imageOrig, int depth)
 {
     wxCHECK_RET( imageOrig.IsOk(), wxT("invalid image") );
 
@@ -700,7 +703,6 @@ void wxBitmap::SetPalette(const wxPalette& palette)
 }
 #endif // wxUSE_PALETTE
 
-#if WXWIN_COMPATIBILITY_3_0
 void wxBitmap::SetHeight(int height)
 {
     AllocExclusive();
@@ -735,7 +737,6 @@ void wxBitmap::SetDepth(int depth)
 
     M_BITMAP->m_surface = s;
 }
-#endif // WXWIN_COMPATIBILITY_3_0
 
 wxIDirectFBSurfacePtr wxBitmap::GetDirectFBSurface() const
 {

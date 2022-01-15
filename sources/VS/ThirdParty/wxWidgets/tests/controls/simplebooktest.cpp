@@ -10,6 +10,9 @@
 
 #if wxUSE_BOOKCTRL
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #ifndef WX_PRECOMP
     #include "wx/app.h"
@@ -24,16 +27,16 @@ class SimplebookTestCase : public BookCtrlBaseTestCase, public CppUnit::TestCase
 public:
     SimplebookTestCase() { }
 
-    virtual void setUp() wxOVERRIDE;
-    virtual void tearDown() wxOVERRIDE;
+    virtual void setUp();
+    virtual void tearDown();
 
 private:
-    virtual wxBookCtrlBase *GetBase() const wxOVERRIDE { return m_simplebook; }
+    virtual wxBookCtrlBase *GetBase() const { return m_simplebook; }
 
-    virtual wxEventType GetChangedEvent() const wxOVERRIDE
+    virtual wxEventType GetChangedEvent() const
         { return wxEVT_BOOKCTRL_PAGE_CHANGED; }
 
-    virtual wxEventType GetChangingEvent() const wxOVERRIDE
+    virtual wxEventType GetChangingEvent() const
         { return wxEVT_BOOKCTRL_PAGE_CHANGING; }
 
     CPPUNIT_TEST_SUITE( SimplebookTestCase );
@@ -42,7 +45,7 @@ private:
 
     wxSimplebook *m_simplebook;
 
-    wxDECLARE_NO_COPY_CLASS(SimplebookTestCase);
+    DECLARE_NO_COPY_CLASS(SimplebookTestCase)
 };
 
 // register in the unnamed registry so that these tests are run by default

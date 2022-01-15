@@ -13,6 +13,9 @@
 
 #include "testprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #ifndef WX_PRECOMP
 #endif // WX_PRECOMP
@@ -50,7 +53,7 @@ private:
     void BackwardsClockBug();
     void RestartBug();
 
-    wxDECLARE_NO_COPY_CLASS(StopWatchTestCase);
+    DECLARE_NO_COPY_CLASS(StopWatchTestCase)
 };
 
 // register in the unnamed registry so that these tests are run by default
@@ -131,8 +134,7 @@ void StopWatchTestCase::BackwardsClockBug()
 
         for ( size_t m = 0; m < 10000; m++ )
         {
-            CPPUNIT_ASSERT( sw.Time() >= 0 );
-            CPPUNIT_ASSERT( sw2.Time() >= 0 );
+            CPPUNIT_ASSERT ( sw.Time() >= 0 && sw2.Time() >= 0 );
         }
     }
 }
@@ -155,7 +157,7 @@ void StopWatchTestCase::RestartBug()
     );
 
     // As above, this is not actually due to the fact of the test being
-    // automatic but just because buildbot machines are usually pretty slow, so
+    // automatic but just because buildot machines are usually pretty slow, so
     // this test often fails there simply because of the high load on them.
     if ( !IsAutomaticTest() )
     {

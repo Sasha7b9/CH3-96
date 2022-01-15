@@ -14,6 +14,9 @@
 
 #if wxUSE_ODCOMBOBOX
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #ifndef WX_PRECOMP
     #include "wx/app.h"
@@ -36,17 +39,17 @@ class OwnerDrawnComboBoxTestCase : public TextEntryTestCase,
 public:
     OwnerDrawnComboBoxTestCase() { }
 
-    virtual void setUp() wxOVERRIDE;
-    virtual void tearDown() wxOVERRIDE;
+    virtual void setUp();
+    virtual void tearDown();
 
 private:
-    virtual wxTextEntry *GetTestEntry() const wxOVERRIDE { return m_combo; }
-    virtual wxWindow *GetTestWindow() const wxOVERRIDE { return m_combo; }
+    virtual wxTextEntry *GetTestEntry() const { return m_combo; }
+    virtual wxWindow *GetTestWindow() const { return m_combo; }
 
-    virtual wxItemContainer *GetContainer() const wxOVERRIDE { return m_combo; }
-    virtual wxWindow *GetContainerWindow() const wxOVERRIDE { return m_combo; }
+    virtual wxItemContainer *GetContainer() const { return m_combo; }
+    virtual wxWindow *GetContainerWindow() const { return m_combo; }
 
-    virtual void CheckStringSelection(const char * WXUNUSED(sel)) wxOVERRIDE
+    virtual void CheckStringSelection(const char * WXUNUSED(sel))
     {
         // do nothing here, as explained in TextEntryTestCase comment, our
         // GetStringSelection() is the wxChoice, not wxTextEntry, one and there
@@ -69,11 +72,15 @@ private:
 
     wxOwnerDrawnComboBox *m_combo;
 
-    wxDECLARE_NO_COPY_CLASS(OwnerDrawnComboBoxTestCase);
+    DECLARE_NO_COPY_CLASS(OwnerDrawnComboBoxTestCase)
 };
 
-wxREGISTER_UNIT_TEST_WITH_TAGS(OwnerDrawnComboBoxTestCase,
-                               "[OwnerDrawnComboBoxTestCase][item-container]");
+// register in the unnamed registry so that these tests are run by default
+CPPUNIT_TEST_SUITE_REGISTRATION( OwnerDrawnComboBoxTestCase );
+
+// also include in its own registry so that these tests can be run alone
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( OwnerDrawnComboBoxTestCase,
+                                       "OwnerDrawnComboBoxTestCase" );
 
 // ----------------------------------------------------------------------------
 // test initialization

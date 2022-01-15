@@ -18,6 +18,9 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #include "wx/filehistory.h"
 
@@ -64,13 +67,12 @@ wxString GetMRUEntryLabel(int n, const wxString& path)
 // File history (a.k.a. MRU, most recently used, files list)
 // ----------------------------------------------------------------------------
 
-wxIMPLEMENT_DYNAMIC_CLASS(wxFileHistory, wxObject);
+IMPLEMENT_DYNAMIC_CLASS(wxFileHistory, wxObject)
 
 wxFileHistoryBase::wxFileHistoryBase(size_t maxFiles, wxWindowID idBase)
 {
     m_fileMaxFiles = maxFiles;
     m_idBase = idBase;
-    m_menuPathStyle = wxFH_PATH_SHOW_IF_DIFFERENT;
 }
 
 /* static */
@@ -136,44 +138,21 @@ void wxFileHistoryBase::AddFileToHistory(const wxString& file)
     m_fileHistory.insert(m_fileHistory.begin(), file);
     numFiles++;
 
-    DoRefreshLabels();
-}
-
-void wxFileHistoryBase::DoRefreshLabels()
-{
-    const size_t numFiles = m_fileHistory.size();
-
-    // If no files, then no need to refresh the menu
-    if ( numFiles == 0 )
-        return;
-
-    // Remember the path in case we need to compare with it below.
-    const wxString firstPath(wxFileName(m_fileHistory[0]).GetPath());
-
-    // Update the labels in all menus
-    for ( size_t i = 0; i < numFiles; i++ )
+    // update the labels in all menus
+    for ( i = 0; i < numFiles; i++ )
     {
-        const wxFileName currFn(m_fileHistory[i]);
+        // if in same directory just show the filename; otherwise the full path
+        const wxFileName fnOld(m_fileHistory[i]);
 
         wxString pathInMenu;
-        switch ( m_menuPathStyle )
+        if ( fnOld.GetPath() == fnNew.GetPath() )
         {
-            case wxFH_PATH_SHOW_IF_DIFFERENT:
-                if ( currFn.HasName() && currFn.GetPath() == firstPath )
-                    pathInMenu = currFn.GetFullName();
-                else
-                    pathInMenu = currFn.GetFullPath();
-                break;
-
-            case wxFH_PATH_SHOW_NEVER:
-                // Only show the filename + extension and not the path.
-                pathInMenu = currFn.GetFullName();
-                break;
-
-            case wxFH_PATH_SHOW_ALWAYS:
-                // Always show full path.
-                pathInMenu = currFn.GetFullPath();
-                break;
+            pathInMenu = fnOld.GetFullName();
+        }
+        else // file in different directory
+        {
+            // absolute path; could also set relative path
+            pathInMenu = m_fileHistory[i];
         }
 
         for ( wxList::compatibility_iterator node = m_fileMenus.GetFirst();
@@ -184,15 +163,6 @@ void wxFileHistoryBase::DoRefreshLabels()
 
             menu->SetLabel(m_idBase + i, GetMRUEntryLabel(i, pathInMenu));
         }
-    }
-}
-
-void wxFileHistoryBase::SetMenuPathStyle(wxFileHistoryMenuPathStyle style)
-{
-    if ( style != m_menuPathStyle )
-    {
-        m_menuPathStyle = style;
-        DoRefreshLabels();
     }
 }
 
@@ -253,8 +223,6 @@ void wxFileHistoryBase::RemoveMenu(wxMenu *menu)
 #if wxUSE_CONFIG
 void wxFileHistoryBase::Load(const wxConfigBase& config)
 {
-    RemoveExistingHistory();
-
     m_fileHistory.Clear();
 
     wxString buf;
@@ -267,7 +235,7 @@ void wxFileHistoryBase::Load(const wxConfigBase& config)
         m_fileHistory.Add(historyFile);
 
         buf.Printf(wxT("file%d"), (int)m_fileHistory.GetCount()+1);
-        historyFile.clear();
+        historyFile = wxEmptyString;
     }
 
     AddFilesToMenu();
@@ -312,33 +280,6 @@ void wxFileHistoryBase::AddFilesToMenu(wxMenu* menu)
     for ( size_t i = 0; i < m_fileHistory.GetCount(); i++ )
     {
         menu->Append(m_idBase + i, GetMRUEntryLabel(i, m_fileHistory[i]));
-    }
-}
-
-void wxFileHistoryBase::RemoveExistingHistory()
-{
-    size_t count = m_fileHistory.GetCount();
-    if ( !count )
-        return;
-
-    for ( wxList::compatibility_iterator node = m_fileMenus.GetFirst();
-          node;
-          node = node->GetNext() )
-    {
-        wxMenu * const menu = static_cast<wxMenu *>(node->GetData());
-
-        // Notice that we remove count+1 items from the menu as we also remove
-        // the separator preceding them.
-        for ( size_t n = 0; n <= count; n++ )
-        {
-            const wxMenuItemList::compatibility_iterator
-                nodeLast = menu->GetMenuItems().GetLast();
-            if ( nodeLast )
-            {
-                wxMenuItem * const lastMenuItem = nodeLast->GetData();
-                menu->Delete(lastMenuItem);
-            }
-        }
     }
 }
 

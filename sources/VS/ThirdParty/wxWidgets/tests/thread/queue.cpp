@@ -13,6 +13,9 @@
 
 #include "testprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #ifndef WX_PRECOMP
     #include "wx/dynarray.h"
@@ -52,7 +55,7 @@ private:
         {}
 
         // thread execution starts here
-        virtual void *Entry() wxOVERRIDE;
+        virtual void *Entry();
 
         // Thread message queue
         Queue& GetQueue()
@@ -77,7 +80,7 @@ private:
     void TestReceive();
     void TestReceiveTimeout();
 
-    wxDECLARE_NO_COPY_CLASS(QueueTestCase);
+    DECLARE_NO_COPY_CLASS(QueueTestCase)
 };
 
 // register in the unnamed registry so that these tests are run by default
@@ -127,7 +130,6 @@ void QueueTestCase::TestReceive()
         // if it returns a negative, then it detected some problem.
         wxThread::ExitCode code = threads[i]->Wait();
         CPPUNIT_ASSERT_EQUAL( code, (wxThread::ExitCode)wxMSGQUEUE_NO_ERROR );
-        delete threads[i];
     }
 }
 
@@ -160,8 +162,6 @@ void QueueTestCase::TestReceiveTimeout()
 
     CPPUNIT_ASSERT_EQUAL( code1, (wxThread::ExitCode)wxMSGQUEUE_NO_ERROR );
     CPPUNIT_ASSERT_EQUAL( code2, (wxThread::ExitCode)wxMSGQUEUE_TIMEOUT );
-    delete thread2;
-    delete thread1;
 }
 
 // every thread tries to read exactly m_maxMsgCount messages from its queue
@@ -192,22 +192,20 @@ void *QueueTestCase::MyThread::Entry()
                 if ( res == wxMSGQUEUE_MISC_ERROR )
                     return (wxThread::ExitCode)wxMSGQUEUE_MISC_ERROR;
 
-                // We can't use Catch asserts outside of the main thread
-                // currently, unfortunately.
-                wxASSERT( res == wxMSGQUEUE_NO_ERROR );
+                CPPUNIT_ASSERT_EQUAL( wxMSGQUEUE_NO_ERROR, res );
             }
             ++messagesReceived;
             continue;
         }
 
-        wxASSERT( result == wxMSGQUEUE_TIMEOUT );
+        CPPUNIT_ASSERT_EQUAL ( result, wxMSGQUEUE_TIMEOUT );
 
         break;
     }
 
     if ( messagesReceived != m_maxMsgCount )
     {
-        wxASSERT( m_type == WaitWithTimeout );
+        CPPUNIT_ASSERT_EQUAL( m_type, WaitWithTimeout );
 
         return (wxThread::ExitCode)wxMSGQUEUE_TIMEOUT;
     }

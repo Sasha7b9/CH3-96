@@ -20,8 +20,8 @@
 
 #include "wx/osx/private.h"
 
-wxIMPLEMENT_DYNAMIC_CLASS(wxRegion, wxGDIObject);
-wxIMPLEMENT_DYNAMIC_CLASS(wxRegionIterator, wxObject);
+IMPLEMENT_DYNAMIC_CLASS(wxRegion, wxGDIObject)
+IMPLEMENT_DYNAMIC_CLASS(wxRegionIterator, wxObject)
 
 #define OSX_USE_SCANLINES 1
 
@@ -77,21 +77,6 @@ wxRegion::wxRegion(WXHRGN hRegion )
 
 wxRegion::wxRegion(long x, long y, long w, long h)
 {
-    // Rectangle needs to be given in the canonical form,
-    // with (x,y) pointing to the top-left corner
-    // and with non-negative width and height
-    // (for compatibility with wxMSW anf wxGTK).
-    if ( w < 0 )
-    {
-        w = -w;
-        x -= (w - 1);
-    }
-    if ( h < 0 )
-    {
-        h = -h;
-        y -= (h - 1);
-    }
-
     m_refData = new wxRegionRefData(x , y , w , h );
 }
 
@@ -1036,7 +1021,7 @@ bool wxRegion::DoOffset(wxCoord x, wxCoord y)
 
     AllocExclusive();
 
-    wxOSX_VERIFY_NOERR(HIShapeOffset( M_REGION , x , y )) ;
+    verify_noerr( HIShapeOffset( M_REGION , x , y ) ) ;
 
     return true ;
 }
@@ -1091,11 +1076,11 @@ bool wxRegion::DoCombine(const wxRegion& region, wxRegionOp op)
     switch (op)
     {
         case wxRGN_AND:
-            wxOSX_VERIFY_NOERR(HIShapeIntersect( M_REGION , OTHER_M_REGION(region) , M_REGION ));
+            verify_noerr( HIShapeIntersect( M_REGION , OTHER_M_REGION(region) , M_REGION ) );
             break ;
 
         case wxRGN_OR:
-            wxOSX_VERIFY_NOERR(HIShapeUnion( M_REGION , OTHER_M_REGION(region) , M_REGION ));
+            verify_noerr( HIShapeUnion( M_REGION , OTHER_M_REGION(region) , M_REGION ) );
             break ;
 
         case wxRGN_XOR:
@@ -1103,12 +1088,12 @@ bool wxRegion::DoCombine(const wxRegion& region, wxRegionOp op)
                 // XOR is defined as the difference between union and intersection
                 wxCFRef< HIShapeRef > unionshape( HIShapeCreateUnion( M_REGION , OTHER_M_REGION(region) ) );
                 wxCFRef< HIShapeRef > intersectionshape( HIShapeCreateIntersection( M_REGION , OTHER_M_REGION(region) ) );
-                wxOSX_VERIFY_NOERR(HIShapeDifference( unionshape, intersectionshape, M_REGION ));
+                verify_noerr( HIShapeDifference( unionshape, intersectionshape, M_REGION ) );
             }
             break ;
 
         case wxRGN_DIFF:
-            wxOSX_VERIFY_NOERR(HIShapeDifference( M_REGION , OTHER_M_REGION(region) , M_REGION )) ;
+            verify_noerr( HIShapeDifference( M_REGION , OTHER_M_REGION(region) , M_REGION ) ) ;
             break ;
 
         case wxRGN_COPY:

@@ -12,6 +12,9 @@
 // For compilers that support precompilation, includes "wx/wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+#pragma hdrstop
+#endif
 
 #ifndef WX_PRECOMP
     #include "wx/wx.h"
@@ -61,7 +64,7 @@
 class MyApp: public wxApp
 {
 public:
-    virtual bool OnInit() wxOVERRIDE;
+    virtual bool OnInit();
 };
 
 // ----------------------------------------------------------------------------
@@ -75,10 +78,8 @@ public:
 
     void OnAbout( wxCommandEvent &event );
     void OnNewFrame( wxCommandEvent &event );
-    void OnNewFrameHiDPI(wxCommandEvent&);
     void OnImageInfo( wxCommandEvent &event );
     void OnThumbnail( wxCommandEvent &event );
-    void OnUpdateNewFrameHiDPI(wxUpdateUIEvent&);
 
 #ifdef wxHAVE_RAW_BITMAP
     void OnTestRawBitmap( wxCommandEvent &event );
@@ -91,8 +92,6 @@ public:
 #if wxUSE_CLIPBOARD
     void OnCopy(wxCommandEvent& event);
     void OnPaste(wxCommandEvent& event);
-    void OnCopyImage(wxCommandEvent& evt);
-    void OnPasteImage(wxCommandEvent& evt);
 #endif // wxUSE_CLIPBOARD
 
     MyCanvas         *m_canvas;
@@ -124,41 +123,9 @@ enum
 class MyImageFrame : public wxFrame
 {
 public:
-    MyImageFrame(wxFrame *parent, const wxString& desc, const wxImage& image, double scale = 1.0)
+    MyImageFrame(wxFrame *parent, const wxString& desc, const wxImage& image)
     {
-        // Retrieve image info
-        wxString info;
-        int xres, yres;
-        switch ( GetResolutionFromOptions(image, &xres, &yres) )
-        {
-            case wxIMAGE_RESOLUTION_NONE:
-                break;
-
-            case wxIMAGE_RESOLUTION_CM:
-                // convert to DPI
-                xres = wxRound(xres / 10.0 * inches2mm);
-                yres = wxRound(yres / 10.0 * inches2mm);
-                wxFALLTHROUGH;
-
-            case wxIMAGE_RESOLUTION_INCHES:
-                info = wxString::Format("DPI %i x %i", xres, yres);
-                break;
-
-            default:
-                wxFAIL_MSG("unexpected image resolution units");
-                break;
-        }
-
-        int numImages = desc.StartsWith("Clipboard") ? 1 : image.GetImageCount(desc);
-        if ( numImages > 1 )
-        {
-            if ( !info.empty() )
-                info += ", ";
-
-            info += wxString::Format("%d images", numImages);
-        }
-
-        Create(parent, desc, wxBitmap(image, wxBITMAP_SCREEN_DEPTH, scale), info);
+        Create(parent, desc, wxBitmap(image), image.GetImageCount(desc));
     }
 
     MyImageFrame(wxFrame *parent, const wxString& desc, const wxBitmap& bitmap)
@@ -170,10 +137,10 @@ private:
     bool Create(wxFrame *parent,
                 const wxString& desc,
                 const wxBitmap& bitmap,
-                wxString info = wxString())
+                int numImages = 1)
     {
         if ( !wxFrame::Create(parent, wxID_ANY,
-                              wxString::Format("Image from %s", desc),
+                              wxString::Format(wxT("Image from %s"), desc),
                               wxDefaultPosition, wxDefaultSize,
                               wxDEFAULT_FRAME_STYLE | wxFULL_REPAINT_ON_RESIZE) )
             return false;
@@ -184,25 +151,26 @@ private:
         wxMenu *menu = new wxMenu;
         menu->Append(wxID_SAVEAS);
         menu->AppendSeparator();
-        menu->AppendCheckItem(ID_PAINT_BG, "&Paint background",
+        menu->AppendCheckItem(ID_PAINT_BG, wxT("&Paint background"),
                               "Uncheck this for transparent images");
         menu->AppendSeparator();
-        menu->Append(ID_RESIZE, "&Fit to window\tCtrl-F");
+        menu->Append(ID_RESIZE, wxT("&Fit to window\tCtrl-F"));
         menu->Append(wxID_ZOOM_IN, "Zoom &in\tCtrl-+");
         menu->Append(wxID_ZOOM_OUT, "Zoom &out\tCtrl--");
         menu->Append(wxID_ZOOM_100, "Reset zoom to &100%\tCtrl-1");
         menu->AppendSeparator();
-        menu->Append(ID_ROTATE_LEFT, "Rotate &left\tCtrl-L");
-        menu->Append(ID_ROTATE_RIGHT, "Rotate &right\tCtrl-R");
+        menu->Append(ID_ROTATE_LEFT, wxT("Rotate &left\tCtrl-L"));
+        menu->Append(ID_ROTATE_RIGHT, wxT("Rotate &right\tCtrl-R"));
 
         wxMenuBar *mbar = new wxMenuBar;
-        mbar->Append(menu, "&Image");
+        mbar->Append(menu, wxT("&Image"));
         SetMenuBar(mbar);
 
         mbar->Check(ID_PAINT_BG, true);
 
         CreateStatusBar(2);
-        SetStatusText(info, 1);
+        if ( numImages != 1 )
+            SetStatusText(wxString::Format("%d images", numImages), 1);
 
         SetClientSize(bitmap.GetWidth(), bitmap.GetHeight());
 
@@ -242,31 +210,31 @@ private:
 #if wxUSE_FILEDLG
         wxImage image = m_bitmap.ConvertToImage();
 
-        wxString savefilename = wxFileSelector( "Save Image",
+        wxString savefilename = wxFileSelector( wxT("Save Image"),
                                                 wxEmptyString,
                                                 wxEmptyString,
                                                 wxEmptyString,
-                                                "BMP files (*.bmp)|*.bmp|"
+                                                wxT("BMP files (*.bmp)|*.bmp|")
 #if wxUSE_LIBPNG
-                                                "PNG files (*.png)|*.png|"
+                                                wxT("PNG files (*.png)|*.png|")
 #endif
 #if wxUSE_LIBJPEG
-                                                "JPEG files (*.jpg)|*.jpg|"
+                                                wxT("JPEG files (*.jpg)|*.jpg|")
 #endif
 #if wxUSE_GIF
-                                                "GIF files (*.gif)|*.gif|"
+                                                wxT("GIF files (*.gif)|*.gif|")
 #endif
 #if wxUSE_LIBTIFF
-                                                "TIFF files (*.tif)|*.tif|"
+                                                wxT("TIFF files (*.tif)|*.tif|")
 #endif
 #if wxUSE_PCX
-                                                "PCX files (*.pcx)|*.pcx|"
+                                                wxT("PCX files (*.pcx)|*.pcx|")
 #endif
 #if wxUSE_XPM
-                                                "X PixMap files (*.xpm)|*.xpm|"
+                                                wxT("X PixMap files (*.xpm)|*.xpm|")
 #endif
-                                                "ICO files (*.ico)|*.ico|"
-                                                "CUR files (*.cur)|*.cur",
+                                                wxT("ICO files (*.ico)|*.ico|")
+                                                wxT("CUR files (*.cur)|*.cur"),
                                                 wxFD_SAVE | wxFD_OVERWRITE_PROMPT,
                                                 this);
 
@@ -277,7 +245,7 @@ private:
         wxFileName::SplitPath(savefilename, NULL, NULL, &extension);
 
         bool saved = false;
-        if ( extension == "bmp" )
+        if ( extension == wxT("bmp") )
         {
             static const int bppvalues[] =
             {
@@ -287,28 +255,24 @@ private:
                 wxBMP_8BPP,
                 wxBMP_8BPP_GREY,
                 wxBMP_8BPP_RED,
-#if wxUSE_PALETTE
                 wxBMP_8BPP_PALETTE,
-#endif // wxUSE_PALETTE
                 wxBMP_24BPP
             };
 
             const wxString bppchoices[] =
             {
-                "1 bpp color",
-                "1 bpp B&W",
-                "4 bpp color",
-                "8 bpp color",
-                "8 bpp greyscale",
-                "8 bpp red",
-#if wxUSE_PALETTE
-                "8 bpp own palette",
-#endif // wxUSE_PALETTE
-                "24 bpp"
+                wxT("1 bpp color"),
+                wxT("1 bpp B&W"),
+                wxT("4 bpp color"),
+                wxT("8 bpp color"),
+                wxT("8 bpp greyscale"),
+                wxT("8 bpp red"),
+                wxT("8 bpp own palette"),
+                wxT("24 bpp")
             };
 
-            int bppselection = wxGetSingleChoiceIndex("Set BMP BPP",
-                                                    "Image sample: save file",
+            int bppselection = wxGetSingleChoiceIndex(wxT("Set BMP BPP"),
+                                                    wxT("Image sample: save file"),
                                                     WXSIZEOF(bppchoices),
                                                     bppchoices,
                                                     this);
@@ -316,7 +280,7 @@ private:
             {
                 int format = bppvalues[bppselection];
                 image.SetOption(wxIMAGE_OPTION_BMP_FORMAT, format);
-#if wxUSE_PALETTE
+
                 if ( format == wxBMP_8BPP_PALETTE )
                 {
                     unsigned char *cmap = new unsigned char [256];
@@ -326,11 +290,10 @@ private:
 
                     delete[] cmap;
                 }
-#endif // wxUSE_PALETTE
             }
         }
 #if wxUSE_LIBPNG
-        else if ( extension == "png" )
+        else if ( extension == wxT("png") )
         {
             static const int pngvalues[] =
             {
@@ -344,16 +307,16 @@ private:
 
             const wxString pngchoices[] =
             {
-                "Colour 8bpp",
-                "Colour 16bpp",
-                "Grey 8bpp",
-                "Grey 16bpp",
-                "Grey red 8bpp",
-                "Grey red 16bpp",
+                wxT("Colour 8bpp"),
+                wxT("Colour 16bpp"),
+                wxT("Grey 8bpp"),
+                wxT("Grey 16bpp"),
+                wxT("Grey red 8bpp"),
+                wxT("Grey red 16bpp"),
             };
 
-            int sel = wxGetSingleChoiceIndex("Set PNG format",
-                                            "Image sample: save file",
+            int sel = wxGetSingleChoiceIndex(wxT("Set PNG format"),
+                                            wxT("Image sample: save file"),
                                             WXSIZEOF(pngchoices),
                                             pngchoices,
                                             this);
@@ -365,26 +328,26 @@ private:
                 // these values are taken from OptiPNG with -o3 switch
                 const wxString compressionChoices[] =
                 {
-                    "compression = 9, memory = 8, strategy = 0, filter = 0",
-                    "compression = 9, memory = 9, strategy = 0, filter = 0",
-                    "compression = 9, memory = 8, strategy = 1, filter = 0",
-                    "compression = 9, memory = 9, strategy = 1, filter = 0",
-                    "compression = 1, memory = 8, strategy = 2, filter = 0",
-                    "compression = 1, memory = 9, strategy = 2, filter = 0",
-                    "compression = 9, memory = 8, strategy = 0, filter = 5",
-                    "compression = 9, memory = 9, strategy = 0, filter = 5",
-                    "compression = 9, memory = 8, strategy = 1, filter = 5",
-                    "compression = 9, memory = 9, strategy = 1, filter = 5",
-                    "compression = 1, memory = 8, strategy = 2, filter = 5",
-                    "compression = 1, memory = 9, strategy = 2, filter = 5",
+                    wxT("compression = 9, memory = 8, strategy = 0, filter = 0"),
+                    wxT("compression = 9, memory = 9, strategy = 0, filter = 0"),
+                    wxT("compression = 9, memory = 8, strategy = 1, filter = 0"),
+                    wxT("compression = 9, memory = 9, strategy = 1, filter = 0"),
+                    wxT("compression = 1, memory = 8, strategy = 2, filter = 0"),
+                    wxT("compression = 1, memory = 9, strategy = 2, filter = 0"),
+                    wxT("compression = 9, memory = 8, strategy = 0, filter = 5"),
+                    wxT("compression = 9, memory = 9, strategy = 0, filter = 5"),
+                    wxT("compression = 9, memory = 8, strategy = 1, filter = 5"),
+                    wxT("compression = 9, memory = 9, strategy = 1, filter = 5"),
+                    wxT("compression = 1, memory = 8, strategy = 2, filter = 5"),
+                    wxT("compression = 1, memory = 9, strategy = 2, filter = 5"),
                 };
 
-                sel = wxGetSingleChoiceIndex("Select compression option (Cancel to use default)\n",
-                                             "PNG Compression Options",
-                                             WXSIZEOF(compressionChoices),
-                                             compressionChoices,
-                                             this);
-                if ( sel != -1 )
+                int sel = wxGetSingleChoiceIndex(wxT("Select compression option (Cancel to use default)\n"),
+                                                 wxT("PNG Compression Options"),
+                                                 WXSIZEOF(compressionChoices),
+                                                 compressionChoices,
+                                                 this);
+                if (sel != -1)
                 {
                     const int zc[] = {9, 9, 9, 9, 1, 1, 9, 9, 9, 9, 1, 1};
                     const int zm[] = {8, 9, 8, 9, 8, 9, 8, 9, 8, 9, 8, 9};
@@ -401,7 +364,7 @@ private:
             }
         }
 #endif // wxUSE_LIBPNG
-        else if ( extension == "cur" )
+        else if ( extension == wxT("cur") )
         {
             image.Rescale(32,32);
             image.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_X, 0);
@@ -453,7 +416,7 @@ private:
         img = img.Rotate(angle, wxPoint(img.GetWidth() / 2, img.GetHeight() / 2));
         if ( !img.IsOk() )
         {
-            wxLogWarning("Rotation failed");
+            wxLogWarning(wxT("Rotation failed"));
             return;
         }
 
@@ -464,46 +427,11 @@ private:
 
     void UpdateStatusBar()
     {
-        wxLogStatus(this, "Image size: (%d, %d), zoom %.2f",
+        wxLogStatus(this, wxT("Image size: (%d, %d), zoom %.2f"),
                     m_bitmap.GetWidth(),
                     m_bitmap.GetHeight(),
                     m_zoom);
         Refresh();
-    }
-
-    // This is a copy of protected wxImageHandler::GetResolutionFromOptions()
-    static wxImageResolution GetResolutionFromOptions(const wxImage& image, int* x, int* y)
-    {
-        wxCHECK_MSG(x && y, wxIMAGE_RESOLUTION_NONE, wxT("NULL pointer"));
-
-        if ( image.HasOption(wxIMAGE_OPTION_RESOLUTIONX) &&
-            image.HasOption(wxIMAGE_OPTION_RESOLUTIONY) )
-        {
-            *x = image.GetOptionInt(wxIMAGE_OPTION_RESOLUTIONX);
-            *y = image.GetOptionInt(wxIMAGE_OPTION_RESOLUTIONY);
-        }
-        else if ( image.HasOption(wxIMAGE_OPTION_RESOLUTION) )
-        {
-            *x =
-            *y = image.GetOptionInt(wxIMAGE_OPTION_RESOLUTION);
-        }
-        else // no resolution options specified
-        {
-            *x =
-            *y = 0;
-
-            return wxIMAGE_RESOLUTION_NONE;
-        }
-
-        // get the resolution unit too
-        int resUnit = image.GetOptionInt(wxIMAGE_OPTION_RESOLUTIONUNIT);
-        if ( !resUnit )
-        {
-            // this is the default
-            resUnit = wxIMAGE_RESOLUTION_INCHES;
-        }
-
-        return (wxImageResolution)resUnit;
     }
 
     wxBitmap m_bitmap;
@@ -527,7 +455,7 @@ public:
     };
 
     MyRawBitmapFrame(wxFrame *parent)
-        : wxFrame(parent, wxID_ANY, "Raw bitmaps (how exciting)"),
+        : wxFrame(parent, wxID_ANY, wxT("Raw bitmaps (how exciting)")),
         m_bitmap(SIZE, SIZE, 24),
         m_alphaBitmap(SIZE, SIZE, 32)
     {
@@ -545,7 +473,7 @@ public:
             wxAlphaPixelData data( m_alphaBitmap, wxPoint(0,0), wxSize(SIZE, SIZE) );
             if ( !data )
             {
-                wxLogError("Failed to gain raw access to bitmap data");
+                wxLogError(wxT("Failed to gain raw access to bitmap data"));
                 return;
             }
             wxAlphaPixelData::Iterator p(data);
@@ -567,7 +495,7 @@ public:
                             wxSize(REAL_SIZE, REAL_SIZE));
         if ( !data )
         {
-            wxLogError("Failed to gain raw access to bitmap data");
+            wxLogError(wxT("Failed to gain raw access to bitmap data"));
             return;
         }
 
@@ -604,7 +532,7 @@ public:
         wxNativePixelData data(m_bitmap);
         if ( !data )
         {
-            wxLogError("Failed to gain raw access to bitmap data");
+            wxLogError(wxT("Failed to gain raw access to bitmap data"));
             return;
         }
 
@@ -633,12 +561,12 @@ public:
     void OnPaint(wxPaintEvent& WXUNUSED(event))
     {
         wxPaintDC dc( this );
-        dc.DrawText("This is alpha and raw bitmap test", 0, BORDER);
-        dc.DrawText("This is alpha and raw bitmap test", 0, SIZE/2 - BORDER);
-        dc.DrawText("This is alpha and raw bitmap test", 0, SIZE - 2*BORDER);
+        dc.DrawText(wxT("This is alpha and raw bitmap test"), 0, BORDER);
+        dc.DrawText(wxT("This is alpha and raw bitmap test"), 0, SIZE/2 - BORDER);
+        dc.DrawText(wxT("This is alpha and raw bitmap test"), 0, SIZE - 2*BORDER);
         dc.DrawBitmap( m_alphaBitmap, 0, 0, true /* use mask */ );
 
-        dc.DrawText("Raw bitmap access without alpha", 0, SIZE+5);
+        dc.DrawText(wxT("Raw bitmap access without alpha"), 0, SIZE+5);
         dc.DrawBitmap( m_bitmap, 0, SIZE+5+dc.GetCharHeight());
     }
 
@@ -694,21 +622,17 @@ enum
     ID_QUIT  = wxID_EXIT,
     ID_ABOUT = wxID_ABOUT,
     ID_NEW = 100,
-    ID_NEW_HIDPI,
     ID_INFO,
     ID_SHOWRAW,
     ID_GRAPHICS,
-    ID_SHOWTHUMBNAIL,
-    ID_COPY_IMAGE,
-    ID_PASTE_IMAGE
+    ID_SHOWTHUMBNAIL
 };
 
-wxIMPLEMENT_DYNAMIC_CLASS( MyFrame, wxFrame );
+IMPLEMENT_DYNAMIC_CLASS( MyFrame, wxFrame )
 wxBEGIN_EVENT_TABLE(MyFrame, wxFrame)
     EVT_MENU    (ID_ABOUT, MyFrame::OnAbout)
     EVT_MENU    (ID_QUIT,  MyFrame::OnQuit)
     EVT_MENU    (ID_NEW,   MyFrame::OnNewFrame)
-    EVT_MENU    (ID_NEW_HIDPI,   MyFrame::OnNewFrameHiDPI)
     EVT_MENU    (ID_INFO,  MyFrame::OnImageInfo)
     EVT_MENU    (ID_SHOWTHUMBNAIL, MyFrame::OnThumbnail)
 #ifdef wxHAVE_RAW_BITMAP
@@ -720,14 +644,11 @@ wxBEGIN_EVENT_TABLE(MyFrame, wxFrame)
 #if wxUSE_CLIPBOARD
     EVT_MENU(wxID_COPY, MyFrame::OnCopy)
     EVT_MENU(wxID_PASTE, MyFrame::OnPaste)
-    EVT_MENU(ID_COPY_IMAGE, MyFrame::OnCopyImage)
-    EVT_MENU(ID_PASTE_IMAGE, MyFrame::OnPasteImage)
 #endif // wxUSE_CLIPBOARD
-    EVT_UPDATE_UI(ID_NEW_HIDPI, MyFrame::OnUpdateNewFrameHiDPI)
 wxEND_EVENT_TABLE()
 
 MyFrame::MyFrame()
-    : wxFrame( (wxFrame *)NULL, wxID_ANY, "wxImage sample",
+    : wxFrame( (wxFrame *)NULL, wxID_ANY, wxT("wxImage sample"),
                 wxPoint(20, 20), wxSize(950, 700) )
 {
     SetIcon(wxICON(sample));
@@ -735,34 +656,30 @@ MyFrame::MyFrame()
     wxMenuBar *menu_bar = new wxMenuBar();
 
     wxMenu *menuImage = new wxMenu;
-    menuImage->Append( ID_NEW, "&Show any image...\tCtrl-O");
-    menuImage->Append(ID_NEW_HIDPI, "Show any image as &HiDPI...\tCtrl-H");
-    menuImage->Append( ID_INFO, "Show image &information...\tCtrl-I");
+    menuImage->Append( ID_NEW, wxT("&Show any image...\tCtrl-O"));
+    menuImage->Append( ID_INFO, wxT("Show image &information...\tCtrl-I"));
 #ifdef wxHAVE_RAW_BITMAP
     menuImage->AppendSeparator();
-    menuImage->Append( ID_SHOWRAW, "Test &raw bitmap...\tCtrl-R");
+    menuImage->Append( ID_SHOWRAW, wxT("Test &raw bitmap...\tCtrl-R"));
 #endif
 #if wxUSE_GRAPHICS_CONTEXT
     menuImage->AppendSeparator();
     menuImage->Append(ID_GRAPHICS, "Test &graphics context...\tCtrl-G");
 #endif // wxUSE_GRAPHICS_CONTEXT
     menuImage->AppendSeparator();
-    menuImage->Append( ID_SHOWTHUMBNAIL, "Test &thumbnail...\tCtrl-T",
+    menuImage->Append( ID_SHOWTHUMBNAIL, wxT("Test &thumbnail...\tCtrl-T"),
                         "Test scaling the image during load (try with JPEG)");
     menuImage->AppendSeparator();
-    menuImage->Append( ID_ABOUT, "&About\tF1");
+    menuImage->Append( ID_ABOUT, wxT("&About\tF1"));
     menuImage->AppendSeparator();
-    menuImage->Append( ID_QUIT, "E&xit\tCtrl-Q");
-    menu_bar->Append(menuImage, "&Image");
+    menuImage->Append( ID_QUIT, wxT("E&xit\tCtrl-Q"));
+    menu_bar->Append(menuImage, wxT("&Image"));
 
 #if wxUSE_CLIPBOARD
     wxMenu *menuClipboard = new wxMenu;
-    menuClipboard->Append(wxID_COPY, "&Copy test image as wxBitmap\tCtrl-C");
-    menuClipboard->Append(wxID_PASTE, "&Paste image as wxBitmap\tCtrl-V");
-    menuClipboard->AppendSeparator();
-    menuClipboard->Append(ID_COPY_IMAGE, "Copy image as wxImage");
-    menuClipboard->Append(ID_PASTE_IMAGE, "Paste image as wxImage");
-    menu_bar->Append(menuClipboard, "&Clipboard");
+    menuClipboard->Append(wxID_COPY, wxT("&Copy test image\tCtrl-C"));
+    menuClipboard->Append(wxID_PASTE, wxT("&Paste image\tCtrl-V"));
+    menu_bar->Append(menuClipboard, wxT("&Clipboard"));
 #endif // wxUSE_CLIPBOARD
 
     SetMenuBar( menu_bar );
@@ -823,12 +740,12 @@ wxString MyFrame::LoadUserImage(wxImage& image)
     wxString filename;
 
 #if wxUSE_FILEDLG
-    filename = wxLoadFileSelector("image", wxEmptyString);
+    filename = wxLoadFileSelector(wxT("image"), wxEmptyString);
     if ( !filename.empty() )
     {
         if ( !image.LoadFile(filename) )
         {
-            wxLogError("Couldn't load image from '%s'.", filename);
+            wxLogError(wxT("Couldn't load image from '%s'."), filename.c_str());
 
             return wxEmptyString;
         }
@@ -844,19 +761,6 @@ void MyFrame::OnNewFrame( wxCommandEvent &WXUNUSED(event) )
     wxString filename = LoadUserImage(image);
     if ( !filename.empty() )
         new MyImageFrame(this, filename, image);
-}
-
-void MyFrame::OnNewFrameHiDPI(wxCommandEvent&)
-{
-    wxImage image;
-    wxString filename = LoadUserImage(image);
-    if (!filename.empty())
-        new MyImageFrame(this, filename, image, GetContentScaleFactor());
-}
-
-void MyFrame::OnUpdateNewFrameHiDPI(wxUpdateUIEvent& event)
-{
-    event.Enable(GetContentScaleFactor() > 1);
 }
 
 void MyFrame::OnImageInfo( wxCommandEvent &WXUNUSED(event) )
@@ -878,7 +782,7 @@ void MyFrame::OnImageInfo( wxCommandEvent &WXUNUSED(event) )
             {
                 default:
                     wxFAIL_MSG( "unknown image resolution units" );
-                    wxFALLTHROUGH;
+                    // fall through
 
                 case wxIMAGE_RESOLUTION_NONE:
                     info += " in default units";
@@ -951,7 +855,7 @@ public:
 
         m_bitmap = wxBitmap(m_image);
 
-        Bind(wxEVT_PAINT, &MyGraphicsFrame::OnPaint, this);
+        Connect(wxEVT_PAINT, wxPaintEventHandler(MyGraphicsFrame::OnPaint));
 
         Show();
     }
@@ -997,7 +901,7 @@ void MyFrame::OnCopy(wxCommandEvent& WXUNUSED(event))
 
     if ( !wxTheClipboard->SetData(dobjBmp) )
     {
-        wxLogError("Failed to copy bitmap to clipboard");
+        wxLogError(wxT("Failed to copy bitmap to clipboard"));
     }
 
     wxTheClipboard->Close();
@@ -1010,45 +914,13 @@ void MyFrame::OnPaste(wxCommandEvent& WXUNUSED(event))
     wxTheClipboard->Open();
     if ( !wxTheClipboard->GetData(dobjBmp) )
     {
-        wxLogMessage("No bitmap data in the clipboard");
+        wxLogMessage(wxT("No bitmap data in the clipboard"));
     }
     else
     {
-        new MyImageFrame(this, "Clipboard", dobjBmp.GetBitmap());
+        new MyImageFrame(this, wxT("Clipboard"), dobjBmp.GetBitmap());
     }
     wxTheClipboard->Close();
-}
-
-void MyFrame::OnCopyImage(wxCommandEvent& WXUNUSED(evt))
-{
-    wxImage img;
-    wxString filename = LoadUserImage(img);
-    if ( filename.empty() )
-        return;
-
-    wxImageDataObject* dobjImage = new wxImageDataObject;
-    dobjImage->SetImage(img);
-
-    wxClipboardLocker clipOpener;
-    if ( !wxTheClipboard->SetData(dobjImage) )
-    {
-        wxLogError("Failed to copy wxImage to clipboard");
-    }
-}
-
-void MyFrame::OnPasteImage(wxCommandEvent& WXUNUSED(evt))
-{
-    wxImageDataObject dobjImage;
-
-    wxClipboardLocker clipOpener;
-    if ( !wxTheClipboard->GetData(dobjImage) )
-    {
-        wxLogMessage("No wxImage data in the clipboard");
-    }
-    else
-    {
-        new MyImageFrame(this, "Clipboard (wxImage)", dobjImage.GetImage());
-    }
 }
 
 #endif // wxUSE_CLIPBOARD
@@ -1056,7 +928,7 @@ void MyFrame::OnPasteImage(wxCommandEvent& WXUNUSED(evt))
 void MyFrame::OnThumbnail( wxCommandEvent &WXUNUSED(event) )
 {
 #if wxUSE_FILEDLG
-    wxString filename = wxLoadFileSelector("image", wxEmptyString, wxEmptyString, this);
+    wxString filename = wxLoadFileSelector(wxT("image"), wxEmptyString, wxEmptyString, this);
     if ( filename.empty() )
         return;
 
@@ -1070,7 +942,7 @@ void MyFrame::OnThumbnail( wxCommandEvent &WXUNUSED(event) )
     wxStopWatch sw;
     if ( !image.LoadFile(filename) )
     {
-        wxLogError("Couldn't load image from '%s'.", filename);
+        wxLogError(wxT("Couldn't load image from '%s'."), filename.c_str());
         return;
     }
 
@@ -1083,7 +955,7 @@ void MyFrame::OnThumbnail( wxCommandEvent &WXUNUSED(event) )
     wxLogStatus(frame, "Loaded \"%s\" in %ldms; original size was (%d, %d)",
                 filename, loadTime, origWidth, origHeight);
 #else
-    wxLogError( "Couldn't create file selector dialog" );
+    wxLogError( wxT("Couldn't create file selector dialog") );
     return;
 #endif // wxUSE_FILEDLG
 }
@@ -1092,7 +964,7 @@ void MyFrame::OnThumbnail( wxCommandEvent &WXUNUSED(event) )
 // MyApp
 //-----------------------------------------------------------------------------
 
-wxIMPLEMENT_APP(MyApp);
+IMPLEMENT_APP(MyApp)
 
 bool MyApp::OnInit()
 {

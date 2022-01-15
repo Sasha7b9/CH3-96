@@ -19,6 +19,9 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #if wxUSE_RADIOBOX
 
@@ -83,7 +86,7 @@ wxFLAGS_MEMBER(wxRA_VERTICAL)
 
 wxEND_FLAGS( wxRadioBoxStyle )
 
-wxIMPLEMENT_DYNAMIC_CLASS_XTI(wxRadioBox, wxControl, "wx/radiobox.h");
+IMPLEMENT_DYNAMIC_CLASS_XTI(wxRadioBox, wxControl,"wx/radiobox.h")
 
 wxBEGIN_PROPERTIES_TABLE(wxRadioBox)
 wxEVENT_PROPERTY( Select , wxEVT_RADIOBOX , wxCommandEvent )
@@ -346,7 +349,7 @@ wxString wxRadioBoxBase::DoGetHelpTextAtPoint(const wxWindow *derived,
 
         default:
             wxFAIL_MSG( "unknown help even origin" );
-            wxFALLTHROUGH;
+            // fall through
 
         case wxHelpEvent::Origin_Unknown:
             // this value is used when we're called from GetHelpText() for the

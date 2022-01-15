@@ -99,18 +99,18 @@ public:
     /**
         Default constructor.
     */
-    wxList();
+    wxList<T>();
 
     /**
         Constructor which initialized the list with an array of @a count elements.
     */
-    wxList(size_t count, T* elements[]);
+    wxList<T>(size_t count, T* elements[]);
 
     /**
         Destroys the list, but does not delete the objects stored in the list
         unless you called DeleteContents(@true ).
     */
-    ~wxList();
+    ~wxList<T>();
 
     /**
         Appends the pointer to @a object to the list.
@@ -278,7 +278,7 @@ public:
     const_iterator end() const;
 
     /**
-        Returns an iterator pointing at the end of the list.
+        Returns a iterator pointing at the end of the list.
     */
     iterator end() const;
 

@@ -8,6 +8,10 @@
 
 #include "testprec.h"
 
+#ifdef __BORLANDC__
+#   pragma hdrstop
+#endif
+
 #ifndef WX_PRECOMP
 #   include "wx/wx.h"
 #endif
@@ -21,20 +25,19 @@ using std::string;
 
 
 ///////////////////////////////////////////////////////////////////////////////
-// Tar suite
+// Tar suite 
 
 class tartest : public ArchiveTestSuite
 {
 public:
     tartest();
-
-    void runTest() wxOVERRIDE { DoRunTest(); }
+    static CppUnit::Test *suite() { return (new tartest)->makeSuite(); }
 
 protected:
     CppUnit::Test *makeTest(string descr, int options,
                             bool genericInterface,
                             const wxString& archiver,
-                            const wxString& unarchiver) wxOVERRIDE;
+                            const wxString& unarchiver);
 };
 
 tartest::tartest()
@@ -67,6 +70,7 @@ CppUnit::Test *tartest::makeTest(
 }
 
 CPPUNIT_TEST_SUITE_REGISTRATION(tartest);
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION(tartest, "archive");
 CPPUNIT_TEST_SUITE_NAMED_REGISTRATION(tartest, "archive/tar");
 
 #endif // wxUSE_STREAMS

@@ -10,6 +10,9 @@
 // For compilers that support precompilation, includes "wx/wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 // for all others, include the necessary headers
 #ifndef WX_PRECOMP
@@ -610,7 +613,7 @@ wxMethodPtrArray wxClass::RecursiveUpwardFindMethodsNamed(const wxString& name,
             if (!parent) {
                 wxLogError("Could not find parent '%s' of class '%s'...",
                          m_parents[i], GetName());
-                return wxMethodPtrArray();
+                return false;
             }
 
             wxMethodPtrArray temp = parent->RecursiveUpwardFindMethodsNamed(name, allclasses);

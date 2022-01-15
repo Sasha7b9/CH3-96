@@ -9,6 +9,9 @@
 // For compilers that support precompilation, includes "wx/wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 // for all others, include the necessary headers (this file is usually all you
 // need because it includes almost all "standard" wxWidgets headers)
@@ -28,7 +31,7 @@
 class MyApp : public wxApp
 {
 public:
-    virtual bool OnInit() wxOVERRIDE;
+    virtual bool OnInit();
 };
 
 #if USE_ASYNCHRONOUS_CLIPBOARD_REQUEST
@@ -47,7 +50,6 @@ public:
 
     void OnQuit(wxCommandEvent&event);
     void OnAbout(wxCommandEvent&event);
-    void OnFlush(wxCommandEvent &event);
     void OnWriteClipboardContents(wxCommandEvent&event);
     void OnUpdateUI(wxUpdateUIEvent&event);
 #if USE_ASYNCHRONOUS_CLIPBOARD_REQUEST
@@ -69,14 +71,12 @@ enum
     ID_Quit   = wxID_EXIT,
     ID_About  = wxID_ABOUT,
     ID_Write  = 100,
-    ID_Text   = 101,
-    ID_Flush  = 102
+    ID_Text   = 101
 };
 
 wxBEGIN_EVENT_TABLE(MyFrame, wxFrame)
     EVT_MENU(ID_Quit,  MyFrame::OnQuit)
     EVT_MENU(ID_About, MyFrame::OnAbout)
-    EVT_MENU(ID_Flush, MyFrame::OnFlush)
     EVT_BUTTON(ID_Write, MyFrame::OnWriteClipboardContents)
     EVT_UPDATE_UI(ID_Write, MyFrame::OnUpdateUI)
 #if USE_ASYNCHRONOUS_CLIPBOARD_REQUEST
@@ -84,7 +84,7 @@ wxBEGIN_EVENT_TABLE(MyFrame, wxFrame)
 #endif
 wxEND_EVENT_TABLE()
 
-wxIMPLEMENT_APP(MyApp);
+IMPLEMENT_APP(MyApp)
 
 bool MyApp::OnInit()
 {
@@ -116,7 +116,6 @@ MyFrame::MyFrame(const wxString& title)
     wxMenu *helpMenu = new wxMenu;
     helpMenu->Append(ID_About, "&About\tF1", "Show about dialog");
 
-    fileMenu->Append(ID_Flush, "Flush the clipboard" );
     fileMenu->Append(ID_Quit, "E&xit\tAlt-X", "Quit this program");
 
     // now append the freshly created menu to the menu bar...
@@ -136,33 +135,6 @@ MyFrame::MyFrame(const wxString& title)
       wxDefaultSize, wxTE_MULTILINE );
     main_sizer->Add( m_textctrl, 1, wxGROW );
     panel->SetSizer( main_sizer );
-}
-
-void MyFrame::OnFlush(wxCommandEvent &WXUNUSED(event))
-{
-    wxClipboardLocker clipLock;
-
-    if ( !clipLock )
-    {
-        m_textctrl->AppendText("Failed to lock clipboard.\n");
-        return;
-    }
-
-    wxString clipData = wxString::Format("Text from wx clipboard sample at %s" , wxDateTime::Now().Format());
-    if ( !wxTheClipboard->AddData(new wxTextDataObject(clipData)) )
-    {
-        m_textctrl->AppendText("Failed to put text on clipboard.\n");
-        return;
-    }
-
-    if ( !wxTheClipboard->Flush() )
-    {
-        m_textctrl->AppendText("Failed to flush clipboard.\n");
-        return;
-    }
-
-    m_textctrl->AppendText("Clipboard flushed successfully, you should now "
-                           "be able to paste text even after closing the sample.");
 }
 
 void MyFrame::OnWriteClipboardContents(wxCommandEvent& WXUNUSED(event))

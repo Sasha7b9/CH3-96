@@ -19,6 +19,9 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #if wxUSE_OWNER_DRAWN
 
@@ -32,12 +35,6 @@
     #include "wx/settings.h"
     #include "wx/utils.h"
 #endif
-
-// ----------------------------------------------------------------------------
-// constants for base class
-// ----------------------------------------------------------------------------
-
-int wxOwnerDrawnBase::ms_defaultMargin = 3;
 
 // ============================================================================
 // implementation

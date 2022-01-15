@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 
 //  This class closely follows the implementation of the boost
-//  library scoped_ptr and is an adaptation for c++ macro's in
+//  library scoped_ptr and is an adaption for c++ macro's in
 //  the wxWidgets project. The original authors of the boost
 //  scoped_ptr are given below with their respective copyrights.
 
@@ -40,14 +40,19 @@ class wxScopedPtr
 public:
     typedef T element_type;
 
-    explicit wxScopedPtr(T * ptr = NULL) : m_ptr(ptr) { }
+    wxEXPLICIT wxScopedPtr(T * ptr = NULL) : m_ptr(ptr) { }
 
     ~wxScopedPtr() { wxCHECKED_DELETE(m_ptr); }
 
     // test for pointer validity: defining conversion to unspecified_bool_type
     // and not more obvious bool to avoid implicit conversions to integer types
+#ifdef __BORLANDC__
+    // this compiler is too dumb to use unspecified_bool_type operator in tests
+    // of the form "if ( !ptr )"
+    typedef bool unspecified_bool_type;
+#else
     typedef T *(wxScopedPtr<T>::*unspecified_bool_type)() const;
-
+#endif // __BORLANDC__
     operator unspecified_bool_type() const
     {
         return m_ptr ? &wxScopedPtr<T>::get : NULL;
@@ -96,7 +101,7 @@ public:
 private:
     T * m_ptr;
 
-    wxDECLARE_NO_COPY_TEMPLATE_CLASS(wxScopedPtr, T);
+    DECLARE_NO_COPY_TEMPLATE_CLASS(wxScopedPtr, T)
 };
 
 // ----------------------------------------------------------------------------
@@ -118,7 +123,7 @@ private:                            \
     name & operator=(name const &); \
                                     \
 public:                             \
-    explicit name(T * ptr = NULL)   \
+    wxEXPLICIT name(T * ptr = NULL) \
     : m_ptr(ptr) { }                \
                                     \
     ~name();                        \

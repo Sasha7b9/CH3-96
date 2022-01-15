@@ -24,7 +24,7 @@ class MyApp : public wxApp
 public:
     MyApp() { m_showImages = true; m_showStates = true; m_showButtons = false; }
 
-    bool OnInit() wxOVERRIDE;
+    bool OnInit();
 
     void SetShowImages(bool show) { m_showImages = show; }
     bool ShowImages() const { return m_showImages; }
@@ -67,7 +67,7 @@ public:
     MyTreeCtrl(wxWindow *parent, const wxWindowID id,
                const wxPoint& pos, const wxSize& size,
                long style);
-    virtual ~MyTreeCtrl(){}
+    virtual ~MyTreeCtrl(){};
 
     void OnBeginDrag(wxTreeEvent& event);
     void OnBeginRDrag(wxTreeEvent& event);
@@ -94,7 +94,6 @@ public:
     void OnRMouseUp(wxMouseEvent& event);
     void OnRMouseDClick(wxMouseEvent& event);
 
-    wxTreeItemId GetLastTreeITem() const;
     void GetItemsRecursively(const wxTreeItemId& idParent,
                              wxTreeItemIdValue cookie = 0);
 
@@ -106,6 +105,7 @@ public:
 
     void DoSortChildren(const wxTreeItemId& item, bool reverse = false)
         { m_reverseSort = reverse; wxTreeCtrl::SortChildren(item); }
+    void DoEnsureVisible() { if (m_lastItem.IsOk()) EnsureVisible(m_lastItem); }
 
     void DoToggleIcon(const wxTreeItemId& item);
     void DoToggleState(const wxTreeItemId& item);
@@ -113,6 +113,8 @@ public:
     void ShowMenu(wxTreeItemId id, const wxPoint& pt);
 
     int ImageSize(void) const { return m_imageSize; }
+
+    void SetLastItem(wxTreeItemId id) { m_lastItem = id; }
 
     void SetAlternateImages(bool show) { m_alternateImages = show; }
     bool AlternateImages() const { return m_alternateImages; }
@@ -128,7 +130,7 @@ public:
     }
 
 protected:
-    virtual int OnCompareItems(const wxTreeItemId& i1, const wxTreeItemId& i2) wxOVERRIDE;
+    virtual int OnCompareItems(const wxTreeItemId& i1, const wxTreeItemId& i2);
 
     // is this the test item which we use in several event handlers?
     bool IsTestItem(const wxTreeItemId& item)
@@ -138,7 +140,6 @@ protected:
     }
 
 private:
-    // Find the very last item in the tree.
     void AddItemsRecursively(const wxTreeItemId& idParent,
                              size_t nChildren,
                              size_t depth,
@@ -147,11 +148,12 @@ private:
     void DoResetBrokenStateImages(const wxTreeItemId& idParent,
                                   wxTreeItemIdValue cookie, int state);
 
-    void LogEvent(const wxString& name, const wxTreeEvent& event);
+    void LogEvent(const wxChar *name, const wxTreeEvent& event);
 
     int          m_imageSize;               // current size of images
     bool         m_reverseSort;             // flag for OnCompareItems
-    wxTreeItemId m_draggedItem;             // item being dragged right now
+    wxTreeItemId m_lastItem,                // for OnEnsureVisible()
+                 m_draggedItem;             // item being dragged right now
     bool         m_alternateImages;
     bool         m_alternateStates;
 
@@ -215,7 +217,6 @@ public:
     void OnDeleteChildren(wxCommandEvent& event);
     void OnDeleteAll(wxCommandEvent& event);
 
-    void OnFreezeThaw(wxCommandEvent& event);
     void OnRecreate(wxCommandEvent& event);
     void OnToggleButtons(wxCommandEvent& event);
     void OnToggleImages(wxCommandEvent& event);
@@ -336,7 +337,6 @@ enum
     TreeTest_Delete,
     TreeTest_DeleteChildren,
     TreeTest_DeleteAll,
-    TreeTest_FreezeThaw,
     TreeTest_Recreate,
     TreeTest_ToggleImages,
     TreeTest_ToggleStates,

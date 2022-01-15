@@ -10,6 +10,9 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #if wxUSE_XRC && wxUSE_RIBBON
 
@@ -112,7 +115,7 @@ void wxRibbonXmlHandler::Handle_RibbonArtProvider(wxRibbonControl *control)
 
 wxObject* wxRibbonXmlHandler::Handle_buttonbar()
 {
-    XRC_MAKE_INSTANCE (buttonBar, wxRibbonButtonBar)
+    XRC_MAKE_INSTANCE (buttonBar, wxRibbonButtonBar);
 
     if (!buttonBar->Create (wxDynamicCast(m_parent, wxWindow), GetID(),
             GetPosition(), GetSize(), GetStyle()))
@@ -222,7 +225,7 @@ wxObject* wxRibbonXmlHandler::Handle_control()
 
 wxObject* wxRibbonXmlHandler::Handle_page()
 {
-    XRC_MAKE_INSTANCE (ribbonPage, wxRibbonPage)
+    XRC_MAKE_INSTANCE (ribbonPage, wxRibbonPage);
 
     if (!ribbonPage->Create (wxDynamicCast(m_parent, wxRibbonBar), GetID(),
             GetText ("label"), GetBitmap ("icon"), GetStyle()))
@@ -245,7 +248,7 @@ wxObject* wxRibbonXmlHandler::Handle_page()
 
 wxObject* wxRibbonXmlHandler::Handle_gallery()
 {
-    XRC_MAKE_INSTANCE (ribbonGallery, wxRibbonGallery)
+    XRC_MAKE_INSTANCE (ribbonGallery, wxRibbonGallery);
 
     if (!ribbonGallery->Create (wxDynamicCast(m_parent, wxWindow), GetID(),
             GetPosition(), GetSize(), GetStyle()))
@@ -278,7 +281,7 @@ wxObject* wxRibbonXmlHandler::Handle_galleryitem()
 
 wxObject* wxRibbonXmlHandler::Handle_panel()
 {
-    XRC_MAKE_INSTANCE (ribbonPanel, wxRibbonPanel)
+    XRC_MAKE_INSTANCE (ribbonPanel, wxRibbonPanel);
 
     if (!ribbonPanel->Create (wxDynamicCast(m_parent, wxWindow), GetID(),
             GetText ("label"), GetBitmap ("icon"), GetPosition(), GetSize(),
@@ -298,7 +301,7 @@ wxObject* wxRibbonXmlHandler::Handle_panel()
 
 wxObject* wxRibbonXmlHandler::Handle_bar()
 {
-    XRC_MAKE_INSTANCE (ribbonBar, wxRibbonBar)
+    XRC_MAKE_INSTANCE (ribbonBar, wxRibbonBar);
 
     Handle_RibbonArtProvider (ribbonBar);
 

@@ -44,6 +44,7 @@ public:
 #endif // wxUSE_THREADS
 
 
+#ifndef __WXWINCE__
     // console helpers
     // ---------------
 
@@ -57,13 +58,7 @@ public:
 
     // write text to the console, return true if ok or false on error
     virtual bool WriteToStderr(const wxString& text) = 0;
-
-    // return the main application window or 0 if none
-    virtual WXHWND GetMainHWND() const = 0;
-
-    // implement this base class function for both console and GUI applications
-    virtual bool SafeMessageBox(const wxString& text,
-                                const wxString& title) wxOVERRIDE;
+#endif // !__WXWINCE__
 
 protected:
 #if wxUSE_THREADS

@@ -19,6 +19,9 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #ifndef WX_PRECOMP
     #include "wx/intl.h"
@@ -201,9 +204,9 @@ private:
 // ----------------------------------------------------------------------------
 
 wxDirData::wxDirData(const wxString& dirname)
-    : m_finddata(InitFindData())
-    , m_dirname(dirname)
+         : m_dirname(dirname)
 {
+    m_finddata = InitFindData();
 }
 
 wxDirData::~wxDirData()
@@ -253,6 +256,7 @@ bool wxDirData::Read(wxString *filename)
 
     if ( !IsFindDataOk(m_finddata) )
     {
+#ifdef __WIN32__
         DWORD err = ::GetLastError();
 
         if ( err != ERROR_FILE_NOT_FOUND && err != ERROR_NO_MORE_FILES )
@@ -260,6 +264,7 @@ bool wxDirData::Read(wxString *filename)
             wxLogSysError(err, _("Cannot enumerate files in directory '%s'"),
                           m_dirname.c_str());
         }
+#endif // __WIN32__
         //else: not an error, just no (such) files
 
         return false;
@@ -278,12 +283,14 @@ bool wxDirData::Read(wxString *filename)
         {
             if ( !FindNext(m_finddata, m_filespec, PTR_TO_FINDDATA) )
             {
+#ifdef __WIN32__
                 DWORD err = ::GetLastError();
 
                 if ( err != ERROR_NO_MORE_FILES )
                 {
                     wxLogLastError(wxT("FindNext"));
                 }
+#endif // __WIN32__
                 //else: not an error, just no more (such) files
 
                 return false;
@@ -429,13 +436,21 @@ bool wxDir::GetNext(wxString *filename) const
 // wxGetDirectoryTimes: used by wxFileName::GetTimes()
 // ----------------------------------------------------------------------------
 
+#ifdef __WIN32__
+
 extern bool
 wxGetDirectoryTimes(const wxString& dirname,
                     FILETIME *ftAccess, FILETIME *ftCreate, FILETIME *ftMod)
 {
+#ifdef __WXWINCE__
+    // FindFirst() is going to fail
+    wxASSERT_MSG( !dirname.empty(),
+                  wxT("incorrect directory name format in wxGetDirectoryTimes") );
+#else
     // FindFirst() is going to fail
     wxASSERT_MSG( !dirname.empty() && dirname.Last() != wxT('\\'),
                   wxT("incorrect directory name format in wxGetDirectoryTimes") );
+#endif
 
     FIND_STRUCT fs;
     FIND_DATA fd = FindFirst(dirname, wxEmptyString, &fs);
@@ -452,3 +467,6 @@ wxGetDirectoryTimes(const wxString& dirname,
 
     return true;
 }
+
+#endif // __WIN32__
+

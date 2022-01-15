@@ -20,7 +20,10 @@
 #define wxID_NO                 5104
 
 #include "resource.h"
-#include <windows.h>
+
+#if !defined(__GNUWIN32__) && !defined(__BORLANDC__)
+#include <commctrl.h>
+#endif
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////

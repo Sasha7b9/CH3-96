@@ -18,6 +18,9 @@
 
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #if wxUSE_BITMAPCOMBOBOX
 
@@ -38,12 +41,7 @@
 #endif
 
 
-// Spacing used in control size calculation
-#ifdef __WXOSX__
-    #define IMAGE_SPACING_CTRL_VERTICAL 12
-#else
-    #define IMAGE_SPACING_CTRL_VERTICAL 7
-#endif
+#define IMAGE_SPACING_CTRL_VERTICAL 7  // Spacing used in control size calculation
 
 
 // ============================================================================
@@ -51,12 +49,12 @@
 // ============================================================================
 
 
-wxBEGIN_EVENT_TABLE(wxBitmapComboBox, wxOwnerDrawnComboBox)
+BEGIN_EVENT_TABLE(wxBitmapComboBox, wxOwnerDrawnComboBox)
     EVT_SIZE(wxBitmapComboBox::OnSize)
-wxEND_EVENT_TABLE()
+END_EVENT_TABLE()
 
 
-wxIMPLEMENT_DYNAMIC_CLASS(wxBitmapComboBox, wxOwnerDrawnComboBox);
+IMPLEMENT_DYNAMIC_CLASS(wxBitmapComboBox, wxOwnerDrawnComboBox)
 
 void wxBitmapComboBox::Init()
 {
@@ -130,11 +128,6 @@ bool wxBitmapComboBox::Create(wxWindow *parent,
 wxBitmapComboBox::~wxBitmapComboBox()
 {
     DoClear();
-}
-
-wxString wxBitmapComboBox::GetStringSelection() const
-{
-    return wxItemContainer::GetStringSelection();
 }
 
 // ----------------------------------------------------------------------------
@@ -280,6 +273,8 @@ wxSize wxBitmapComboBox::DoGetBestSize() const
 
         if ( h2 > sz.y )
             sz.y = h2;
+
+        CacheBestSize(sz);
     }
 
     return sz;

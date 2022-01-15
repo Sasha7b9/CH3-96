@@ -20,6 +20,9 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #if wxUSE_SNGLINST_CHECKER
 
@@ -295,7 +298,7 @@ bool wxSingleInstanceCheckerImpl::Create(const wxString& name)
                     // message is that the previous instance of the program
                     // crashed), don't show it by default, i.e. unless the
                     // program is running with --verbose command line option.
-                    wxLogVerbose(_("Deleted stale lock file '%s'."),
+                    wxLogInfo(_("Deleted stale lock file '%s'."),
                                  name.c_str());
 
                     // retry now

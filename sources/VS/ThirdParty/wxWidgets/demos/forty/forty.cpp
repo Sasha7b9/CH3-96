@@ -13,6 +13,10 @@
 // For compilers that support precompilation, includes "wx/wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+#pragma hdrstop
+#endif
+
 #ifndef WX_PRECOMP
 #include "wx/wx.h"
 #endif
@@ -30,7 +34,7 @@
 
 #include "wx/stockitem.h"
 
-wxBEGIN_EVENT_TABLE(FortyFrame, wxFrame)
+BEGIN_EVENT_TABLE(FortyFrame, wxFrame)
     EVT_MENU(wxID_NEW, FortyFrame::NewGame)
     EVT_MENU(wxID_EXIT, FortyFrame::Exit)
     EVT_MENU(wxID_ABOUT, FortyFrame::About)
@@ -42,10 +46,10 @@ wxBEGIN_EVENT_TABLE(FortyFrame, wxFrame)
     EVT_MENU(HELPING_HAND, FortyFrame::ToggleHelpingHand)
     EVT_MENU(LARGE_CARDS, FortyFrame::ToggleCardSize)
     EVT_CLOSE(FortyFrame::OnCloseWindow)
-wxEND_EVENT_TABLE()
+END_EVENT_TABLE()
 
 // Create a new application object
-wxIMPLEMENT_APP(FortyApp);
+IMPLEMENT_APP (FortyApp)
 
 wxColour* FortyApp::m_backgroundColour = 0;
 wxColour* FortyApp::m_textColour = 0;
@@ -64,8 +68,10 @@ FortyApp::~FortyApp()
 bool FortyApp::OnInit()
 {
     bool largecards = false;
+#ifndef __WXWINCE__
     m_helpFile = wxGetCwd() + wxFILE_SEP_PATH + wxT("about.htm");
     if (!wxFileExists(m_helpFile))
+#endif
     {
         m_helpFile = wxPathOnly(argv[0]) + wxFILE_SEP_PATH + wxT("about.htm");
     }
@@ -108,7 +114,7 @@ const wxBrush& FortyApp::BackgroundBrush()
 {
     if (!m_backgroundBrush)
     {
-        m_backgroundBrush = new wxBrush(BackgroundColour());
+        m_backgroundBrush = new wxBrush(BackgroundColour(), wxSOLID);
     }
 
     return *m_backgroundBrush;

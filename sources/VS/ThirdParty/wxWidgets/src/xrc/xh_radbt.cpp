@@ -10,6 +10,9 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #if wxUSE_XRC && wxUSE_RADIOBTN
 
@@ -19,7 +22,7 @@
     #include "wx/radiobut.h"
 #endif
 
-wxIMPLEMENT_DYNAMIC_CLASS(wxRadioButtonXmlHandler, wxXmlResourceHandler);
+IMPLEMENT_DYNAMIC_CLASS(wxRadioButtonXmlHandler, wxXmlResourceHandler)
 
 wxRadioButtonXmlHandler::wxRadioButtonXmlHandler()
 : wxXmlResourceHandler()

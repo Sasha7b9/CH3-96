@@ -11,6 +11,9 @@
 
 #if wxUSE_WEBVIEW
 
+#if defined(__BORLANDC__)
+    #pragma hdrstop
+#endif
 
 #include "wx/webviewfshandler.h"
 #include "wx/filesys.h"

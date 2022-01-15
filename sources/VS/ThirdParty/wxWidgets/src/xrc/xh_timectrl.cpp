@@ -10,13 +10,16 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #if wxUSE_XRC && wxUSE_TIMEPICKCTRL
 
 #include "wx/xrc/xh_timectrl.h"
 #include "wx/timectrl.h"
 
-wxIMPLEMENT_DYNAMIC_CLASS(wxTimeCtrlXmlHandler, wxXmlResourceHandler);
+IMPLEMENT_DYNAMIC_CLASS(wxTimeCtrlXmlHandler, wxXmlResourceHandler)
 
 wxTimeCtrlXmlHandler::wxTimeCtrlXmlHandler()
 {

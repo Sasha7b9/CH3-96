@@ -29,7 +29,7 @@ public:
     wxIconRefData() { }
     virtual ~wxIconRefData() { Free(); }
 
-    virtual void Free() wxOVERRIDE;
+    virtual void Free();
 };
 
 // ---------------------------------------------------------------------------
@@ -48,6 +48,9 @@ public:
 
         // from XPM data
     wxIcon(const char* const* data) { CreateIconFromXpm(data); }
+#ifdef wxNEEDS_CHARPP
+    wxIcon(char **data) { CreateIconFromXpm(const_cast<const char* const*>(data)); }
+#endif
         // from resource/file
     wxIcon(const wxString& name,
            wxBitmapType type = wxICON_DEFAULT_TYPE,
@@ -66,12 +69,8 @@ public:
     // implementation only from now on
     wxIconRefData *GetIconData() const { return (wxIconRefData *)m_refData; }
 
-#if WXWIN_COMPATIBILITY_3_0
-    wxDEPRECATED_INLINE(void SetHICON(WXHICON icon), SetHandle((WXHANDLE)icon); )
-#endif // WXWIN_COMPATIBILITY_3_0
-
+    void SetHICON(WXHICON icon) { SetHandle((WXHANDLE)icon); }
     WXHICON GetHICON() const { return (WXHICON)GetHandle(); }
-    bool InitFromHICON(WXHICON icon, int width, int height);
 
     // create from bitmap (which should have a mask unless it's monochrome):
     // there shouldn't be any implicit bitmap -> icon conversion (i.e. no
@@ -79,18 +78,18 @@ public:
     void CopyFromBitmap(const wxBitmap& bmp);
 
 protected:
-    virtual wxGDIImageRefData *CreateData() const wxOVERRIDE
+    virtual wxGDIImageRefData *CreateData() const
     {
         return new wxIconRefData;
     }
 
-    virtual wxObjectRefData *CloneRefData(const wxObjectRefData *data) const wxOVERRIDE;
+    virtual wxObjectRefData *CloneRefData(const wxObjectRefData *data) const;
 
     // create from XPM data
     void CreateIconFromXpm(const char* const* data);
 
 private:
-    wxDECLARE_DYNAMIC_CLASS(wxIcon);
+    DECLARE_DYNAMIC_CLASS(wxIcon)
 };
 
 #endif

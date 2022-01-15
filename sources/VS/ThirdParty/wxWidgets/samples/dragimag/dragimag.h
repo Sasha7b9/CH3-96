@@ -44,16 +44,16 @@ class MyApp: public wxApp
 {
 public:
     MyApp();
-    virtual bool OnInit() wxOVERRIDE;
-    virtual int OnExit() wxOVERRIDE;
+    virtual bool OnInit();
+    virtual int OnExit();
 
 //// Operations
 
     // Tile the bitmap
-    bool TileBitmap(const wxRect& rect, wxDC& dc, const wxBitmap& bitmap);
+    bool TileBitmap(const wxRect& rect, wxDC& dc, wxBitmap& bitmap);
 
 //// Accessors
-    const wxBitmap& GetBackgroundBitmap() const { return m_background; }
+    wxBitmap& GetBackgroundBitmap() const { return (wxBitmap&) m_background; }
 
     bool GetUseScreen() const { return m_useScreen; }
     void SetUseScreen(bool useScreen) { m_useScreen = useScreen; }
@@ -64,10 +64,10 @@ protected:
     wxBitmap    m_background;
     bool        m_useScreen;
 
-    wxDECLARE_EVENT_TABLE();
+DECLARE_EVENT_TABLE()
 };
 
-wxDECLARE_APP(MyApp);
+DECLARE_APP(MyApp)
 
 #define TEST_USE_SCREEN   100
 
@@ -122,7 +122,7 @@ class DragShape: public wxObject
 {
 public:
     DragShape(const wxBitmap& bitmap);
-    ~DragShape(){}
+    ~DragShape(){};
 
 //// Operations
 
@@ -136,7 +136,7 @@ public:
 
     wxRect GetRect() const { return wxRect(m_pos.x, m_pos.y, m_bitmap.GetWidth(), m_bitmap.GetHeight()); }
 
-    const wxBitmap& GetBitmap() const { return m_bitmap; }
+    wxBitmap& GetBitmap() const { return (wxBitmap&) m_bitmap; }
     void SetBitmap(const wxBitmap& bitmap) { m_bitmap = bitmap; }
 
     int GetDragMethod() const { return m_dragMethod; }
@@ -177,12 +177,10 @@ public:
     {
     }
 
-#if wxUSE_GENERIC_DRAGIMAGE
     // On some platforms, notably Mac OS X with Core Graphics, we can't blit from
     // a window, so we need to draw the background explicitly.
     virtual bool UpdateBackingFromWindow(wxDC& windowDC, wxMemoryDC& destDC, const wxRect& sourceRect,
-                    const wxRect& destRect) const wxOVERRIDE;
-#endif
+                    const wxRect& destRect) const;
 
 protected:
     MyCanvas*   m_canvas;

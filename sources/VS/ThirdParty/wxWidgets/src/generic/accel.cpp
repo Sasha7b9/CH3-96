@@ -18,6 +18,9 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #if wxUSE_ACCEL
 
@@ -51,8 +54,8 @@ public:
 
     wxAccelRefData(const wxAccelRefData& data)
         : wxObjectRefData()
-        , m_accels(data.m_accels)
     {
+        m_accels = data.m_accels;
     }
 
     virtual ~wxAccelRefData()
@@ -75,7 +78,7 @@ public:
 // wxAcceleratorTable ctors
 // ----------------------------------------------------------------------------
 
-wxIMPLEMENT_DYNAMIC_CLASS(wxAcceleratorTable, wxObject);
+IMPLEMENT_DYNAMIC_CLASS(wxAcceleratorTable, wxObject)
 
 wxAcceleratorTable::wxAcceleratorTable()
 {
@@ -210,7 +213,7 @@ wxObjectRefData *wxAcceleratorTable::CreateRefData() const
 
 wxObjectRefData *wxAcceleratorTable::CloneRefData(const wxObjectRefData *data) const
 {
-    return new wxAccelRefData(*static_cast<const wxAccelRefData*>(data));
+    return new wxAccelRefData(*(wxAccelRefData *)data);
 }
 
 #endif // wxUSE_ACCEL

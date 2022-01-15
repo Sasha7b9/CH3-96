@@ -10,6 +10,9 @@
 
 #if wxUSE_SEARCHCTRL
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #ifndef WX_PRECOMP
     #include "wx/app.h"
@@ -17,43 +20,50 @@
 
 #include "wx/srchctrl.h"
 
-#include "testwindow.h"
-
-class SearchCtrlTestCase
+class SearchCtrlTestCase : public CppUnit::TestCase
 {
 public:
-    SearchCtrlTestCase()
-        : m_search(new wxSearchCtrl(wxTheApp->GetTopWindow(), wxID_ANY))
-    {
-    }
+    SearchCtrlTestCase() { }
 
-    ~SearchCtrlTestCase()
-    {
-        delete m_search;
-    }
+    virtual void setUp();
+    virtual void tearDown();
 
-protected:
-    wxSearchCtrl* const m_search;
+private:
+    CPPUNIT_TEST_SUITE( SearchCtrlTestCase );
+        CPPUNIT_TEST( Focus );
+    CPPUNIT_TEST_SUITE_END();
+
+    void Focus();
+
+    wxSearchCtrl* m_search;
+
+    DECLARE_NO_COPY_CLASS(SearchCtrlTestCase)
 };
 
-#define SEARCH_CTRL_TEST_CASE(name, tags) \
-    TEST_CASE_METHOD(SearchCtrlTestCase, name, tags)
+// register in the unnamed registry so that these tests are run by default
+CPPUNIT_TEST_SUITE_REGISTRATION( SearchCtrlTestCase );
 
-// TODO OS X test only passes when run solo ...
-#ifndef __WXOSX__
-SEARCH_CTRL_TEST_CASE("wxSearchCtrl::Focus", "[wxSearchCtrl][focus]")
+// also include in its own registry so that these tests can be run alone
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( SearchCtrlTestCase, "SearchCtrlTestCase" );
+
+void SearchCtrlTestCase::setUp()
 {
-    m_search->SetFocus();
-    CHECK_FOCUS_IS( m_search );
+    m_search = new wxSearchCtrl(wxTheApp->GetTopWindow(), wxID_ANY);
 }
-#endif // !__WXOSX__
 
-SEARCH_CTRL_TEST_CASE("wxSearchCtrl::ChangeValue", "[wxSearchCtrl][text]")
+void SearchCtrlTestCase::tearDown()
 {
-    CHECK( m_search->GetValue() == wxString() );
+    delete m_search;
+    m_search = NULL;
+}
 
-    m_search->ChangeValue("foo");
-    CHECK( m_search->GetValue() == "foo" );
+void SearchCtrlTestCase::Focus()
+{
+    // TODO OS X test only passes when run solo ...
+#ifndef __WXOSX__
+    m_search->SetFocus();
+    CPPUNIT_ASSERT( m_search->HasFocus() );
+#endif
 }
 
 #endif // wxUSE_SEARCHCTRL

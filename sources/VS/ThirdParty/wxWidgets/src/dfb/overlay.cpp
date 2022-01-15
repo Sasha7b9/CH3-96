@@ -18,6 +18,9 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #ifndef WX_PRECOMP
     #include "wx/window.h"
@@ -55,7 +58,7 @@ bool wxOverlayImpl::IsOk()
 void wxOverlayImpl::Init(wxDC *dc, int x, int y, int width, int height)
 {
     wxCHECK_RET( dc, "NULL dc pointer" );
-    wxASSERT_MSG( !IsOk() , "You cannot Init an overlay twice" );
+    wxASSERT_MSG( !IsOk() , _("You cannot Init an overlay twice") );
 
     wxDFBDCImpl * const dcimpl = wxDynamicCast(dc->GetImpl(), wxDFBDCImpl);
     wxCHECK_RET( dcimpl, "must have a DFB wxDC" );

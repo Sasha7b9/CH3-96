@@ -11,6 +11,10 @@
 // For compilers that support precompilation, includes "wx/wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+#pragma hdrstop
+#endif
+
 #ifndef WX_PRECOMP
 #include "wx/wx.h"
 #endif
@@ -20,13 +24,13 @@
 
 const int ID_LISTBOX = 101;
 
-wxBEGIN_EVENT_TABLE(PlayerSelectionDialog, wxDialog)
+BEGIN_EVENT_TABLE(PlayerSelectionDialog, wxDialog)
     EVT_SIZE(PlayerSelectionDialog::OnSize)
     EVT_BUTTON(wxID_OK, PlayerSelectionDialog::ButtonCallback)
     EVT_BUTTON(wxID_CANCEL, PlayerSelectionDialog::ButtonCallback)
     EVT_LISTBOX(ID_LISTBOX, PlayerSelectionDialog::SelectCallback)
     EVT_CLOSE(PlayerSelectionDialog::OnCloseWindow)
-wxEND_EVENT_TABLE()
+END_EVENT_TABLE()
 
 PlayerSelectionDialog::PlayerSelectionDialog(
                             wxWindow* parent,

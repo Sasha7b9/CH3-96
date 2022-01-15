@@ -13,6 +13,9 @@
 // For compilers that support precompilation, includes "wx/wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 // For all others, include the necessary headers (this file is usually all you
 // need because it includes almost all "standard" wxWidgets headers)
@@ -39,32 +42,44 @@
 //-----------------------------------------------------------------------------
 ObjrefDialog::ObjrefDialog(wxWindow* parent)
 {
-    wxXmlResource::Get()->LoadDialog(this, parent, "objref_dialog");
+    wxXmlResource::Get()->LoadDialog(this, parent, wxT("objref_dialog"));
 
     nb = XRCCTRL(*this, "objref_notebook", wxNotebook);
     wxCHECK_RET(nb, "failed to find objref_notebook");
 
     // Connect different event handlers.
-    nb->Bind(wxEVT_NOTEBOOK_PAGE_CHANGED, &ObjrefDialog::OnNotebookPageChanged, this);
+    nb->Connect(wxEVT_NOTEBOOK_PAGE_CHANGED,
+                wxNotebookEventHandler(ObjrefDialog::OnNotebookPageChanged),
+                NULL, this);
 
     // We want to direct UpdateUI events for the ID range 'first_row' to
     // OnUpdateUIFirst(). We could achieve this using first_row[0] and
     // first_row[2], but what if a fourth column were added? It's safer to use
     // the 'typedefs' for the two ends of the range:
     wxNotebookPage *page = nb->GetPage(icons_page);
-    page->Bind(wxEVT_UPDATE_UI, &ObjrefDialog::OnUpdateUIFirst, this,
-               XRCID("first_row[start]"), XRCID("first_row[end]"));
-    page->Bind(wxEVT_UPDATE_UI, &ObjrefDialog::OnUpdateUISecond, this,
-               XRCID("second_row[start]"), XRCID("second_row[end]"));
-    page->Bind(wxEVT_UPDATE_UI, &ObjrefDialog::OnUpdateUIThird, this,
-               XRCID("third_row[start]"), XRCID("third_row[end]"));
+    page->Connect(XRCID("first_row[start]"), XRCID("first_row[end]"),
+                  wxEVT_UPDATE_UI,
+                  wxUpdateUIEventHandler(ObjrefDialog::OnUpdateUIFirst),
+                  NULL, this);
+    page->Connect(XRCID("second_row[start]"), XRCID("second_row[end]"),
+                  wxEVT_UPDATE_UI,
+                  wxUpdateUIEventHandler(ObjrefDialog::OnUpdateUISecond),
+                  NULL, this);
+    page->Connect(XRCID("third_row[start]"), XRCID("third_row[end]"),
+                  wxEVT_UPDATE_UI,
+                  wxUpdateUIEventHandler(ObjrefDialog::OnUpdateUIThird),
+                  NULL, this);
 
     // Connect the id ranges, using the [start] and [end] 'typedefs'
     page = nb->GetPage(calc_page);
-    page->Bind(wxEVT_BUTTON, &ObjrefDialog::OnNumeralClick, this,
-               XRCID("digits[start]"), XRCID("digits[end]"));
-    page->Bind(wxEVT_BUTTON, &ObjrefDialog::OnOperatorClick, this,
-               XRCID("operators[start]"), XRCID("operators[end]"));
+    page->Connect(XRCID("digits[start]"), XRCID("digits[end]"),
+                  wxEVT_BUTTON,
+                  wxCommandEventHandler(ObjrefDialog::OnNumeralClick),
+                  NULL, this);
+    page->Connect(XRCID("operators[start]"), XRCID("operators[end]"),
+                  wxEVT_BUTTON,
+                  wxCommandEventHandler(ObjrefDialog::OnOperatorClick),
+                  NULL, this);
 
 }
 
@@ -105,7 +120,7 @@ void ObjrefDialog::OnNotebookPageChanged( wxNotebookEvent &event )
         case icons_page:
             {
                 wxNotebookPage *page = nb->GetPage(icons_page);
-                wxTextCtrl* const text = XRCCTRL(*page, "log_text", wxTextCtrl);
+                text = XRCCTRL(*page, "log_text", wxTextCtrl);
                 if (text)
                     delete wxLog::SetActiveTarget(new wxLogTextCtrl(text));
                 break;
@@ -115,7 +130,7 @@ void ObjrefDialog::OnNotebookPageChanged( wxNotebookEvent &event )
             {
                 wxNotebookPage *page = nb->GetPage(calc_page);
                 result_txt = XRCCTRL(*page, "result", wxTextCtrl);
-                wxTextCtrl* const text = XRCCTRL(*page, "log_text", wxTextCtrl);
+                text = XRCCTRL(*page, "log_text", wxTextCtrl);
                 if (text)
                     delete wxLog::SetActiveTarget(new wxLogTextCtrl(text));
 

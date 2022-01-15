@@ -43,7 +43,6 @@ BENCHMARK_FUNC(LoadPNG)
     return image.LoadFile("horse.png");
 }
 
-#if wxUSE_LIBTIFF
 BENCHMARK_FUNC(LoadTIFF)
 {
     static bool s_handlerAdded = false;
@@ -56,7 +55,6 @@ BENCHMARK_FUNC(LoadTIFF)
     wxImage image;
     return image.LoadFile("horse.tif");
 }
-#endif // wxUSE_LIBTIFF
 
 static const wxImage& GetTestImage()
 {

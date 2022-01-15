@@ -10,6 +10,9 @@
 // and "wx/cppunit.h"
 #include "testprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 // for all others, include the necessary headers
 #ifndef WX_PRECOMP
@@ -93,7 +96,7 @@ private:
 
     char m_testData[TEST_SIZE];
 
-    wxDECLARE_NO_COPY_CLASS(StdStreamTestCase);
+    DECLARE_NO_COPY_CLASS(StdStreamTestCase)
 };
 
 // register in the unnamed registry so that these tests are run by default

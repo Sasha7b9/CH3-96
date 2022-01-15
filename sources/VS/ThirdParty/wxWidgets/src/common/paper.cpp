@@ -11,6 +11,9 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #if wxUSE_PRINTING_ARCHITECTURE
 
@@ -36,8 +39,8 @@
 #endif
  // End __WXMSW__
 
-wxIMPLEMENT_DYNAMIC_CLASS(wxPrintPaperType, wxObject);
-// wxIMPLEMENT_DYNAMIC_CLASS(wxPrintPaperDatabase, wxList);
+IMPLEMENT_DYNAMIC_CLASS(wxPrintPaperType, wxObject)
+// IMPLEMENT_DYNAMIC_CLASS(wxPrintPaperDatabase, wxList)
 
 /*
  * Paper size database for all platforms
@@ -47,15 +50,16 @@ wxPrintPaperType::wxPrintPaperType()
 {
     m_paperId = wxPAPER_NONE;
     m_platformId = 0;
+    m_paperName = wxEmptyString;
     m_width = 0;
     m_height = 0;
 }
 
 wxPrintPaperType::wxPrintPaperType(wxPaperSize paperId, int platformId, const wxString& name, int w, int h)
-    : m_paperName(name)
 {
     m_paperId = paperId;
     m_platformId = platformId;
+    m_paperName = name;
     m_width = w;
     m_height = h;
 }
@@ -236,7 +240,7 @@ void wxPrintPaperDatabase::AddPaperType(wxPaperSize paperId, int platformId, con
     m_list->push_back(tmp);
 }
 
-wxPrintPaperType *wxPrintPaperDatabase::FindPaperType(const wxString& name) const
+wxPrintPaperType *wxPrintPaperDatabase::FindPaperType(const wxString& name)
 {
     wxStringToPrintPaperTypeHashMap::iterator it = m_map->find(name);
     if (it != m_map->end())
@@ -245,7 +249,7 @@ wxPrintPaperType *wxPrintPaperDatabase::FindPaperType(const wxString& name) cons
         return NULL;
 }
 
-wxPrintPaperType *wxPrintPaperDatabase::FindPaperType(wxPaperSize id) const
+wxPrintPaperType *wxPrintPaperDatabase::FindPaperType(wxPaperSize id)
 {
     typedef wxStringToPrintPaperTypeHashMap::iterator iterator;
 
@@ -259,7 +263,7 @@ wxPrintPaperType *wxPrintPaperDatabase::FindPaperType(wxPaperSize id) const
     return NULL;
 }
 
-wxPrintPaperType *wxPrintPaperDatabase::FindPaperTypeByPlatformId(int id) const
+wxPrintPaperType *wxPrintPaperDatabase::FindPaperTypeByPlatformId(int id)
 {
     typedef wxStringToPrintPaperTypeHashMap::iterator iterator;
 
@@ -273,7 +277,7 @@ wxPrintPaperType *wxPrintPaperDatabase::FindPaperTypeByPlatformId(int id) const
     return NULL;
 }
 
-wxPrintPaperType *wxPrintPaperDatabase::FindPaperType(const wxSize& sz) const
+wxPrintPaperType *wxPrintPaperDatabase::FindPaperType(const wxSize& sz)
 {
     // Take the item ordering into account so that the more common types
     // are likely to be taken into account first. This fixes problems with,
@@ -291,7 +295,7 @@ wxPrintPaperType *wxPrintPaperDatabase::FindPaperType(const wxSize& sz) const
 }
 
 // Convert name to size id
-wxPaperSize wxPrintPaperDatabase::ConvertNameToId(const wxString& name) const
+wxPaperSize wxPrintPaperDatabase::ConvertNameToId(const wxString& name)
 {
     wxPrintPaperType* type = FindPaperType(name);
     if (type)
@@ -301,7 +305,7 @@ wxPaperSize wxPrintPaperDatabase::ConvertNameToId(const wxString& name) const
 }
 
 // Convert size id to name
-wxString wxPrintPaperDatabase::ConvertIdToName(wxPaperSize paperId) const
+wxString wxPrintPaperDatabase::ConvertIdToName(wxPaperSize paperId)
 {
     wxPrintPaperType* type = FindPaperType(paperId);
     if (type)
@@ -311,7 +315,7 @@ wxString wxPrintPaperDatabase::ConvertIdToName(wxPaperSize paperId) const
 }
 
 // Get the paper size
-wxSize wxPrintPaperDatabase::GetSize(wxPaperSize paperId) const
+wxSize wxPrintPaperDatabase::GetSize(wxPaperSize paperId)
 {
     wxPrintPaperType* type = FindPaperType(paperId);
     if (type)
@@ -321,7 +325,7 @@ wxSize wxPrintPaperDatabase::GetSize(wxPaperSize paperId) const
 }
 
 // Get the paper size
-wxPaperSize wxPrintPaperDatabase::GetSize(const wxSize& size) const
+wxPaperSize wxPrintPaperDatabase::GetSize(const wxSize& size)
 {
     wxPrintPaperType* type = FindPaperType(size);
     if (type)
@@ -346,14 +350,14 @@ wxPrintPaperType* wxPrintPaperDatabase::Item(size_t index) const
 
 class WXDLLEXPORT wxPrintPaperModule: public wxModule
 {
-    wxDECLARE_DYNAMIC_CLASS(wxPrintPaperModule);
+DECLARE_DYNAMIC_CLASS(wxPrintPaperModule)
 public:
     wxPrintPaperModule() {}
-    bool OnInit() wxOVERRIDE;
-    void OnExit() wxOVERRIDE;
+    bool OnInit();
+    void OnExit();
 };
 
-wxIMPLEMENT_DYNAMIC_CLASS(wxPrintPaperModule, wxModule);
+IMPLEMENT_DYNAMIC_CLASS(wxPrintPaperModule, wxModule)
 
 /*
  * Initialization/cleanup module

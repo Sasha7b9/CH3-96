@@ -10,6 +10,9 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #if wxUSE_XRC && wxUSE_COMMANDLINKBUTTON
 
@@ -17,7 +20,7 @@
 
 #include "wx/commandlinkbutton.h"
 
-wxIMPLEMENT_DYNAMIC_CLASS(wxCommandLinkButtonXmlHandler, wxXmlResourceHandler);
+IMPLEMENT_DYNAMIC_CLASS(wxCommandLinkButtonXmlHandler, wxXmlResourceHandler)
 
 wxCommandLinkButtonXmlHandler::wxCommandLinkButtonXmlHandler()
     : wxXmlResourceHandler()
@@ -42,15 +45,6 @@ wxObject *wxCommandLinkButtonXmlHandler::DoCreateResource()
                     GetStyle(),
                     wxDefaultValidator,
                     GetName());
-
-    if (GetBool(wxT("default"), 0))
-        button->SetDefault();
-
-    if ( GetParamNode("bitmap") )
-    {
-        button->SetBitmap(GetBitmap("bitmap", wxART_BUTTON),
-                          GetDirection("bitmapposition"));
-    }
 
     SetupWindow(button);
 

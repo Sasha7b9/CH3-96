@@ -18,6 +18,9 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #if wxUSE_DATEPICKCTRL
 
@@ -72,7 +75,7 @@ public:
     {
     }
 
-    virtual void SetDateTime(const wxDateTime& dt) wxOVERRIDE
+    virtual void SetDateTime(const wxDateTime& dt)
     {
         wxDateTime dtFrom, dtTo;
         
@@ -82,12 +85,12 @@ public:
             [View() setDateValue: NSDateFromWX(dt)];
     }
 
-    virtual wxDateTime GetDateTime() const wxOVERRIDE
+    virtual wxDateTime GetDateTime() const
     {
         return NSDateToWX([View() dateValue]);
     }
 
-    virtual void SetDateRange(const wxDateTime& dt1, const wxDateTime& dt2) wxOVERRIDE
+    virtual void SetDateRange(const wxDateTime& dt1, const wxDateTime& dt2)
     {
         // Note that passing nil is ok here so we don't need to test for the
         // dates validity.
@@ -95,7 +98,7 @@ public:
         [View() setMaxDate: NSDateFromWX(dt2)];
     }
 
-    virtual bool GetDateRange(wxDateTime* dt1, wxDateTime* dt2) wxOVERRIDE
+    virtual bool GetDateRange(wxDateTime* dt1, wxDateTime* dt2)
     {
         bool hasLimits = false;
         if ( dt1 )
@@ -115,7 +118,7 @@ public:
 
     virtual void controlAction(WXWidget WXUNUSED(slf),
                                void* WXUNUSED(cmd),
-                               void* WXUNUSED(sender)) wxOVERRIDE
+                               void* WXUNUSED(sender))
     {
         wxWindow* const wxpeer = GetWXPeer();
         if ( wxpeer )
@@ -125,7 +128,7 @@ public:
         }
     }
 
-    virtual void Enable(bool enable = true) wxOVERRIDE
+    virtual void Enable(bool enable = true)
     {
         wxNSDatePicker* const nsdatePicker = View();
 
@@ -164,7 +167,7 @@ wxDateTimeWidgetImpl::CreateDateTimePicker(wxDateTimePickerCtrl* wxpeer,
                                            const wxDateTime& dt,
                                            const wxPoint& pos,
                                            const wxSize& size,
-                                           long WXUNUSED(style),
+                                           long style,
                                            wxDateTimeWidgetKind kind)
 {
     NSRect r = wxOSXGetFrameForControl(wxpeer, pos, size);
@@ -193,10 +196,6 @@ wxDateTimeWidgetImpl::CreateDateTimePicker(wxDateTimePickerCtrl* wxpeer,
     if ( dt.IsValid() )
     {
         [v setDateValue: NSDateFromWX(dt)];
-    }
-    else
-    {
-        [v setDateValue: [NSDate date]];
     }
 
     wxDateTimeWidgetImpl* c = new wxDateTimeWidgetCocoaImpl(wxpeer, v);

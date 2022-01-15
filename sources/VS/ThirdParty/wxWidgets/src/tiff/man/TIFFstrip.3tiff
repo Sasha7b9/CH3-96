@@ -31,11 +31,11 @@ TIFFComputeStrip, TIFFNumberOfStrips \- strip-related utility routines
 .sp
 .BI "uint32 TIFFDefaultStripSize(TIFF *" tif ", uint32 " estimate ")"
 .br
-.BI "tmsize_t TIFFStripSize(TIFF *" tif ")"
+.BI "tsize_t TIFFStripSize(TIFF *" tif ")"
 .br
-.BI "tmsize_t TIFFVStripSize(TIFF *" tif ", uint32 " nrows ")"
+.BI "tsize_t TIFFVStripSize(TIFF *" tif ", uint32 " nrows ")"
 .br
-.BI "tmsize_t TIFFRawStripSize(TIFF *" tif ", uint32 " strip ")"
+.BI "tsize_t TIFFRawStripSize(TIFF *" tif ", tstrip_t " strip ")"
 .br
 .BI "tstrip_t TIFFComputeStrip(TIFF *" tif ", uint32 " row ", tsample_t " sample ")"
 .br
@@ -95,4 +95,4 @@ None.
 .BR libtiff (3TIFF),
 .PP
 Libtiff library home page:
-.BR http://www.simplesystems.org/libtiff/
+.BR http://www.remotesensing.org/libtiff/

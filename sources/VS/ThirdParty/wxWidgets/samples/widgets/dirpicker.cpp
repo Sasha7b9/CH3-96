@@ -19,6 +19,9 @@
 // for compilers that support precompilation, includes "wx/wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #if wxUSE_DIRPICKERCTRL
 
@@ -62,12 +65,13 @@ class DirPickerWidgetsPage : public WidgetsPage
 {
 public:
     DirPickerWidgetsPage(WidgetsBookCtrl *book, wxImageList *imaglist);
+    virtual ~DirPickerWidgetsPage(){};
 
-    virtual wxWindow *GetWidget() const wxOVERRIDE { return m_dirPicker; }
-    virtual void RecreateWidget() wxOVERRIDE { RecreatePicker(); }
+    virtual wxControl *GetWidget() const { return m_dirPicker; }
+    virtual void RecreateWidget() { RecreatePicker(); }
 
     // lazy creation of the content
-    virtual void CreateContent() wxOVERRIDE;
+    virtual void CreateContent();
 
 protected:
 
@@ -79,6 +83,9 @@ protected:
 
     // restore the checkboxes state to the initial values
     void Reset();
+
+    // get the initial style for the picker of the given kind
+    long GetPickerStyle();
 
 
     void OnDirChange(wxFileDirPickerEvent &ev);
@@ -124,13 +131,13 @@ wxEND_EVENT_TABLE()
 // implementation
 // ============================================================================
 
-#if defined(__WXGTK20__)
+#if defined(__WXGTK24__)
     #define FAMILY_CTRLS NATIVE_CTRLS
 #else
     #define FAMILY_CTRLS GENERIC_CTRLS
 #endif
 
-IMPLEMENT_WIDGETS_PAGE(DirPickerWidgetsPage, "DirPicker",
+IMPLEMENT_WIDGETS_PAGE(DirPickerWidgetsPage, wxT("DirPicker"),
                        PICKER_CTRLS | FAMILY_CTRLS);
 
 DirPickerWidgetsPage::DirPickerWidgetsPage(WidgetsBookCtrl *book,
@@ -144,10 +151,10 @@ void DirPickerWidgetsPage::CreateContent()
     // left pane
     wxSizer *boxleft = new wxBoxSizer(wxVERTICAL);
 
-    wxStaticBoxSizer *dirbox = new wxStaticBoxSizer(wxVERTICAL, this, "&DirPicker style");
-    m_chkDirTextCtrl = CreateCheckBoxAndAddToSizer(dirbox, "With textctrl");
-    m_chkDirMustExist = CreateCheckBoxAndAddToSizer(dirbox, "Dir must exist");
-    m_chkDirChangeDir = CreateCheckBoxAndAddToSizer(dirbox, "Change working dir");
+    wxStaticBoxSizer *dirbox = new wxStaticBoxSizer(wxVERTICAL, this, wxT("&DirPicker style"));
+    m_chkDirTextCtrl = CreateCheckBoxAndAddToSizer(dirbox, wxT("With textctrl"));
+    m_chkDirMustExist = CreateCheckBoxAndAddToSizer(dirbox, wxT("Dir must exist"));
+    m_chkDirChangeDir = CreateCheckBoxAndAddToSizer(dirbox, wxT("Change working dir"));
     m_chkSmall = CreateCheckBoxAndAddToSizer(dirbox, "&Small version");
     boxleft->Add(dirbox, 0, wxALL|wxGROW, 5);
 
@@ -161,7 +168,7 @@ void DirPickerWidgetsPage::CreateContent()
 
     boxleft->AddSpacer(10);
 
-    boxleft->Add(new wxButton(this, PickerPage_Reset, "&Reset"),
+    boxleft->Add(new wxButton(this, PickerPage_Reset, wxT("&Reset")),
                  0, wxALIGN_CENTRE_HORIZONTAL | wxALL, 15);
 
     Reset();    // set checkboxes state
@@ -188,7 +195,15 @@ void DirPickerWidgetsPage::CreatePicker()
 {
     delete m_dirPicker;
 
-    long style = GetAttrs().m_defaultFlags;
+    m_dirPicker = new wxDirPickerCtrl(this, PickerPage_Dir,
+                                        wxGetHomeDir(), wxT("Hello!"),
+                                        wxDefaultPosition, wxDefaultSize,
+                                        GetPickerStyle());
+}
+
+long DirPickerWidgetsPage::GetPickerStyle()
+{
+    long style = 0;
 
     if ( m_chkDirTextCtrl->GetValue() )
         style |= wxDIRP_USE_TEXTCTRL;
@@ -202,10 +217,7 @@ void DirPickerWidgetsPage::CreatePicker()
     if ( m_chkSmall->GetValue() )
         style |= wxDIRP_SMALL;
 
-    m_dirPicker = new wxDirPickerCtrl(this, PickerPage_Dir,
-                                      wxGetHomeDir(), "Hello!",
-                                      wxDefaultPosition, wxDefaultSize,
-                                      style);
+    return style;
 }
 
 void DirPickerWidgetsPage::RecreatePicker()
@@ -243,8 +255,8 @@ void DirPickerWidgetsPage::OnButtonReset(wxCommandEvent& WXUNUSED(event))
 
 void DirPickerWidgetsPage::OnDirChange(wxFileDirPickerEvent& event)
 {
-    wxLogMessage("The directory changed to '%s' ! The current working directory is '%s'",
-                 event.GetPath(), wxGetCwd());
+    wxLogMessage(wxT("The directory changed to '%s' ! The current working directory is '%s'"),
+                 event.GetPath().c_str(), wxGetCwd().c_str());
 }
 
 void DirPickerWidgetsPage::OnCheckBox(wxCommandEvent &event)

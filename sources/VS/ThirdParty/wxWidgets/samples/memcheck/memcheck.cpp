@@ -11,6 +11,9 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+#pragma hdrstop
+#endif
 
 #ifndef WX_PRECOMP
 #include "wx/wx.h"
@@ -35,7 +38,7 @@
 // Define a new application type
 class MyApp: public wxApp
 { public:
-    bool OnInit(void) wxOVERRIDE;
+    bool OnInit(void);
 };
 
 // Define a new frame type
@@ -44,10 +47,10 @@ class MyFrame: public wxFrame
     MyFrame(wxFrame *parent);
     void OnQuit(wxCommandEvent& event);
 
-    wxDECLARE_EVENT_TABLE();
+DECLARE_EVENT_TABLE()
 };
 
-wxIMPLEMENT_APP(MyApp);
+IMPLEMENT_APP(MyApp)
 
 // `Main program' equivalent, creating windows and returning main app frame
 bool MyApp::OnInit(void)
@@ -64,15 +67,15 @@ bool MyApp::OnInit(void)
   // Make a menubar
   wxMenu *file_menu = new wxMenu;
 
-  file_menu->Append(wxID_EXIT, "E&xit");
+  file_menu->Append(wxID_EXIT, wxT("E&xit"));
   wxMenuBar *menu_bar = new wxMenuBar;
-  menu_bar->Append(file_menu, "File");
+  menu_bar->Append(file_menu, wxT("File"));
   frame->SetMenuBar(menu_bar);
 
   // Make a panel with a message
   wxPanel *panel = new wxPanel(frame);
 
-  (void)new wxStaticText(panel, wxID_ANY, "Hello, this is a minimal debugging wxWidgets program!", wxPoint(10, 10));
+  (void)new wxStaticText(panel, wxID_ANY, wxT("Hello, this is a minimal debugging wxWidgets program!"), wxPoint(10, 10));
 
   // Show the frame
   frame->Show(true);
@@ -123,7 +126,7 @@ wxEND_EVENT_TABLE()
 
 // My frame constructor
 MyFrame::MyFrame(wxFrame *parent):
-  wxFrame(parent, wxID_ANY, "MemCheck wxWidgets Sample", wxDefaultPosition, wxSize(400, 200))
+  wxFrame(parent, wxID_ANY, wxT("MemCheck wxWidgets Sample"), wxDefaultPosition, wxSize(400, 200))
 {}
 
 // Intercept menu commands

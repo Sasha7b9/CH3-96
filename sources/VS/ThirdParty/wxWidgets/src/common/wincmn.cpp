@@ -19,12 +19,14 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #ifndef WX_PRECOMP
     #include "wx/string.h"
     #include "wx/log.h"
     #include "wx/intl.h"
-    #include "wx/math.h"
     #include "wx/frame.h"
     #include "wx/window.h"
     #include "wx/control.h"
@@ -39,12 +41,10 @@
     #include "wx/statusbr.h"
     #include "wx/toolbar.h"
     #include "wx/dcclient.h"
-    #include "wx/dcscreen.h"
     #include "wx/scrolbar.h"
     #include "wx/layout.h"
     #include "wx/sizer.h"
     #include "wx/menu.h"
-    #include "wx/button.h"
 #endif //WX_PRECOMP
 
 #if wxUSE_DRAG_AND_DROP
@@ -71,7 +71,6 @@
     #include "wx/sysopt.h"
 #endif
 
-#include "wx/display.h"
 #include "wx/platinfo.h"
 #include "wx/recguard.h"
 #include "wx/private/window.h"
@@ -103,13 +102,13 @@ bool IsInCaptureStack(wxWindowBase* win);
 // ----------------------------------------------------------------------------
 
 
-wxIMPLEMENT_ABSTRACT_CLASS(wxWindowBase, wxEvtHandler);
+IMPLEMENT_ABSTRACT_CLASS(wxWindowBase, wxEvtHandler)
 
 // ----------------------------------------------------------------------------
 // event table
 // ----------------------------------------------------------------------------
 
-wxBEGIN_EVENT_TABLE(wxWindowBase, wxEvtHandler)
+BEGIN_EVENT_TABLE(wxWindowBase, wxEvtHandler)
     EVT_SYS_COLOUR_CHANGED(wxWindowBase::OnSysColourChanged)
     EVT_INIT_DIALOG(wxWindowBase::OnInitDialog)
     EVT_MIDDLE_DOWN(wxWindowBase::OnMiddleClick)
@@ -119,7 +118,7 @@ wxBEGIN_EVENT_TABLE(wxWindowBase, wxEvtHandler)
 #endif // wxUSE_HELP
 
     EVT_SIZE(wxWindowBase::InternalOnSize)
-wxEND_EVENT_TABLE()
+END_EVENT_TABLE()
 
 // ============================================================================
 // implementation of the common functionality of the wxWindow class
@@ -131,13 +130,13 @@ wxEND_EVENT_TABLE()
 
 #if wxUSE_EXTENDED_RTTI
 
-// windows that are created from a parent window during its Create method,
-// eg. spin controls in a calendar controls must never been streamed out
-// separately otherwise chaos occurs. Right now easiest is to test for negative ids,
+// windows that are created from a parent window during its Create method, 
+// eg. spin controls in a calendar controls must never been streamed out 
+// separately otherwise chaos occurs. Right now easiest is to test for negative ids, 
 // as windows with negative ids never can be recreated anyway
 
 
-bool wxWindowStreamingCallback( const wxObject *object, wxObjectWriter *,
+bool wxWindowStreamingCallback( const wxObject *object, wxObjectWriter *, 
                                wxObjectWriterCallback *, const wxStringToAnyHashMap & )
 {
     const wxWindow * win = wx_dynamic_cast(const wxWindow*, object);
@@ -153,7 +152,7 @@ wxIMPLEMENT_DYNAMIC_CLASS_XTI_CALLBACK(wxWindow, wxWindowBase, "wx/window.h", \
 
 wxCOLLECTION_TYPE_INFO( wxWindow*, wxWindowList );
 
-template<> void wxCollectionToVariantArray( wxWindowList const &theList,
+template<> void wxCollectionToVariantArray( wxWindowList const &theList, 
                                            wxAnyList &value)
 {
     wxListCollectionToAnyList<wxWindowList::compatibility_iterator>( theList, value );
@@ -252,7 +251,7 @@ wxCONSTRUCTOR_DUMMY(wxWindow)
 #else
 
 #ifndef __WXUNIVERSAL__
-wxIMPLEMENT_DYNAMIC_CLASS(wxWindow, wxWindowBase);
+IMPLEMENT_DYNAMIC_CLASS(wxWindow, wxWindowBase)
 #endif
 
 #endif
@@ -263,8 +262,6 @@ wxIMPLEMENT_DYNAMIC_CLASS(wxWindow, wxWindowBase);
 
 // the default initialization
 wxWindowBase::wxWindowBase()
-    : m_virtualSize(wxDefaultSize)
-    , m_bestSizeCache(wxDefaultSize)
 {
     // no window yet, no parent nor children
     m_parent = NULL;
@@ -275,6 +272,9 @@ wxWindowBase::wxWindowBase()
     m_maxWidth = wxDefaultCoord;
     m_minHeight =
     m_maxHeight = wxDefaultCoord;
+
+    // invalidiated cache value
+    m_bestSizeCache = wxDefaultSize;
 
     // window are created enabled and visible by default
     m_isShown =
@@ -313,8 +313,6 @@ wxWindowBase::wxWindowBase()
     m_containingSizer = NULL;
     m_autoLayout = false;
 
-    m_disableFocusFromKbd = false;
-
 #if wxUSE_DRAG_AND_DROP
     m_dropTarget = NULL;
 #endif // wxUSE_DRAG_AND_DROP
@@ -334,6 +332,8 @@ wxWindowBase::wxWindowBase()
 #if wxUSE_ACCESSIBILITY
     m_accessible = NULL;
 #endif
+
+    m_virtualSize = wxDefaultSize;
 
     m_scrollHelper = NULL;
 
@@ -415,6 +415,14 @@ bool wxWindowBase::CreateBase(wxWindowBase *parent,
 #if wxUSE_VALIDATORS
     SetValidator(validator);
 #endif // wxUSE_VALIDATORS
+
+    // if the parent window has wxWS_EX_VALIDATE_RECURSIVELY set, we want to
+    // have it too - like this it's possible to set it only in the top level
+    // dialog/frame and all children will inherit it by defult
+    if ( parent && (parent->GetExtraStyle() & wxWS_EX_VALIDATE_RECURSIVELY) )
+    {
+        SetExtraStyle(GetExtraStyle() | wxWS_EX_VALIDATE_RECURSIVELY);
+    }
 
     return true;
 }
@@ -783,28 +791,13 @@ wxSize wxWindowBase::DoGetBestSize() const
     return best;
 }
 
-double wxWindowBase::GetContentScaleFactor() const
-{
-    // By default, we assume that there is no mapping between logical and
-    // physical pixels and so the content scale factor is just 1. Only the
-    // platforms that do perform such mapping (currently ports for Apple
-    // platforms and GTK 3) override this function to return something
-    // different.
-    return 1.0;
-}
-
-double wxWindowBase::GetDPIScaleFactor() const
-{
-    return wxDisplay(static_cast<const wxWindow*>(this)).GetScaleFactor();
-}
-
 // helper of GetWindowBorderSize(): as many ports don't implement support for
 // wxSYS_BORDER/EDGE_X/Y metrics in their wxSystemSettings, use hard coded
 // fallbacks in this case
 static int wxGetMetricOrDefault(wxSystemMetric what, const wxWindowBase* win)
 {
     int rc = wxSystemSettings::GetMetric(
-        what, static_cast<const wxWindow*>(win));
+        what, static_cast<wxWindow*>(const_cast<wxWindowBase*>(win)));
     if ( rc == -1 )
     {
         switch ( what )
@@ -1002,25 +995,6 @@ wxSize wxWindowBase::WindowToClientSize(const wxSize& size) const
                   size.y == -1 ? -1 : size.y - diff.y);
 }
 
-void wxWindowBase::WXSetInitialFittingClientSize(int flags)
-{
-    wxSizer* const sizer = GetSizer();
-    if ( !sizer )
-        return;
-
-    const wxSize
-        size = sizer->ComputeFittingClientSize(static_cast<wxWindow *>(this));
-
-    // It is important to set the min client size before changing the size
-    // itself as the existing size hints could prevent SetClientSize() from
-    // working otherwise.
-    if ( flags & wxSIZE_SET_MIN )
-        SetMinClientSize(size);
-
-    if ( flags & wxSIZE_SET_CURRENT )
-        SetClientSize(size);
-}
-
 void wxWindowBase::SetWindowVariant( wxWindowVariant variant )
 {
     if ( m_windowVariant != variant )
@@ -1036,22 +1010,22 @@ void wxWindowBase::DoSetWindowVariant( wxWindowVariant variant )
     // adjust the font height to correspond to our new variant (notice that
     // we're only called if something really changed)
     wxFont font = GetFont();
-    double size = font.GetFractionalPointSize();
+    int size = font.GetPointSize();
     switch ( variant )
     {
         case wxWINDOW_VARIANT_NORMAL:
             break;
 
         case wxWINDOW_VARIANT_SMALL:
-            size /= 1.2;
+            size = wxRound(size * 3.0 / 4.0);
             break;
 
         case wxWINDOW_VARIANT_MINI:
-            size /= 1.2 * 1.2;
+            size = wxRound(size * 2.0 / 3.0);
             break;
 
         case wxWINDOW_VARIANT_LARGE:
-            size *= 1.2;
+            size = wxRound(size * 5.0 / 4.0);
             break;
 
         default:
@@ -1059,7 +1033,7 @@ void wxWindowBase::DoSetWindowVariant( wxWindowVariant variant )
             break;
     }
 
-    font.SetFractionalPointSize(size);
+    font.SetPointSize(size);
     SetFont(font);
 }
 
@@ -1182,26 +1156,15 @@ bool wxWindowBase::IsEnabled() const
     return IsThisEnabled() && (IsTopLevel() || !GetParent() || GetParent()->IsEnabled());
 }
 
-// Define this macro if the corresponding operating system handles the state
-// of children windows automatically when the parent is enabled/disabled.
-// Otherwise wx itself must ensure that when the parent is disabled its
-// children are disabled too, and their initial state is restored when the
-// parent is enabled back.
-#if defined(__WXMSW__)
-    // must do everything ourselves
-    #undef wxHAS_NATIVE_ENABLED_MANAGEMENT
-#elif defined(__WXOSX__)
-    // must do everything ourselves
-    #undef wxHAS_NATIVE_ENABLED_MANAGEMENT
-#else
-    #define wxHAS_NATIVE_ENABLED_MANAGEMENT
-#endif
-
 void wxWindowBase::NotifyWindowOnEnableChange(bool enabled)
 {
-    DoEnable(enabled);
-
+    // Under some platforms there is no need to update the window state
+    // explicitly, it will become disabled when its parent is. On other ones we
+    // do need to disable all windows recursively though.
 #ifndef wxHAS_NATIVE_ENABLED_MANAGEMENT
+    DoEnable(enabled);
+#endif // !defined(wxHAS_NATIVE_ENABLED_MANAGEMENT)
+
     // Disabling a top level window is typically done when showing a modal
     // dialog and we don't need to disable its children in this case, they will
     // be logically disabled anyhow (i.e. their IsEnabled() will return false)
@@ -1217,6 +1180,7 @@ void wxWindowBase::NotifyWindowOnEnableChange(bool enabled)
     // they would still show as enabled even though they wouldn't actually
     // accept any input (at least under MSW where children don't accept input
     // if any of the windows in their parent chain is enabled).
+#ifndef wxHAS_NATIVE_ENABLED_MANAGEMENT
     for ( wxWindowList::compatibility_iterator node = GetChildren().GetFirst();
           node;
           node = node->GetNext() )
@@ -1234,6 +1198,12 @@ bool wxWindowBase::Enable(bool enable)
         return false;
 
     m_isEnabled = enable;
+
+    // If we call DoEnable() from NotifyWindowOnEnableChange(), we don't need
+    // to do it from here.
+#ifdef wxHAS_NATIVE_ENABLED_MANAGEMENT
+    DoEnable(enable);
+#endif // !defined(wxHAS_NATIVE_ENABLED_MANAGEMENT)
 
     NotifyWindowOnEnableChange(enable);
 
@@ -1599,7 +1569,17 @@ wxWindowBase::GetClassDefaultAttributes(wxWindowVariant WXUNUSED(variant))
     wxVisualAttributes attrs;
     attrs.font = wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT);
     attrs.colFg = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT);
+
+    // On Smartphone/PocketPC, wxSYS_COLOUR_WINDOW is a better reflection of
+    // the usual background colour than wxSYS_COLOUR_BTNFACE.
+    // It's a pity that wxSYS_COLOUR_WINDOW isn't always a suitable background
+    // colour on other platforms.
+
+#if defined(__WXWINCE__) && (defined(__SMARTPHONE__) || defined(__POCKETPC__))
+    attrs.colBg = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW);
+#else
     attrs.colBg = wxSystemSettings::GetColour(wxSYS_COLOUR_BTNFACE);
+#endif
     return attrs;
 }
 
@@ -1726,8 +1706,6 @@ wxFont wxWindowBase::GetFont() const
         if ( !font.IsOk() )
             font = GetClassDefaultAttributes().font;
 
-        WXAdjustFontToOwnPPI(font);
-
         return font;
     }
     else
@@ -1745,9 +1723,6 @@ bool wxWindowBase::SetFont(const wxFont& font)
     m_font = font;
     m_hasFont = font.IsOk();
     m_inheritFont = m_hasFont;
-
-    if ( m_hasFont )
-        WXAdjustFontToOwnPPI(m_font);
 
     InvalidateBestSize();
 
@@ -1768,7 +1743,7 @@ void wxWindowBase::SetPalette(const wxPalette& pal)
 
 wxWindow *wxWindowBase::GetAncestorWithCustomPalette() const
 {
-    wxWindow* win = const_cast<wxWindow*>(static_cast<const wxWindow*>(this));
+    wxWindow *win = (wxWindow *)this;
     while ( win && !win->HasCustomPalette() )
     {
         win = win->GetParent();
@@ -1782,7 +1757,11 @@ wxWindow *wxWindowBase::GetAncestorWithCustomPalette() const
 #if wxUSE_CARET
 void wxWindowBase::SetCaret(wxCaret *caret)
 {
-    delete m_caret;
+    if ( m_caret )
+    {
+        delete m_caret;
+    }
+
     m_caret = caret;
 
     if ( m_caret )
@@ -1800,12 +1779,13 @@ void wxWindowBase::SetCaret(wxCaret *caret)
 
 void wxWindowBase::SetValidator(const wxValidator& validator)
 {
-    delete m_windowValidator;
+    if ( m_windowValidator )
+        delete m_windowValidator;
 
-    m_windowValidator = static_cast<wxValidator *>(validator.Clone());
+    m_windowValidator = (wxValidator *)validator.Clone();
 
     if ( m_windowValidator )
-        m_windowValidator->SetWindow(static_cast<wxWindow*>(this));
+        m_windowValidator->SetWindow(this);
 }
 #endif // wxUSE_VALIDATORS
 
@@ -1853,7 +1833,7 @@ void wxWindowBase::ClearBackground()
 wxWindow *wxWindowBase::FindWindow(long id) const
 {
     if ( id == m_windowId )
-        return const_cast<wxWindow*>(static_cast<const wxWindow*>(this));
+        return (wxWindow *)this;
 
     wxWindowBase *res = NULL;
     wxWindowList::compatibility_iterator node;
@@ -1869,13 +1849,13 @@ wxWindow *wxWindowBase::FindWindow(long id) const
         res = child->FindWindow( id );
     }
 
-    return static_cast<wxWindow*>(res);
+    return (wxWindow *)res;
 }
 
 wxWindow *wxWindowBase::FindWindow(const wxString& name) const
 {
     if ( name == m_windowName )
-        return const_cast<wxWindow*>(static_cast<const wxWindow*>(this));
+        return (wxWindow *)this;
 
     wxWindowBase *res = NULL;
     wxWindowList::compatibility_iterator node;
@@ -1890,7 +1870,7 @@ wxWindow *wxWindowBase::FindWindow(const wxString& name) const
         res = child->FindWindow(name);
     }
 
-    return static_cast<wxWindow*>(res);
+    return (wxWindow *)res;
 }
 
 
@@ -1932,20 +1912,23 @@ wxWindow *wxFindWindowRecursively(const wxWindow *parent,
                                   long id,
                                   wxFindWindowCmp cmp)
 {
-    // see if this is the one we're looking for
-    if ( (*cmp)(parent, label, id) )
-        return const_cast<wxWindow*>(parent);
-
-    // It wasn't, so check all its children
-    for ( wxWindowList::compatibility_iterator node = parent->GetChildren().GetFirst();
-          node;
-          node = node->GetNext() )
+    if ( parent )
     {
-        // recursively check each child
-        wxWindow* win = static_cast<wxWindow*>(node->GetData());
-        wxWindow *retwin = wxFindWindowRecursively(win, label, id, cmp);
-        if (retwin)
-            return retwin;
+        // see if this is the one we're looking for
+        if ( (*cmp)(parent, label, id) )
+            return (wxWindow *)parent;
+
+        // It wasn't, so check all its children
+        for ( wxWindowList::compatibility_iterator node = parent->GetChildren().GetFirst();
+              node;
+              node = node->GetNext() )
+        {
+            // recursively check each child
+            wxWindow *win = (wxWindow *)node->GetData();
+            wxWindow *retwin = wxFindWindowRecursively(win, label, id, cmp);
+            if (retwin)
+                return retwin;
+        }
     }
 
     // Not found
@@ -2043,20 +2026,17 @@ namespace
 class ValidationTraverserBase
 {
 public:
-    explicit ValidationTraverserBase(wxWindowBase* win)
+    wxEXPLICIT ValidationTraverserBase(wxWindowBase* win)
         : m_win(static_cast<wxWindow*>(win))
     {
     }
 
     // Traverse all the direct children calling OnDo() on them and also all
-    // grandchildren, calling OnRecurse() for them.
-    bool DoForSelfAndChildren()
+    // grandchildren if wxWS_EX_VALIDATE_RECURSIVELY is used, calling
+    // OnRecurse() for them.
+    bool DoForAllChildren()
     {
-        wxValidator* const validator = m_win->GetValidator();
-        if ( validator && !OnDo(validator) )
-        {
-            return false;
-        }
+        const bool recurse = m_win->HasExtraStyle(wxWS_EX_VALIDATE_RECURSIVELY);
 
         wxWindowList& children = m_win->GetChildren();
         for ( wxWindowList::iterator i = children.begin();
@@ -2064,11 +2044,16 @@ public:
               ++i )
         {
             wxWindow* const child = static_cast<wxWindow*>(*i);
+            wxValidator* const validator = child->GetValidator();
+            if ( validator && !OnDo(validator) )
+            {
+                return false;
+            }
 
             // Notice that validation should never recurse into top level
             // children, e.g. some other dialog which might happen to be
             // currently shown.
-            if ( !child->IsTopLevel() && !OnRecurse(child) )
+            if ( recurse && !child->IsTopLevel() && !OnRecurse(child) )
             {
                 return false;
             }
@@ -2106,23 +2091,23 @@ bool wxWindowBase::Validate()
     class ValidateTraverser : public ValidationTraverserBase
     {
     public:
-        explicit ValidateTraverser(wxWindowBase* win)
+        wxEXPLICIT ValidateTraverser(wxWindowBase* win)
             : ValidationTraverserBase(win)
         {
         }
 
-        virtual bool OnDo(wxValidator* validator) wxOVERRIDE
+        virtual bool OnDo(wxValidator* validator)
         {
             return validator->Validate(m_win);
         }
 
-        virtual bool OnRecurse(wxWindow* child) wxOVERRIDE
+        virtual bool OnRecurse(wxWindow* child)
         {
             return child->Validate();
         }
     };
 
-    return ValidateTraverser(this).DoForSelfAndChildren();
+    return ValidateTraverser(this).DoForAllChildren();
 #else // !wxUSE_VALIDATORS
     return true;
 #endif // wxUSE_VALIDATORS/!wxUSE_VALIDATORS
@@ -2134,12 +2119,12 @@ bool wxWindowBase::TransferDataToWindow()
     class DataToWindowTraverser : public ValidationTraverserBase
     {
     public:
-        explicit DataToWindowTraverser(wxWindowBase* win)
+        wxEXPLICIT DataToWindowTraverser(wxWindowBase* win)
             : ValidationTraverserBase(win)
         {
         }
 
-        virtual bool OnDo(wxValidator* validator) wxOVERRIDE
+        virtual bool OnDo(wxValidator* validator)
         {
             if ( !validator->TransferToWindow() )
             {
@@ -2154,13 +2139,13 @@ bool wxWindowBase::TransferDataToWindow()
             return true;
         }
 
-        virtual bool OnRecurse(wxWindow* child) wxOVERRIDE
+        virtual bool OnRecurse(wxWindow* child)
         {
             return child->TransferDataToWindow();
         }
     };
 
-    return DataToWindowTraverser(this).DoForSelfAndChildren();
+    return DataToWindowTraverser(this).DoForAllChildren();
 #else // !wxUSE_VALIDATORS
     return true;
 #endif // wxUSE_VALIDATORS/!wxUSE_VALIDATORS
@@ -2177,18 +2162,18 @@ bool wxWindowBase::TransferDataFromWindow()
         {
         }
 
-        virtual bool OnDo(wxValidator* validator) wxOVERRIDE
+        virtual bool OnDo(wxValidator* validator)
         {
             return validator->TransferFromWindow();
         }
 
-        virtual bool OnRecurse(wxWindow* child) wxOVERRIDE
+        virtual bool OnRecurse(wxWindow* child)
         {
             return child->TransferDataFromWindow();
         }
     };
 
-    return DataFromWindowTraverser(this).DoForSelfAndChildren();
+    return DataFromWindowTraverser(this).DoForAllChildren();
 #else // !wxUSE_VALIDATORS
     return true;
 #endif // wxUSE_VALIDATORS/!wxUSE_VALIDATORS
@@ -2297,7 +2282,7 @@ wxString wxWindowBase::GetToolTipText() const
     return m_tooltip ? m_tooltip->GetTip() : wxString();
 }
 
-void wxWindowBase::DoSetToolTipText( const wxString &tip )
+void wxWindowBase::SetToolTip( const wxString &tip )
 {
     // don't create the new tooltip if we already have one
     if ( m_tooltip )
@@ -2317,7 +2302,9 @@ void wxWindowBase::DoSetToolTip(wxToolTip *tooltip)
 {
     if ( m_tooltip != tooltip )
     {
-        delete m_tooltip;
+        if ( m_tooltip )
+            delete m_tooltip;
+
         m_tooltip = tooltip;
     }
 }
@@ -2475,21 +2462,12 @@ void wxWindowBase::SetSizerAndFit(wxSizer *sizer, bool deleteOld)
 
 void wxWindowBase::SetContainingSizer(wxSizer* sizer)
 {
-    // Adding a window to another sizer if it's already managed by one would
-    // result in crashes later because one of the two sizers won't be notified
-    // about the window destruction and so will use a dangling pointer when it
-    // is destroyed itself. As such problems are hard to debug, don't allow
-    // them to happen in the first place.
-    if ( sizer )
-    {
-        // This would be caught by the check below too, but give a more clear
-        // error message in this case.
-        wxASSERT_MSG( m_containingSizer != sizer,
-                      wxS("Adding a window to the same sizer twice?") );
-
-        wxCHECK_RET( !m_containingSizer,
-                     wxS("Adding a window already in a sizer, detach it first!") );
-    }
+    // adding a window to a sizer twice is going to result in fatal and
+    // hard to debug problems later because when deleting the second
+    // associated wxSizerItem we're going to dereference a dangling
+    // pointer; so try to detect this as early as possible
+    wxASSERT_MSG( !sizer || m_containingSizer != sizer,
+                  wxT("Adding a window to the same sizer twice?") );
 
     m_containingSizer = sizer;
 }
@@ -2870,64 +2848,8 @@ void wxWindowBase::OnInternalIdle()
 }
 
 // ----------------------------------------------------------------------------
-// DPI-independent pixels and dialog units translations
+// dialog units translations
 // ----------------------------------------------------------------------------
-
-wxSize wxWindowBase::GetDPI() const
-{
-    return wxDisplay(static_cast<const wxWindow*>(this)).GetPPI();
-}
-
-#ifndef wxHAVE_DPI_INDEPENDENT_PIXELS
-
-namespace
-{
-
-static wxSize GetDPIHelper(const wxWindowBase* w)
-{
-    wxSize dpi;
-
-    if ( w )
-        dpi = w->GetDPI();
-    if ( !dpi.x || !dpi.y )
-        dpi = wxScreenDC().GetPPI();
-    if ( !dpi.x || !dpi.y )
-        dpi = wxDisplay::GetStdPPI();
-
-    return dpi;
-}
-
-}
-
-/* static */
-wxSize
-wxWindowBase::FromDIP(const wxSize& sz, const wxWindowBase* w)
-{
-    const wxSize dpi = GetDPIHelper(w);
-
-    const int baseline = wxDisplay::GetStdPPIValue();
-
-    // Take care to not scale -1 because it has a special meaning of
-    // "unspecified" which should be preserved.
-    return wxSize(sz.x == -1 ? -1 : wxMulDivInt32(sz.x, dpi.x, baseline),
-                  sz.y == -1 ? -1 : wxMulDivInt32(sz.y, dpi.y, baseline));
-}
-
-/* static */
-wxSize
-wxWindowBase::ToDIP(const wxSize& sz, const wxWindowBase* w)
-{
-    const wxSize dpi = GetDPIHelper(w);
-
-    const int baseline = wxDisplay::GetStdPPIValue();
-
-    // Take care to not scale -1 because it has a special meaning of
-    // "unspecified" which should be preserved.
-    return wxSize(sz.x == -1 ? -1 : wxMulDivInt32(sz.x, baseline, dpi.x),
-                  sz.y == -1 ? -1 : wxMulDivInt32(sz.y, baseline, dpi.y));
-}
-
-#endif // !wxHAVE_DPI_INDEPENDENT_PIXELS
 
 // Windows' computes dialog units using average character width over upper-
 // and lower-case ASCII alphabet and not using the average character width
@@ -2938,8 +2860,7 @@ wxWindowBase::ToDIP(const wxSize& sz, const wxWindowBase* w)
 // using them.
 wxSize wxWindowBase::GetDlgUnitBase() const
 {
-    const wxWindowBase* const parent =
-        wxGetTopLevelParent(const_cast<wxWindow*>(static_cast<const wxWindow*>(this)));
+    const wxWindowBase * const parent = wxGetTopLevelParent((wxWindow*)this);
 
     wxCHECK_MSG( parent, wxDefaultSize, wxS("Must have TLW parent") );
 
@@ -2947,10 +2868,10 @@ wxSize wxWindowBase::GetDlgUnitBase() const
     {
         // Default GUI font is used. This is the most common case, so
         // cache the results.
-        static wxPrivate::DpiDependentValue<wxSize> s_defFontSize;
-        if ( s_defFontSize.HasChanged(parent) )
-            s_defFontSize.SetAtNewDPI(wxPrivate::GetAverageASCIILetterSize(*parent));
-        return s_defFontSize.Get();
+        static wxSize s_defFontSize;
+        if ( s_defFontSize.x == 0 )
+            s_defFontSize = wxPrivate::GetAverageASCIILetterSize(*parent);
+        return s_defFontSize;
     }
     else
     {
@@ -3066,7 +2987,10 @@ wxWindowBase::DoGetPopupMenuSelectionFromUser(wxMenu& menu, int x, int y)
 {
     gs_popupMenuSelection = wxID_NONE;
 
-    Bind(wxEVT_MENU, &wxWindowBase::InternalOnPopupMenu, this);
+    Connect(wxEVT_MENU,
+            wxCommandEventHandler(wxWindowBase::InternalOnPopupMenu),
+            NULL,
+            this);
 
     // it is common to construct the menu passed to this function dynamically
     // using some fixed range of ids which could clash with the ids used
@@ -3075,31 +2999,26 @@ wxWindowBase::DoGetPopupMenuSelectionFromUser(wxMenu& menu, int x, int y)
     // elsewhere in the program code and this is difficult to avoid in the
     // program itself, so instead we just temporarily suspend UI updating while
     // this menu is shown
-    Bind(wxEVT_UPDATE_UI, &wxWindowBase::InternalOnPopupMenuUpdate, this);
+    Connect(wxEVT_UPDATE_UI,
+            wxUpdateUIEventHandler(wxWindowBase::InternalOnPopupMenuUpdate),
+            NULL,
+            this);
 
     PopupMenu(&menu, x, y);
 
-    Unbind(wxEVT_UPDATE_UI, &wxWindowBase::InternalOnPopupMenuUpdate, this);
-    Unbind(wxEVT_MENU, &wxWindowBase::InternalOnPopupMenu, this);
+    Disconnect(wxEVT_UPDATE_UI,
+               wxUpdateUIEventHandler(wxWindowBase::InternalOnPopupMenuUpdate),
+               NULL,
+               this);
+    Disconnect(wxEVT_MENU,
+               wxCommandEventHandler(wxWindowBase::InternalOnPopupMenu),
+               NULL,
+               this);
 
     return gs_popupMenuSelection;
 }
 
 #endif // wxUSE_MENUS
-
-bool wxWindowBase::WXSendContextMenuEvent(const wxPoint& posInScreenCoords)
-{
-    // When the mouse click happens in a subwindow of a composite control,
-    // the user-visible event should seem to originate from the main window
-    // and, notably, use its ID and not the (usually auto-generated and so
-    // not very useful) ID of the subwindow.
-    wxWindow* const mainWin = GetMainWindowOfCompositeControl();
-
-    wxContextMenuEvent
-        evtCtx(wxEVT_CONTEXT_MENU, mainWin->GetId(), posInScreenCoords);
-    evtCtx.SetEventObject(mainWin);
-    return mainWin->HandleWindowEvent(evtCtx);
-}
 
 // methods for drawing the sizers in a visible way: this is currently only
 // enabled for "full debug" builds with wxDEBUG_LEVEL==2 as it doesn't work
@@ -3235,6 +3154,12 @@ wxAccessible* wxWindowBase::GetOrCreateAccessible()
     if (!m_accessible)
         m_accessible = CreateAccessible();
     return m_accessible;
+}
+
+// Override to create a specific accessible object.
+wxAccessible* wxWindowBase::CreateAccessible()
+{
+    return new wxWindowAccessible((wxWindow*) this);
 }
 
 #endif
@@ -3416,7 +3341,7 @@ static void DoNotifyWindowAboutCaptureLost(wxWindow *win)
     {
         // windows must handle this event, otherwise the app wouldn't behave
         // correctly if it loses capture unexpectedly; see the discussion here:
-        // https://trac.wxwidgets.org/ticket/2277
+        // http://sourceforge.net/tracker/index.php?func=detail&aid=1153662&group_id=9863&atid=109863
         // http://article.gmane.org/gmane.comp.lib.wxwidgets.devel/82376
         wxFAIL_MSG( wxT("window that captured the mouse didn't process wxEVT_MOUSE_CAPTURE_LOST") );
     }
@@ -3517,7 +3442,7 @@ wxWindow *wxWindowBase::DoGetSibling(WindowOrder order) const
                     wxT("GetPrev/NextSibling() don't work for TLWs!") );
 
     wxWindowList& siblings = GetParent()->GetChildren();
-    wxWindowList::compatibility_iterator i = siblings.Find(static_cast<const wxWindow*>(this));
+    wxWindowList::compatibility_iterator i = siblings.Find((wxWindow *)this);
     wxCHECK_MSG( i, NULL, wxT("window not a child of its parent?") );
 
     if ( order == OrderBefore )
@@ -3635,7 +3560,7 @@ public:
     DragAcceptFilesTarget(wxWindowBase *win) : m_win(win) {}
 
     virtual bool OnDropFiles(wxCoord x, wxCoord y,
-                             const wxArrayString& filenames) wxOVERRIDE
+                             const wxArrayString& filenames)
     {
         wxDropFilesEvent event(wxEVT_DROP_FILES,
                                filenames.size(),
@@ -3679,9 +3604,8 @@ void wxWindowBase::DragAcceptFiles(bool accept)
 // global functions
 // ----------------------------------------------------------------------------
 
-wxWindow* wxGetTopLevelParent(wxWindowBase *win_)
+wxWindow* wxGetTopLevelParent(wxWindow *win)
 {
-    wxWindow* win = static_cast<wxWindow *>(win_);
     while ( win && !win->IsTopLevel() )
          win = win->GetParent();
 
@@ -3697,7 +3621,9 @@ wxWindow* wxGetTopLevelParent(wxWindowBase *win_)
 // representing the child element, starting from 1.
 wxAccStatus wxWindowAccessible::HitTest(const wxPoint& WXUNUSED(pt), int* WXUNUSED(childId), wxAccessible** WXUNUSED(childObject))
 {
-    wxCHECK( GetWindow() != NULL, wxACC_FAIL );
+    wxASSERT( GetWindow() != NULL );
+    if (!GetWindow())
+        return wxACC_FAIL;
 
     return wxACC_NOT_IMPLEMENTED;
 }
@@ -3705,10 +3631,12 @@ wxAccStatus wxWindowAccessible::HitTest(const wxPoint& WXUNUSED(pt), int* WXUNUS
 // Returns the rectangle for this object (id = 0) or a child element (id > 0).
 wxAccStatus wxWindowAccessible::GetLocation(wxRect& rect, int elementId)
 {
-    wxCHECK( GetWindow() != NULL, wxACC_FAIL );
+    wxASSERT( GetWindow() != NULL );
+    if (!GetWindow())
+        return wxACC_FAIL;
 
     wxWindow* win = NULL;
-    if (elementId == wxACC_SELF)
+    if (elementId == 0)
     {
         win = GetWindow();
     }
@@ -3736,7 +3664,9 @@ wxAccStatus wxWindowAccessible::GetLocation(wxRect& rect, int elementId)
 wxAccStatus wxWindowAccessible::Navigate(wxNavDir navDir, int fromId,
                              int* WXUNUSED(toId), wxAccessible** toObject)
 {
-    wxCHECK( GetWindow() != NULL, wxACC_FAIL );
+    wxASSERT( GetWindow() != NULL );
+    if (!GetWindow())
+        return wxACC_FAIL;
 
     switch (navDir)
     {
@@ -3764,7 +3694,7 @@ wxAccStatus wxWindowAccessible::Navigate(wxNavDir navDir, int fromId,
         {
             wxWindowList::compatibility_iterator node =
                 wxWindowList::compatibility_iterator();
-            if (fromId == wxACC_SELF)
+            if (fromId == 0)
             {
                 // Can't navigate to sibling of this window
                 // if we're a top-level window.
@@ -3794,7 +3724,7 @@ wxAccStatus wxWindowAccessible::Navigate(wxNavDir navDir, int fromId,
         {
             wxWindowList::compatibility_iterator node =
                 wxWindowList::compatibility_iterator();
-            if (fromId == wxACC_SELF)
+            if (fromId == 0)
             {
                 // Can't navigate to sibling of this window
                 // if we're a top-level window.
@@ -3826,7 +3756,9 @@ wxAccStatus wxWindowAccessible::Navigate(wxNavDir navDir, int fromId,
 // Gets the name of the specified object.
 wxAccStatus wxWindowAccessible::GetName(int childId, wxString* name)
 {
-    wxCHECK( GetWindow() != NULL, wxACC_FAIL );
+    wxASSERT( GetWindow() != NULL );
+    if (!GetWindow())
+        return wxACC_FAIL;
 
     wxString title;
 
@@ -3857,7 +3789,9 @@ wxAccStatus wxWindowAccessible::GetName(int childId, wxString* name)
 // Gets the number of children.
 wxAccStatus wxWindowAccessible::GetChildCount(int* childId)
 {
-    wxCHECK( GetWindow() != NULL, wxACC_FAIL );
+    wxASSERT( GetWindow() != NULL );
+    if (!GetWindow())
+        return wxACC_FAIL;
 
     *childId = (int) GetWindow()->GetChildren().GetCount();
     return wxACC_OK;
@@ -3869,9 +3803,11 @@ wxAccStatus wxWindowAccessible::GetChildCount(int* childId)
 // not an accessible object.
 wxAccStatus wxWindowAccessible::GetChild(int childId, wxAccessible** child)
 {
-    wxCHECK( GetWindow() != NULL, wxACC_FAIL );
+    wxASSERT( GetWindow() != NULL );
+    if (!GetWindow())
+        return wxACC_FAIL;
 
-    if (childId == wxACC_SELF)
+    if (childId == 0)
     {
         *child = this;
         return wxACC_OK;
@@ -3891,7 +3827,9 @@ wxAccStatus wxWindowAccessible::GetChild(int childId, wxAccessible** child)
 // Gets the parent, or NULL.
 wxAccStatus wxWindowAccessible::GetParent(wxAccessible** parent)
 {
-    wxCHECK( GetWindow() != NULL, wxACC_FAIL );
+    wxASSERT( GetWindow() != NULL );
+    if (!GetWindow())
+        return wxACC_FAIL;
 
     wxWindow* parentWindow = GetWindow()->GetParent();
     if (!parentWindow)
@@ -3915,7 +3853,9 @@ wxAccStatus wxWindowAccessible::GetParent(wxAccessible** parent)
 // window (e.g. an edit control).
 wxAccStatus wxWindowAccessible::DoDefaultAction(int WXUNUSED(childId))
 {
-    wxCHECK( GetWindow() != NULL, wxACC_FAIL );
+    wxASSERT( GetWindow() != NULL );
+    if (!GetWindow())
+        return wxACC_FAIL;
 
     return wxACC_NOT_IMPLEMENTED;
 }
@@ -3928,7 +3868,9 @@ wxAccStatus wxWindowAccessible::DoDefaultAction(int WXUNUSED(childId))
 // a document has a default action of "Press" rather than "Prints the current document."
 wxAccStatus wxWindowAccessible::GetDefaultAction(int WXUNUSED(childId), wxString* WXUNUSED(actionName))
 {
-    wxCHECK( GetWindow() != NULL, wxACC_FAIL );
+    wxASSERT( GetWindow() != NULL );
+    if (!GetWindow())
+        return wxACC_FAIL;
 
     return wxACC_NOT_IMPLEMENTED;
 }
@@ -3936,36 +3878,32 @@ wxAccStatus wxWindowAccessible::GetDefaultAction(int WXUNUSED(childId), wxString
 // Returns the description for this object or a child.
 wxAccStatus wxWindowAccessible::GetDescription(int WXUNUSED(childId), wxString* description)
 {
-    wxCHECK( GetWindow() != NULL, wxACC_FAIL );
+    wxASSERT( GetWindow() != NULL );
+    if (!GetWindow())
+        return wxACC_FAIL;
 
-    (void)description;
-#if wxUSE_HELP
     wxString ht(GetWindow()->GetHelpTextAtPoint(wxDefaultPosition, wxHelpEvent::Origin_Keyboard));
     if (!ht.empty())
     {
         *description = ht;
         return wxACC_OK;
     }
-#endif // wxUSE_HELP
-
     return wxACC_NOT_IMPLEMENTED;
 }
 
 // Returns help text for this object or a child, similar to tooltip text.
 wxAccStatus wxWindowAccessible::GetHelpText(int WXUNUSED(childId), wxString* helpText)
 {
-    wxCHECK( GetWindow() != NULL, wxACC_FAIL );
+    wxASSERT( GetWindow() != NULL );
+    if (!GetWindow())
+        return wxACC_FAIL;
 
-    (void)helpText;
-#if wxUSE_HELP
     wxString ht(GetWindow()->GetHelpTextAtPoint(wxDefaultPosition, wxHelpEvent::Origin_Keyboard));
     if (!ht.empty())
     {
         *helpText = ht;
         return wxACC_OK;
     }
-#endif // wxUSE_HELP
-
     return wxACC_NOT_IMPLEMENTED;
 }
 
@@ -3973,7 +3911,9 @@ wxAccStatus wxWindowAccessible::GetHelpText(int WXUNUSED(childId), wxString* hel
 // Return e.g. ALT+K
 wxAccStatus wxWindowAccessible::GetKeyboardShortcut(int WXUNUSED(childId), wxString* WXUNUSED(shortcut))
 {
-    wxCHECK( GetWindow() != NULL, wxACC_FAIL );
+    wxASSERT( GetWindow() != NULL );
+    if (!GetWindow())
+        return wxACC_FAIL;
 
     return wxACC_NOT_IMPLEMENTED;
 }
@@ -3981,7 +3921,9 @@ wxAccStatus wxWindowAccessible::GetKeyboardShortcut(int WXUNUSED(childId), wxStr
 // Returns a role constant.
 wxAccStatus wxWindowAccessible::GetRole(int childId, wxAccRole* role)
 {
-    wxCHECK( GetWindow() != NULL, wxACC_FAIL );
+    wxASSERT( GetWindow() != NULL );
+    if (!GetWindow())
+        return wxACC_FAIL;
 
     // If a child, leave wxWidgets to call the function on the actual
     // child object.
@@ -4011,7 +3953,9 @@ wxAccStatus wxWindowAccessible::GetRole(int childId, wxAccRole* role)
 // Returns a state constant.
 wxAccStatus wxWindowAccessible::GetState(int childId, long* state)
 {
-    wxCHECK( GetWindow() != NULL, wxACC_FAIL );
+    wxASSERT( GetWindow() != NULL );
+    if (!GetWindow())
+        return wxACC_FAIL;
 
     // If a child, leave wxWidgets to call the function on the actual
     // child object.
@@ -4042,7 +3986,9 @@ wxAccStatus wxWindowAccessible::GetState(int childId, long* state)
 // or child.
 wxAccStatus wxWindowAccessible::GetValue(int WXUNUSED(childId), wxString* WXUNUSED(strValue))
 {
-    wxCHECK( GetWindow() != NULL, wxACC_FAIL );
+    wxASSERT( GetWindow() != NULL );
+    if (!GetWindow())
+        return wxACC_FAIL;
 
     return wxACC_NOT_IMPLEMENTED;
 }
@@ -4050,7 +3996,9 @@ wxAccStatus wxWindowAccessible::GetValue(int WXUNUSED(childId), wxString* WXUNUS
 // Selects the object or child.
 wxAccStatus wxWindowAccessible::Select(int WXUNUSED(childId), wxAccSelectionFlags WXUNUSED(selectFlags))
 {
-    wxCHECK( GetWindow() != NULL, wxACC_FAIL );
+    wxASSERT( GetWindow() != NULL );
+    if (!GetWindow())
+        return wxACC_FAIL;
 
     return wxACC_NOT_IMPLEMENTED;
 }
@@ -4061,7 +4009,9 @@ wxAccStatus wxWindowAccessible::Select(int WXUNUSED(childId), wxAccSelectionFlag
 // If this object has the focus, child should be 'this'.
 wxAccStatus wxWindowAccessible::GetFocus(int* WXUNUSED(childId), wxAccessible** WXUNUSED(child))
 {
-    wxCHECK( GetWindow() != NULL, wxACC_FAIL );
+    wxASSERT( GetWindow() != NULL );
+    if (!GetWindow())
+        return wxACC_FAIL;
 
     return wxACC_NOT_IMPLEMENTED;
 }
@@ -4077,7 +4027,9 @@ wxAccStatus wxWindowAccessible::GetFocus(int* WXUNUSED(childId), wxAccessible** 
 // - a "void*" pointer to a wxAccessible child object
 wxAccStatus wxWindowAccessible::GetSelections(wxVariant* WXUNUSED(selections))
 {
-    wxCHECK( GetWindow() != NULL, wxACC_FAIL );
+    wxASSERT( GetWindow() != NULL );
+    if (!GetWindow())
+        return wxACC_FAIL;
 
     return wxACC_NOT_IMPLEMENTED;
 }

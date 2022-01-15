@@ -8,8 +8,9 @@
 
 #include "testprec.h"
 
-#if wxUSE_SPINCTRL
-
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #ifndef WX_PRECOMP
     #include "wx/app.h"
@@ -24,8 +25,8 @@ class SpinCtrlDoubleTestCase : public CppUnit::TestCase
 public:
     SpinCtrlDoubleTestCase() { }
 
-    void setUp() wxOVERRIDE;
-    void tearDown() wxOVERRIDE;
+    void setUp();
+    void tearDown();
 
 private:
     CPPUNIT_TEST_SUITE( SpinCtrlDoubleTestCase );
@@ -48,7 +49,7 @@ private:
 
     wxSpinCtrlDouble* m_spin;
 
-    wxDECLARE_NO_COPY_CLASS(SpinCtrlDoubleTestCase);
+    DECLARE_NO_COPY_CLASS(SpinCtrlDoubleTestCase)
 };
 
 // register in the unnamed registry so that these tests are run by default
@@ -88,7 +89,7 @@ void SpinCtrlDoubleTestCase::NoEventsInCtor()
 
 void SpinCtrlDoubleTestCase::Arrows()
 {
-#if wxUSE_UIACTIONSIMULATOR
+#ifndef __WXGTK__
     EventCounter updated(m_spin, wxEVT_SPINCTRLDOUBLE);
 
     wxUIActionSimulator sim;
@@ -122,7 +123,6 @@ void SpinCtrlDoubleTestCase::Wrap()
     wxUIActionSimulator sim;
 
     m_spin->SetFocus();
-    wxYield();
 
     sim.Char(WXK_DOWN);
 
@@ -193,10 +193,9 @@ void SpinCtrlDoubleTestCase::Value()
 
 void SpinCtrlDoubleTestCase::Increment()
 {
-#if wxUSE_UIACTIONSIMULATOR
+#if wxUSE_UIACTIONSIMULATOR && !defined(__WXGTK__)
     CPPUNIT_ASSERT_EQUAL(1.0, m_spin->GetIncrement());
 
-    m_spin->SetDigits(1);
     m_spin->SetIncrement(0.1);
 
     CPPUNIT_ASSERT_EQUAL(0.1, m_spin->GetIncrement());
@@ -204,7 +203,6 @@ void SpinCtrlDoubleTestCase::Increment()
     wxUIActionSimulator sim;
 
     m_spin->SetFocus();
-    wxYield();
 
     sim.Char(WXK_UP);
 
@@ -220,39 +218,3 @@ void SpinCtrlDoubleTestCase::Digits()
 
     CPPUNIT_ASSERT_EQUAL(5, m_spin->GetDigits());
 }
-
-static inline unsigned int GetInitialDigits(double inc)
-{
-    wxSpinCtrlDouble* sc = new wxSpinCtrlDouble(wxTheApp->GetTopWindow(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS,
-        0, 50, 0, inc);
-    unsigned int digits = sc->GetDigits();
-    delete sc;
-    return digits;
-}
-
-TEST_CASE("SpinCtrlDoubleTestCase::InitialDigits", "[spinctrldouble][initialdigits]")
-{
-    REQUIRE(GetInitialDigits(15) == 0);
-    REQUIRE(GetInitialDigits(10) == 0);
-    REQUIRE(GetInitialDigits(1) == 0);
-    REQUIRE(GetInitialDigits(0.999) == 1);
-    REQUIRE(GetInitialDigits(0.15) == 1);
-    REQUIRE(GetInitialDigits(0.11) == 1);
-    REQUIRE(GetInitialDigits(0.1) == 1);
-    REQUIRE(GetInitialDigits(0.0999) == 2);
-    REQUIRE(GetInitialDigits(0.015) == 2);
-    REQUIRE(GetInitialDigits(0.011) == 2);
-    REQUIRE(GetInitialDigits(0.01) == 2);
-    REQUIRE(GetInitialDigits(9.99e-5) == 5);
-    REQUIRE(GetInitialDigits(1e-5) == 5);
-    REQUIRE(GetInitialDigits(9.9999e-10) == 10);
-    REQUIRE(GetInitialDigits(1e-10) == 10);
-    REQUIRE(GetInitialDigits(9.9999e-20) == 20);
-    REQUIRE(GetInitialDigits(1e-20) == 20);
-    REQUIRE(GetInitialDigits(9.9999e-21) == 20);
-    REQUIRE(GetInitialDigits(1e-21) == 20);
-    REQUIRE(GetInitialDigits(9.9999e-22) == 20);
-    REQUIRE(GetInitialDigits(1e-22) == 20);
-}
-
-#endif

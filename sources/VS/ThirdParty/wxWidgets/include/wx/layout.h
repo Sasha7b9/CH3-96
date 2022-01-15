@@ -112,14 +112,14 @@ public:
     wxEdge GetMyEdge() const { return myEdge; }
     void SetEdge(wxEdge which) { myEdge = which; }
     void SetValue(int v) { value = v; }
-    int GetMargin() const { return margin; }
+    int GetMargin() { return margin; }
     void SetMargin(int m) { margin = m; }
     int GetValue() const { return value; }
     int GetPercent() const { return percent; }
     int GetOtherEdge() const { return otherEdge; }
     bool GetDone() const { return done; }
     void SetDone(bool d) { done = d; }
-    wxRelationship GetRelationship() const { return relationship; }
+    wxRelationship GetRelationship() { return relationship; }
     void SetRelationship(wxRelationship r) { relationship = r; }
 
     // Reset constraint if it mentions otherWin
@@ -147,7 +147,7 @@ protected:
     wxEdge otherEdge;
     bool done;
 
-    wxDECLARE_DYNAMIC_CLASS(wxIndividualLayoutConstraint);
+    DECLARE_DYNAMIC_CLASS(wxIndividualLayoutConstraint)
 };
 
 // ----------------------------------------------------------------------------
@@ -182,7 +182,7 @@ public:
                width.GetDone() && height.GetDone();
     }
 
-    wxDECLARE_DYNAMIC_CLASS(wxLayoutConstraints);
+    DECLARE_DYNAMIC_CLASS(wxLayoutConstraints)
 };
 
 #endif // wxUSE_CONSTRAINTS

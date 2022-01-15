@@ -10,13 +10,16 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #if wxUSE_XRC && wxUSE_DIRPICKERCTRL
 
 #include "wx/xrc/xh_dirpicker.h"
 #include "wx/filepicker.h"
 
-wxIMPLEMENT_DYNAMIC_CLASS(wxDirPickerCtrlXmlHandler, wxXmlResourceHandler);
+IMPLEMENT_DYNAMIC_CLASS(wxDirPickerCtrlXmlHandler, wxXmlResourceHandler)
 
 wxDirPickerCtrlXmlHandler::wxDirPickerCtrlXmlHandler() : wxXmlResourceHandler()
 {

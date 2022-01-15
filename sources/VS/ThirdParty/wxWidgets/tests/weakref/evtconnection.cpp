@@ -12,6 +12,9 @@
 
 #include "testprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #ifndef WX_PRECOMP
     #include "wx/wx.h"
@@ -34,7 +37,7 @@ class wxTestEvent : public wxEvent
 {
 public:
     wxTestEvent(wxEventType type = wxEVT_TEST) : wxEvent(0, type) { }
-    virtual wxEvent *Clone() const wxOVERRIDE { return new wxTestEvent(GetEventType()); }
+    virtual wxEvent *Clone() const { return new wxTestEvent(GetEventType()); }
 };
 
 class wxTestSink : public wxEvtHandler
@@ -81,7 +84,7 @@ private:
     void SourceDestroyTest();
     void MultiConnectionTest();
 
-    wxDECLARE_NO_COPY_CLASS(EvtConnectionTestCase);
+    DECLARE_NO_COPY_CLASS(EvtConnectionTestCase)
 };
 
 // register in the unnamed registry so that these tests are run by default

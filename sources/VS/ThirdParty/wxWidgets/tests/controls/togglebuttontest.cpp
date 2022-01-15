@@ -10,6 +10,9 @@
 
 #if wxUSE_TOGGLEBTN
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #ifndef WX_PRECOMP
     #include "wx/app.h"
@@ -24,8 +27,8 @@ class ToggleButtonTestCase : public CppUnit::TestCase
 public:
     ToggleButtonTestCase() { }
 
-    void setUp() wxOVERRIDE;
-    void tearDown() wxOVERRIDE;
+    void setUp();
+    void tearDown();
 
 private:
     CPPUNIT_TEST_SUITE( ToggleButtonTestCase );
@@ -38,7 +41,7 @@ private:
 
     wxToggleButton* m_button;
 
-    wxDECLARE_NO_COPY_CLASS(ToggleButtonTestCase);
+    DECLARE_NO_COPY_CLASS(ToggleButtonTestCase)
 };
 
 // register in the unnamed registry so that these tests are run by default

@@ -19,6 +19,9 @@
 
 // For compilers that support precompilation, includes "wx.h".
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #if wxUSE_STATLINE
 

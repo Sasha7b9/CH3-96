@@ -19,6 +19,9 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #if wxUSE_DOC_VIEW_ARCHITECTURE
 
@@ -60,9 +63,13 @@
 #include "wx/except.h"
 
 #if wxUSE_STD_IOSTREAM
+    #include "wx/ioswrap.h"
     #include "wx/beforestd.h"
-    #include <fstream>
-    #include <iostream>
+    #if wxUSE_IOSTREAMH
+        #include <fstream.h>
+    #else
+        #include <fstream>
+    #endif
     #include "wx/afterstd.h"
 #else
     #include "wx/wfstream.h"
@@ -72,15 +79,15 @@
 // wxWidgets macros
 // ----------------------------------------------------------------------------
 
-wxIMPLEMENT_ABSTRACT_CLASS(wxDocument, wxEvtHandler);
-wxIMPLEMENT_ABSTRACT_CLASS(wxView, wxEvtHandler);
-wxIMPLEMENT_ABSTRACT_CLASS(wxDocTemplate, wxObject);
-wxIMPLEMENT_DYNAMIC_CLASS(wxDocManager, wxEvtHandler);
-wxIMPLEMENT_CLASS(wxDocChildFrame, wxFrame);
-wxIMPLEMENT_CLASS(wxDocParentFrame, wxFrame);
+IMPLEMENT_ABSTRACT_CLASS(wxDocument, wxEvtHandler)
+IMPLEMENT_ABSTRACT_CLASS(wxView, wxEvtHandler)
+IMPLEMENT_ABSTRACT_CLASS(wxDocTemplate, wxObject)
+IMPLEMENT_DYNAMIC_CLASS(wxDocManager, wxEvtHandler)
+IMPLEMENT_CLASS(wxDocChildFrame, wxFrame)
+IMPLEMENT_CLASS(wxDocParentFrame, wxFrame)
 
 #if wxUSE_PRINTING_ARCHITECTURE
-wxIMPLEMENT_DYNAMIC_CLASS(wxDocPrintout, wxPrintout);
+    IMPLEMENT_DYNAMIC_CLASS(wxDocPrintout, wxPrintout)
 #endif
 
 // ============================================================================
@@ -269,13 +276,7 @@ wxDocManager *wxDocument::GetDocumentManager() const
     if ( m_documentParent )
         return m_documentParent->GetDocumentManager();
 
-    if ( m_documentTemplate )
-        return m_documentTemplate->GetDocumentManager();
-
-    // Fall back on the global manager if the document doesn't have a template,
-    // code elsewhere, notably in DeleteAllViews(), relies on the document
-    // always being managed by some manager.
-    return wxDocManager::GetDocumentManager();
+    return m_documentTemplate ? m_documentTemplate->GetDocumentManager() : NULL;
 }
 
 bool wxDocument::OnNewDocument()
@@ -400,6 +401,10 @@ bool wxDocument::OnSaveDocument(const wxString& file)
     Modify(false);
     SetFilename(file);
     SetDocumentSaved(true);
+#if defined( __WXOSX_MAC__ ) && wxOSX_USE_CARBON
+    wxFileName fn(file) ;
+    fn.MacSetDefaultTypeAndCreator() ;
+#endif
     return true;
 }
 
@@ -563,9 +568,7 @@ bool wxDocument::AddView(wxView *view)
 
 bool wxDocument::RemoveView(wxView *view)
 {
-    if ( !m_documentViews.DeleteObject(view) )
-        return false;
-
+    (void)m_documentViews.DeleteObject(view);
     OnChangedViewList();
     return true;
 }
@@ -817,15 +820,15 @@ wxDocTemplate::wxDocTemplate(wxDocManager *manager,
                              wxClassInfo *docClassInfo,
                              wxClassInfo *viewClassInfo,
                              long flags)
-    : m_fileFilter(filter)
-    , m_directory(dir)
-    , m_description(descr)
-    , m_defaultExt(ext)
-    , m_docTypeName(docTypeName)
-    , m_viewTypeName(viewTypeName)
 {
     m_documentManager = manager;
+    m_description = descr;
+    m_directory = dir;
+    m_defaultExt = ext;
+    m_fileFilter = filter;
     m_flags = flags;
+    m_docTypeName = docTypeName;
+    m_viewTypeName = viewTypeName;
     m_documentManager->AssociateTemplate(this);
 
     m_docClassInfo = docClassInfo;
@@ -934,7 +937,7 @@ wxView *wxDocTemplate::DoCreateView()
 // wxDocManager
 // ----------------------------------------------------------------------------
 
-wxBEGIN_EVENT_TABLE(wxDocManager, wxEvtHandler)
+BEGIN_EVENT_TABLE(wxDocManager, wxEvtHandler)
     EVT_MENU(wxID_OPEN, wxDocManager::OnFileOpen)
     EVT_MENU(wxID_CLOSE, wxDocManager::OnFileClose)
     EVT_MENU(wxID_CLOSE_ALL, wxDocManager::OnFileCloseAll)
@@ -970,7 +973,7 @@ wxBEGIN_EVENT_TABLE(wxDocManager, wxEvtHandler)
     // NB: we keep "Print setup" menu item always enabled as it can be used
     //     even without an active document
 #endif // wxUSE_PRINTING_ARCHITECTURE
-wxEND_EVENT_TABLE()
+END_EVENT_TABLE()
 
 wxDocManager* wxDocManager::sm_docManager = NULL;
 
@@ -999,17 +1002,13 @@ bool wxDocManager::CloseDocument(wxDocument* doc, bool force)
     if ( !doc->Close() && !force )
         return false;
 
-    // To really force the document to close, we must ensure that it isn't
-    // modified, otherwise it would ask the user about whether it should be
-    // destroyed (again, it had been already done by Close() above) and might
-    // not destroy it at all, while we must do it here.
-    doc->Modify(false);
-
     // Implicitly deletes the document when
     // the last view is deleted
     doc->DeleteAllViews();
 
-    wxASSERT(!m_docs.Member(doc));
+    // Check we're really deleted
+    if (m_docs.Member(doc))
+        delete doc;
 
     return true;
 }
@@ -1117,7 +1116,7 @@ void wxDocManager::OnFileNew(wxCommandEvent& WXUNUSED(event))
 
 void wxDocManager::OnFileOpen(wxCommandEvent& WXUNUSED(event))
 {
-    if ( !CreateDocument(wxString()) )
+    if ( !CreateDocument("") )
     {
         OnOpenFileFailure();
     }
@@ -1172,6 +1171,7 @@ void wxDocManager::DoOpenMRUFile(unsigned n)
     if ( filename.empty() )
         return;
 
+    wxString errMsg; // must contain exactly one "%s" if non-empty
     if ( wxFile::Exists(filename) )
     {
         // Try to open it but don't give an error if it failed: this could be
@@ -1786,7 +1786,7 @@ wxDocTemplate *wxDocManager::SelectDocumentPath(wxDocTemplate **templates,
                          msgTitle,
                          wxOK | wxICON_EXCLAMATION | wxCENTRE);
 
-            path.clear();
+            path = wxEmptyString;
             return NULL;
         }
 
@@ -1797,18 +1797,7 @@ wxDocTemplate *wxDocManager::SelectDocumentPath(wxDocTemplate **templates,
         // first choose the template using the extension, if this fails (i.e.
         // wxFileSelectorEx() didn't fill it), then use the path
         if ( FilterIndex != -1 )
-        {
             theTemplate = templates[FilterIndex];
-            if ( theTemplate )
-            {
-                // But don't use this template if it doesn't match the path as
-                // can happen if the user specified the extension explicitly
-                // but didn't bother changing the filter.
-                if ( !theTemplate->FileMatchesTemplate(path) )
-                    theTemplate = NULL;
-            }
-        }
-
         if ( !theTemplate )
             theTemplate = FindTemplateForPath(path);
         if ( !theTemplate )
@@ -1833,7 +1822,7 @@ wxDocTemplate *wxDocManager::SelectDocumentType(wxDocTemplate **templates,
                                                 int noTemplates, bool sort)
 {
     wxArrayString strings;
-    wxScopedArray<wxDocTemplate *> data(noTemplates);
+    wxScopedArray<wxDocTemplate *> data(new wxDocTemplate *[noTemplates]);
     int i;
     int n = 0;
 
@@ -1911,7 +1900,7 @@ wxDocTemplate *wxDocManager::SelectViewType(wxDocTemplate **templates,
                                             int noTemplates, bool sort)
 {
     wxArrayString strings;
-    wxScopedArray<wxDocTemplate *> data(noTemplates);
+    wxScopedArray<wxDocTemplate *> data(new wxDocTemplate *[noTemplates]);
     int i;
     int n = 0;
 
@@ -2165,7 +2154,7 @@ bool wxDocPrintout::OnPrintPage(int WXUNUSED(page))
     // but in fact is too small for some reason. This is a detail that will
     // need to be addressed at some point but can be fudged for the
     // moment.
-    double scale = double(ppiPrinterX) / ppiScreenX;
+    float scale = (float)((float)ppiPrinterX/(float)ppiScreenX);
 
     // Now we have to check in case our real page size is reduced
     // (e.g. because we're drawing to a print preview memory DC)
@@ -2177,7 +2166,7 @@ bool wxDocPrintout::OnPrintPage(int WXUNUSED(page))
 
     // If printer pageWidth == current DC width, then this doesn't
     // change. But w might be the preview bitmap width, so scale down.
-    double overallScale = scale * w / pageWidth;
+    float overallScale = scale * (float)(w/(float)pageWidth);
     dc->SetUserScale(overallScale, overallScale);
 
     if (m_printoutView)
@@ -2228,10 +2217,11 @@ bool wxTransferFileToStream(const wxString& filename, wxSTD ostream& stream)
     if ( !file.IsOpened() )
         return false;
 
+    char buf[4096];
+
+    size_t nRead;
     do
     {
-        char buf[4096];
-        size_t nRead;
         nRead = file.Read(buf, WXSIZEOF(buf));
         if ( file.Error() )
             return false;

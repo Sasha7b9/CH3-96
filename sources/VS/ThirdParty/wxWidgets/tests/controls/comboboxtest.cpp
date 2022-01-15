@@ -14,6 +14,9 @@
 
 #if wxUSE_COMBOBOX
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #ifndef WX_PRECOMP
     #include "wx/app.h"
@@ -34,17 +37,17 @@ class ComboBoxTestCase : public TextEntryTestCase, public ItemContainerTestCase,
 public:
     ComboBoxTestCase() { }
 
-    virtual void setUp() wxOVERRIDE;
-    virtual void tearDown() wxOVERRIDE;
+    virtual void setUp();
+    virtual void tearDown();
 
 private:
-    virtual wxTextEntry *GetTestEntry() const wxOVERRIDE { return m_combo; }
-    virtual wxWindow *GetTestWindow() const wxOVERRIDE { return m_combo; }
+    virtual wxTextEntry *GetTestEntry() const { return m_combo; }
+    virtual wxWindow *GetTestWindow() const { return m_combo; }
 
-    virtual wxItemContainer *GetContainer() const wxOVERRIDE { return m_combo; }
-    virtual wxWindow *GetContainerWindow() const wxOVERRIDE { return m_combo; }
+    virtual wxItemContainer *GetContainer() const { return m_combo; }
+    virtual wxWindow *GetContainerWindow() const { return m_combo; }
 
-    virtual void CheckStringSelection(const char * WXUNUSED(sel)) wxOVERRIDE
+    virtual void CheckStringSelection(const char * WXUNUSED(sel))
     {
         // do nothing here, as explained in TextEntryTestCase comment, our
         // GetStringSelection() is the wxChoice, not wxTextEntry, one and there
@@ -61,7 +64,7 @@ private:
 //  TODO on OS X only works interactively
 //   WXUISIM_TEST( Editable );
     CPPUNIT_TEST( Hint );
-    CPPUNIT_TEST( CopyPaste );
+    CPPUNIT_TEST( CopyPaste ); 
     CPPUNIT_TEST( UndoRedo );
 #else
         wxTEXT_ENTRY_TESTS();
@@ -82,11 +85,14 @@ private:
 
     wxComboBox *m_combo;
 
-    wxDECLARE_NO_COPY_CLASS(ComboBoxTestCase);
+    DECLARE_NO_COPY_CLASS(ComboBoxTestCase)
 };
 
-wxREGISTER_UNIT_TEST_WITH_TAGS(ComboBoxTestCase,
-                               "[ComboBoxTestCase][item-container]");
+// register in the unnamed registry so that these tests are run by default
+CPPUNIT_TEST_SUITE_REGISTRATION( ComboBoxTestCase );
+
+// also include in its own registry so that these tests can be run alone
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( ComboBoxTestCase, "ComboBoxTestCase" );
 
 // ----------------------------------------------------------------------------
 // test initialization
@@ -139,16 +145,9 @@ void ComboBoxTestCase::PopDismiss()
     EventCounter close(m_combo, wxEVT_COMBOBOX_CLOSEUP);
 
     m_combo->Popup();
-    CPPUNIT_ASSERT_EQUAL(1, drop.GetCount());
-
     m_combo->Dismiss();
 
-#if defined(__WXGTK__) && !defined(__WXGTK3__)
-    // Under wxGTK2, the event is sent only during idle time and not
-    // immediately, so we need this yield to get it.
-    wxYield();
-#endif // wxGTK2
-
+    CPPUNIT_ASSERT_EQUAL(1, drop.GetCount());
     CPPUNIT_ASSERT_EQUAL(1, close.GetCount());
 #endif
 }
@@ -227,25 +226,6 @@ void ComboBoxTestCase::IsEmpty()
     // Compiling this should fail, see failtest target definition in test.bkl.
     m_combo->IsEmpty();
 #endif
-}
-
-TEST_CASE("wxComboBox::ProcessEnter", "[wxComboBox][enter]")
-{
-    class ComboBoxCreator : public TextLikeControlCreator
-    {
-    public:
-        virtual wxControl* Create(wxWindow* parent, int style) const wxOVERRIDE
-        {
-            const wxString choices[] = { "foo", "bar", "baz" };
-
-            return new wxComboBox(parent, wxID_ANY, wxString(),
-                                  wxDefaultPosition, wxDefaultSize,
-                                  WXSIZEOF(choices), choices,
-                                  style);
-        }
-    };
-
-    TestProcessEnter(ComboBoxCreator());
 }
 
 #endif //wxUSE_COMBOBOX

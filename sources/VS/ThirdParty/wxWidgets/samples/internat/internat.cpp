@@ -23,6 +23,9 @@
 // For compilers that support precompilation, includes "wx/wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+#pragma hdrstop
+#endif
 
 #ifndef WX_PRECOMP
     #include "wx/wx.h"
@@ -32,7 +35,6 @@
 #include "wx/file.h"
 #include "wx/log.h"
 #include "wx/cmdline.h"
-#include "wx/platinfo.h"
 
 #ifndef wxHAS_IMAGES_IN_RESOURCES
     #include "../sample.xpm"
@@ -48,9 +50,9 @@ class MyApp: public wxApp
 public:
     MyApp() { m_lang = wxLANGUAGE_UNKNOWN; }
 
-    virtual void OnInitCmdLine(wxCmdLineParser& parser) wxOVERRIDE;
-    virtual bool OnCmdLineParsed(wxCmdLineParser& parser) wxOVERRIDE;
-    virtual bool OnInit() wxOVERRIDE;
+    virtual void OnInitCmdLine(wxCmdLineParser& parser);
+    virtual bool OnCmdLineParsed(wxCmdLineParser& parser);
+    virtual bool OnInit();
 
 protected:
     wxLanguage m_lang;  // language specified by user
@@ -92,16 +94,7 @@ enum
     INTERNAT_TEST_1,
     INTERNAT_TEST_2,
     INTERNAT_TEST_3,
-    INTERNAT_TEST_MSGBOX,
-    INTERNAT_MACRO_1,
-    INTERNAT_MACRO_2,
-    INTERNAT_MACRO_3,
-    INTERNAT_MACRO_4,
-    INTERNAT_MACRO_5,
-    INTERNAT_MACRO_6,
-    INTERNAT_MACRO_7,
-    INTERNAT_MACRO_8,
-    INTERNAT_MACRO_9
+    INTERNAT_TEST_MSGBOX
 };
 
 // language data
@@ -174,7 +167,7 @@ wxBEGIN_EVENT_TABLE(MyFrame, wxFrame)
     EVT_MENU(INTERNAT_TEST_MSGBOX, MyFrame::OnTestMsgBox)
 wxEND_EVENT_TABLE()
 
-wxIMPLEMENT_APP(MyApp);
+IMPLEMENT_APP(MyApp)
 
 // ============================================================================
 // implementation
@@ -299,8 +292,10 @@ MyFrame::MyFrame(wxLocale& locale)
     file_menu->Append(INTERNAT_TEST, _("&Test locale availability...\tCtrl-T"));
     file_menu->AppendSeparator();
 
-    // since wxID_EXIT is a stock ID it will automatically get a translated help
-    // string; nice isn't it?
+    // since wxID_ABOUT and wxID_EXIT are stock IDs they will automatically get
+    // translated help strings; nice isn't it?
+    file_menu->Append(wxID_ABOUT, _("&About"));
+    file_menu->AppendSeparator();
     file_menu->Append(wxID_EXIT, _("E&xit"));
 
     wxMenu *test_menu = new wxMenu;
@@ -313,33 +308,9 @@ MyFrame::MyFrame(wxLocale& locale)
     test_menu->Append(INTERNAT_TEST_MSGBOX, _("&Message box test"),
                       _("Tests message box buttons labels translation"));
 
-    // Note that all these strings are currently "translated" only in French
-    // catalog, so you need to use French locale to see them in action.
-    wxMenu *macro_menu = new wxMenu;
-    macro_menu->Append(INTERNAT_MACRO_1, _("item"));
-    macro_menu->Append(INTERNAT_MACRO_2, wxGETTEXT_IN_CONTEXT("context_1", "item"));
-    macro_menu->Append(INTERNAT_MACRO_3, wxGETTEXT_IN_CONTEXT("context_2", "item"));
-    macro_menu->Append(INTERNAT_MACRO_4, wxPLURAL("sing", "plur", 1));
-    macro_menu->Append(INTERNAT_MACRO_5, wxPLURAL("sing", "plur", 2));
-    macro_menu->Append(INTERNAT_MACRO_6, wxGETTEXT_IN_CONTEXT_PLURAL("context_1", "sing", "plur", 1));
-    macro_menu->Append(INTERNAT_MACRO_7, wxGETTEXT_IN_CONTEXT_PLURAL("context_1", "sing", "plur", 2));
-    macro_menu->Append(INTERNAT_MACRO_8, wxGETTEXT_IN_CONTEXT_PLURAL("context_2", "sing", "plur", 1));
-    macro_menu->Append(INTERNAT_MACRO_9, wxGETTEXT_IN_CONTEXT_PLURAL("context_2", "sing", "plur", 2));
-
-    wxMenu *help_menu = new wxMenu;
-    help_menu->Append(wxID_ABOUT, _("&About"));
-
     wxMenuBar *menu_bar = new wxMenuBar;
-    // Using stock label here means that it will be automatically translated.
-    menu_bar->Append(file_menu, wxGetStockLabel(wxID_FILE));
+    menu_bar->Append(file_menu, _("&File"));
     menu_bar->Append(test_menu, _("&Test"));
-    menu_bar->Append(macro_menu, _("&Macro"));
-    // We could have used wxGetStockLabel(wxID_HELP) here too, but show the
-    // special case of "Help" menu: it has a special, Windows-specific
-    // translation for some languages. Note that normally we would actually use
-    // it only under MSW, we're doing it here unconditionally just for
-    // demonstration purposes.
-    menu_bar->Append(help_menu, wxGETTEXT_IN_CONTEXT("standard Windows menu", "&Help"));
     SetMenuBar(menu_bar);
 
     // this demonstrates RTL support in wxStatusBar:
@@ -367,7 +338,7 @@ void MyFrame::OnAbout(wxCommandEvent& WXUNUSED(event))
     wxString canname = m_locale.GetCanonicalName();
 
     localeInfo.Printf(_("Language: %s\nSystem locale name: %s\nCanonical locale name: %s\n"),
-                      locale, sysname, canname );
+                      locale.c_str(), sysname.c_str(), canname.c_str() );
 
     wxMessageDialog dlg(
                         this,
@@ -403,9 +374,9 @@ void MyFrame::OnPlay(wxCommandEvent& WXUNUSED(event))
     }
     else if ( num == 9 )
     {
-        // this message is not translated (not in catalog) because we
-        // did not put _() around it
-        str = "You've found a bug in this program!";
+        // this message is not translated (not in catalog) because we used wxT()
+        // and not _() around it
+        str = wxT("You've found a bug in this program!");
     }
     else if ( num == 17 )
     {
@@ -451,17 +422,17 @@ void MyFrame::OnTestLocaleAvail(wxCommandEvent& WXUNUSED(event))
     const wxLanguageInfo * const info = wxLocale::FindLanguageInfo(s_locale);
     if ( !info )
     {
-        wxLogError(_("Locale \"%s\" is unknown."), s_locale);
+        wxLogError(_("Locale \"%s\" is unknown."), s_locale.c_str());
         return;
     }
 
     if ( wxLocale::IsAvailable(info->Language) )
     {
-        wxLogMessage(_("Locale \"%s\" is available."), s_locale);
+        wxLogMessage(_("Locale \"%s\" is available."), s_locale.c_str());
     }
     else
     {
-        wxLogWarning(_("Locale \"%s\" is not available."), s_locale);
+        wxLogWarning(_("Locale \"%s\" is not available."), s_locale.c_str());
     }
 }
 

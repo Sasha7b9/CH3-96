@@ -19,6 +19,9 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #if wxUSE_ACCEL
 
@@ -31,7 +34,7 @@
 #include "wx/msw/private.h"
 #include "wx/msw/private/keyboard.h"
 
-wxIMPLEMENT_DYNAMIC_CLASS(wxAcceleratorTable, wxObject);
+IMPLEMENT_DYNAMIC_CLASS(wxAcceleratorTable, wxObject)
 
 // ----------------------------------------------------------------------------
 // data defining wxAcceleratorTable

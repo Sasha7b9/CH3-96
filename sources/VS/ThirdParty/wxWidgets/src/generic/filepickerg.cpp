@@ -19,6 +19,9 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #if wxUSE_FILEPICKERCTRL || wxUSE_DIRPICKERCTRL
 
@@ -32,8 +35,8 @@
 // implementation
 // ============================================================================
 
-wxIMPLEMENT_DYNAMIC_CLASS(wxGenericFileButton, wxButton);
-wxIMPLEMENT_DYNAMIC_CLASS(wxGenericDirButton, wxButton);
+IMPLEMENT_DYNAMIC_CLASS(wxGenericFileButton, wxButton)
+IMPLEMENT_DYNAMIC_CLASS(wxGenericDirButton, wxButton)
 
 // ----------------------------------------------------------------------------
 // wxGenericFileButton
@@ -77,7 +80,9 @@ bool wxGenericFileDirButton::Create(wxWindow *parent,
     }
 
     // and handle user clicks on it
-    Bind(wxEVT_BUTTON, &wxGenericFileDirButton::OnButtonClick, this, GetId());
+    Connect(GetId(), wxEVT_BUTTON,
+            wxCommandEventHandler(wxGenericFileDirButton::OnButtonClick),
+            NULL, this);
 
     // create the dialog associated with this button
     m_path = path;

@@ -10,6 +10,9 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #if wxUSE_XRC
 
@@ -20,7 +23,7 @@
     #include "wx/scrolwin.h"
 #endif
 
-wxIMPLEMENT_DYNAMIC_CLASS(wxScrolledWindowXmlHandler, wxXmlResourceHandler);
+IMPLEMENT_DYNAMIC_CLASS(wxScrolledWindowXmlHandler, wxXmlResourceHandler)
 
 wxScrolledWindowXmlHandler::wxScrolledWindowXmlHandler()
 : wxXmlResourceHandler()
@@ -29,6 +32,9 @@ wxScrolledWindowXmlHandler::wxScrolledWindowXmlHandler()
     XRC_ADD_STYLE(wxVSCROLL);
 
     // wxPanel styles
+#if WXWIN_COMPATIBILITY_2_6
+    XRC_ADD_STYLE(wxNO_3D);
+#endif // WXWIN_COMPATIBILITY_2_6
     XRC_ADD_STYLE(wxTAB_TRAVERSAL);
     XRC_ADD_STYLE(wxWS_EX_VALIDATE_RECURSIVELY);
 

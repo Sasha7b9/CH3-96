@@ -19,6 +19,10 @@
 // For compilers that support precompilation, includes "wx/wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+#   pragma hdrstop
+#endif
+
 // for all others, include the necessary headers (this file is usually all you
 // need because it includes almost all "standard" wxWidgets headers
 #ifndef WX_PRECOMP
@@ -92,10 +96,10 @@ public:
     // this one is called on application startup and is a good place for the app
     // initialization (doing it here and not in the ctor allows to have an error
     // return: if OnInit() returns false, the application terminates)
-    virtual bool OnInit() wxOVERRIDE;
+    virtual bool OnInit();
 
     // do some clean up here
-    virtual int OnExit() wxOVERRIDE;
+    virtual int OnExit();
 };
 
 // Define a new frame type: this is going to be our main frame
@@ -269,7 +273,7 @@ wxEND_EVENT_TABLE()
 // static object for many reasons) and also declares the accessor function
 // wxGetApp() which will return the reference of the right type (i.e. MyApp and
 // not wxApp)
-wxIMPLEMENT_APP(MyApp);
+IMPLEMENT_APP(MyApp)
 
 // ============================================================================
 // implementation
@@ -307,7 +311,7 @@ bool MyApp::OnInit()
 #endif // wxUSE_HTML
 
     // Create the main application window
-    MyFrame *frame = new MyFrame("HelpDemo wxWidgets App",
+    MyFrame *frame = new MyFrame(wxT("HelpDemo wxWidgets App"),
                                  wxPoint(50, 50), wxSize(450, 340));
 
 #if !USE_SIMPLE_HELP_PROVIDER
@@ -323,34 +327,34 @@ bool MyApp::OnInit()
     // initialise the help system: this means that we'll use doc.hlp file under
     // Windows and that the HTML docs are in the subdirectory doc for platforms
     // using HTML help
-    if ( !frame->GetHelpController().Initialize("doc") )
+    if ( !frame->GetHelpController().Initialize(wxT("doc")) )
     {
-        wxLogError("Cannot initialize the help system, aborting.");
+        wxLogError(wxT("Cannot initialize the help system, aborting."));
 
         return false;
     }
 
 #if wxUSE_MS_HTML_HELP && !defined(__WXUNIVERSAL__)
-    if( !frame->GetMSHtmlHelpController().Initialize("doc") )
+    if( !frame->GetMSHtmlHelpController().Initialize(wxT("doc")) )
     {
-        wxLogError("Cannot initialize the MS HTML Help system.");
+        wxLogError(wxT("Cannot initialize the MS HTML Help system."));
     }
 #endif
 
 #if wxUSE_MS_HTML_HELP && wxUSE_WXHTML_HELP && !defined(__WXUNIVERSAL__)
     // you need to call Initialize in order to use wxBestHelpController
-    if( !frame->GetBestHelpController().Initialize("doc") )
+    if( !frame->GetBestHelpController().Initialize(wxT("doc")) )
     {
-        wxLogError("Cannot initialize the best help system, aborting.");
+        wxLogError(wxT("Cannot initialize the best help system, aborting."));
     }
 #endif
 
 #if USE_HTML_HELP
     // initialise the advanced HTML help system: this means that the HTML docs are in .htb
     // (zipped) form
-    if ( !frame->GetAdvancedHtmlHelpController().Initialize("doc") )
+    if ( !frame->GetAdvancedHtmlHelpController().Initialize(wxT("doc")) )
     {
-        wxLogError("Cannot initialize the advanced HTML help system, aborting.");
+        wxLogError(wxT("Cannot initialize the advanced HTML help system, aborting."));
 
         return false;
     }
@@ -359,7 +363,7 @@ bool MyApp::OnInit()
 #if 0
     // defined(__WXMSW__) && wxUSE_MS_HTML_HELP
     wxString path(wxGetCwd());
-    if ( !frame->GetMSHtmlHelpController().Initialize(path + "\\doc.chm") )
+    if ( !frame->GetMSHtmlHelpController().Initialize(path + wxT("\\doc.chm")) )
     {
         wxLogError("Cannot initialize the MS HTML help system, aborting.");
 
@@ -395,51 +399,51 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
     // create a menu bar
     wxMenu *menuFile = new wxMenu;
 
-    menuFile->Append(HelpDemo_Help_Index, "&Help Index...");
-    menuFile->Append(HelpDemo_Help_Classes, "&Help on Classes...");
-    menuFile->Append(HelpDemo_Help_Functions, "&Help on Functions...");
-    menuFile->Append(HelpDemo_Help_ContextHelp, "&Context Help...");
-    menuFile->Append(HelpDemo_Help_DialogContextHelp, "&Dialog Context Help...\tCtrl-H");
-    menuFile->Append(HelpDemo_Help_Help, "&About Help Demo...");
-    menuFile->Append(HelpDemo_Help_Search, "&Search help...");
+    menuFile->Append(HelpDemo_Help_Index, wxT("&Help Index..."));
+    menuFile->Append(HelpDemo_Help_Classes, wxT("&Help on Classes..."));
+    menuFile->Append(HelpDemo_Help_Functions, wxT("&Help on Functions..."));
+    menuFile->Append(HelpDemo_Help_ContextHelp, wxT("&Context Help..."));
+    menuFile->Append(HelpDemo_Help_DialogContextHelp, wxT("&Dialog Context Help...\tCtrl-H"));
+    menuFile->Append(HelpDemo_Help_Help, wxT("&About Help Demo..."));
+    menuFile->Append(HelpDemo_Help_Search, wxT("&Search help..."));
 #if USE_HTML_HELP
     menuFile->AppendSeparator();
-    menuFile->Append(HelpDemo_Advanced_Html_Help_Index, "Advanced HTML &Help Index...");
-    menuFile->Append(HelpDemo_Advanced_Html_Help_Classes, "Advanced HTML &Help on Classes...");
-    menuFile->Append(HelpDemo_Advanced_Html_Help_Functions, "Advanced HTML &Help on Functions...");
-    menuFile->Append(HelpDemo_Advanced_Html_Help_Help, "Advanced HTML &About Help Demo...");
-    menuFile->Append(HelpDemo_Advanced_Html_Help_Search, "Advanced HTML &Search help...");
-    menuFile->Append(HelpDemo_Advanced_Html_Help_Modal, "Advanced HTML Help &Modal Dialog...");
+    menuFile->Append(HelpDemo_Advanced_Html_Help_Index, wxT("Advanced HTML &Help Index..."));
+    menuFile->Append(HelpDemo_Advanced_Html_Help_Classes, wxT("Advanced HTML &Help on Classes..."));
+    menuFile->Append(HelpDemo_Advanced_Html_Help_Functions, wxT("Advanced HTML &Help on Functions..."));
+    menuFile->Append(HelpDemo_Advanced_Html_Help_Help, wxT("Advanced HTML &About Help Demo..."));
+    menuFile->Append(HelpDemo_Advanced_Html_Help_Search, wxT("Advanced HTML &Search help..."));
+    menuFile->Append(HelpDemo_Advanced_Html_Help_Modal, wxT("Advanced HTML Help &Modal Dialog..."));
 #endif
 
 #if wxUSE_MS_HTML_HELP && !defined(__WXUNIVERSAL__)
     menuFile->AppendSeparator();
-    menuFile->Append(HelpDemo_MS_Html_Help_Index, "MS HTML &Help Index...");
-    menuFile->Append(HelpDemo_MS_Html_Help_Classes, "MS HTML &Help on Classes...");
-    menuFile->Append(HelpDemo_MS_Html_Help_Functions, "MS HTML &Help on Functions...");
-    menuFile->Append(HelpDemo_MS_Html_Help_Help, "MS HTML &About Help Demo...");
-    menuFile->Append(HelpDemo_MS_Html_Help_Search, "MS HTML &Search help...");
+    menuFile->Append(HelpDemo_MS_Html_Help_Index, wxT("MS HTML &Help Index..."));
+    menuFile->Append(HelpDemo_MS_Html_Help_Classes, wxT("MS HTML &Help on Classes..."));
+    menuFile->Append(HelpDemo_MS_Html_Help_Functions, wxT("MS HTML &Help on Functions..."));
+    menuFile->Append(HelpDemo_MS_Html_Help_Help, wxT("MS HTML &About Help Demo..."));
+    menuFile->Append(HelpDemo_MS_Html_Help_Search, wxT("MS HTML &Search help..."));
 #endif
 
 #if wxUSE_MS_HTML_HELP && wxUSE_WXHTML_HELP && !defined(__WXUNIVERSAL__)
     menuFile->AppendSeparator();
-    menuFile->Append(HelpDemo_Best_Help_Index, "Best &Help Index...");
+    menuFile->Append(HelpDemo_Best_Help_Index, wxT("Best &Help Index..."));
 #endif
 
 #ifndef __WXMSW__
 #if !wxUSE_HTML
     menuFile->AppendSeparator();
-    menuFile->Append(HelpDemo_Help_KDE, "Use &KDE");
-    menuFile->Append(HelpDemo_Help_GNOME, "Use &GNOME");
-    menuFile->Append(HelpDemo_Help_Netscape, "Use &Netscape");
+    menuFile->Append(HelpDemo_Help_KDE, wxT("Use &KDE"));
+    menuFile->Append(HelpDemo_Help_GNOME, wxT("Use &GNOME"));
+    menuFile->Append(HelpDemo_Help_Netscape, wxT("Use &Netscape"));
 #endif
 #endif
     menuFile->AppendSeparator();
-    menuFile->Append(HelpDemo_Quit, "E&xit");
+    menuFile->Append(HelpDemo_Quit, wxT("E&xit"));
 
     // now append the freshly created menu to the menu bar...
     wxMenuBar *menuBar = new wxMenuBar;
-    menuBar->Append(menuFile, "&File");
+    menuBar->Append(menuFile, wxT("&File"));
 
     // ... and attach this menu bar to the frame
     SetMenuBar(menuBar);
@@ -447,7 +451,7 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
 #if wxUSE_STATUSBAR
     // create a status bar just for fun (by default with 1 pane only)
     CreateStatusBar();
-    SetStatusText("Welcome to wxWidgets!");
+    SetStatusText(wxT("Welcome to wxWidgets!"));
 #endif // wxUSE_STATUSBAR
 
 #if USE_HTML_HELP
@@ -459,8 +463,8 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
     m_embeddedHelpWindow->Create(this,
         wxID_ANY, wxDefaultPosition, GetClientSize(), wxTAB_TRAVERSAL|wxNO_BORDER, wxHF_DEFAULT_STYLE);
 
-    m_embeddedHtmlHelp.AddBook(wxFileName("doc.zip"));
-    m_embeddedHtmlHelp.Display("Introduction");
+    m_embeddedHtmlHelp.AddBook(wxFileName(wxT("doc.zip")));
+    m_embeddedHtmlHelp.Display(wxT("Introduction"));
 #else
     // now create some controls
 
@@ -471,7 +475,7 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
     //panel->SetHelpText(wxContextId(300));
 
     // and a static control whose parent is the panel
-    wxStaticText* staticText = new wxStaticText(panel, 302, "Hello, world!", wxPoint(10, 10));
+    wxStaticText* staticText = new wxStaticText(panel, 302, wxT("Hello, world!"), wxPoint(10, 10));
     staticText->SetHelpText(_("This static text control isn't doing a lot right now."));
 #endif
 }
@@ -527,7 +531,7 @@ void MyFrame::OnBestHelp(wxCommandEvent& event)
 #if USE_HTML_HELP
 void MyFrame::OnModalHtmlHelp(wxCommandEvent& WXUNUSED(event))
 {
-    wxHtmlModalHelp(this, "doc.zip", "Introduction");
+    wxHtmlModalHelp modalHelp(this, wxT("doc.zip"), wxT("Introduction"));
 }
 #endif
 
@@ -634,8 +638,8 @@ void MyFrame::ShowHelp(int commandId, wxHelpControllerBase& helpController)
        case HelpDemo_MS_Html_Help_Search:
        case HelpDemo_Best_Help_Search:
        {
-          wxString key = wxGetTextFromUser("Search for?",
-                                           "Search help for keyword",
+          wxString key = wxGetTextFromUser(wxT("Search for?"),
+                                           wxT("Search help for keyword"),
                                            wxEmptyString,
                                            this);
           if(! key.IsEmpty())
@@ -654,13 +658,13 @@ void MyFrame::ShowHelp(int commandId, wxHelpControllerBase& helpController)
        // These three calls are only used by wxExtHelpController
 
        case HelpDemo_Help_KDE:
-          helpController.SetViewer("kdehelp");
+          helpController.SetViewer(wxT("kdehelp"));
           break;
        case HelpDemo_Help_GNOME:
-          helpController.SetViewer("gnome-help-browser");
+          helpController.SetViewer(wxT("gnome-help-browser"));
           break;
        case HelpDemo_Help_Netscape:
-          helpController.SetViewer("netscape", wxHELP_NETSCAPE);
+          helpController.SetViewer(wxT("netscape"), wxHELP_NETSCAPE);
           break;
    }
 }
@@ -674,7 +678,7 @@ wxBEGIN_EVENT_TABLE(MyModalDialog, wxDialog)
 wxEND_EVENT_TABLE()
 
 MyModalDialog::MyModalDialog(wxWindow *parent)
-             : wxDialog(parent, wxID_ANY, wxString("Modal dialog"))
+             : wxDialog(parent, wxID_ANY, wxString(wxT("Modal dialog")))
 {
     // Add the context-sensitive help button on the caption for the platforms
     // which support it (currently MSW only)
@@ -684,10 +688,10 @@ MyModalDialog::MyModalDialog(wxWindow *parent)
     wxBoxSizer *sizerTop = new wxBoxSizer(wxVERTICAL);
     wxBoxSizer *sizerRow = new wxBoxSizer(wxHORIZONTAL);
 
-    wxButton* btnOK = new wxButton(this, wxID_OK, "&OK");
+    wxButton* btnOK = new wxButton(this, wxID_OK, wxT("&OK"));
     btnOK->SetHelpText(_("The OK button confirms the dialog choices."));
 
-    wxButton* btnCancel = new wxButton(this, wxID_CANCEL, "&Cancel");
+    wxButton* btnCancel = new wxButton(this, wxID_CANCEL, wxT("&Cancel"));
     btnCancel->SetHelpText(_("The Cancel button cancels the dialog."));
 
     sizerRow->Add(btnOK, 0, wxALIGN_CENTER | wxALL, 5);
@@ -698,12 +702,12 @@ MyModalDialog::MyModalDialog(wxWindow *parent)
     sizerRow->Add(new wxContextHelpButton(this), 0, wxALIGN_CENTER | wxALL, 5);
 #endif
 
-    wxTextCtrl *text = new wxTextCtrl(this, wxID_ANY, "A demo text control",
+    wxTextCtrl *text = new wxTextCtrl(this, wxID_ANY, wxT("A demo text control"),
                                       wxDefaultPosition, wxSize(300, 100),
                                       wxTE_MULTILINE);
     text->SetHelpText(_("Type text here if you have got nothing more interesting to do"));
-    sizerTop->Add(text, 0, wxEXPAND|wxALL, 5 );
-    sizerTop->Add(sizerRow, 0, wxALIGN_RIGHT|wxALL, 5 );
+    sizerTop->Add(text, 0, wxEXPAND|wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+    sizerTop->Add(sizerRow, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 
     SetSizerAndFit(sizerTop);
 

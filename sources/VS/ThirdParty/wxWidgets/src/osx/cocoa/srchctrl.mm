@@ -10,6 +10,9 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #if wxUSE_SEARCHCTRL
 
@@ -27,7 +30,6 @@
 
 @interface wxNSSearchField : NSSearchField
 {
-    BOOL m_withinTextDidChange;
 }
 
 @end
@@ -46,20 +48,10 @@
 
 - (id)initWithFrame:(NSRect)frame
 {
-    if ( self = [super initWithFrame:frame] )
-    {
-        m_withinTextDidChange = NO;
-    }
+    self = [super initWithFrame:frame];
     return self;
 }
-
-- (void)textDidChange:(NSNotification *)aNotification
-{
-    m_withinTextDidChange = YES;
-    [super textDidChange:aNotification];
-    m_withinTextDidChange = NO;
-}
-
+ 
 - (void)controlTextDidChange:(NSNotification *)aNotification
 {
     wxUnusedVar(aNotification);
@@ -71,10 +63,6 @@
 - (NSArray *)control:(NSControl *)control textView:(NSTextView *)textView completions:(NSArray *)words
  forPartialWordRange:(NSRange)charRange indexOfSelectedItem:(int*)index
 {
-    wxUnusedVar(control);
-    wxUnusedVar(words);
-    wxUnusedVar(index);
-
     NSMutableArray* matches = NULL;
     NSString*       partialString;
     
@@ -96,11 +84,6 @@
     return matches;
 }
 
-- (BOOL) isWithinTextDidChange
-{
-    return m_withinTextDidChange;
-}
-
 @end
 
 // ============================================================================
@@ -118,7 +101,7 @@ public :
     ~wxNSSearchFieldControl();
 
     // search field options
-    virtual void ShowSearchButton( bool show ) wxOVERRIDE
+    virtual void ShowSearchButton( bool show )
     {
         if ( show )
             [m_searchFieldCell resetSearchButtonCell];
@@ -127,12 +110,12 @@ public :
         [m_searchField setNeedsDisplay:YES];
     }
 
-    virtual bool IsSearchButtonVisible() const wxOVERRIDE
+    virtual bool IsSearchButtonVisible() const
     {
         return [m_searchFieldCell searchButtonCell] != nil;
     }
 
-    virtual void ShowCancelButton( bool show ) wxOVERRIDE
+    virtual void ShowCancelButton( bool show )
     {
         if ( show )
             [m_searchFieldCell resetCancelButtonCell];
@@ -141,12 +124,12 @@ public :
         [m_searchField setNeedsDisplay:YES];
     }
 
-    virtual bool IsCancelButtonVisible() const wxOVERRIDE
+    virtual bool IsCancelButtonVisible() const
     {
         return [m_searchFieldCell cancelButtonCell] != nil;
     }
 
-    virtual void SetSearchMenu( wxMenu* menu ) wxOVERRIDE
+    virtual void SetSearchMenu( wxMenu* menu )
     {
         if ( menu )
             [m_searchFieldCell setSearchMenuTemplate:menu->GetHMenu()];
@@ -155,18 +138,18 @@ public :
         [m_searchField setNeedsDisplay:YES];
     }
 
-    virtual void SetDescriptiveText(const wxString& text) wxOVERRIDE
+    virtual void SetDescriptiveText(const wxString& text)
     {
         [m_searchFieldCell setPlaceholderString:
             wxCFStringRef( text , m_wxPeer->GetFont().GetEncoding() ).AsNSString()];
     }
 
-    virtual bool SetFocus() wxOVERRIDE
+    virtual bool SetFocus()
     {
        return  wxNSTextFieldControl::SetFocus();
     }
 
-    void controlAction( WXWidget WXUNUSED(slf), void *WXUNUSED(_cmd), void *WXUNUSED(sender)) wxOVERRIDE
+    void controlAction( WXWidget WXUNUSED(slf), void *WXUNUSED(_cmd), void *WXUNUSED(sender))
     {
         wxSearchCtrl* wxpeer = (wxSearchCtrl*) GetWXPeer();
         if ( wxpeer )
@@ -174,8 +157,7 @@ public :
             NSString *searchString = [m_searchField stringValue];
             if ( searchString == nil || !searchString.length )
             {
-                if ( ![m_searchField isWithinTextDidChange])
-                   wxpeer->HandleSearchFieldCancelHit();
+                wxpeer->HandleSearchFieldCancelHit();
             }
             else
             {

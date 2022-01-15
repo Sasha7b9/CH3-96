@@ -28,7 +28,9 @@ wxFontEnumerator and wxFontMapper. wxFont encoding support is reflected by a
 
 @beginDefList
 @itemdef{wxFONTENCODING_SYSTEM,
-        The default encoding of the underlying operating system.}
+        The default encoding of the underlying
+        operating system (notice that this might be a "foreign" encoding for foreign
+        versions of Windows 9x/NT).}
 @itemdef{wxFONTENCODING_DEFAULT,
         The applications default encoding as returned by wxFont::GetDefaultEncoding.
         On program startup, the applications default encoding is the same as

@@ -75,7 +75,7 @@ private:
     wxString m_strParam;
 };
 
-wxIMPLEMENT_APP_CONSOLE(BenchApp);
+IMPLEMENT_APP_CONSOLE(BenchApp)
 
 // ============================================================================
 // Bench namespace symbols implementation

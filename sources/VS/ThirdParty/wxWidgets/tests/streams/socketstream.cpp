@@ -10,6 +10,9 @@
 // and "wx/cppunit.h"
 #include "testprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 // for all others, include the necessary headers
 #ifndef WX_PRECOMP
@@ -63,7 +66,7 @@ public:
     }
 
 protected:
-    virtual void *Entry() wxOVERRIDE
+    virtual void *Entry()
     {
         wxSocketServer srv(LocalAddress(m_port), wxSOCKET_REUSEADDR);
         CPPUNIT_ASSERT( srv.IsOk() );
@@ -89,7 +92,7 @@ protected:
     int m_port;
     void (*m_accept)(wxSocketBase&);
 
-    wxDECLARE_NO_COPY_CLASS(SocketServerThread);
+    DECLARE_NO_COPY_CLASS(SocketServerThread)
 };
 
 // The test case for socket streams
@@ -100,8 +103,8 @@ public:
     socketStream();
     virtual ~socketStream();
 
-    virtual void setUp() wxOVERRIDE;
-    virtual void tearDown() wxOVERRIDE;
+    virtual void setUp();
+    virtual void tearDown();
 
     // repeat all socket tests several times with different socket flags, so we
     // define this macro which is used several times in the test suite
@@ -134,9 +137,8 @@ public:
 
 private:
     // Implement base class functions.
-    virtual wxSocketInputStream  *DoCreateInStream() wxOVERRIDE;
-    virtual wxSocketOutputStream *DoCreateOutStream() wxOVERRIDE;
-    virtual void DoCheckInputStream(wxSocketInputStream& stream_in) wxOVERRIDE;
+    virtual wxSocketInputStream  *DoCreateInStream();
+    virtual wxSocketOutputStream *DoCreateOutStream();
 
     // socket thread functions
     static void WriteSocket(wxSocketBase& socket)
@@ -227,24 +229,6 @@ wxSocketOutputStream *socketStream::DoCreateOutStream()
     wxSocketOutputStream *pStrOutStream = new wxSocketOutputStream(*m_writeSocket);
     CPPUNIT_ASSERT(pStrOutStream->IsOk());
     return pStrOutStream;
-}
-
-void socketStream::DoCheckInputStream(wxSocketInputStream& stream_in)
-{
-    // This check sometimes fails in the AppVeyor CI environment for unknown
-    // reason, so just log it there but don't fail the entire test suite run.
-    if ( wxGetEnv("APPVEYOR", NULL) )
-    {
-        if ( !stream_in.IsOk() )
-        {
-            WARN("Socket input stream test failed.\n"
-                 << "Socket error = " << m_readSocket->Error()
-                 << ", last count = " << m_readSocket->LastCount());
-            return;
-        }
-    }
-
-    CPPUNIT_ASSERT(stream_in.IsOk());
 }
 
 // Register the stream sub suite, by using some stream helper macro.

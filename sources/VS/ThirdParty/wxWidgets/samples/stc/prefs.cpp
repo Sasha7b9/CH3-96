@@ -14,6 +14,9 @@
 // For compilers that support precompilation, includes "wx/wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 // for all others, include the necessary headers (this file is usually all you
 // need because it includes almost all 'standard' wxWidgets headers)
@@ -215,159 +218,159 @@ const int g_LanguagePrefsSize = WXSIZEOF(g_LanguagePrefs);
 //! style types
 const StyleInfo g_StylePrefs [] = {
     // mySTC_TYPE_DEFAULT
-    {"Default",
-     "BLACK", "WHITE",
-     "", 10, 0, 0},
+    {wxT("Default"),
+     wxT("BLACK"), wxT("WHITE"),
+     wxT(""), 10, 0, 0},
 
     // mySTC_TYPE_WORD1
-    {"Keyword1",
-     "BLUE", "WHITE",
-     "", 10, mySTC_STYLE_BOLD, 0},
+    {wxT("Keyword1"),
+     wxT("BLUE"), wxT("WHITE"),
+     wxT(""), 10, mySTC_STYLE_BOLD, 0},
 
     // mySTC_TYPE_WORD2
-    {"Keyword2",
-     "MIDNIGHT BLUE", "WHITE",
-     "", 10, 0, 0},
+    {wxT("Keyword2"),
+     wxT("MIDNIGHT BLUE"), wxT("WHITE"),
+     wxT(""), 10, 0, 0},
 
     // mySTC_TYPE_WORD3
-    {"Keyword3",
-     "CORNFLOWER BLUE", "WHITE",
-     "", 10, 0, 0},
+    {wxT("Keyword3"),
+     wxT("CORNFLOWER BLUE"), wxT("WHITE"),
+     wxT(""), 10, 0, 0},
 
     // mySTC_TYPE_WORD4
-    {"Keyword4",
-     "CYAN", "WHITE",
-     "", 10, 0, 0},
+    {wxT("Keyword4"),
+     wxT("CYAN"), wxT("WHITE"),
+     wxT(""), 10, 0, 0},
 
     // mySTC_TYPE_WORD5
-    {"Keyword5",
-     "DARK GREY", "WHITE",
-     "", 10, 0, 0},
+    {wxT("Keyword5"),
+     wxT("DARK GREY"), wxT("WHITE"),
+     wxT(""), 10, 0, 0},
 
     // mySTC_TYPE_WORD6
-    {"Keyword6",
-     "GREY", "WHITE",
-     "", 10, 0, 0},
+    {wxT("Keyword6"),
+     wxT("GREY"), wxT("WHITE"),
+     wxT(""), 10, 0, 0},
 
     // mySTC_TYPE_COMMENT
-    {"Comment",
-     "FOREST GREEN", "WHITE",
-     "", 10, 0, 0},
+    {wxT("Comment"),
+     wxT("FOREST GREEN"), wxT("WHITE"),
+     wxT(""), 10, 0, 0},
 
     // mySTC_TYPE_COMMENT_DOC
-    {"Comment (Doc)",
-     "FOREST GREEN", "WHITE",
-     "", 10, 0, 0},
+    {wxT("Comment (Doc)"),
+     wxT("FOREST GREEN"), wxT("WHITE"),
+     wxT(""), 10, 0, 0},
 
     // mySTC_TYPE_COMMENT_LINE
-    {"Comment line",
-     "FOREST GREEN", "WHITE",
-     "", 10, 0, 0},
+    {wxT("Comment line"),
+     wxT("FOREST GREEN"), wxT("WHITE"),
+     wxT(""), 10, 0, 0},
 
     // mySTC_TYPE_COMMENT_SPECIAL
-    {"Special comment",
-     "FOREST GREEN", "WHITE",
-     "", 10, mySTC_STYLE_ITALIC, 0},
+    {wxT("Special comment"),
+     wxT("FOREST GREEN"), wxT("WHITE"),
+     wxT(""), 10, mySTC_STYLE_ITALIC, 0},
 
     // mySTC_TYPE_CHARACTER
-    {"Character",
-     "KHAKI", "WHITE",
-     "", 10, 0, 0},
+    {wxT("Character"),
+     wxT("KHAKI"), wxT("WHITE"),
+     wxT(""), 10, 0, 0},
 
     // mySTC_TYPE_CHARACTER_EOL
-    {"Character (EOL)",
-     "KHAKI", "WHITE",
-     "", 10, 0, 0},
+    {wxT("Character (EOL)"),
+     wxT("KHAKI"), wxT("WHITE"),
+     wxT(""), 10, 0, 0},
 
     // mySTC_TYPE_STRING
-    {"String",
-     "BROWN", "WHITE",
-     "", 10, 0, 0},
+    {wxT("String"),
+     wxT("BROWN"), wxT("WHITE"),
+     wxT(""), 10, 0, 0},
 
     // mySTC_TYPE_STRING_EOL
-    {"String (EOL)",
-     "BROWN", "WHITE",
-     "", 10, 0, 0},
+    {wxT("String (EOL)"),
+     wxT("BROWN"), wxT("WHITE"),
+     wxT(""), 10, 0, 0},
 
     // mySTC_TYPE_DELIMITER
-    {"Delimiter",
-     "ORANGE", "WHITE",
-     "", 10, 0, 0},
+    {wxT("Delimiter"),
+     wxT("ORANGE"), wxT("WHITE"),
+     wxT(""), 10, 0, 0},
 
     // mySTC_TYPE_PUNCTUATION
-    {"Punctuation",
-     "ORANGE", "WHITE",
-     "", 10, 0, 0},
+    {wxT("Punctuation"),
+     wxT("ORANGE"), wxT("WHITE"),
+     wxT(""), 10, 0, 0},
 
     // mySTC_TYPE_OPERATOR
-    {"Operator",
-     "BLACK", "WHITE",
-     "", 10, mySTC_STYLE_BOLD, 0},
+    {wxT("Operator"),
+     wxT("BLACK"), wxT("WHITE"),
+     wxT(""), 10, mySTC_STYLE_BOLD, 0},
 
     // mySTC_TYPE_BRACE
-    {"Label",
-     "VIOLET", "WHITE",
-     "", 10, 0, 0},
+    {wxT("Label"),
+     wxT("VIOLET"), wxT("WHITE"),
+     wxT(""), 10, 0, 0},
 
     // mySTC_TYPE_COMMAND
-    {"Command",
-     "BLUE", "WHITE",
-     "", 10, 0, 0},
+    {wxT("Command"),
+     wxT("BLUE"), wxT("WHITE"),
+     wxT(""), 10, 0, 0},
 
     // mySTC_TYPE_IDENTIFIER
-    {"Identifier",
-     "BLACK", "WHITE",
-     "", 10, 0, 0},
+    {wxT("Identifier"),
+     wxT("BLACK"), wxT("WHITE"),
+     wxT(""), 10, 0, 0},
 
     // mySTC_TYPE_LABEL
-    {"Label",
-     "VIOLET", "WHITE",
-     "", 10, 0, 0},
+    {wxT("Label"),
+     wxT("VIOLET"), wxT("WHITE"),
+     wxT(""), 10, 0, 0},
 
     // mySTC_TYPE_NUMBER
-    {"Number",
-     "SIENNA", "WHITE",
-     "", 10, 0, 0},
+    {wxT("Number"),
+     wxT("SIENNA"), wxT("WHITE"),
+     wxT(""), 10, 0, 0},
 
     // mySTC_TYPE_PARAMETER
-    {"Parameter",
-     "VIOLET", "WHITE",
-     "", 10, mySTC_STYLE_ITALIC, 0},
+    {wxT("Parameter"),
+     wxT("VIOLET"), wxT("WHITE"),
+     wxT(""), 10, mySTC_STYLE_ITALIC, 0},
 
     // mySTC_TYPE_REGEX
-    {"Regular expression",
-     "ORCHID", "WHITE",
-     "", 10, 0, 0},
+    {wxT("Regular expression"),
+     wxT("ORCHID"), wxT("WHITE"),
+     wxT(""), 10, 0, 0},
 
     // mySTC_TYPE_UUID
-    {"UUID",
-     "ORCHID", "WHITE",
-     "", 10, 0, 0},
+    {wxT("UUID"),
+     wxT("ORCHID"), wxT("WHITE"),
+     wxT(""), 10, 0, 0},
 
     // mySTC_TYPE_VALUE
-    {"Value",
-     "ORCHID", "WHITE",
-     "", 10, mySTC_STYLE_ITALIC, 0},
+    {wxT("Value"),
+     wxT("ORCHID"), wxT("WHITE"),
+     wxT(""), 10, mySTC_STYLE_ITALIC, 0},
 
     // mySTC_TYPE_PREPROCESSOR
-    {"Preprocessor",
-     "GREY", "WHITE",
-     "", 10, 0, 0},
+    {wxT("Preprocessor"),
+     wxT("GREY"), wxT("WHITE"),
+     wxT(""), 10, 0, 0},
 
     // mySTC_TYPE_SCRIPT
-    {"Script",
-     "DARK GREY", "WHITE",
-     "", 10, 0, 0},
+    {wxT("Script"),
+     wxT("DARK GREY"), wxT("WHITE"),
+     wxT(""), 10, 0, 0},
 
     // mySTC_TYPE_ERROR
-    {"Error",
-     "RED", "WHITE",
-     "", 10, 0, 0},
+    {wxT("Error"),
+     wxT("RED"), wxT("WHITE"),
+     wxT(""), 10, 0, 0},
 
     // mySTC_TYPE_UNDEFINED
-    {"Undefined",
-     "ORANGE", "WHITE",
-     "", 10, 0, 0}
+    {wxT("Undefined"),
+     wxT("ORANGE"), wxT("WHITE"),
+     wxT(""), 10, 0, 0}
 
     };
 

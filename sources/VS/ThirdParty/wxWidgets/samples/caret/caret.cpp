@@ -11,6 +11,9 @@
 // For compilers that support precompilation, includes "wx/wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 // for all others, include the necessary headers (this file is usually all you
 // need because it includes almost all <standard< wxWidgets headers
@@ -45,7 +48,7 @@ public:
     // this one is called on application startup and is a good place for the app
     // initialization (doing it here and not in the ctor allows to have an error
     // return: if OnInit() returns false, the application terminates)
-    virtual bool OnInit() wxOVERRIDE;
+    virtual bool OnInit();
 };
 
 // MyCanvas is a canvas on which you can type
@@ -166,7 +169,7 @@ wxEND_EVENT_TABLE()
 // static object for many reasons) and also declares the accessor function
 // wxGetApp() which will return the reference of the right type (i.e. MyApp and
 // not wxApp)
-wxIMPLEMENT_APP(MyApp);
+IMPLEMENT_APP(MyApp)
 
 // ============================================================================
 // implementation
@@ -183,7 +186,7 @@ bool MyApp::OnInit()
         return false;
 
     // create and show the main application window
-    MyFrame *frame = new MyFrame("Caret wxWidgets sample",
+    MyFrame *frame = new MyFrame(wxT("Caret wxWidgets sample"),
                                  wxPoint(50, 50), wxSize(450, 340));
 
     frame->Show(true);
@@ -208,17 +211,17 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
     // create a menu bar
     wxMenu *menuFile = new wxMenu;
 
-    menuFile->Append(Caret_SetBlinkTime, "&Blink time...\tCtrl-B");
-    menuFile->Append(Caret_SetFontSize, "&Font size...\tCtrl-S");
-    menuFile->Append(Caret_Move, "&Move caret\tCtrl-C");
+    menuFile->Append(Caret_SetBlinkTime, wxT("&Blink time...\tCtrl-B"));
+    menuFile->Append(Caret_SetFontSize, wxT("&Font size...\tCtrl-S"));
+    menuFile->Append(Caret_Move, wxT("&Move caret\tCtrl-C"));
     menuFile->AppendSeparator();
-    menuFile->Append(Caret_About, "&About\tCtrl-A", "Show about dialog");
+    menuFile->Append(Caret_About, wxT("&About\tCtrl-A"), wxT("Show about dialog"));
     menuFile->AppendSeparator();
-    menuFile->Append(Caret_Quit, "E&xit\tAlt-X", "Quit this program");
+    menuFile->Append(Caret_Quit, wxT("E&xit\tAlt-X"), wxT("Quit this program"));
 
     // now append the freshly created menu to the menu bar...
     wxMenuBar *menuBar = new wxMenuBar;
-    menuBar->Append(menuFile, "&File");
+    menuBar->Append(menuFile, wxT("&File"));
 
     // ... and attach this menu bar to the frame
     SetMenuBar(menuBar);
@@ -228,7 +231,7 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
 #if wxUSE_STATUSBAR
     // create a status bar just for fun (by default with 1 pane only)
     CreateStatusBar(2);
-    SetStatusText("Welcome to wxWidgets!");
+    SetStatusText(wxT("Welcome to wxWidgets!"));
 #endif // wxUSE_STATUSBAR
 }
 
@@ -243,8 +246,8 @@ void MyFrame::OnQuit(wxCommandEvent& WXUNUSED(event))
 
 void MyFrame::OnAbout(wxCommandEvent& WXUNUSED(event))
 {
-    wxMessageBox("The caret wxWidgets sample.\n(c) 1999 Vadim Zeitlin",
-                 "About Caret", wxOK | wxICON_INFORMATION, this);
+    wxMessageBox(wxT("The caret wxWidgets sample.\n(c) 1999 Vadim Zeitlin"),
+                 wxT("About Caret"), wxOK | wxICON_INFORMATION, this);
 }
 
 void MyFrame::OnCaretMove(wxCommandEvent& WXUNUSED(event))
@@ -256,9 +259,9 @@ void MyFrame::OnSetBlinkTime(wxCommandEvent& WXUNUSED(event))
 {
     long blinkTime = wxGetNumberFromUser
                      (
-                      "The caret blink time is the time between two blinks",
-                      "Time in milliseconds:",
-                      "wxCaret sample",
+                      wxT("The caret blink time is the time between two blinks"),
+                      wxT("Time in milliseconds:"),
+                      wxT("wxCaret sample"),
                       wxCaret::GetBlinkTime(), 0, 10000,
                       this
                      );
@@ -266,7 +269,7 @@ void MyFrame::OnSetBlinkTime(wxCommandEvent& WXUNUSED(event))
     {
         wxCaret::SetBlinkTime((int)blinkTime);
         m_canvas->CreateCaret();
-        wxLogStatus(this, "Blink time set to %ld milliseconds.", blinkTime);
+        wxLogStatus(this, wxT("Blink time set to %ld milliseconds."), blinkTime);
     }
 }
 
@@ -274,9 +277,9 @@ void MyFrame::OnSetFontSize(wxCommandEvent& WXUNUSED(event))
 {
     long fontSize = wxGetNumberFromUser
                     (
-                        "The font size also determines the caret size so\nthis demonstrates resizing the caret.",
-                        "Font size (in points):",
-                        "wxCaret sample",
+                        wxT("The font size also determines the caret size so\nthis demonstrates resizing the caret."),
+                        wxT("Font size (in points):"),
+                        wxT("wxCaret sample"),
                         12, 1, 100,
                         this
                     );
@@ -291,7 +294,7 @@ void MyFrame::OnSetFontSize(wxCommandEvent& WXUNUSED(event))
 // MyCanvas
 // ----------------------------------------------------------------------------
 
-wxIMPLEMENT_DYNAMIC_CLASS(MyCanvas, wxScrolledWindow);
+IMPLEMENT_DYNAMIC_CLASS(MyCanvas, wxScrolledWindow)
 
 wxBEGIN_EVENT_TABLE(MyCanvas, wxScrolledWindow)
     EVT_PAINT(MyCanvas::OnPaint)
@@ -334,7 +337,8 @@ void MyCanvas::CreateCaret()
 
 void MyCanvas::SetFontSize(int fontSize)
 {
-    m_font = wxFont(wxFontInfo(fontSize).Family(wxFONTFAMILY_TELETYPE));
+    m_font = wxFont(fontSize, wxFONTFAMILY_TELETYPE,
+                    wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 
     wxClientDC dc(this);
     dc.SetFont(m_font);
@@ -360,7 +364,7 @@ void MyCanvas::MoveCaret(int x, int y)
 
 void MyCanvas::DoMoveCaret()
 {
-    wxLogStatus("Caret is at (%d, %d)", m_xCaret, m_yCaret);
+    wxLogStatus(wxT("Caret is at (%d, %d)"), m_xCaret, m_yCaret);
 
     GetCaret()->Move(m_xMargin + m_xCaret * m_widthChar,
                      m_yMargin + m_yCaret * m_heightChar);
@@ -392,7 +396,7 @@ void MyCanvas::ChangeSize()
     if ( frame && frame->GetStatusBar() )
     {
         wxString msg;
-        msg.Printf("Panel size is (%d, %d)", m_xChars, m_yChars);
+        msg.Printf(wxT("Panel size is (%d, %d)"), m_xChars, m_yChars);
         frame->SetStatusText(msg, 1);
     }
 #endif // wxUSE_STATUSBAR
@@ -419,7 +423,7 @@ void MyCanvas::OnPaint( wxPaintEvent &WXUNUSED(event) )
         {
             wxChar ch = CharAt(x, y);
             if ( !ch )
-                ch = ' ';
+                ch = wxT(' ');
 #ifdef __WXOSX__
             dc.DrawText(ch, m_xMargin + x * m_widthChar,
                         m_yMargin + y * m_heightChar );
@@ -476,7 +480,7 @@ void MyCanvas::OnChar( wxKeyEvent &event )
                 wxCaretSuspend cs(this);
                 wxClientDC dc(this);
                 dc.SetFont(m_font);
-                dc.SetBackgroundMode(wxBRUSHSTYLE_SOLID); // overwrite old value
+                dc.SetBackgroundMode(wxSOLID); // overwrite old value
                 dc.DrawText(ch, m_xMargin + m_xCaret * m_widthChar,
                                 m_yMargin + m_yCaret * m_heightChar );
 

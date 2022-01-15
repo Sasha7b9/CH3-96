@@ -12,6 +12,9 @@
 
 #include "testprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #ifndef WX_PRECOMP
 #endif // WX_PRECOMP
@@ -59,7 +62,7 @@ private:
             m_operateOn(operateOn), m_testType(testType) {}
 
         // thread execution starts here
-        virtual void *Entry() wxOVERRIDE;
+        virtual void *Entry();
 
     public:
         wxAtomicInt &m_operateOn;
@@ -83,7 +86,7 @@ private:
     void TestTwoThreadsSeparate() { TestWithThreads(2, IncOnly); }
     void TestWithThreads(int count, ETestType testtype);
 
-    wxDECLARE_NO_COPY_CLASS(AtomicTestCase);
+    DECLARE_NO_COPY_CLASS(AtomicTestCase)
 };
 
 // register in the unnamed registry so that these tests are run by default
@@ -143,7 +146,6 @@ void AtomicTestCase::TestWithThreads(int count, ETestType testType)
         if ( thread->Create() != wxTHREAD_NO_ERROR )
         {
             wxLogError(wxT("Can't create thread!"));
-            delete thread;
         }
         else
             threads.Add(thread);
@@ -159,7 +161,6 @@ void AtomicTestCase::TestWithThreads(int count, ETestType testType)
     {
         // each thread should return 0, else it detected some problem
         CPPUNIT_ASSERT (threads[i]->Wait() == (wxThread::ExitCode)0);
-        delete threads[i];
     }
 
     CPPUNIT_ASSERT( int1 == 0 );

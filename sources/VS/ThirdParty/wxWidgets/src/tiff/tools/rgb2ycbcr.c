@@ -1,3 +1,4 @@
+
 /*
  * Copyright (c) 1991-1997 Sam Leffler
  * Copyright (c) 1991-1997 Silicon Graphics, Inc.
@@ -39,13 +40,6 @@
 #include "tiffiop.h"
 #include "tiffio.h"
 
-#ifndef EXIT_SUCCESS
-#define EXIT_SUCCESS 0
-#endif
-#ifndef EXIT_FAILURE
-#define EXIT_FAILURE 1
-#endif
-
 #define	streq(a,b)	(strcmp(a,b) == 0)
 #define	CopyField(tag, v) \
     if (TIFFGetField(in, tag, &v)) TIFFSetField(out, tag, v)
@@ -77,10 +71,8 @@ main(int argc, char* argv[])
 {
 	TIFF *in, *out;
 	int c;
-#if !HAVE_DECL_OPTARG
 	extern int optind;
 	extern char *optarg;
-#endif
 
 	while ((c = getopt(argc, argv, "c:h:r:v:z")) != -1)
 		switch (c) {
@@ -96,17 +88,13 @@ main(int argc, char* argv[])
 			else if (streq(optarg, "zip"))
 			    compression = COMPRESSION_ADOBE_DEFLATE;
 			else
-			    usage(EXIT_FAILURE);
+			    usage(-1);
 			break;
 		case 'h':
 			horizSubSampling = atoi(optarg);
-            if( horizSubSampling != 1 && horizSubSampling != 2 && horizSubSampling != 4 )
-                usage(EXIT_FAILURE);
 			break;
 		case 'v':
 			vertSubSampling = atoi(optarg);
-            if( vertSubSampling != 1 && vertSubSampling != 2 && vertSubSampling != 4 )
-                usage(EXIT_FAILURE);
 			break;
 		case 'r':
 			rowsperstrip = atoi(optarg);
@@ -120,14 +108,14 @@ main(int argc, char* argv[])
 			refBlackWhite[5] = 240.;
 			break;
 		case '?':
-			usage(EXIT_FAILURE);
+			usage(0);
 			/*NOTREACHED*/
 		}
 	if (argc - optind < 2)
-		usage(EXIT_FAILURE);
+		usage(-1);
 	out = TIFFOpen(argv[argc-1], "w");
 	if (out == NULL)
-		return (EXIT_FAILURE);
+		return (-2);
 	setupLumaTables();
 	for (; optind < argc-1; optind++) {
 		in = TIFFOpen(argv[optind], "r");
@@ -136,7 +124,6 @@ main(int argc, char* argv[])
 				if (!tiffcvt(in, out) ||
 				    !TIFFWriteDirectory(out)) {
 					(void) TIFFClose(out);
-					(void) TIFFClose(in);
 					return (1);
 				}
 			} while (TIFFReadDirectory(in));
@@ -144,7 +131,7 @@ main(int argc, char* argv[])
 		}
 	}
 	(void) TIFFClose(out);
-	return (EXIT_SUCCESS);
+	return (0);
 }
 
 float	*lumaRed;
@@ -344,8 +331,7 @@ tiffcvt(TIFF* in, TIFF* out)
 	TIFFSetField(out, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
 	{ char buf[2048];
 	  char *cp = strrchr(TIFFFileName(in), '/');
-	  snprintf(buf, sizeof(buf), "YCbCr conversion of %s",
-		   cp ? cp+1 : TIFFFileName(in));
+	  sprintf(buf, "YCbCr conversion of %s", cp ? cp+1 : TIFFFileName(in));
 	  TIFFSetField(out, TIFFTAG_IMAGEDESCRIPTION, buf);
 	}
 	TIFFSetField(out, TIFFTAG_SOFTWARE, TIFFGetVersion());
@@ -364,7 +350,7 @@ tiffcvt(TIFF* in, TIFF* out)
         return result;
 }
 
-const char* stuff[] = {
+char* stuff[] = {
     "usage: rgb2ycbcr [-c comp] [-r rows] [-h N] [-v N] input... output\n",
     "where comp is one of the following compression algorithms:\n",
     " jpeg\t\tJPEG encoding\n",
@@ -382,12 +368,14 @@ const char* stuff[] = {
 static void
 usage(int code)
 {
+	char buf[BUFSIZ];
 	int i;
-	FILE * out = (code == EXIT_SUCCESS) ? stdout : stderr;
 
-	fprintf(out, "%s\n\n", TIFFGetVersion());
+	setbuf(stderr, buf);
+       
+ fprintf(stderr, "%s\n\n", TIFFGetVersion());
 	for (i = 0; stuff[i] != NULL; i++)
-		fprintf(out, "%s\n", stuff[i]);
+		fprintf(stderr, "%s\n", stuff[i]);
 	exit(code);
 }
 

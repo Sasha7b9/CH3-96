@@ -17,6 +17,9 @@
 
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #include "my_dll.h"
 
@@ -55,8 +58,8 @@ public:
 class MainApp : public wxApp
 {
 public:
-    virtual bool OnInit() wxOVERRIDE;
-    virtual int OnExit() wxOVERRIDE;
+    virtual bool OnInit();
+    virtual int OnExit();
 };
 
 
@@ -137,4 +140,4 @@ int MainApp::OnExit()
 }
 
 
-wxIMPLEMENT_APP(MainApp);
+IMPLEMENT_APP(MainApp)

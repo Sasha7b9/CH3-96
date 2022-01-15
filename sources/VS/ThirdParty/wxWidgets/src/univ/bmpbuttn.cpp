@@ -18,6 +18,9 @@
 
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #if wxUSE_BMPBUTTON
 
@@ -34,10 +37,10 @@
 // implementation
 // ============================================================================
 
-wxBEGIN_EVENT_TABLE(wxBitmapButton, wxButton)
+BEGIN_EVENT_TABLE(wxBitmapButton, wxButton)
     EVT_SET_FOCUS(wxBitmapButton::OnSetFocus)
     EVT_KILL_FOCUS(wxBitmapButton::OnKillFocus)
-wxEND_EVENT_TABLE()
+END_EVENT_TABLE()
 
 // ----------------------------------------------------------------------------
 // wxBitmapButton
@@ -91,7 +94,6 @@ bool wxBitmapButton::ChangeBitmap(const wxBitmap& bmp)
         return false;
 
     m_bitmap = bitmap;
-    SetInitialSize(bitmap.GetSize());
 
     return true;
 }

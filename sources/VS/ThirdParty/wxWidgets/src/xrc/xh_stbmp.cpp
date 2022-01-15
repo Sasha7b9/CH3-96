@@ -10,6 +10,9 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #if wxUSE_XRC && wxUSE_STATBMP
 
@@ -19,7 +22,7 @@
     #include "wx/statbmp.h"
 #endif
 
-wxIMPLEMENT_DYNAMIC_CLASS(wxStaticBitmapXmlHandler, wxXmlResourceHandler);
+IMPLEMENT_DYNAMIC_CLASS(wxStaticBitmapXmlHandler, wxXmlResourceHandler)
 
 wxStaticBitmapXmlHandler::wxStaticBitmapXmlHandler()
                          :wxXmlResourceHandler()

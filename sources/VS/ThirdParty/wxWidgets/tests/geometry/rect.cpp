@@ -12,6 +12,9 @@
 
 #include "testprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #ifndef WX_PRECOMP
     #include "wx/gdicmn.h"
@@ -19,7 +22,18 @@
 
 #include "wx/iosfwrap.h"
 
-#include "asserthelper.h"
+// ----------------------------------------------------------------------------
+// helper functions
+// ----------------------------------------------------------------------------
+
+// this operator is needed to use CPPUNIT_ASSERT_EQUAL with wxRects
+std::ostream& operator<<(std::ostream& os, const wxRect& r)
+{
+    os << "{"
+        << r.x << ", " << r.y << ", " << r.width << ", " << r.height
+       << "}";
+    return os;
+}
 
 // ----------------------------------------------------------------------------
 // test class
@@ -43,7 +57,7 @@ private:
     void Operators();
     void Union();
 
-    wxDECLARE_NO_COPY_CLASS(RectTestCase);
+    DECLARE_NO_COPY_CLASS(RectTestCase)
 };
 
 // register in the unnamed registry so that these tests are run by default

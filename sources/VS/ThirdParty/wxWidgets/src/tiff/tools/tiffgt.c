@@ -1,3 +1,4 @@
+
 /*
  * Copyright (c) 1988-1997 Sam Leffler
  * Copyright (c) 1991-1997 Silicon Graphics, Inc.
@@ -27,36 +28,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#if HAVE_UNISTD_H
 #include <unistd.h>
-#endif
 
-#ifdef HAVE_OPENGL_GL_H
+#if HAVE_APPLE_OPENGL_FRAMEWORK
 # include <OpenGL/gl.h>
-#else
-# ifdef _WIN32
-#  include <windows.h>
-# endif
-# include <GL/gl.h>
-#endif
-#ifdef HAVE_GLUT_GLUT_H
 # include <GLUT/glut.h>
 #else
+# include <GL/gl.h>
 # include <GL/glut.h>
 #endif
 
 #include "tiffio.h"
 #include "tiffiop.h"
 
-#ifndef EXIT_SUCCESS
-#define EXIT_SUCCESS 0
-#endif
-#ifndef EXIT_FAILURE
-#define EXIT_FAILURE 1
-#endif
-
 #ifndef HAVE_GETOPT
-extern int getopt(int argc, char * const argv[], const char *optstring);
+extern int getopt(int, char**, char*);
 #endif
 
 static  uint32  width = 0, height = 0;          /* window width & height */
@@ -75,29 +61,20 @@ static int      filenum;
 static TIFFErrorHandler oerror;
 static TIFFErrorHandler owarning;
 
-static void	cleanup_and_exit(int);
+static void	cleanup_and_exit(void);
 static int	initImage(void);
 static int	prevImage(void);
 static int	nextImage(void);
 static void	setWindowSize(void);
-static void	usage(int);
+static void	usage(void);
 static uint16	photoArg(const char*);
 static void	raster_draw(void);
 static void	raster_reshape(int, int);
 static void	raster_keys(unsigned char, int, int);
 static void	raster_special(int, int, int);
 
-#if !HAVE_DECL_OPTARG
 extern  char* optarg;
 extern  int optind;
-#endif
-
-/* GLUT framework on MacOS X produces deprecation warnings */
-# if defined(__GNUC__) && defined(__APPLE__)
-#  pragma GCC diagnostic push
-#  pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-# endif
-
 static TIFF* tif = NULL;
 
 int
@@ -109,7 +86,7 @@ main(int argc, char* argv[])
 
         oerror = TIFFSetErrorHandler(NULL);
         owarning = TIFFSetWarningHandler(NULL);
-        while ((c = getopt(argc, argv, "d:o:p:eflmsvwh")) != -1)
+        while ((c = getopt(argc, argv, "d:o:p:eflmsvw?")) != -1)
             switch (c) {
             case 'd':
                 dirnum = atoi(optarg);
@@ -138,16 +115,13 @@ main(int argc, char* argv[])
             case 'v':
                 verbose = 1;
                 break;
-            case 'h':
-                usage(EXIT_SUCCESS);
-                /*NOTREACHED*/
             case '?':
-                usage(EXIT_FAILURE);
+                usage();
                 /*NOTREACHED*/
             }
         filenum = argc - optind;
         if ( filenum < 1)
-                usage(EXIT_FAILURE);
+                usage();
 
         glutInit(&argc, argv);
         glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
@@ -167,13 +141,13 @@ main(int argc, char* argv[])
         filelist = (char **) _TIFFmalloc(filenum * sizeof(char*));
         if (!filelist) {
                 TIFFError(argv[0], "Can not allocate space for the file list.");
-                return EXIT_FAILURE;
+                return 1;
         }
         _TIFFmemcpy(filelist, argv + optind, filenum * sizeof(char*));
         fileindex = -1;
         if (nextImage() < 0) {
                 _TIFFfree(filelist);
-                return EXIT_FAILURE;
+                return 2;
         }
         /*
          * Set initial directory if user-specified
@@ -187,7 +161,7 @@ main(int argc, char* argv[])
         photo = photo0;
 	if (initImage() < 0){
                 _TIFFfree(filelist);
-                return EXIT_FAILURE;
+                return 3;
         }
         /*
          * Create a new window or reconfigure an existing
@@ -203,12 +177,12 @@ main(int argc, char* argv[])
         glutSpecialFunc(raster_special);
         glutMainLoop();
 
-        cleanup_and_exit(EXIT_SUCCESS);
-        return EXIT_SUCCESS;
+        cleanup_and_exit();
+        return 0;
 }
 
 static void 
-cleanup_and_exit(int code)
+cleanup_and_exit(void)
 {
         TIFFRGBAImageEnd(&img);
         if (filelist != NULL)
@@ -217,7 +191,7 @@ cleanup_and_exit(int code)
                 _TIFFfree(raster);
         if (tif != NULL)
                 TIFFClose(tif);
-        exit(code);
+        exit(0);
 }
 
 static int
@@ -260,7 +234,7 @@ initImage(void)
 		if (raster == NULL) {
 			width = height = 0;
 			TIFFError(filelist[fileindex], "No space for raster buffer");
-			cleanup_and_exit(EXIT_FAILURE);
+			cleanup_and_exit();
 		}
 		width = w;
 		height = h;
@@ -312,7 +286,6 @@ static void
 raster_draw(void)
 {
   glDrawPixels(img.width, img.height, GL_RGBA, GL_UNSIGNED_BYTE, (const GLvoid *) raster);
-  glFlush();
 }
 
 static void
@@ -332,8 +305,6 @@ raster_reshape(int win_w, int win_h)
 static void
 raster_keys(unsigned char key, int x, int y)
 {
-        (void) x;
-        (void) y;
         switch (key) {
                 case 'b':                       /* photometric MinIsBlack */
                     photo = PHOTOMETRIC_MINISBLACK;
@@ -371,7 +342,7 @@ raster_keys(unsigned char key, int x, int y)
                     break;
                 case 'q':                       /* exit */
                 case '\033':
-                    cleanup_and_exit(EXIT_SUCCESS);
+                    cleanup_and_exit();
         }
         glutPostRedisplay();
 }
@@ -379,8 +350,6 @@ raster_keys(unsigned char key, int x, int y)
 static void
 raster_special(int key, int x, int y)
 {
-        (void) x;
-        (void) y;
         switch (key) {
                 case GLUT_KEY_PAGE_UP:          /* previous logical image */
                     if (TIFFCurrentDirectory(tif) > 0) {
@@ -427,12 +396,9 @@ raster_special(int key, int x, int y)
         glutPostRedisplay();
 }
 
-/* GLUT framework on MacOS X produces deprecation warnings */
-# if defined(__GNUC__) && defined(__APPLE__)
-#  pragma GCC diagnostic pop
-# endif
 
-static const char* stuff[] = {
+
+char* stuff[] = {
 "usage: tiffgt [options] file.tif",
 "where options are:",
 " -c            use colormap visual",
@@ -450,15 +416,16 @@ NULL
 };
 
 static void
-usage(int code)
+usage(void)
 {
+        char buf[BUFSIZ];
         int i;
-        FILE * out = (code == EXIT_SUCCESS) ? stdout : stderr;
 
-        fprintf(out, "%s\n\n", TIFFGetVersion());
+        setbuf(stderr, buf);
+                fprintf(stderr, "%s\n\n", TIFFGetVersion());
         for (i = 0; stuff[i] != NULL; i++)
-                fprintf(out, "%s\n", stuff[i]);
-        exit(code);
+                fprintf(stderr, "%s\n", stuff[i]);
+        exit(-1);
 }
 
 static uint16

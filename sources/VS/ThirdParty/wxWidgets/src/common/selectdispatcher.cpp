@@ -18,6 +18,9 @@
 // for compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #if wxUSE_SELECT_DISPATCHER
 
@@ -75,7 +78,7 @@ bool wxSelectSets::HasFD(int fd) const
 {
     for ( int n = 0; n < Max; n++ )
     {
-        if ( wxFD_ISSET(fd, const_cast<fd_set*>(&m_fds[n])) )
+        if ( wxFD_ISSET(fd, (fd_set*) &m_fds[n]) )
             return true;
     }
 
@@ -110,7 +113,7 @@ bool wxSelectSets::Handle(int fd, wxFDIOHandler& handler) const
 {
     for ( int n = 0; n < Max; n++ )
     {
-        if ( wxFD_ISSET(fd, const_cast<fd_set*>(&m_fds[n])) )
+        if ( wxFD_ISSET(fd, (fd_set*) &m_fds[n]) )
         {
             wxLogTrace(wxSelectDispatcher_Trace,
                        wxT("Got %s event on fd %d"), ms_names[n], fd);
@@ -130,8 +133,6 @@ bool wxSelectSets::Handle(int fd, wxFDIOHandler& handler) const
 
 bool wxSelectDispatcher::RegisterFD(int fd, wxFDIOHandler *handler, int flags)
 {
-    wxCRIT_SECT_LOCKER(lock, m_cs);
-
     if ( !wxMappedFDIODispatcher::RegisterFD(fd, handler, flags) )
         return false;
 
@@ -148,8 +149,6 @@ bool wxSelectDispatcher::RegisterFD(int fd, wxFDIOHandler *handler, int flags)
 
 bool wxSelectDispatcher::ModifyFD(int fd, wxFDIOHandler *handler, int flags)
 {
-    wxCRIT_SECT_LOCKER(lock, m_cs);
-
     if ( !wxMappedFDIODispatcher::ModifyFD(fd, handler, flags) )
         return false;
 
@@ -162,8 +161,6 @@ bool wxSelectDispatcher::ModifyFD(int fd, wxFDIOHandler *handler, int flags)
 
 bool wxSelectDispatcher::UnregisterFD(int fd)
 {
-    wxCRIT_SECT_LOCKER(lock, m_cs);
-
     m_sets.ClearFD(fd);
 
     if ( !wxMappedFDIODispatcher::UnregisterFD(fd) )

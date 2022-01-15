@@ -19,6 +19,9 @@
 // For compilers that support precompilation, includes "wx/wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 // for all others, include the necessary headers
 #ifndef WX_PRECOMP
@@ -74,7 +77,7 @@ public:
     // this one is called on application startup and is a good place for the app
     // initialization (doing it here and not in the ctor allows to have an error
     // return: if OnInit() returns false, the application terminates)
-    virtual bool OnInit() wxOVERRIDE;
+    virtual bool OnInit();
 };
 
 
@@ -138,6 +141,7 @@ public:
 
 private:
     // event handlers (these functions should _not_ be virtual)
+    void OnDoubleClick(wxMouseEvent& evt);
     void OnPaint(wxPaintEvent& evt);
 
     // any class wishing to process wxWidgets events must use this macro
@@ -168,7 +172,7 @@ public:
 
         ShowWithEffect(m_effect, m_timeout);
 
-        Bind(wxEVT_CLOSE_WINDOW, &EffectFrame::OnClose, this);
+        Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(EffectFrame::OnClose));
     }
 
 private:
@@ -213,7 +217,7 @@ private:
 // the application class
 // ----------------------------------------------------------------------------
 
-wxIMPLEMENT_APP(MyApp);
+IMPLEMENT_APP(MyApp)
 
 // `Main program' equivalent: the program execution "starts" here
 bool MyApp::OnInit()
@@ -274,17 +278,14 @@ void MainFrame::OnShowShaped(wxCommandEvent& WXUNUSED(event))
 
 void MainFrame::OnShowTransparent(wxCommandEvent& WXUNUSED(event))
 {
-    wxString reason;
-    if (IsTransparentBackgroundSupported(&reason))
+    if (IsTransparentBackgroundSupported())
     {
         SeeThroughFrame *seeThroughFrame = new SeeThroughFrame;
         seeThroughFrame->Create();
         seeThroughFrame->Show(true);
     }
     else
-    {
-        wxLogError("%s, can't create transparent window.", reason);
-    }
+        wxMessageBox(wxS("transparent window requires a composited screen"));
 }
 
 void MainFrame::OnShowEffect(wxCommandEvent& event)
@@ -386,9 +387,9 @@ ShapedFrame::ShapedFrame(wxFrame *parent)
             )
 {
     m_shapeKind = Shape_Star;
-    m_bmp = wxBitmap("star.png", wxBITMAP_TYPE_PNG);
+    m_bmp = wxBitmap(wxT("star.png"), wxBITMAP_TYPE_PNG);
     SetSize(wxSize(m_bmp.GetWidth(), m_bmp.GetHeight()));
-    SetToolTip("Right-click to close, double click to cycle shape");
+    SetToolTip(wxT("Right-click to close, double click to cycle shape"));
     SetWindowShape();
 }
 
@@ -471,13 +472,14 @@ void ShapedFrame::OnPaint(wxPaintEvent& WXUNUSED(evt))
 // ----------------------------------------------------------------------------
 
 wxBEGIN_EVENT_TABLE(SeeThroughFrame, wxFrame)
+    EVT_LEFT_DCLICK(SeeThroughFrame::OnDoubleClick)
     EVT_PAINT(SeeThroughFrame::OnPaint)
 wxEND_EVENT_TABLE()
 
 void SeeThroughFrame::Create()
 {
     SetBackgroundStyle(wxBG_STYLE_TRANSPARENT);
-    wxFrame::Create(NULL, wxID_ANY, "Transparency test",
+    wxFrame::Create(NULL, wxID_ANY, "Transparency test: double click here",
            wxPoint(100, 30), wxSize(300, 300),
            wxDEFAULT_FRAME_STYLE |
            wxFULL_REPAINT_ON_RESIZE |
@@ -494,15 +496,15 @@ void SeeThroughFrame::OnPaint(wxPaintEvent& WXUNUSED(evt))
     int xcount = 8;
     int ycount = 8;
 
-    double xstep = 1.0 / xcount;
-    double ystep = 1.0 / ycount;
+    float xstep = 1. / xcount;
+    float ystep = 1. / ycount;
 
     int width = GetClientSize().GetWidth();
     int height = GetClientSize().GetHeight();
 
-    for ( double x = 0; x < 1; x += xstep )
+    for ( float x = 0.; x < 1.; x += xstep )
     {
-        for ( double y = 0; y < 1; y += ystep )
+        for ( float y = 0.; y < 1.; y += ystep )
         {
             wxImage::RGBValue v = wxImage::HSVtoRGB(wxImage::HSVValue(x, 1., 1.));
             dc.SetBrush(wxBrush(wxColour(v.red, v.green, v.blue,
@@ -515,3 +517,13 @@ void SeeThroughFrame::OnPaint(wxPaintEvent& WXUNUSED(evt))
         }
     }
 }
+
+void SeeThroughFrame::OnDoubleClick(wxMouseEvent& WXUNUSED(evt))
+{
+    SetBackgroundStyle(wxBG_STYLE_PAINT);
+    SetTransparent(255);
+    SetTitle("Opaque");
+
+    Refresh();
+}
+

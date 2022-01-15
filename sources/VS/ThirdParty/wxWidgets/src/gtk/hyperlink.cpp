@@ -18,15 +18,18 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #if wxUSE_HYPERLINKCTRL && defined(__WXGTK210__) && !defined(__WXUNIVERSAL__)
 
 #include "wx/hyperlink.h"
 
 #ifndef WX_PRECOMP
-    #include "wx/settings.h"
 #endif
 
+#include <gtk/gtk.h>
 #include "wx/gtk/private.h"
 
 // ----------------------------------------------------------------------------
@@ -36,7 +39,11 @@
 static inline bool UseNative()
 {
     // native gtk_link_button widget is only available in GTK+ 2.10 and later
-    return wx_is_at_least_gtk2(10);
+#ifdef __WXGTK3__
+    return true;
+#else
+    return !gtk_check_version(2, 10, 0);
+#endif
 }
 
 // ============================================================================
@@ -82,22 +89,6 @@ static void clicked_hook(GtkLinkButton* button, const char*, void*)
 // wxHyperlinkCtrl
 // ----------------------------------------------------------------------------
 
-wxHyperlinkCtrl::wxHyperlinkCtrl()
-{
-}
-
-wxHyperlinkCtrl::wxHyperlinkCtrl(wxWindow *parent,
-                                 wxWindowID id,
-                                 const wxString& label,
-                                 const wxString& url,
-                                 const wxPoint& pos,
-                                 const wxSize& size,
-                                 long style,
-                                 const wxString& name)
-{
-    (void)Create(parent, id, label, url, pos, size, style, name);
-}
-
 wxHyperlinkCtrl::~wxHyperlinkCtrl()
 {
 #ifndef __WXGTK3__
@@ -125,14 +116,14 @@ bool wxHyperlinkCtrl::Create(wxWindow *parent, wxWindowID id,
         g_object_ref(m_widget);
 
         // alignment
-        float x_alignment = 0.5f;
+        float x_alignment = 0.5;
         if (HasFlag(wxHL_ALIGN_LEFT))
-            x_alignment = 0;
+            x_alignment = 0.0;
         else if (HasFlag(wxHL_ALIGN_RIGHT))
-            x_alignment = 1;
+            x_alignment = 1.0;
 
         wxGCC_WARNING_SUPPRESS(deprecated-declarations)
-        gtk_button_set_alignment(GTK_BUTTON(m_widget), x_alignment, 0.5f);
+        gtk_button_set_alignment(GTK_BUTTON(m_widget), x_alignment, 0.5);
         wxGCC_WARNING_RESTORE()
 
         // set to non empty strings both the url and the label
@@ -218,9 +209,28 @@ void wxHyperlinkCtrl::SetNormalColour(const wxColour &colour)
 
 wxColour wxHyperlinkCtrl::GetNormalColour() const
 {
-    return UseNative()
-        ? wxSystemSettings::GetColour(wxSYS_COLOUR_HOTLIGHT)
-        : wxGenericHyperlinkCtrl::GetNormalColour();
+    wxColour ret;
+    if ( UseNative() )
+    {
+        GdkColor* link_color;
+        GdkColor color = { 0, 0, 0, 0xeeee };
+
+        GtkWidget* widget = gtk_bin_get_child(GTK_BIN(m_widget));
+        wxGCC_WARNING_SUPPRESS(deprecated-declarations)
+        gtk_widget_ensure_style(widget);
+        gtk_widget_style_get(widget, "link-color", &link_color, NULL);
+        if (link_color)
+        {
+            color = *link_color;
+            gdk_color_free(link_color);
+        }
+        wxGCC_WARNING_RESTORE()
+        ret = wxColour(color);
+    }
+    else
+        ret = wxGenericHyperlinkCtrl::GetNormalColour();
+
+    return ret;
 }
 
 void wxHyperlinkCtrl::SetVisitedColour(const wxColour &colour)
@@ -263,7 +273,9 @@ void wxHyperlinkCtrl::SetVisited(bool visited)
 {
     base_type::SetVisited(visited);
 #if GTK_CHECK_VERSION(2,14,0)
-    if (wx_is_at_least_gtk2(14))
+#ifndef __WXGTK3__
+    if (gtk_check_version(2,14,0) == NULL)
+#endif
     {
         gtk_link_button_set_visited(GTK_LINK_BUTTON(m_widget), visited);
     }
@@ -273,7 +285,9 @@ void wxHyperlinkCtrl::SetVisited(bool visited)
 bool wxHyperlinkCtrl::GetVisited() const
 {
 #if GTK_CHECK_VERSION(2,14,0)
-    if (wx_is_at_least_gtk2(14))
+#ifndef __WXGTK3__
+    if (gtk_check_version(2,14,0) == NULL)
+#endif
     {
         return gtk_link_button_get_visited(GTK_LINK_BUTTON(m_widget)) != 0;
     }

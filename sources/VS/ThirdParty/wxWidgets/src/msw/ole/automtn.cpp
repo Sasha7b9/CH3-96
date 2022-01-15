@@ -11,6 +11,15 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#if defined(__BORLANDC__)
+    #pragma hdrstop
+#endif
+
+// With Borland C++, all samples crash if this is compiled in.
+#if (defined(__BORLANDC__) && (__BORLANDC__ < 0x520)) || defined(__CYGWIN10__)
+    #undef wxUSE_OLE_AUTOMATION
+    #define wxUSE_OLE_AUTOMATION 0
+#endif
 
 #ifndef WX_PRECOMP
     #include "wx/log.h"
@@ -25,7 +34,11 @@
 #include "wx/msw/ole/oleutils.h"
 #include "wx/msw/ole/automtn.h"
 
+#ifdef __WXWINCE__
+#include "wx/msw/wince/time.h"
+#else
 #include <time.h>
+#endif
 
 #include <wtypes.h>
 #include <unknwn.h>
@@ -33,7 +46,9 @@
 #include <ole2.h>
 #define _huge
 
+#ifndef __WXWINCE__
 #include <ole2ver.h>
+#endif
 
 #include <oleauto.h>
 
@@ -121,8 +136,8 @@ bool wxAutomationObject::Invoke(const wxString& member, int action,
     }
 
     int namedArgStringCount = namedArgCount + 1;
-    wxVector<wxBasicString> argNames(namedArgStringCount);
-    argNames[0].AssignFromString(member);
+    wxVector<wxBasicString> argNames(namedArgStringCount, wxString());
+    argNames[0] = member;
 
     // Note that arguments are specified in reverse order
     // (all totally logical; hey, we're dealing with OLE here.)
@@ -132,7 +147,7 @@ bool wxAutomationObject::Invoke(const wxString& member, int action,
     {
         if ( !INVOKEARG(i).GetName().empty() )
         {
-            argNames[(namedArgCount-j)].AssignFromString(INVOKEARG(i).GetName());
+            argNames[(namedArgCount-j)] = INVOKEARG(i).GetName();
             j ++;
         }
     }
@@ -558,7 +573,7 @@ bool wxAutomationObject::GetInstance(const wxString& progId, int flags) const
         return false;
     }
 
-    hr = pUnk->QueryInterface(IID_IDispatch, const_cast<void**>(&m_dispatchPtr));
+    hr = pUnk->QueryInterface(IID_IDispatch, (LPVOID*) &m_dispatchPtr);
     if (FAILED(hr))
     {
         wxLogSysError(hr,

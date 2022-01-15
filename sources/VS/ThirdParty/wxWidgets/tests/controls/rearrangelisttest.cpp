@@ -8,8 +8,9 @@
 
 #include "testprec.h"
 
-#ifndef __WXOSX_IPHONE__
-
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #ifndef WX_PRECOMP
     #include "wx/app.h"
@@ -24,12 +25,12 @@ class RearrangeListTestCase : public ItemContainerTestCase, public CppUnit::Test
 public:
     RearrangeListTestCase() { }
 
-    virtual void setUp() wxOVERRIDE;
-    virtual void tearDown() wxOVERRIDE;
+    virtual void setUp();
+    virtual void tearDown();
 
 private:
-    virtual wxItemContainer *GetContainer() const wxOVERRIDE { return m_rearrange; }
-    virtual wxWindow *GetContainerWindow() const wxOVERRIDE { return m_rearrange; }
+    virtual wxItemContainer *GetContainer() const { return m_rearrange; }
+    virtual wxWindow *GetContainerWindow() const { return m_rearrange; }
 
     CPPUNIT_TEST_SUITE( RearrangeListTestCase );
         wxITEM_CONTAINER_TESTS();
@@ -42,11 +43,14 @@ private:
 
     wxRearrangeList* m_rearrange;
 
-    wxDECLARE_NO_COPY_CLASS(RearrangeListTestCase);
+    DECLARE_NO_COPY_CLASS(RearrangeListTestCase)
 };
 
-wxREGISTER_UNIT_TEST_WITH_TAGS(RearrangeListTestCase,
-                               "[RearrangeListTestCase][item-container]");
+// register in the unnamed registry so that these tests are run by default
+CPPUNIT_TEST_SUITE_REGISTRATION( RearrangeListTestCase );
+
+// also include in its own registry so that these tests can be run alone
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( RearrangeListTestCase, "RearrangeListTestCase" );
 
 void RearrangeListTestCase::setUp()
 {
@@ -154,5 +158,3 @@ void RearrangeListTestCase::MoveClientData()
     CPPUNIT_ASSERT_EQUAL("third", m_rearrange->GetString(1));
     CPPUNIT_ASSERT_EQUAL("first", m_rearrange->GetString(2));
 }
-
-#endif

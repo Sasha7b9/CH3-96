@@ -14,8 +14,9 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
-
-#if WXWIN_COMPATIBILITY_3_0
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #include "wx/matrix.h"
 
@@ -25,7 +26,7 @@
 
 static const double pi = M_PI;
 
-wxTransformMatrix::wxTransformMatrix()
+wxTransformMatrix::wxTransformMatrix(void)
 {
     m_isIdentity = false;
 
@@ -107,7 +108,7 @@ double wxTransformMatrix::operator()(int col, int row) const
 }
 
 // Invert matrix
-bool wxTransformMatrix::Invert()
+bool wxTransformMatrix::Invert(void)
 {
     double inverseMatrix[3][3];
 
@@ -145,7 +146,7 @@ bool wxTransformMatrix::Invert()
 }
 
 // Make into identity matrix
-bool wxTransformMatrix::Identity()
+bool wxTransformMatrix::Identity(void)
 {
     m_matrix[0][0] = m_matrix[1][1] = m_matrix[2][2] = 1.0;
     m_matrix[1][0] = m_matrix[2][0] = m_matrix[0][1] = m_matrix[2][1] = m_matrix[0][2] = m_matrix[1][2] = 0.0;
@@ -597,5 +598,3 @@ void wxTransformMatrix::SetRotation(double rotation)
     Rotate(-GetRotation(), x, y);
     Rotate(rotation, x, y);
 }
-
-#endif // WXWIN_COMPATIBILITY_3_0

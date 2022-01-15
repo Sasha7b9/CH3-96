@@ -16,6 +16,9 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #include "wx/dialog.h"
 
@@ -31,12 +34,12 @@
 // wxDialog
 //-----------------------------------------------------------------------------
 
-wxBEGIN_EVENT_TABLE(wxDialog,wxDialogBase)
+BEGIN_EVENT_TABLE(wxDialog,wxDialogBase)
     EVT_BUTTON  (wxID_OK,       wxDialog::OnOK)
     EVT_BUTTON  (wxID_CANCEL,   wxDialog::OnCancel)
     EVT_BUTTON  (wxID_APPLY,    wxDialog::OnApply)
     EVT_CLOSE   (wxDialog::OnCloseWindow)
-wxEND_EVENT_TABLE()
+END_EVENT_TABLE()
 
 void wxDialog::Init()
 {

@@ -12,6 +12,9 @@
 
 #include "testprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #ifndef WX_PRECOMP
     #include "wx/gdicmn.h"
@@ -33,7 +36,7 @@ private:
 
     void Operators();
 
-    wxDECLARE_NO_COPY_CLASS(SizeTestCase);
+    DECLARE_NO_COPY_CLASS(SizeTestCase)
 };
 
 // register in the unnamed registry so that these tests are run by default
@@ -49,33 +52,26 @@ void SizeTestCase::Operators()
     wxSize s3;
 
     s3 = s1 + s2;
-    CPPUNIT_ASSERT( s3.GetWidth()==4 );
-    CPPUNIT_ASSERT( s3.GetHeight()==6 );
+    CPPUNIT_ASSERT( s3.GetWidth()==4 && s3.GetHeight()==6 );
     s3 = s2 - s1;
-    CPPUNIT_ASSERT( s3.GetWidth()==2 );
-    CPPUNIT_ASSERT( s3.GetHeight()==2 );
+    CPPUNIT_ASSERT( s3.GetWidth()==2 && s3.GetHeight()==2 );
     s3 = s1 * 2;
-    CPPUNIT_ASSERT( s3.GetWidth()==2 );
-    CPPUNIT_ASSERT( s3.GetHeight()==4 );
+    CPPUNIT_ASSERT( s3.GetWidth()==2 && s3.GetHeight()==4 );
     s3 = 2 * s1;
-    CPPUNIT_ASSERT( s3.GetWidth()==2 );
-    CPPUNIT_ASSERT( s3.GetHeight()==4 );
+    CPPUNIT_ASSERT( s3.GetWidth()==2 && s3.GetHeight()==4 );
     s3 = s3 / 2;
-    CPPUNIT_ASSERT( s3.GetWidth()==1 );
-    CPPUNIT_ASSERT( s3.GetHeight()==2 );
+    CPPUNIT_ASSERT( s3.GetWidth()==1 && s3.GetHeight()==2 );
 
     s3 = s2;
     CPPUNIT_ASSERT( s3 != s1 );
     s3 = s1;
     CPPUNIT_ASSERT( s3 == s1 );
     s3 += s2;
-    CPPUNIT_ASSERT( s3.GetWidth()==4 );
-    CPPUNIT_ASSERT( s3.GetHeight()==6 );
+    CPPUNIT_ASSERT( s3.GetWidth()==4 && s3.GetHeight()==6 );
     s3 -= s2;
     CPPUNIT_ASSERT( s3 == s1 );
     s3 *= 2;
-    CPPUNIT_ASSERT( s3.GetWidth()==2 );
-    CPPUNIT_ASSERT( s3.GetHeight()==4 );
+    CPPUNIT_ASSERT( s3.GetWidth()==2 && s3.GetHeight()==4 );
     s3 /= 2;
     CPPUNIT_ASSERT( s3 == s1 );
 }

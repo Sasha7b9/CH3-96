@@ -8,11 +8,6 @@
 
 #include "testprec.h"
 
-#if wxUSE_COLOURPICKERCTRL || \
-    wxUSE_DIRPICKERCTRL    || \
-    wxUSE_FILEPICKERCTRL   || \
-    wxUSE_FONTPICKERCTRL
-
 #include "wx/pickerbase.h"
 #include "pickerbasetest.h"
 
@@ -68,5 +63,3 @@ void PickerBaseTestCase::Controls()
     CPPUNIT_ASSERT(base->GetTextCtrl() != NULL);
     CPPUNIT_ASSERT(base->GetPickerCtrl() != NULL);
 }
-
-#endif

@@ -19,7 +19,6 @@
     #include "wx/dcclient.h"
 #endif
 
-#include "wx/scopedptr.h"
 #include "wx/taskbar.h"
 
 #include "wx/osx/private.h"
@@ -45,7 +44,7 @@ public:
     
 private:
     wxTaskBarIconImpl *m_impl;
-    wxDECLARE_EVENT_TABLE();
+    DECLARE_EVENT_TABLE()
 };
 
 // ============================================================================
@@ -69,8 +68,6 @@ public:
     inline wxTaskBarIcon* GetTaskBarIcon() { return m_taskBarIcon; }
     wxMenu * CreatePopupMenu()
     { return m_taskBarIcon->CreatePopupMenu(); }
-    wxMenu * GetPopupMenu()
-    { return m_taskBarIcon->GetPopupMenu(); }
 
     wxDECLARE_NO_COPY_CLASS(wxTaskBarIconImpl);
 
@@ -91,9 +88,9 @@ class wxTaskBarIconDockImpl: public wxTaskBarIconImpl
 public:
     wxTaskBarIconDockImpl(wxTaskBarIcon *taskBarIcon);
     virtual ~wxTaskBarIconDockImpl();
-    virtual bool SetIcon(const wxIcon& icon, const wxString& tooltip = wxEmptyString) wxOVERRIDE;
-    virtual bool RemoveIcon() wxOVERRIDE;
-    virtual bool PopupMenu(wxMenu *menu) wxOVERRIDE;
+    virtual bool SetIcon(const wxIcon& icon, const wxString& tooltip = wxEmptyString);
+    virtual bool RemoveIcon();
+    virtual bool PopupMenu(wxMenu *menu);
 
     static WX_NSMenu OSXGetDockHMenu();
 protected:
@@ -103,7 +100,6 @@ protected:
 private:
     wxTaskBarIconDockImpl();
     wxMenu             *m_pMenu;
-    wxScopedPtr<wxMenu> m_menuDeleter;
 };
 
 class wxTaskBarIconCustomStatusItemImpl;
@@ -124,11 +120,11 @@ public:
     wxTaskBarIconCustomStatusItemImpl(wxTaskBarIcon *taskBarIcon);
     virtual ~wxTaskBarIconCustomStatusItemImpl();
     
-    virtual bool IsStatusItem() const wxOVERRIDE { return true; }
+    virtual bool IsStatusItem() const { return true; }
 
-    virtual bool SetIcon(const wxIcon& icon, const wxString& tooltip = wxEmptyString) wxOVERRIDE;
-    virtual bool RemoveIcon() wxOVERRIDE;
-    virtual bool PopupMenu(wxMenu *menu) wxOVERRIDE;
+    virtual bool SetIcon(const wxIcon& icon, const wxString& tooltip = wxEmptyString);
+    virtual bool RemoveIcon();
+    virtual bool PopupMenu(wxMenu *menu);
 protected:
     NSStatusItem *m_statusItem;
     wxOSXStatusItemTarget *m_target;
@@ -140,7 +136,7 @@ private:
 // wxTaskBarIcon implementation
 //     The facade class.
 // ============================================================================
-wxIMPLEMENT_DYNAMIC_CLASS(wxTaskBarIcon, wxEvtHandler);
+IMPLEMENT_DYNAMIC_CLASS(wxTaskBarIcon, wxEvtHandler)
 
 wxTaskBarIcon::wxTaskBarIcon(wxTaskBarIconType iconType)
 {
@@ -250,25 +246,20 @@ WX_NSMenu wxTaskBarIconDockImpl::OSXGetDockHMenu()
 
 WX_NSMenu wxTaskBarIconDockImpl::OSXDoGetDockHMenu()
 {
-    m_menuDeleter.reset();
+    wxMenu *dockMenu = CreatePopupMenu();
 
-    m_pMenu = GetPopupMenu();
+    if(!dockMenu)
+        return nil;
+    
+    wxDELETE(m_pMenu);
 
-    if (!m_pMenu)
-    {
-        m_pMenu = CreatePopupMenu();
-
-        if (!m_pMenu)
-            return nil;
-
-        m_menuDeleter.reset(m_pMenu);
-    }
-
+    m_pMenu = dockMenu;
+    
     m_pMenu->SetInvokingWindow(m_eventWindow);
     
     m_pMenu->UpdateUI();
     
-    return (WX_NSMenu)m_pMenu->GetHMenu();
+    return (WX_NSMenu)dockMenu->GetHMenu();
 }
 
 bool wxTaskBarIconDockImpl::SetIcon(const wxIcon& icon, const wxString& WXUNUSED(tooltip))
@@ -280,8 +271,7 @@ bool wxTaskBarIconDockImpl::SetIcon(const wxIcon& icon, const wxString& WXUNUSED
 
 bool wxTaskBarIconDockImpl::RemoveIcon()
 {
-    m_menuDeleter.reset();
-
+    wxDELETE(m_pMenu);
     m_icon = wxBitmap();
     [[NSApplication sharedApplication] setApplicationIconImage:nil];
     return true;
@@ -425,10 +415,10 @@ bool wxTaskBarIconCustomStatusItemImpl::PopupMenu(wxMenu *menu)
 // wxTaskBarIconWindow
 // ============================================================================
 
-wxBEGIN_EVENT_TABLE(wxTaskBarIconWindow, wxWindow)
-    EVT_MENU(-1, wxTaskBarIconWindow::OnMenuEvent)
-    EVT_UPDATE_UI(-1, wxTaskBarIconWindow::OnUpdateUIEvent)
-wxEND_EVENT_TABLE()
+BEGIN_EVENT_TABLE(wxTaskBarIconWindow, wxWindow)
+EVT_MENU(-1, wxTaskBarIconWindow::OnMenuEvent)
+EVT_UPDATE_UI(-1, wxTaskBarIconWindow::OnUpdateUIEvent)
+END_EVENT_TABLE()
 
 wxTaskBarIconWindow::wxTaskBarIconWindow(wxTaskBarIconImpl *impl) 
 : m_impl(impl)

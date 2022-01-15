@@ -8,6 +8,9 @@
 
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #if wxUSE_HTML && wxUSE_STREAMS
 
@@ -54,7 +57,7 @@ static wxString LINKAGEMODE HtmlizeLinebreaks(const wxString& str)
                     if ( j != end && *j == '\n' )
                         i = j;
                 }
-                wxFALLTHROUGH;
+                // fall through
             case '\n':
                 out << "<br>";
                 break;

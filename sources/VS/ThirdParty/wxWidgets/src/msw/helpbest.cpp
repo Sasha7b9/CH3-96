@@ -11,6 +11,10 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+#pragma hdrstop
+#endif
+
 #ifndef WX_PRECOMP
     #include "wx/log.h"
 #endif
@@ -24,7 +28,7 @@
 #include "wx/html/helpctrl.h"
 #include "wx/msw/helpbest.h"
 
-wxIMPLEMENT_DYNAMIC_CLASS(wxBestHelpController, wxHelpControllerBase);
+IMPLEMENT_DYNAMIC_CLASS( wxBestHelpController, wxHelpControllerBase )
 
 bool wxBestHelpController::Initialize( const wxString& filename )
 {

@@ -8,6 +8,9 @@
 
 #include "testprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #ifndef WX_PRECOMP
     #include "wx/app.h"
@@ -21,8 +24,8 @@ class FrameTestCase : public CppUnit::TestCase
 public:
     FrameTestCase() { }
 
-    void setUp() wxOVERRIDE;
-    void tearDown() wxOVERRIDE;
+    void setUp();
+    void tearDown();
 
 private:
     CPPUNIT_TEST_SUITE( FrameTestCase );
@@ -35,7 +38,7 @@ private:
 
     wxFrame *m_frame;
 
-    wxDECLARE_NO_COPY_CLASS(FrameTestCase);
+    DECLARE_NO_COPY_CLASS(FrameTestCase)
 };
 
 // register in the unnamed registry so that these tests are run by default

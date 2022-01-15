@@ -17,6 +17,9 @@
 // for compilers that support precompilation, includes "wx/wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #if wxUSE_CHOICE
 
@@ -74,12 +77,12 @@ class ChoiceWidgetsPage : public ItemContainerWidgetsPage
 public:
     ChoiceWidgetsPage(WidgetsBookCtrl *book, wxImageList *imaglist);
 
-    virtual wxWindow *GetWidget() const wxOVERRIDE { return m_choice; }
-    virtual wxItemContainer* GetContainer() const wxOVERRIDE { return m_choice; }
-    virtual void RecreateWidget() wxOVERRIDE { CreateChoice(); }
+    virtual wxControl *GetWidget() const { return m_choice; }
+    virtual wxItemContainer* GetContainer() const { return m_choice; }
+    virtual void RecreateWidget() { CreateChoice(); }
 
     // lazy creation of the content
-    virtual void CreateContent() wxOVERRIDE;
+    virtual void CreateContent();
 
 protected:
     // event handlers
@@ -118,7 +121,12 @@ protected:
     wxCheckBox *m_chkSort;
 
     // the choice itself and the sizer it is in
-    wxChoice *m_choice;
+#ifdef __WXWINCE__
+    wxChoiceBase
+#else
+    wxChoice
+#endif
+                  *m_choice;
 
     wxSizer *m_sizerChoice;
 
@@ -175,7 +183,7 @@ wxEND_EVENT_TABLE()
     #define FAMILY_CTRLS NATIVE_CTRLS
 #endif
 
-IMPLEMENT_WIDGETS_PAGE(ChoiceWidgetsPage, "Choice",
+IMPLEMENT_WIDGETS_PAGE(ChoiceWidgetsPage, wxT("Choice"),
                        FAMILY_CTRLS | WITH_ITEMS_CTRLS
                        );
 
@@ -204,53 +212,53 @@ void ChoiceWidgetsPage::CreateContent()
 
     // left pane
     wxStaticBox *box = new wxStaticBox(this, wxID_ANY,
-        "&Set choice parameters");
+        wxT("&Set choice parameters"));
     wxSizer *sizerLeft = new wxStaticBoxSizer(box, wxVERTICAL);
 
-    m_chkSort = CreateCheckBoxAndAddToSizer(sizerLeft, "&Sort items");
+    m_chkSort = CreateCheckBoxAndAddToSizer(sizerLeft, wxT("&Sort items"));
 
-    wxButton *btn = new wxButton(this, ChoicePage_Reset, "&Reset");
+    wxButton *btn = new wxButton(this, ChoicePage_Reset, wxT("&Reset"));
     sizerLeft->Add(btn, 0, wxALIGN_CENTRE_HORIZONTAL | wxALL, 15);
 
     // middle pane
     wxStaticBox *box2 = new wxStaticBox(this, wxID_ANY,
-        "&Change choice contents");
+        wxT("&Change choice contents"));
     wxSizer *sizerMiddle = new wxStaticBoxSizer(box2, wxVERTICAL);
 
     wxSizer *sizerRow = new wxBoxSizer(wxHORIZONTAL);
-    btn = new wxButton(this, ChoicePage_Add, "&Add this string");
-    m_textAdd = new wxTextCtrl(this, ChoicePage_AddText, "test item 0");
+    btn = new wxButton(this, ChoicePage_Add, wxT("&Add this string"));
+    m_textAdd = new wxTextCtrl(this, ChoicePage_AddText, wxT("test item 0"));
     sizerRow->Add(btn, 0, wxRIGHT, 5);
     sizerRow->Add(m_textAdd, 1, wxLEFT, 5);
     sizerMiddle->Add(sizerRow, 0, wxALL | wxGROW, 5);
 
-    btn = new wxButton(this, ChoicePage_AddSeveral, "&Insert a few strings");
+    btn = new wxButton(this, ChoicePage_AddSeveral, wxT("&Insert a few strings"));
     sizerMiddle->Add(btn, 0, wxALL | wxGROW, 5);
 
-    btn = new wxButton(this, ChoicePage_AddMany, "Add &many strings");
+    btn = new wxButton(this, ChoicePage_AddMany, wxT("Add &many strings"));
     sizerMiddle->Add(btn, 0, wxALL | wxGROW, 5);
 
     sizerRow = new wxBoxSizer(wxHORIZONTAL);
-    btn = new wxButton(this, ChoicePage_Change, "C&hange current");
+    btn = new wxButton(this, ChoicePage_Change, wxT("C&hange current"));
     m_textChange = new wxTextCtrl(this, ChoicePage_ChangeText, wxEmptyString);
     sizerRow->Add(btn, 0, wxRIGHT, 5);
     sizerRow->Add(m_textChange, 1, wxLEFT, 5);
     sizerMiddle->Add(sizerRow, 0, wxALL | wxGROW, 5);
 
     sizerRow = new wxBoxSizer(wxHORIZONTAL);
-    btn = new wxButton(this, ChoicePage_Delete, "&Delete this item");
+    btn = new wxButton(this, ChoicePage_Delete, wxT("&Delete this item"));
     m_textDelete = new wxTextCtrl(this, ChoicePage_DeleteText, wxEmptyString);
     sizerRow->Add(btn, 0, wxRIGHT, 5);
     sizerRow->Add(m_textDelete, 1, wxLEFT, 5);
     sizerMiddle->Add(sizerRow, 0, wxALL | wxGROW, 5);
 
-    btn = new wxButton(this, ChoicePage_DeleteSel, "Delete &selection");
+    btn = new wxButton(this, ChoicePage_DeleteSel, wxT("Delete &selection"));
     sizerMiddle->Add(btn, 0, wxALL | wxGROW, 5);
 
-    btn = new wxButton(this, ChoicePage_Clear, "&Clear");
+    btn = new wxButton(this, ChoicePage_Clear, wxT("&Clear"));
     sizerMiddle->Add(btn, 0, wxALL | wxGROW, 5);
 
-    btn = new wxButton(this, ChoicePage_ContainerTests, "Run &tests");
+    btn = new wxButton(this, ChoicePage_ContainerTests, wxT("Run &tests"));
     sizerMiddle->Add(btn, 0, wxALL | wxGROW, 5);
 
     // right pane
@@ -282,7 +290,7 @@ void ChoiceWidgetsPage::Reset()
 
 void ChoiceWidgetsPage::CreateChoice()
 {
-    int flags = GetAttrs().m_defaultFlags;
+    int flags = ms_defaultFlags;
 
     if ( m_chkSort->GetValue() )
         flags |= wxCB_SORT;
@@ -306,7 +314,7 @@ void ChoiceWidgetsPage::CreateChoice()
                             flags);
 
     m_choice->Set(items);
-    m_sizerChoice->Add(m_choice, 0, wxGROW | wxALL, 5);
+    m_sizerChoice->Add(m_choice, 1, wxGROW | wxALL, 5);
     m_sizerChoice->Layout();
 }
 
@@ -364,7 +372,7 @@ void ChoiceWidgetsPage::OnButtonAdd(wxCommandEvent& WXUNUSED(event))
     if ( !m_textAdd->IsModified() )
     {
         // update the default string
-        m_textAdd->SetValue(wxString::Format("test item %u", ++s_item));
+        m_textAdd->SetValue(wxString::Format(wxT("test item %u"), ++s_item));
     }
 
     m_choice->Append(s);
@@ -376,7 +384,7 @@ void ChoiceWidgetsPage::OnButtonAddMany(wxCommandEvent& WXUNUSED(event))
     wxArrayString strings;
     for ( unsigned int n = 0; n < 1000; n++ )
     {
-        strings.Add(wxString::Format("item #%u", n));
+        strings.Add(wxString::Format(wxT("item #%u"), n));
     }
     m_choice->Append(strings);
 }
@@ -384,9 +392,9 @@ void ChoiceWidgetsPage::OnButtonAddMany(wxCommandEvent& WXUNUSED(event))
 void ChoiceWidgetsPage::OnButtonAddSeveral(wxCommandEvent& WXUNUSED(event))
 {
     wxArrayString items;
-    items.Add("First");
-    items.Add("another one");
-    items.Add("and the last (very very very very very very very very very very long) one");
+    items.Add(wxT("First"));
+    items.Add(wxT("another one"));
+    items.Add(wxT("and the last (very very very very very very very very very very long) one"));
     m_choice->Insert(items, 0);
 }
 
@@ -421,9 +429,9 @@ void ChoiceWidgetsPage::OnUpdateUIAddSeveral(wxUpdateUIEvent& event)
 void ChoiceWidgetsPage::OnChoice(wxCommandEvent& event)
 {
     long sel = event.GetSelection();
-    m_textDelete->SetValue(wxString::Format("%ld", sel));
+    m_textDelete->SetValue(wxString::Format(wxT("%ld"), sel));
 
-    wxLogMessage("Choice item %ld selected", sel);
+    wxLogMessage(wxT("Choice item %ld selected"), sel);
 }
 
 void ChoiceWidgetsPage::OnCheckOrRadioBox(wxCommandEvent& WXUNUSED(event))

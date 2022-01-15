@@ -19,6 +19,10 @@
 // For compilers that support precompilation, includes "wx/wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+#  pragma hdrstop
+#endif
+
 // for all others, include the necessary headers
 #ifndef WX_PRECOMP
 #  include "wx/wx.h"
@@ -52,7 +56,7 @@
 class MyApp : public wxApp
 {
 public:
-  virtual bool OnInit() wxOVERRIDE;
+  virtual bool OnInit();
 };
 
 // Define a new frame type: this is going to be our main frame
@@ -138,7 +142,7 @@ wxBEGIN_EVENT_TABLE(MyFrame, wxFrame)
   EVT_SOCKET(SOCKET_ID,  MyFrame::OnSocketEvent)
 wxEND_EVENT_TABLE()
 
-wxIMPLEMENT_APP(MyApp);
+IMPLEMENT_APP(MyApp)
 
 
 // ==========================================================================
@@ -301,7 +305,7 @@ void MyFrame::OnWaitForAccept(wxCommandEvent& WXUNUSED(event))
 {
     TestLogger logtest("WaitForAccept() test");
 
-    wxBusyInfo info("Waiting for connection for 10 seconds...", this);
+    wxBusyInfo("Waiting for connection for 10 seconds...", this);
     if ( m_server->WaitForAccept(10) )
         wxLogMessage("Accepted client connection.");
     else

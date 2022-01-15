@@ -169,7 +169,7 @@ gtk_combo_select_child_callback( GtkList *WXUNUSED(list), GtkWidget *WXUNUSED(wi
 // wxComboBox
 //-----------------------------------------------------------------------------
 
-wxBEGIN_EVENT_TABLE(wxComboBox, wxControl)
+BEGIN_EVENT_TABLE(wxComboBox, wxControl)
     EVT_SIZE(wxComboBox::OnSize)
     EVT_CHAR(wxComboBox::OnChar)
 
@@ -188,7 +188,7 @@ wxBEGIN_EVENT_TABLE(wxComboBox, wxControl)
     EVT_UPDATE_UI(wxID_REDO, wxComboBox::OnUpdateRedo)
     EVT_UPDATE_UI(wxID_CLEAR, wxComboBox::OnUpdateDelete)
     EVT_UPDATE_UI(wxID_SELECTALL, wxComboBox::OnUpdateSelectAll)
-wxEND_EVENT_TABLE()
+END_EVENT_TABLE()
 
 bool wxComboBox::Create( wxWindow *parent, wxWindowID id,
                          const wxString& value,
@@ -230,7 +230,7 @@ bool wxComboBox::Create( wxWindow *parent, wxWindowID id, const wxString& value,
     combo->entry_change_id = gtk_signal_connect (GTK_OBJECT (combo->entry), "changed",
                   (GtkSignalFunc) gtk_dummy_callback, combo);
 
-    // make it more usable
+    // make it more useable
     gtk_combo_set_use_arrows_always( GTK_COMBO(m_widget), TRUE );
 
     // and case-sensitive
@@ -895,6 +895,7 @@ wxSize wxComboBox::DoGetBestSize() const
     if ( ret.x < 100 )
         ret.x = 100;
 
+    CacheBestSize(ret);
     return ret;
 }
 

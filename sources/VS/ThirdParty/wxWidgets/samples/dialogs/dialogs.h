@@ -34,7 +34,13 @@ of MSW, MAC and OS2
     #define USE_DLL 0
 #endif
 
-#if defined(__WXMSW__)
+#if defined(__WXWINCE__)
+    #define USE_WXWINCE 1
+#else
+    #define USE_WXWINCE 0
+#endif
+
+#if defined(__WXMSW__) && !USE_WXWINCE
     #define USE_WXMSW 1
 #else
     #define USE_WXMSW 0
@@ -58,6 +64,12 @@ of MSW, MAC and OS2
     #define USE_WXGTK 0
 #endif
 
+#ifdef __WXPM__
+    #define USE_WXPM 1
+#else
+    #define USE_WXPM 0
+#endif
+
 #define USE_GENERIC_DIALOGS (!USE_WXUNIVERSAL && !USE_DLL)
 
 #define USE_COLOURDLG_GENERIC \
@@ -65,13 +77,14 @@ of MSW, MAC and OS2
 #define USE_DIRDLG_GENERIC \
     ((USE_WXMSW || USE_WXMAC) && USE_GENERIC_DIALOGS && wxUSE_DIRDLG)
 #define USE_FILEDLG_GENERIC \
-    ((USE_WXMSW || USE_WXMAC) && USE_GENERIC_DIALOGS  && wxUSE_FILEDLG)
+    ((((USE_WXMSW || USE_WXMAC || USE_WXPM || USE_WXGTK) \
+                    && USE_GENERIC_DIALOGS) || USE_WXWINCE) && wxUSE_FILEDLG)
 #define USE_FONTDLG_GENERIC \
-    ((USE_WXMSW || USE_WXMACFONTDLG) && USE_GENERIC_DIALOGS && wxUSE_FONTDLG)
+    ((USE_WXMSW || USE_WXMACFONTDLG || USE_WXPM) && USE_GENERIC_DIALOGS && wxUSE_FONTDLG)
 
 // Turn USE_MODAL_PRESENTATION to 0 if there is any reason for not presenting difference
 // between modal and modeless dialogs (ie. not implemented it in your port yet)
-#if !wxUSE_BOOKCTRL
+#if defined(__SMARTPHONE__) || !wxUSE_BOOKCTRL
     #define USE_MODAL_PRESENTATION 0
 #else
     #define USE_MODAL_PRESENTATION 1
@@ -92,7 +105,7 @@ of MSW, MAC and OS2
 class MyAppTraits : public wxGUIAppTraits
 {
 public:
-    virtual wxLog *CreateLogTarget() wxOVERRIDE;
+    virtual wxLog *CreateLogTarget();
 };
 
 #endif // wxUSE_LOG
@@ -103,16 +116,16 @@ class MyApp: public wxApp
 public:
     MyApp() { m_startupProgressStyle = -1; }
 
-    virtual bool OnInit() wxOVERRIDE;
+    virtual bool OnInit();
 
 #if wxUSE_CMDLINE_PARSER
-    virtual void OnInitCmdLine(wxCmdLineParser& parser) wxOVERRIDE;
-    virtual bool OnCmdLineParsed(wxCmdLineParser& parser) wxOVERRIDE;
+    virtual void OnInitCmdLine(wxCmdLineParser& parser);
+    virtual bool OnCmdLineParsed(wxCmdLineParser& parser);
 #endif // wxUSE_CMDLINE_PARSER
 
 protected:
 #if wxUSE_LOG
-    virtual wxAppTraits *CreateTraits() wxOVERRIDE { return new MyAppTraits; }
+    virtual wxAppTraits *CreateTraits() { return new MyAppTraits; }
 #endif // wxUSE_LOG
 
 private:
@@ -203,8 +216,6 @@ protected:
     virtual void AddAdditionalTextOptions(wxSizer *WXUNUSED(sizer)) { }
     virtual void AddAdditionalFlags(wxSizer *WXUNUSED(sizer)) { }
 
-    void ShowResult(int res);
-
     void OnApply(wxCommandEvent& event);
     void OnClose(wxCommandEvent& event);
     void OnUpdateLabelUI(wxUpdateUIEvent& event);
@@ -253,8 +264,6 @@ private:
     wxCheckBox *m_chkNoDefault,
                *m_chkCentre;
 
-    wxStaticText *m_labelResult;
-
     wxDECLARE_EVENT_TABLE();
     wxDECLARE_NO_COPY_CLASS(TestMessageBoxDialog);
 };
@@ -267,8 +276,8 @@ public:
 
 protected:
     // overrides method in base class
-    virtual void AddAdditionalTextOptions(wxSizer *sizer) wxOVERRIDE;
-    virtual void AddAdditionalFlags(wxSizer *sizer) wxOVERRIDE;
+    virtual void AddAdditionalTextOptions(wxSizer *sizer);
+    virtual void AddAdditionalFlags(wxSizer *sizer);
 
     void OnApply(wxCommandEvent& event);
 
@@ -276,8 +285,6 @@ private:
     wxTextCtrl *m_textCheckBox;
     wxCheckBox *m_initialValueCheckBox;
     wxTextCtrl *m_textDetailed;
-    wxTextCtrl *m_textFooter;
-    wxChoice *m_iconsFooter;
 
     wxDECLARE_EVENT_TABLE();
 };
@@ -303,34 +310,12 @@ private:
 
 
 #if USE_SETTINGS_DIALOG
-
-// Struct containing properties edited by SettingsDialog.
-struct SettingsData
-{
-    SettingsData() :
-        m_loadLastOnStartup(false),
-        m_autoSaveInterval(1),
-        m_showToolTips(false),
-        m_applyTo(0),
-        m_bgStyle(0),
-        m_titleFontSize(10)
-    {
-    }
-
-    bool m_loadLastOnStartup;
-    int m_autoSaveInterval;
-    bool m_showToolTips;
-    int m_applyTo;
-    int m_bgStyle;
-    int m_titleFontSize;
-};
-
 // Property sheet dialog
 class SettingsDialog: public wxPropertySheetDialog
 {
-    wxDECLARE_CLASS(SettingsDialog);
+DECLARE_CLASS(SettingsDialog)
 public:
-    SettingsDialog(wxWindow* parent, SettingsData& settingsData, int dialogType);
+    SettingsDialog(wxWindow* parent, int dialogType);
     ~SettingsDialog();
 
     wxPanel* CreateGeneralSettingsPage(wxWindow* parent);
@@ -351,9 +336,7 @@ protected:
 
     wxImageList*    m_imageList;
 
-    SettingsData& m_settingsData;
-
-    wxDECLARE_EVENT_TABLE();
+DECLARE_EVENT_TABLE()
 };
 
 #endif // USE_SETTINGS_DIALOG
@@ -368,8 +351,6 @@ public:
 #if wxUSE_MSGDLG
     void MessageBox(wxCommandEvent& event);
     void MessageBoxDialog(wxCommandEvent& event);
-    void MessageBoxDialogWindowModal(wxCommandEvent& event);
-    void MessageBoxDialogWindowModalClosed(wxWindowModalDialogEvent& event);
     void MessageBoxInfo(wxCommandEvent& event);
     void MessageBoxWindowModal(wxCommandEvent& event);
     void MessageBoxWindowModalClosed(wxWindowModalDialogEvent& event);
@@ -393,7 +374,6 @@ public:
 
 #if wxUSE_INFOBAR
     void InfoBarSimple(wxCommandEvent& event);
-    void InfoBarSimpleWrapped(wxCommandEvent &event);
     void InfoBarAdvanced(wxCommandEvent& event);
 #endif // wxUSE_INFOBAR
 
@@ -402,23 +382,13 @@ public:
     void MultiChoice(wxCommandEvent& event);
 #endif // wxUSE_CHOICEDLG
 
-#if wxUSE_REARRANGECTRL
     void Rearrange(wxCommandEvent& event);
-#endif // wxUSE_REARRANGECTRL
-
-#if wxUSE_ADDREMOVECTRL
-    void AddRemove(wxCommandEvent& event);
-#endif // wxUSE_ADDREMOVECTRL
 
 #if wxUSE_TEXTDLG
     void LineEntry(wxCommandEvent& event);
     void TextEntry(wxCommandEvent& event);
     void PasswordEntry(wxCommandEvent& event);
 #endif // wxUSE_TEXTDLG
-
-#ifdef wxUSE_CREDENTIALDLG
-    void CredentialEntry(wxCommandEvent& event);
-#endif // wxUSE_CREDENTIALDLG
 
 #if wxUSE_NUMBERDLG
     void NumericEntry(wxCommandEvent& event);
@@ -428,12 +398,7 @@ public:
     void FileOpen(wxCommandEvent& event);
     void FileOpen2(wxCommandEvent& event);
     void FilesOpen(wxCommandEvent& event);
-    void FilesOpenWindowModal(wxCommandEvent& event);
-    void FilesOpenWindowModalClosed(wxWindowModalDialogEvent& event);
     void FileSave(wxCommandEvent& event);
-    void FileSaveWindowModal(wxCommandEvent& event);
-    void FileSaveWindowModalClosed(wxWindowModalDialogEvent& event);
-    void MacToggleAlwaysShowTypes(wxCommandEvent& event);
 #endif // wxUSE_FILEDLG
 
 #if USE_FILEDLG_GENERIC
@@ -444,10 +409,7 @@ public:
 
 #if wxUSE_DIRDLG
     void DirChoose(wxCommandEvent& event);
-    void DirChooseWindowModal(wxCommandEvent& event);
-    void DirChooseWindowModalClosed(wxWindowModalDialogEvent& event);
     void DirChooseNew(wxCommandEvent& event);
-    void DirChooseMultiple(wxCommandEvent& event);
 #endif // wxUSE_DIRDLG
 
 #if USE_DIRDLG_GENERIC
@@ -469,12 +431,7 @@ public:
 
 #if wxUSE_PROGRESSDLG
     void ShowProgress(wxCommandEvent& event);
-#ifdef wxHAS_NATIVE_PROGRESSDIALOG
-    void ShowProgressGeneric(wxCommandEvent& event);
-#endif // wxHAS_NATIVE_PROGRESSDIALOG
-    void DoShowProgress(wxGenericProgressDialog& dialog);
 #endif // wxUSE_PROGRESSDLG
-    void ShowAppProgress(wxCommandEvent& event);
 
 #if wxUSE_ABOUTDLG
     void ShowSimpleAboutDialog(wxCommandEvent& event);
@@ -485,7 +442,6 @@ public:
 
 #if wxUSE_BUSYINFO
     void ShowBusyInfo(wxCommandEvent& event);
-    void ShowRichBusyInfo(wxCommandEvent& event);
 #endif // wxUSE_BUSYINFO
 
 #if wxUSE_FINDREPLDLG
@@ -506,7 +462,9 @@ public:
 
     void OnRequestUserAttention(wxCommandEvent& event);
 #if wxUSE_NOTIFICATION_MESSAGE
-    void OnNotifMsg(wxCommandEvent& event);
+    void OnNotifMsgAuto(wxCommandEvent& event);
+    void OnNotifMsgShow(wxCommandEvent& event);
+    void OnNotifMsgHide(wxCommandEvent& event);
 #endif // wxUSE_NOTIFICATION_MESSAGE
 
 #if wxUSE_RICHTOOLTIP
@@ -521,11 +479,6 @@ public:
     void OnExit(wxCommandEvent& event);
 
 private:
-#if wxUSE_COLOURDLG
-    void OnColourChanged(wxColourDialogEvent& event);
-    void DoApplyColour(const wxColour& colour);
-#endif // wxUSE_COLOURDLG
-
 #if wxUSE_DIRDLG
     void DoDirChoose(int style);
 #endif // wxUSE_DIRDLG
@@ -541,6 +494,10 @@ private:
                         *m_dlgReplace;
 #endif // wxUSE_FINDREPLDLG
 
+#if wxUSE_NOTIFICATION_MESSAGE
+    wxNotificationMessage *m_notifMsg;
+#endif // wxUSE_NOTIFICATION_MESSAGE
+
     wxColourData m_clrData;
 
     // just a window which we use to show the effect of font/colours selection
@@ -552,17 +509,6 @@ private:
     wxInfoBar *m_infoBarSimple,
               *m_infoBarAdvanced;
 #endif // wxUSE_INFOBAR
-
-#if USE_SETTINGS_DIALOG
-    SettingsData m_settingsData;
-#endif // USE_SETTINGS_DIALOG
-
-#if wxUSE_TIPWINDOW
-    void OnShowTip(wxCommandEvent& event);
-    void OnUpdateShowTipUI(wxUpdateUIEvent& event);
-
-    wxTipWindow *m_tipWindow;
-#endif // wxUSE_TIPWINDOW
 
     wxDECLARE_EVENT_TABLE();
 };
@@ -588,46 +534,35 @@ private:
 enum
 {
     DIALOGS_CHOOSE_COLOUR = wxID_HIGHEST,
-    DIALOGS_CHOOSE_COLOUR_ALPHA,
     DIALOGS_GET_COLOUR,
     DIALOGS_CHOOSE_COLOUR_GENERIC,
-    DIALOGS_CHOOSE_COLOUR_GENERIC_ALPHA,
     DIALOGS_CHOOSE_FONT,
     DIALOGS_CHOOSE_FONT_GENERIC,
     DIALOGS_MESSAGE_BOX,
     DIALOGS_MESSAGE_BOX_WINDOW_MODAL,
     DIALOGS_MESSAGE_DIALOG,
-    DIALOGS_MESSAGE_DIALOG_WINDOW_MODAL,
     DIALOGS_MESSAGE_BOX_WXINFO,
     DIALOGS_RICH_MESSAGE_DIALOG,
     DIALOGS_SINGLE_CHOICE,
     DIALOGS_MULTI_CHOICE,
     DIALOGS_REARRANGE,
-    DIALOGS_ADDREMOVE,
     DIALOGS_LINE_ENTRY,
     DIALOGS_TEXT_ENTRY,
     DIALOGS_PASSWORD_ENTRY,
-    DIALOGS_CREDENTIAL_ENTRY,
     DIALOGS_FILE_OPEN,
     DIALOGS_FILE_OPEN2,
     DIALOGS_FILES_OPEN,
-    DIALOGS_FILES_OPEN_WINDOW_MODAL,
     DIALOGS_FILE_SAVE,
-    DIALOGS_FILE_SAVE_WINDOW_MODAL,
     DIALOGS_FILE_OPEN_GENERIC,
     DIALOGS_FILES_OPEN_GENERIC,
     DIALOGS_FILE_SAVE_GENERIC,
-    DIALOGS_MAC_TOGGLE_ALWAYS_SHOW_TYPES,
     DIALOGS_DIR_CHOOSE,
-    DIALOGS_DIR_CHOOSE_WINDOW_MODAL,
     DIALOGS_DIRNEW_CHOOSE,
-    DIALOGS_DIRMULTIPLE_CHOOSE,
     DIALOGS_GENERIC_DIR_CHOOSE,
     DIALOGS_TIP,
     DIALOGS_NUM_ENTRY,
     DIALOGS_LOG_DIALOG,
     DIALOGS_INFOBAR_SIMPLE,
-    DIALOGS_INFOBAR_SIMPLE_WRAPPED,
     DIALOGS_INFOBAR_ADVANCED,
     DIALOGS_MODAL,
     DIALOGS_MODELESS,
@@ -637,19 +572,17 @@ enum
     DIALOGS_ONTOP,
     DIALOGS_MODELESS_BTN,
     DIALOGS_PROGRESS,
-    DIALOGS_PROGRESS_GENERIC,
-    DIALOGS_APP_PROGRESS,
     DIALOGS_ABOUTDLG_SIMPLE,
     DIALOGS_ABOUTDLG_FANCY,
     DIALOGS_ABOUTDLG_FULL,
     DIALOGS_ABOUTDLG_CUSTOM,
     DIALOGS_BUSYINFO,
-    DIALOGS_BUSYINFO_RICH,
     DIALOGS_FIND,
     DIALOGS_REPLACE,
     DIALOGS_REQUEST,
-    DIALOGS_NOTIFY_MSG,
-    DIALOGS_SHOW_TIP,
+    DIALOGS_NOTIFY_AUTO,
+    DIALOGS_NOTIFY_SHOW,
+    DIALOGS_NOTIFY_HIDE,
     DIALOGS_RICHTIP_DIALOG,
     DIALOGS_PROPERTY_SHEET,
     DIALOGS_PROPERTY_SHEET_TOOLBOOK,

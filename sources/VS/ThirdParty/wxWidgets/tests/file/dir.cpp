@@ -12,6 +12,9 @@
 
 #include "testprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #include "wx/dir.h"
 #include "wx/filename.h"
@@ -29,8 +32,8 @@ class DirTestCase : public CppUnit::TestCase
 public:
     DirTestCase() { }
 
-    virtual void setUp() wxOVERRIDE;
-    virtual void tearDown() wxOVERRIDE;
+    virtual void setUp();
+    virtual void tearDown();
 
 private:
     CPPUNIT_TEST_SUITE( DirTestCase );
@@ -144,12 +147,12 @@ class TestDirTraverser : public wxDirTraverser
 public:
     wxArrayString dirs;
 
-    virtual wxDirTraverseResult OnFile(const wxString& WXUNUSED(filename)) wxOVERRIDE
+    virtual wxDirTraverseResult OnFile(const wxString& WXUNUSED(filename))
     {
         return wxDIR_CONTINUE;
     }
 
-    virtual wxDirTraverseResult OnDir(const wxString& dirname) wxOVERRIDE
+    virtual wxDirTraverseResult OnDir(const wxString& dirname)
     {
         dirs.push_back(dirname);
         return wxDIR_CONTINUE;
@@ -178,7 +181,7 @@ void DirTestCase::DirExists()
     {
         const char *dirname;
         bool shouldExist;
-    } testData[] =
+    } testData[] = 
     {
         { ".", true },
         { "..", true },

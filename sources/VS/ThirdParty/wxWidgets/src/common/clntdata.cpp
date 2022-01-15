@@ -11,6 +11,9 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
+#ifdef __BORLANDC__
+    #pragma hdrstop
+#endif
 
 #include "wx/clntdata.h"
 
@@ -37,7 +40,9 @@ void wxClientDataContainer::DoSetClientObject( wxClientData *data )
     wxASSERT_MSG( m_clientDataType != wxClientData_Void,
                   wxT("can't have both object and void client data") );
 
-    delete m_clientObject;
+    if ( m_clientObject )
+        delete m_clientObject;
+
     m_clientObject = data;
     m_clientDataType = wxClientData_Object;
 }
