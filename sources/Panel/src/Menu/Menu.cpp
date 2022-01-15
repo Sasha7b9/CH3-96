@@ -32,7 +32,7 @@ namespace Menu
         bool OnControl(const Control &);
 
         // Открывает страницу, соответствующую воздействию control. Возвращает false, если для воздействия нет соответствующей страницы
-        bool OpenPage(Control);
+        bool OpenPage(const Control &);
 
         // Обработка события ручки
         void OnGovernor(const Control &);
@@ -83,7 +83,7 @@ void Menu::Input::OnGovernor(const Control &control)
 }
 
 
-bool Menu::Input::OpenPage(Control control)
+bool Menu::Input::OpenPage(const Control &control)
 {
     if (!control.action.IsPress())
     {
