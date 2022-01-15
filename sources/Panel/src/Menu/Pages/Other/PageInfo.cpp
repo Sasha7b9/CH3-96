@@ -20,7 +20,7 @@ static void Draw_Info()
 
     Text("---------------------------------------------").Write(40, 68);
 
-    int x0 = LANG_IS_RU ? 250 : 250;
+    int x0 = 250;
     int y = 100;
     int dy = 30;
     int x = 100;

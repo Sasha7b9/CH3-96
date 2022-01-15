@@ -17,6 +17,8 @@ void init()
     Keyboard::Init();
     Menu::Init();
 
+//    Display::DrawWelcomeScreen();
+
 //    Tests::Run();
 }
 

@@ -697,9 +697,7 @@ int RS232_PollComport(int comport_number, unsigned char *buf, int size)
 /* added the void pointer cast, otherwise gcc will complain about */
 /* "warning: dereferencing type-punned pointer will break strict aliasing rules" */
 
-  BOOL result = ReadFile(Cport[comport_number], buf, size, (LPDWORD)((void *)&n), NULL);
-
-  result = result;
+  ReadFile(Cport[comport_number], buf, size, (LPDWORD)((void *)&n), NULL);
 
   return(n);
 }

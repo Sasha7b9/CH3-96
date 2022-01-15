@@ -18,7 +18,7 @@ bool SCPI::SU::IsLineEnding(pchar *buffer)
 
     if (result)
     {
-        *(*buffer)++;
+        *buffer = (*buffer) + 1;
     }
 
     return result;
