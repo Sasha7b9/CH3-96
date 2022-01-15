@@ -328,17 +328,6 @@ void VLine::Draw(int x, int y)
 }
 
 
-void DLine::Draw(int x, int y)
-{
-    for (int i = 0; i < length; i++)
-    {
-        Point().Draw(x, y);
-        x += dx;
-        y += dy;
-    }
-}
-
-
 void Line::Draw(int x1, int y1, int x2, int y2)
 {
     if ((x2 - x1) == 0 && (y2 - y1) == 0)

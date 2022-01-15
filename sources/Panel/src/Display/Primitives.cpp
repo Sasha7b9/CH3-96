@@ -67,3 +67,14 @@ void Rectangle::Fill(int x0, int y0)
         HLine(width).Draw(x0, y);
     }
 }
+
+
+void DLine::Draw(int x, int y)
+{
+    for (int i = 0; i < length; i++)
+    {
+        Point().Draw(x, y);
+        x += dx;
+        y += dy;
+    }
+}
