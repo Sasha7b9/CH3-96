@@ -437,9 +437,9 @@ void Display::DrawScreen()
     }
     else
     {
-        Channel::Current()->DrawMode(10, 57);
-
         Channel::Current()->DrawSettings(10, 15);
+
+        Channel::Current()->DrawMode(10, 57);
 
         DrawHint(10, Display::PHYSICAL_HEIGHT - Item::HEIGHT - 30);
 
@@ -470,7 +470,7 @@ static void DrawHint(int x, int y)
     }
     else
     {
-        if (FPGA::GetAutoMode())
+        if (FPGA::InAutoMode())
         {
             if (FPGA::Auto::ObtainedResult())
             {

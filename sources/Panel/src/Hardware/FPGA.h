@@ -52,7 +52,7 @@ struct FPGA
     static void EnableAuto();
     static void DisableAuto();
     // Возвращает true, если находится в режиме АВТО
-    static bool GetAutoMode();
+    static bool InAutoMode();
 
     static void ReadValueCalibrator();
 

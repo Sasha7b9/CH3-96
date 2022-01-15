@@ -338,7 +338,7 @@ void FPGA::DisableAuto()
 }
 
 
-bool FPGA::GetAutoMode()
+bool FPGA::InAutoMode()
 {
     return autoMode;
 }
