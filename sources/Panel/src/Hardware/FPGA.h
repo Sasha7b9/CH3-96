@@ -92,8 +92,8 @@ public:
 
         static void Refresh();
 
-        static int NA; //-V707
-        static int NB; //-V707
+        static int NA;
+        static int NB;
 
     private:
 
