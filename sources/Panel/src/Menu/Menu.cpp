@@ -35,7 +35,7 @@ namespace Menu
         bool OpenPage(const Control &);
 
         // Обработка события ручки
-        void OnGovernor(const Control &);
+        void OnGovernorRotate(const Control &);
 
         // Обработка нажатия Enter и GovButton
         bool OnGovernorButton(const Control &);
@@ -49,7 +49,7 @@ void Menu::Draw()
 }
 
 
-void Menu::Input::OnGovernor(const Control &control)
+void Menu::Input::OnGovernorRotate(const Control &control)
 {
     if (!Menu::OpenedPage()->IsPageModes() && !Menu::OpenedPage()->IsPageSettings())
     {
@@ -281,7 +281,7 @@ void Menu::Input::FuncUpdate()
     {
         Control control = Keyboard::NextControl();
 
-        OnGovernor(control);
+        OnGovernorRotate(control);
 
         if (!OnControl(control))
         {
