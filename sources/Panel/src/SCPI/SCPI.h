@@ -84,7 +84,7 @@ namespace SCPI
     // Послать измерение в SCPI - с заменой нечитаемых символов и единиц измерения
     void SendMeasure(const String &message);
        
-    void ProcessHint(String *message, pchar const *names); //-V2504
+    void ProcessHint(String *message, pchar const *names);
 
     namespace Answer
     {

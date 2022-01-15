@@ -34,7 +34,7 @@ private:
     // Таймер для "длинного нажатия" кнопок
     wxTimer timerLongPress;
 
-    wxDECLARE_EVENT_TABLE(); //-V2504
+    wxDECLARE_EVENT_TABLE();
 
     void DrawFPS();
     void HandlerEvents();

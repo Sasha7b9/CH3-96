@@ -13,7 +13,7 @@
 // Рекурсивная функция обработки массива структур StructSCPI.
 // В случае успешного выполнения возвращает адрес символа, расположенного за последним обработанным символом.
 // В случае неуспешного завершения - возвращает nullptr. Код ошибки находится в *error
-static pchar Process(pchar buffer, const StructSCPI structs[]); //-V2504
+static pchar Process(pchar buffer, const StructSCPI structs[]);
 
 // Обработка узла дерева node
 static pchar ProcessNode(pchar begin, const StructSCPI *node);
@@ -72,7 +72,7 @@ void SCPI::Update()
 }
 
 
-static pchar Process(pchar buffer, const StructSCPI strct[]) //-V2504
+static pchar Process(pchar buffer, const StructSCPI strct[])
 {
     while (!strct->IsEmpty())
     {
