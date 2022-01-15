@@ -16,7 +16,7 @@ void NMI_Handler(void)
 
 void HardFault_Handler(void)
 {
-    const char *file = Debug::file[0];
+    pchar file = Debug::file[0];
     int line = Debug::line[0];
 
     while (1)

@@ -20,9 +20,9 @@
 
 
 // Возвращает false, если выбор невозможен - строка кончилась.
-static bool ChooseSymbols(const char **string);
+static bool ChooseSymbols(pchar *string);
 // Возвращает false, если выбор невозможен - строка кончилась.
-static bool ChooseSpaces(const char **string);
+static bool ChooseSpaces(pchar *string);
 
 
 bool String2Int(char *str, int *value)
@@ -81,7 +81,7 @@ int BCD2Int(uint bcd)
 #define  SYMBOL(x) (*(*(x)))
 
 
-static bool ChooseSymbols(const char **string)
+static bool ChooseSymbols(pchar *string)
 {
     if (SYMBOL(string) == 0x0d && SYMBOL(string + 1) == 0x0a)
     {
@@ -97,7 +97,7 @@ static bool ChooseSymbols(const char **string)
 }
 
 
-static bool ChooseSpaces(const char **string)
+static bool ChooseSpaces(pchar *string)
 {
     if (SYMBOL(string) == 0x0d && SYMBOL(string + 1) == 0x0a)
     {
@@ -115,7 +115,7 @@ static bool ChooseSpaces(const char **string)
 #undef SYMBOL
 
 
-bool SU::GetWord(const char *string, Word *word, const int numWord)
+bool SU::GetWord(pchar string, Word *word, const int numWord)
 {
     ChooseSpaces(&string);
 
@@ -183,7 +183,7 @@ bool SU::EqualsZeroStrings(char *str1, char *str2)
 }
 
 
-bool SU::EqualsStrings(uint8 *str1, const char * const str2, int size)
+bool SU::EqualsStrings(uint8 *str1, pchar  const str2, int size)
 {
     return EqualsStrings(static_cast<void *>(str1), const_cast<char *>(str2), size); //-V2567
 }
@@ -205,7 +205,7 @@ bool SU::EqualsStrings(void *_str1, void *_str2, int size)
 }
 
 
-bool SU::EqualsStrings(const char *str1, const char *str2)
+bool SU::EqualsStrings(pchar str1, pchar str2)
 {
     uint size = std::strlen(str1);
 
@@ -240,7 +240,7 @@ int SU::FirstNotNumeral(char *buffer)
 }
 
 
-float SU::StringToFloat(const char *string)
+float SU::StringToFloat(pchar string)
 {
     float result = 0.0F;
 
@@ -385,7 +385,7 @@ char *SU::DoubleToString(double value)
 #endif
 
 
-bool SU::StringToDouble(double *value, const char *str)
+bool SU::StringToDouble(double *value, pchar str)
 {
     static const int SIZE_BUFFER = 100;
     char buffer[SIZE_BUFFER];
@@ -411,7 +411,7 @@ bool SU::StringToDouble(double *value, const char *str)
 }
 
 
-bool SU::String2Int(const char *buffer, int *value, char **end)
+bool SU::String2Int(pchar buffer, int *value, char **end)
 {
     Buffer string(static_cast<int>(std::strlen(buffer)) + 1);
 
@@ -434,7 +434,7 @@ bool SU::String2Int(const char *buffer, int *value, char **end)
 
 #ifndef WIN32
 
-int strcpy_s(char *dest, uint dest_size, const char *src)
+int strcpy_s(char *dest, uint dest_size, pchar src)
 {
     if (std::strlen(src) + 1 < dest_size)
     {

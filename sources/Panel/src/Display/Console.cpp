@@ -68,7 +68,7 @@ void Console::DeleteFirstString()
 }
 
 
-void Console::AddString(const char *string)
+void Console::AddString(pchar string)
 {
     inProcessAddingString = true;
 

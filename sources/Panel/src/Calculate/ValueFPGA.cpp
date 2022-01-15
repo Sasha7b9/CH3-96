@@ -137,7 +137,7 @@ char *ValueFPGA::GetSuffixUnitRelated(int order)
 
 String ValueFPGA::GiveDigits()
 {
-    const char *firstSpace = std::strchr(value.c_str(), ' ');
+    pchar firstSpace = std::strchr(value.c_str(), ' ');
 
     if (firstSpace == nullptr)
     {
@@ -161,7 +161,7 @@ String ValueFPGA::GiveDigits()
 
 String ValueFPGA::GiveUnits()
 {
-    const char *lastSpace = std::strrchr(value.c_str(), ' ');
+    pchar lastSpace = std::strrchr(value.c_str(), ' ');
 
     if (lastSpace == nullptr)
     {

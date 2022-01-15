@@ -24,7 +24,7 @@ public:
 
     static void SendDataSynch(const void *data, uint size);
     // Передаётся строка без завершающего нуля
-    static void SendStringAsynch(const char *data);
+    static void SendStringAsynch(pchar data);
     // Передаётся строка без завершающего нуля
     static void SendStringSynch(char *data);
     // Эта строка передаётся с завершающими символами \\r\\n

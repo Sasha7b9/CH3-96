@@ -350,7 +350,7 @@ Control Keyboard::NextControl()
 
 String Control::Name() const
 {
-    static const char *names[] =
+    static pchar names[] =
     {
         "Ручка нажать",
         "РЕЖИМ",

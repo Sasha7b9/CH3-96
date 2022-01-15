@@ -34,7 +34,7 @@ Text::~Text()
 }
 
 
-void Text::Create(const char *_text)
+void Text::Create(pchar _text)
 {
     uint numSymbols = std::strlen(_text);
 

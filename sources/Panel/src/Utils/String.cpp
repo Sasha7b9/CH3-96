@@ -10,7 +10,7 @@
 #include <cstdlib>
 
 
-const char * const String::_ERROR = "---.---";
+pchar  const String::_ERROR = "---.---";
 
 
 String::String() : buffer(nullptr)
