@@ -325,36 +325,12 @@ void Switch::OnEnterKeyGovernor(const Control &control)
     }
     else
     {
-        bool need_next_choice = true;
-
-        if (control.value == Control::GovButton)
+        if (Hint::Text()[0] != 0 && Hint::UnderItem() == this)
         {
-            if (PageIndication::launchSource == LaunchSource::OneTime)
-            {
-                PageIndication::OnceLaunchSwitchTrue();
-                FreqMeter::LoadOneTime();
-
-                need_next_choice = false;
-            }
-            else if ((CURRENT_CHANNEL_IS_A && Channel::A->mod.typeMeasure.IsCountPulse() && Channel::A->mod.modeCountPulse.Is_StartStop()) ||
-                (CURRENT_CHANNEL_IS_B && Channel::B->mod.typeMeasure.IsCountPulse() && Channel::B->mod.modeCountPulse.Is_StartStop()))
-            {
-                ModeStartStop::Toggle();
-                ModeStartStop::LoadToFPGA();
-
-                need_next_choice = false;
-            }
+            NextChoice();
         }
 
-        if (need_next_choice)
-        {
-            if (Hint::Text()[0] != 0 && Hint::UnderItem() == this)
-            {
-                NextChoice();
-            }
-
-            Hint::Create(this);
-        }
+        Hint::Create(this);
     }
 }
 

@@ -36,6 +36,9 @@ namespace Menu
 
         // ќбработка событи€ ручки
         void OnGovernor(const Control &);
+
+        // ќбработка нажати€ Enter и GovButton
+        bool OnEnterKeyGovernor(const Control &);
     }
 }
 
@@ -148,6 +151,11 @@ bool Menu::Input::OnControl(const Control &control)
         return true;
     }
 
+    if (OnEnterKeyGovernor(control))
+    {
+        return true;
+    }
+
     switch (control.value)
     {
     case Control::GovButton:
@@ -220,6 +228,31 @@ bool Menu::Input::OnControl(const Control &control)
     default:
         // никаких действий по умолчанию производить не требуетс€
         break;
+    }
+
+    return false;
+}
+
+
+bool Menu::Input::OnEnterKeyGovernor(const Control &control)
+{
+    if (control.value == Control::GovButton)
+    {
+        if (PageIndication::launchSource == LaunchSource::OneTime)
+        {
+            PageIndication::OnceLaunchSwitchTrue();
+            FreqMeter::LoadOneTime();
+
+            return true;
+        }
+        else if ((CURRENT_CHANNEL_IS_A && Channel::A->mod.typeMeasure.IsCountPulse() && Channel::A->mod.modeCountPulse.Is_StartStop()) ||
+            (CURRENT_CHANNEL_IS_B && Channel::B->mod.typeMeasure.IsCountPulse() && Channel::B->mod.modeCountPulse.Is_StartStop()))
+        {
+            ModeStartStop::Toggle();
+            ModeStartStop::LoadToFPGA();
+
+            return true;
+        }
     }
 
     return false;
