@@ -1,5 +1,3 @@
-cmake_minimum_required(VERSION 3.15)
-
 project (Saver)
 
 include_directories(src/
@@ -10,9 +8,11 @@ include_directories(src/
                     ../../Panel/src/
                     ../../Panel/src/Hardware/HAL/
                     ../../Panel/src/Hardware/
-                    ../../ThirdParty/wxWidgets/include
-                    ../../ThirdParty/wxWidgets/generated/lib/vc_dll/mswud)
-                    
+                    ../ThirdParty/wxWidgets/include
+                    ../../generated/ThirdParty/lib/vc_dll/mswud)
+
+link_directories(../../generated/ThirdParty/lib/vc_dll)
+
 add_definitions(-DSTM32F429xx -DWXUSINGDLL -DGUI)
 
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -MP -Wall")
@@ -52,6 +52,7 @@ add_compile_options(/wd4211)    # nonstandard extension used: redefined extern t
 add_compile_options(/wd4355)    # 'this': used in base member initializer list
 add_compile_options(/wd4514)    # 'xxx': unreferenced inline function has been removed
 add_compile_options(/wd4571)    # Informational: catch(...) semantics changed since Visual C++ 7.1
+add_compile_options(/wd4623)    # 'xxx': default constructor was implicitly defined as deleted
 add_compile_options(/wd4625)    # 'xxx': copy constructor was implicitly defined as deleted
 add_compile_options(/wd4626)    # 'xxx': assignment operator was implicitly defined as deleted
 add_compile_options(/wd4710)    # function not inlined
@@ -69,8 +70,10 @@ add_compile_options(/wd26821)
 add_compile_options(/wd26812)
 
 file(GLOB SRC                 ../../Panel/src/defines.h
+                              ../../Panel/src/Settings.*
                                           src/Application_win.*
-                                          src/main_win.cpp)
+                                          src/main_win.cpp
+                                          src/functions_win.cpp)
 file(GLOB DISPLAY             ../../Panel/src/Display/Colors.*
                                           src/Display/Display_win.*)
 file(GLOB DISPLAY_FONT        ../../Panel/src/Display/Font/Font.cpp)
@@ -92,8 +95,8 @@ source_group(Utils             FILES ${UTILS})
 
 add_executable(Saver ${SRC} ${DISPLAY} ${DISPLAY_FONT} ${GUI} ${KEYBOARD} ${UTILS})
 
-target_link_libraries(Saver ../../../ThirdParty/wxWidgets/generated/lib/vc_dll/wxbase31ud)
-target_link_libraries(Saver ../../../ThirdParty/wxWidgets/generated/lib/vc_dll/wxmsw31ud_core)
+target_link_libraries(Saver wxbase31ud)
+target_link_libraries(Saver wxmsw31ud_core)
 
 target_link_libraries(Saver WinMM.lib)
 target_link_libraries(Saver version.lib)

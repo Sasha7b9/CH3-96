@@ -1,7 +1,11 @@
+#define WIN32_LEAN_AND_MEAN
 #include "Application_win.h"
 #include "GUI/ComPort.h"
 
 #undef main
+
+
+#define TIME_MS (uint)clock()
 
 
 extern void update();
