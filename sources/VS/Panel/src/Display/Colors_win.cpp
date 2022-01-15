@@ -14,13 +14,13 @@ using namespace Primitives;
 
 extern wxMemoryDC memDC;
 
-static Color current = Color::BLACK;
+static Color current = Color::BACK;
 
 
 
-void Color::SetAsCurrent()
+void Color::SetAsCurrent() const
 {
-    uint val = COLOR(value);
+    uint val = Value();
     uint8 b = (uint8)val;
     uint8 g = (uint8)(val >> 8);
     uint8 r = (uint8)(val >> 16);

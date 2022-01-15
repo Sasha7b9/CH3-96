@@ -11,20 +11,20 @@
 
 void init()
 {
-	HAL::Init();
-	Display::Init();
-	Keyboard::Init();
-	Menu::Init();
-	Tests::Run();
+    HAL::Init();
+    Display::Init();
+    Keyboard::Init();
+    Menu::Init();
+    Tests::Run();
 }
 
 
 void update()
 {
-	ValueFPGA::Create(4999900, 55553, 1660, 5972, 1660);
+    ValueFPGA::Create(4999900, 55553, 1660, 5972, 1660);
 
-	Display::Refresh();
-	Menu::Update();
-	SCPI::Update();
-	Display::Update();
+    Display::Refresh();
+    Menu::Input::Update();
+    SCPI::Update();
+    Display::Update();
 }

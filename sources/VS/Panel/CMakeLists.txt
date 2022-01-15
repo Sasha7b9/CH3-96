@@ -24,6 +24,7 @@ add_compile_options(/wd4211)    # nonstandard extension used: redefined extern t
 add_compile_options(/wd4355)    # 'this': used in base member initializer list
 add_compile_options(/wd4514)    # 'xxx': unreferenced inline function has been removed
 add_compile_options(/wd4571)    # Informational: catch(...) semantics changed since Visual C++ 7.1
+add_compile_options(/wd4623)    # 'xxx': default constructor was implicitly defined as deleted
 add_compile_options(/wd4625)    # 'xxx': copy constructor was implicitly defined as deleted
 add_compile_options(/wd4626)    # 'xxx': assignment operator was implicitly defined as deleted
 add_compile_options(/wd4710)    # function not inlined

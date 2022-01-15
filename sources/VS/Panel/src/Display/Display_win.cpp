@@ -99,18 +99,18 @@ void Display::InitHardware()
 
     unsigned char *pointer = buffer;
 
-    Color color1 = Color::GREEN_10;
-    Color color2 = Color::GREEN_25;
+    Color color1 = Color::BACK_1;
+    Color color2 = Color::BACK_2;
 
     for (int i = 0; i < Display::PHYSICAL_WIDTH * Display::PHYSICAL_HEIGHT; i += 2)
     {
-        *pointer++ = RED_FROM_COLOR(COLOR(color1.value));
-        *pointer++ = GREEN_FROM_COLOR(COLOR(color1.value));
-        *pointer++ = BLUE_FROM_COLOR(COLOR(color1.value));
+        *pointer++ = color1.GetRED();
+        *pointer++ = color1.GetGREEN();
+        *pointer++ = color1.GetBLUE();
 
-        *pointer++ = RED_FROM_COLOR(COLOR(color2.value));
-        *pointer++ = GREEN_FROM_COLOR(COLOR(color2.value));
-        *pointer++ = BLUE_FROM_COLOR(COLOR(color2.value));
+        *pointer++ = color2.GetRED();
+        *pointer++ = color2.GetGREEN();
+        *pointer++ = color2.GetBLUE();
 
         if (i % Display::PHYSICAL_WIDTH == 0)
         {

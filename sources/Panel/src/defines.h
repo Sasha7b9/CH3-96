@@ -1,6 +1,8 @@
 // (c) Aleksandr Shevchenko e-mail : Sasha7b9@tut.by
 #pragma once
 
+#define WIN32_LEAN_AND_MEAN
+
 // Нужно раскомментировать, чтобы был доступен предел "1000с"
 //#define USE_1000s
 

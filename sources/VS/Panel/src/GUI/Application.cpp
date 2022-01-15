@@ -1,5 +1,7 @@
+#include "defines.h"
 #include "GUI/Application.h"
 #include "GUI/ConsoleSCPI.h"
+#include "Hardware/HAL/HAL.h"
 
 #undef main
 
