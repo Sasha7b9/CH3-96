@@ -84,9 +84,7 @@ public:
     {
         friend struct FPGA;
 
-        static int Mid();
-        static int Min();
-        static int Max();
+    public:
         // Возвращает true, если получен результат
         static bool ObtainedResult();
 
@@ -98,6 +96,11 @@ public:
         static int NB; //-V707
 
     private:
+
+        static int Mid();
+        static int Min();
+        static int Max();
+
         static uint fpgaMin;
         static uint fpgaMid;
         static uint fpgaMax;
