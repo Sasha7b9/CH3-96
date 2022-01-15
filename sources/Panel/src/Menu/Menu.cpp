@@ -29,13 +29,13 @@ namespace Menu
     namespace Input
     {
         // Обработка события кнопки
-        bool OnControl(const Control &control);
+        bool OnControl(const Control &);
 
         // Открывает страницу, соответствующую воздействию control. Возвращает false, если для воздействия нет соответствующей страницы
-        bool OpenPage(Control control);
+        bool OpenPage(Control);
 
         // Обработка события ручки
-        void OnGovernor(const Control &control);
+        void OnGovernor(const Control &);
     }
 }
 
