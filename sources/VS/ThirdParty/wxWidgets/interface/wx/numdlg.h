@@ -25,10 +25,27 @@ class wxNumberEntryDialog : public wxDialog
 {
 public:
     /**
+        Default constructor.
+
+        Call Create() to really create the dialog later.
+     */
+    wxNumberEntryDialog();
+
+    /**
         Constructor.
 
         Use ShowModal() to show the dialog.
 
+        See Create() method for parameter description.
+    */
+    wxNumberEntryDialog(wxWindow *parent,
+                        const wxString& message,
+                        const wxString& prompt,
+                        const wxString& caption,
+                        long value, long min, long max,
+                        const wxPoint& pos = wxDefaultPosition);
+
+    /**
         @param parent
             Parent window.
         @param message
@@ -46,12 +63,12 @@ public:
         @param pos
             Dialog position.
     */
-    wxNumberEntryDialog(wxWindow *parent,
-                        const wxString& message,
-                        const wxString& prompt,
-                        const wxString& caption,
-                        long value, long min, long max,
-                        const wxPoint& pos = wxDefaultPosition);
+    bool Create(wxWindow *parent,
+                const wxString& message,
+                const wxString& prompt,
+                const wxString& caption,
+                long value, long min, long max,
+                const wxPoint& pos = wxDefaultPosition);
 
     /**
         Returns the value that the user has entered if the user has pressed OK,

@@ -19,9 +19,6 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
-#ifdef __BORLANDC__
-    #pragma hdrstop
-#endif
 
 #include "wx/stockitem.h"
 
@@ -123,6 +120,15 @@ wxString wxGetStockLabel(wxWindowID id, long flags)
     // for it because it is already bound to Esc implicitly)
     if ( id == wxID_CANCEL )
         flags &= ~wxSTOCK_WITH_MNEMONIC;
+
+    // Another one: "Help" in the context of a menu label has a different
+    // translation for some languages (Italian), so try this first.
+    if ( id == wxID_HELP && (flags & wxSTOCK_WITH_MNEMONIC) )
+    {
+        stockLabel = wxGETTEXT_IN_CONTEXT("standard Windows menu", "&Help");
+        if ( !stockLabel.empty() )
+            return stockLabel;
+    }
 #endif // __WXMSW__
 
 
@@ -143,7 +149,7 @@ wxString wxGetStockLabel(wxWindowID id, long flags)
         STOCKITEM(wxID_BOLD,                _("&Bold"),               _("Bold"));
         STOCKITEM(wxID_BOTTOM,              _("&Bottom"),             _("Bottom"));
         STOCKITEM(wxID_CANCEL,              _("&Cancel"),             _("Cancel"));
-        STOCKITEM(wxID_CDROM,               _("&CD-Rom"),             _("CD-Rom"));
+        STOCKITEM(wxID_CDROM,               _("&CD-ROM"),             _("CD-ROM"));
         STOCKITEM(wxID_CLEAR,               _("&Clear"),              _("Clear"));
         STOCKITEM(wxID_CLOSE,               _("&Close"),              _("Close"));
         STOCKITEM(wxID_CONVERT,             _("&Convert"),            _("Convert"));
@@ -212,7 +218,7 @@ wxString wxGetStockLabel(wxWindowID id, long flags)
         default:
             wxFAIL_MSG( wxT("invalid stock item ID") );
             break;
-    };
+    }
 
     #undef STOCKITEM
 
@@ -272,7 +278,7 @@ wxString wxGetStockHelpString(wxWindowID id, wxStockHelpStringClient client)
 
         default:
             // there's no stock help string for this ID / client
-            return wxEmptyString;
+            break;
     }
 
     #undef STOCKITEM
@@ -303,6 +309,7 @@ wxAcceleratorEntry wxGetStockAccelerator(wxWindowID id)
         STOCKITEM(wxID_REDO,                wxACCEL_CTRL | wxACCEL_SHIFT,'Z')
         STOCKITEM(wxID_REPLACE,             wxACCEL_CTRL,'H')
         STOCKITEM(wxID_SAVE,                wxACCEL_CTRL,'S')
+        STOCKITEM(wxID_SELECTALL,           wxACCEL_CTRL,'A')
         STOCKITEM(wxID_UNDO,                wxACCEL_CTRL,'Z')
 #ifdef __WXOSX__
         STOCKITEM(wxID_PREFERENCES,         wxACCEL_CTRL,',')
@@ -313,7 +320,7 @@ wxAcceleratorEntry wxGetStockAccelerator(wxWindowID id)
             // there's no stock accelerator for that.
             ret.Set(0, 0, id);
             break;
-    };
+    }
 
     #undef STOCKITEM
 

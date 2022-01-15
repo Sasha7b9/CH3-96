@@ -19,15 +19,11 @@
 // for compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
-#ifdef __BORLANDC__
-    #pragma hdrstop
-#endif
 
 #ifndef WX_PRECOMP
     #include "wx/module.h"
 #endif
 
-#include <gtk/gtk.h>
 #include "wx/gtk/private.h"
 
 // ----------------------------------------------------------------------------
@@ -265,12 +261,12 @@ GtkWidget *GetTreeWidget()
 class WidgetsCleanupModule : public wxModule
 {
 public:
-    virtual bool OnInit()
+    virtual bool OnInit() wxOVERRIDE
     {
         return true;
     }
 
-    virtual void OnExit()
+    virtual void OnExit() wxOVERRIDE
     {
         if ( gs_container )
         {
@@ -280,9 +276,9 @@ public:
         }
     }
 
-    DECLARE_DYNAMIC_CLASS(WidgetsCleanupModule)
+    wxDECLARE_DYNAMIC_CLASS(WidgetsCleanupModule);
 };
 
-IMPLEMENT_DYNAMIC_CLASS(WidgetsCleanupModule, wxModule)
+wxIMPLEMENT_DYNAMIC_CLASS(WidgetsCleanupModule, wxModule);
 
 } // wxGTKPrivate namespace

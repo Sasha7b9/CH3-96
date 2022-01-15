@@ -12,9 +12,6 @@
 
 #include "testprec.h"
 
-#ifdef __BORLANDC__
-    #pragma hdrstop
-#endif
 
 #ifndef WX_PRECOMP
     #include "wx/wx.h"
@@ -33,8 +30,8 @@ class IntlTestCase : public CppUnit::TestCase
 public:
     IntlTestCase() { m_locale=NULL; }
 
-    virtual void setUp();
-    virtual void tearDown();
+    virtual void setUp() wxOVERRIDE;
+    virtual void tearDown() wxOVERRIDE;
 
 private:
     CPPUNIT_TEST_SUITE( IntlTestCase );
@@ -58,7 +55,7 @@ private:
 
     wxLocale *m_locale;
 
-    DECLARE_NO_COPY_CLASS(IntlTestCase)
+    wxDECLARE_NO_COPY_CLASS(IntlTestCase);
 };
 
 // register in the unnamed registry so that these tests are run by default
@@ -183,7 +180,7 @@ void IntlTestCase::DateTimeFmtFrench()
     static const char *FRENCH_DATE_FMT = "%d.%m.%Y";
 #endif
     static const char *FRENCH_LONG_DATE_FMT = "%a %d %b %Y";
-    static const char *FRENCH_DATE_TIME_FMT = "%a %d %b %Y %H:%M:%S %Z";
+    static const char *FRENCH_DATE_TIME_FMT = "%a %d %b %Y %H:%M:%S";
 #else
     static const char *FRENCH_DATE_FMT = "%d/%m/%Y";
     static const char *FRENCH_LONG_DATE_FMT = "%A %d %B %Y";
@@ -191,22 +188,32 @@ void IntlTestCase::DateTimeFmtFrench()
 #endif
 
     WX_ASSERT_EQUAL_FORMAT( "French short date", FRENCH_DATE_FMT,
-                   m_locale->GetInfo(wxLOCALE_SHORT_DATE_FMT) );
+                            wxLocale::GetInfo(wxLOCALE_SHORT_DATE_FMT) );
     WX_ASSERT_EQUAL_FORMAT( "French long date", FRENCH_LONG_DATE_FMT,
-                    m_locale->GetInfo(wxLOCALE_LONG_DATE_FMT) );
+                            wxLocale::GetInfo(wxLOCALE_LONG_DATE_FMT) );
 
-    const wxString fmtDT = m_locale->GetInfo(wxLOCALE_DATE_TIME_FMT);
+    wxString fmtDT = wxLocale::GetInfo(wxLOCALE_DATE_TIME_FMT);
+    INFO("French date and time format is \"" << fmtDT << "\"");
+
 #ifdef __WXOSX__
     // Things are difficult to test under macOS as the format keeps changing,
     // e.g. at some time between 10.10 and 10.12 a new " à " string appeared in
     // its middle, so test it piece-wise and hope it doesn't change too much.
-    CPPUNIT_ASSERT( fmtDT.StartsWith("%A %d %B %Y") );
-    CPPUNIT_ASSERT( fmtDT.EndsWith("%H:%M:%S") );
+    CHECK( fmtDT.StartsWith("%A %d %B %Y") );
+    CHECK( fmtDT.EndsWith("%H:%M:%S") );
 #else
+    // Some glic versions have " %Z" at the end of the locale and some don't.
+    // The test is still useful if we just ignore this difference.
+    #ifdef __GLIBC__
+        wxString fmtDTWithoutTZ;
+        if ( fmtDT.EndsWith(" %Z", &fmtDTWithoutTZ) )
+            fmtDT.swap(fmtDTWithoutTZ);
+    #endif
+
     WX_ASSERT_EQUAL_FORMAT( "French date and time", FRENCH_DATE_TIME_FMT, fmtDT );
 #endif
     WX_ASSERT_EQUAL_FORMAT( "French time", "%H:%M:%S",
-                    m_locale->GetInfo(wxLOCALE_TIME_FMT) );
+                            wxLocale::GetInfo(wxLOCALE_TIME_FMT) );
 }
 
 void IntlTestCase::IsAvailable()
@@ -218,5 +225,18 @@ void IntlTestCase::IsAvailable()
 
     CPPUNIT_ASSERT_EQUAL( origLocale, setlocale(LC_ALL, NULL) );
 }
+
+// The test may fail in ANSI builds because of unsupported encoding, but we
+// don't really care about this build anyhow, so just skip it there.
+#if wxUSE_UNICODE
+
+TEST_CASE("wxLocale::Default", "[locale]")
+{
+    wxLocale loc;
+
+    REQUIRE( loc.Init(wxLANGUAGE_DEFAULT, wxLOCALE_DONT_LOAD_DEFAULT) );
+}
+
+#endif // wxUSE_UNICODE
 
 #endif // wxUSE_INTL

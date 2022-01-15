@@ -13,6 +13,12 @@
 #include <webkitdom/WebKitDOMDOMSelection.h>
 #include <webkitdom/WebKitDOMDOMWindowUnstable.h>
 
+// We can't easily avoid deprecation warnings about many WebKit functions, e.g.
+// webkit_dom_document_get_default_view() and just about everything related to
+// the selection, so for now just disable the warnings as we can't do anything
+// about them anyhow.
+wxGCC_WARNING_SUPPRESS(deprecated-declarations)
+
 static const char introspection_xml[] =
   "<node>"
   " <interface name='org.wxwidgets.wxGTK.WebExtension'>"
@@ -47,6 +53,7 @@ static const char introspection_xml[] =
 
 class wxWebViewWebKitExtension;
 
+extern "C" {
 static gboolean
 wxgtk_webview_authorize_authenticated_peer_cb(GDBusAuthObserver *observer,
                                               GIOStream *stream,
@@ -55,7 +62,8 @@ wxgtk_webview_authorize_authenticated_peer_cb(GDBusAuthObserver *observer,
 static void
 wxgtk_webview_dbus_connection_created_cb(GObject *source_object,
                                          GAsyncResult *result,
-                                         wxWebViewWebKitExtension *extension);
+                                         void* user_data);
+} // extern "C"
 
 static wxWebViewWebKitExtension *gs_extension = NULL;
 
@@ -93,7 +101,7 @@ wxWebViewWebKitExtension::wxWebViewWebKitExtension(WebKitWebExtension *extension
                                       G_DBUS_CONNECTION_FLAGS_AUTHENTICATION_CLIENT,
                                       observer,
                                       NULL,
-                                      (GAsyncReadyCallback)wxgtk_webview_dbus_connection_created_cb,
+                                      wxgtk_webview_dbus_connection_created_cb,
                                       this);
     g_object_unref(observer);
 }
@@ -144,7 +152,11 @@ void wxWebViewWebKitExtension::GetSelectedSource(GVariant *parameters,
     webkit_dom_node_append_child(&div->parent_instance,
                                  &clone->parent_instance, NULL);
     WebKitDOMElement *html = (WebKitDOMElement*)div;
+#if WEBKIT_CHECK_VERSION(2, 8, 0)
     gchar *text = webkit_dom_element_get_inner_html(html);
+#else
+    gchar *text = webkit_dom_html_element_get_inner_html(WEBKIT_DOM_HTML_ELEMENT(html));
+#endif
     g_object_unref(range);
 
     ReturnDBusStringValue(invocation, text);
@@ -161,7 +173,12 @@ void wxWebViewWebKitExtension::GetPageSource(GVariant *parameters,
 
     WebKitDOMDocument *doc = webkit_web_page_get_dom_document(web_page);
     WebKitDOMElement *body = webkit_dom_document_get_document_element(doc);
+#if WEBKIT_CHECK_VERSION(2, 8, 0)
     gchar *source = webkit_dom_element_get_outer_html(body);
+#else
+    gchar *source =
+        webkit_dom_html_element_get_outer_html(WEBKIT_DOM_HTML_ELEMENT(body));
+#endif
     g_dbus_method_invocation_return_value(invocation,
                                           g_variant_new("(s)", source ? source : ""));
 }
@@ -290,10 +307,11 @@ void wxWebViewWebKitExtension::SetDBusConnection(GDBusConnection *dbusConnection
     m_dbusConnection = dbusConnection;
 }
 
+extern "C" {
 static void
-wxgtk_webview_handle_method_call(GDBusConnection *connection,
-                                 const char *sender,
-                                 const char *object_path,
+wxgtk_webview_handle_method_call(GDBusConnection*,
+                                 const char* /* sender */,
+                                 const char* /* object_path */,
                                  const char *interface_name,
                                  const char *method_name,
                                  GVariant *parameters,
@@ -336,6 +354,7 @@ wxgtk_webview_handle_method_call(GDBusConnection *connection,
         extension->HasSelection(parameters, invocation);
     }
 }
+} // extern "C"
 
 static const GDBusInterfaceVTable interface_vtable = {
     wxgtk_webview_handle_method_call,
@@ -343,6 +362,7 @@ static const GDBusInterfaceVTable interface_vtable = {
     NULL
 };
 
+static
 gboolean
 wxgtk_webview_dbus_peer_is_authorized(GCredentials *peer_credentials)
 {
@@ -362,19 +382,20 @@ wxgtk_webview_dbus_peer_is_authorized(GCredentials *peer_credentials)
     return FALSE;
 }
 
+extern "C" {
 static gboolean
-wxgtk_webview_authorize_authenticated_peer_cb(GDBusAuthObserver *observer,
-                                              GIOStream *stream,
+wxgtk_webview_authorize_authenticated_peer_cb(GDBusAuthObserver*,
+                                              GIOStream*,
                                               GCredentials *credentials,
-                                              wxWebViewWebKitExtension *extension)
+                                              wxWebViewWebKitExtension*)
 {
     return wxgtk_webview_dbus_peer_is_authorized(credentials);
 }
 
 static void
-wxgtk_webview_dbus_connection_created_cb(GObject *source_object,
+wxgtk_webview_dbus_connection_created_cb(GObject*,
                                          GAsyncResult *result,
-                                         wxWebViewWebKitExtension *extension)
+                                         void* user_data)
 {
     static GDBusNodeInfo *introspection_data =
         g_dbus_node_info_new_for_xml(introspection_xml, NULL);
@@ -388,6 +409,8 @@ wxgtk_webview_dbus_connection_created_cb(GObject *source_object,
         g_error_free(error);
         return;
     }
+
+    wxWebViewWebKitExtension* extension = static_cast<wxWebViewWebKitExtension*>(user_data);
 
     guint registration_id =
         g_dbus_connection_register_object(connection,
@@ -408,7 +431,7 @@ wxgtk_webview_dbus_connection_created_cb(GObject *source_object,
     extension->SetDBusConnection(connection);
 }
 
-extern "C" WXEXPORT void
+WXEXPORT void
 webkit_web_extension_initialize_with_user_data (WebKitWebExtension *webkit_extension,
                                                 GVariant           *user_data)
 {
@@ -419,3 +442,4 @@ webkit_web_extension_initialize_with_user_data (WebKitWebExtension *webkit_exten
     gs_extension = new wxWebViewWebKitExtension(webkit_extension,
                                                 server_address);
 }
+} // extern "C"

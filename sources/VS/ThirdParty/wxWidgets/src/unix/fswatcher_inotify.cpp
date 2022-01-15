@@ -10,9 +10,6 @@
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
-#ifdef __BORLANDC__
-    #pragma hdrstop
-#endif
 
 #if wxUSE_FSWATCHER
 
@@ -61,7 +58,7 @@ public:
         delete m_handler;
     }
 
-    bool Init()
+    bool Init() wxOVERRIDE
     {
         wxCHECK_MSG( !IsOk(), false, "Inotify already initialized" );
 
@@ -75,7 +72,7 @@ public:
             return false;
         }
 
-        m_source = loop->AddSourceForFD
+        m_source = wxEventLoopBase::AddSourceForFD
                          (
                           m_ifd,
                           m_handler,
@@ -98,7 +95,7 @@ public:
         }
     }
 
-    virtual bool DoAdd(wxSharedPtr<wxFSWatchEntryUnix> watch)
+    virtual bool DoAdd(wxSharedPtr<wxFSWatchEntryUnix> watch) wxOVERRIDE
     {
         wxCHECK_MSG( IsOk(), false,
                     "Inotify not initialized or invalid inotify descriptor" );
@@ -121,7 +118,7 @@ public:
         return true;
     }
 
-    virtual bool DoRemove(wxSharedPtr<wxFSWatchEntryUnix> watch)
+    virtual bool DoRemove(wxSharedPtr<wxFSWatchEntryUnix> watch) wxOVERRIDE
     {
         wxCHECK_MSG( IsOk(), false,
                     "Inotify not initialized or invalid inotify descriptor" );
@@ -157,7 +154,7 @@ public:
         return true;
     }
 
-    virtual bool RemoveAll()
+    virtual bool RemoveAll() wxOVERRIDE
     {
         wxFSWatchEntries::iterator it = m_watches.begin();
         for ( ; it != m_watches.end(); ++it )
@@ -446,7 +443,7 @@ protected:
                 // If there's a filespec, assume he's not
                 if ( watch.GetFilespec().empty() )
                 {
-                    // The the only way to know the path for the first event,
+                    // The only way to know the path for the first event,
                     // normally the IN_MOVED_FROM, is to retrieve the watch
                     // corresponding to oldinevt. This is needed for a move
                     // within a watch.
@@ -703,8 +700,7 @@ wxInotifyFileSystemWatcher::wxInotifyFileSystemWatcher(const wxFileName& path,
 {
     if (!Init())
     {
-        if (m_service)
-            delete m_service;
+        delete m_service;
         return;
     }
 
