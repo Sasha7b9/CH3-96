@@ -38,7 +38,7 @@ namespace Menu
         void OnGovernor(const Control &);
 
         // Обработка нажатия Enter и GovButton
-        bool OnEnterKeyGovernor(const Control &);
+        bool OnGovernorButton(const Control &);
     }
 }
 
@@ -151,7 +151,7 @@ bool Menu::Input::OnControl(const Control &control)
         return true;
     }
 
-    if (OnEnterKeyGovernor(control))
+    if (OnGovernorButton(control))
     {
         return true;
     }
@@ -234,7 +234,7 @@ bool Menu::Input::OnControl(const Control &control)
 }
 
 
-bool Menu::Input::OnEnterKeyGovernor(const Control &control)
+bool Menu::Input::OnGovernorButton(const Control &control)
 {
     if (control.value == Control::GovButton)
     {
