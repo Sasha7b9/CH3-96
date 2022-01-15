@@ -12,6 +12,7 @@ set isBuild=0
 rem 1, если требуется загрузка
 set isLoad=0
 
+if "%1" equ "clear"   set isClean=1 &                  goto CLEANING
 if "%1" equ "build"   set isBuild=1 &                  goto CHECK_ON_LOAD
 if "%1" equ "rebuild" set isClean=1 & set isBuild=1 &  goto CHECK_ON_LOAD
 if "%1" equ "load"    set isLoad=1 &                   goto LOADING
@@ -48,6 +49,7 @@ goto EXIT
 :HINT
 echo.
 echo Using assembly.bat:
+echo                    assembly.bat clear
 echo                    assembly.bat build
 echo                    assembly.bat rebuild
 echo                    assembly.bat load
