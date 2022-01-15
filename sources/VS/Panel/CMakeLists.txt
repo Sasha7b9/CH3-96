@@ -120,3 +120,6 @@ target_link_libraries(PanelGUI WinMM.lib)
 target_link_libraries(PanelGUI version.lib)
 target_link_libraries(PanelGUI Imm32.Lib)
 target_link_libraries(PanelGUI Setupapi.lib)
+
+
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND copy ..\\..\\ThirdParty\\lib\\vc_dll\\wxbase315ud_vc_custom.dll $(OutputPath) /Y)
