@@ -325,7 +325,7 @@ void Switch::OnEnterKeyGovernor(const Control &control)
     }
     else
     {
-        if (control.value == Control::GovButton)
+        if (control.value == Control::Enter)
         {
             if (Hint::Text()[0] != 0 && Hint::UnderItem() == this)
             {
@@ -334,7 +334,7 @@ void Switch::OnEnterKeyGovernor(const Control &control)
 
             Hint::Create(this);
         }
-        else if (control.value == Control::Enter)
+        else if (control.value == Control::GovButton)
         {
             if (PageIndication::launchSource == LaunchSource::OneTime)
             {
