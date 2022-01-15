@@ -308,7 +308,7 @@ void Switch::OnEnterKeyGovernor(const Control &control)
 {
     if (!control.action.IsPress())
     {
-
+        return;
     }
 
     if (PageIndication::calibrationMode.IsEnabled())
