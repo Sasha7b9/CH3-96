@@ -20,12 +20,6 @@ enum
     HELP_ABOUT = wxID_ABOUT
 };
 
-enum
-{
-    TIMER_ID = 1,
-    TIMER_LONG_ID = 2
-};
-
 
 wxIMPLEMENT_APP_NO_MAIN(Application);
 
