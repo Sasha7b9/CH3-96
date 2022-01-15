@@ -14,7 +14,9 @@ include_directories(src
                     ../../Panel/src/Hardware/HAL
                     ../../Panel/src/Hardware
                     ../ThirdParty/wxWidgets/include
-                    ../../generated/GUI/lib/vc_dll/mswud)
+                    ../../generated/ThirdParty/lib/vc_dll/mswud)
+
+link_directories(../../generated/ThirdParty/lib/vc_dll)
 
 add_definitions(-DSTM32F429xx -DWXUSINGDLL -DGUI)
 
@@ -112,8 +114,8 @@ add_executable(PanelGUI ${VS_HAL} ${SRC} ${CALCULATE} ${DISPLAY} ${DISPLAY_FONT}
                         ${MENU_PAGES_MODES} ${MENU_PAGES_OTHER}
                         ${SCPI} ${SCPI_PROCESS} ${UTILS} ${TESTS})
 
-target_link_libraries(PanelGUI ../../../generated/GUI/lib/vc_dll/wxbase31ud)
-target_link_libraries(PanelGUI ../../../generated/GUI/lib/vc_dll/wxmsw31ud_core)
+target_link_libraries(PanelGUI wxbase31ud)
+target_link_libraries(PanelGUI wxmsw31ud_core)
 
 target_link_libraries(PanelGUI WinMM.lib)
 target_link_libraries(PanelGUI version.lib)

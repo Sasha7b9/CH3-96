@@ -26,5 +26,3 @@ endfunction()
 
 add_subdirectory(Panel)
 #add_subdirectory(Saver)
-
-add_subdirectory_with_folder(ThirdParty  ThirdParty/wxWidgets)
