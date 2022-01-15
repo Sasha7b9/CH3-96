@@ -479,6 +479,7 @@ static void DrawHint(int x, int y)
 
                 Text(FPGA::Auto::Give().c_str()).Write(x + dX, y + dY, Color::FILL);
                 FPGA::DisableAuto();
+                Keyboard::Unlock();
                 timeAutoHint = TIME_MS;
                 autoFlag = true;
                 Display::Refresh();

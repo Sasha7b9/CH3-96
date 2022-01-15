@@ -25,5 +25,7 @@ namespace Menu
 
         // Это функция обработки обработки по умолчанию
         void FuncUpdate();
+
+        void FuncEmptyUpdate();
     };
 };

@@ -2,6 +2,7 @@
 #include "defines.h"
 #include "GUI/Application.h"
 #include "Keyboard/Keyboard.h"
+#include "Menu/Menu.h"
 
 
 // Очередь сообщений - здесь все события органов управления
@@ -117,4 +118,16 @@ String Control::Name() const
     };
 
     return String(names[value]);
+}
+
+
+void Keyboard::Lock()
+{
+    Menu::Input::SetFuncUpdate(Menu::Input::FuncEmptyUpdate);
+}
+
+
+void Keyboard::Unlock()
+{
+    Menu::Input::SetFuncUpdate(Menu::Input::FuncUpdate);
 }

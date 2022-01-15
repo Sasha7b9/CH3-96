@@ -52,4 +52,8 @@ namespace Keyboard
     Control NextControl();
 
     void AppendControl(const Control &control);
+
+    void Lock();
+
+    void Unlock();
 };

@@ -212,6 +212,7 @@ bool Menu::Input::OnControl(const Control &control)
             FPGA::Auto::Refresh();
             FreqMeter::LoadAuto();
             FPGA::EnableAuto();
+            Keyboard::Lock();
         }
         break;
 
@@ -288,6 +289,15 @@ void Menu::Input::FuncUpdate()
         }
 
         Display::Refresh();
+    }
+}
+
+
+void Menu::Input::FuncEmptyUpdate()
+{
+    while (!Keyboard::Empty())
+    {
+        Keyboard::NextControl();
     }
 }
 
