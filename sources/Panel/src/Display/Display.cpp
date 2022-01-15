@@ -36,7 +36,6 @@ static void SetTopRow(int i);
 
 static bool needRedraw = true;      // Если true, требуется перерисовка дисплея
 static uint timeAutoHint = 0;
-static bool autoFlag = false;
 static int second = 0;
 static int topRow = 0;
 
@@ -459,6 +458,8 @@ static void DrawHint(int x, int y)
 {
     int dX = 4;
     int dY = 6;
+
+    static bool autoFlag = false;
 
     if ((TIME_MS < timeAutoHint + 10000) && timeAutoHint != 0 && autoFlag)
     {
