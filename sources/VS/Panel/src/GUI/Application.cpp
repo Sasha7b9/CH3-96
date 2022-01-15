@@ -26,17 +26,11 @@ enum
     TIMER_LONG_ID = 2
 };
 
-wxBEGIN_EVENT_TABLE(Frame, wxFrame)
-    EVT_TIMER(TIMER_LONG_ID, Frame::OnTimerLong)
-wxEND_EVENT_TABLE()
 
 wxIMPLEMENT_APP_NO_MAIN(Application);
 
 
-
 Frame *Frame::self = nullptr;
-
-
 
 
 int main(int argc, char **argv)
@@ -95,11 +89,9 @@ fileMenu->Append(FILE_QUIT, "E&xit\tAlt-X", "Quit this program");
 
     timer.Start(0);
 
-    timerLongPress.SetOwner(this, TIMER_LONG_ID);
+    timerLongPress.Bind(wxEVT_TIMER, &Frame::OnTimerLong, this);
 
     self = this;
-
-
 
     ConsoleSCPI::Self()->Show();
 }
