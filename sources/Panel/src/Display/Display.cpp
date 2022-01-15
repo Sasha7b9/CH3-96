@@ -491,7 +491,7 @@ static void DrawHint(int x, int y)
         }
         else
         {
-            if (Hint::Text()[0] != 0)
+            if (Hint::Shown() != 0)
             {
                 Rectangle(360, 30).FillRounded(x, y, 2, Color::BACK_3, Color::BACK_3);
                 Text(Hint::Text()).Write(x + dX, y + dY, Color::FILL);

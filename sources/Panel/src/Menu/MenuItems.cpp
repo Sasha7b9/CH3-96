@@ -325,7 +325,7 @@ void Switch::OnEnterKeyGovernor(const Control &control)
     }
     else
     {
-        if (Hint::Text()[0] != 0 && Hint::UnderItem() == this)
+        if (Hint::Shown() && Hint::UnderItem() == this)
         {
             NextChoice();
         }

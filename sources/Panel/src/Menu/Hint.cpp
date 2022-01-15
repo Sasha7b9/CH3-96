@@ -43,3 +43,9 @@ void Hint::Hide()
     item = nullptr;
     timeHideHint = TIME_MS - 1;
 }
+
+
+bool Hint::Shown()
+{
+    return Hint::Text()[0] != 0;
+}
