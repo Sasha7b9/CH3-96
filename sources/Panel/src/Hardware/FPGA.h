@@ -50,7 +50,8 @@ struct FPGA
     static void WriteCommand(const Command &command);
 
     static void SwitchAuto();
-    static bool AutoMode();
+    // Возвращает true, если находится в режиме АВТО
+    static bool GetAutoMode();
 
     static void ReadValueCalibrator();
 

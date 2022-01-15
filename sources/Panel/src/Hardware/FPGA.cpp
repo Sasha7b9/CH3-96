@@ -339,7 +339,7 @@ void FPGA::SwitchAuto()
 }
 
 
-bool FPGA::AutoMode()
+bool FPGA::GetAutoMode()
 {
     return autoMode;
 }

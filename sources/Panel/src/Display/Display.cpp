@@ -470,7 +470,7 @@ static void DrawHint(int x, int y)
     }
     else
     {
-        if (FPGA::AutoMode())
+        if (FPGA::GetAutoMode())
         {
             if ((FPGA::Auto::Mid() != 0) || (FPGA::Auto::Max() != 0) || (FPGA::Auto::Min() != 0))
             {
