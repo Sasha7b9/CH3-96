@@ -17,21 +17,27 @@
 #include <cstring>
 
 
-// Открывает страницу, соответствующую воздействию control. Возвращает false, если для воздействия нет соответствующей страницы
-static bool OpenPage(Control control);
+namespace Menu
+{
+    void SubscribeToEvents();
 
-// Обработка события кнопки
-static bool OnKey(const Control &control);
+    // Текущая отображаемая страница меню
+    Page *openedPage = nullptr;
 
-// Обработка события ручки
-static void OnGovernor(const Control &control);
+    void (*funcUpdate)() = nullptr;
 
-// Текущая отображаемая страница меню
-static Page *openedPage = nullptr;
+    namespace Input
+    {
+        // Обработка события кнопки
+        bool OnControl(const Control &control);
 
-static void SubscribeToEvents();
+        // Открывает страницу, соответствующую воздействию control. Возвращает false, если для воздействия нет соответствующей страницы
+        bool OpenPage(Control control);
 
-static void (*funcUpdate)() = nullptr;
+        // Обработка события ручки
+        void OnGovernor(const Control &control);
+    }
+}
 
 
 void Menu::Draw()
@@ -40,7 +46,7 @@ void Menu::Draw()
 }
 
 
-static void OnGovernor(const Control &control)
+void Menu::Input::OnGovernor(const Control &control)
 {
     if (!Menu::OpenedPage()->IsPageModes() && !Menu::OpenedPage()->IsPageSettings())
     {
@@ -77,7 +83,7 @@ static void OnGovernor(const Control &control)
 }
 
 
-static bool OpenPage(Control control)
+bool Menu::Input::OpenPage(Control control)
 {
     if (!control.action.IsPress())
     {
@@ -126,7 +132,7 @@ void Menu::SetOpenedPage(Page *page)
 }
 
 
-static bool OnKey(const Control &control) //-V2008
+bool Menu::Input::OnControl(const Control &control)
 {
     if (PageIndication::calibrationMode.IsEnabled() &&
         control.value != Control::GovButton &&
@@ -244,7 +250,7 @@ void Menu::Input::FuncUpdate()
 
         OnGovernor(control);
 
-        if (!OnKey(control))
+        if (!OnControl(control))
         {
             OpenPage(control);
         }
@@ -260,7 +266,7 @@ void Menu::Input::SetFuncUpdate(void (*_funcUpdate)())
 }
 
 
-static void SubscribeToEvents()
+void Menu::SubscribeToEvents()
 {
     FreqMeter::modeTest.AddObserver(Channel::A->pageModes);
     FreqMeter::modeTest.AddObserver(Channel::B->pageModes);

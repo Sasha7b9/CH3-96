@@ -124,7 +124,7 @@ void FPGA::Init()
 }
 
 
-void FPGA::Update() //-V2008
+void FPGA::Update()
 {
     if(autoMode)
     {
