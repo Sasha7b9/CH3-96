@@ -1,3 +1,4 @@
+// (c) Aleksandr Shevchenko e-mail : Sasha7b9@tut.by
 #define WIN32_LEAN_AND_MEAN
 #include "Application_win.h"
 #include "GUI/ComPort.h"
