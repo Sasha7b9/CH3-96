@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F437xx,LOADER</Define>
               <Undefine></Undefine>
-              <IncludePath>.\src;..\Panel\src</IncludePath>
+              <IncludePath>.\src;..\Panel\src;.\src\Hardware\USBH</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -412,6 +412,31 @@
               <FileName>HAL.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Panel\src\Hardware\HAL\HAL.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Hardware/USBH</GroupName>
+          <Files>
+            <File>
+              <FileName>usbh_conf.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\Hardware\USBH\usbh_conf.h</FilePath>
+            </File>
+            <File>
+              <FileName>usbh_conf.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\Hardware\USBH\usbh_conf.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>usbh_diskio.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\Hardware\USBH\usbh_diskio.h</FilePath>
+            </File>
+            <File>
+              <FileName>usbh_diskio.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\Hardware\USBH\usbh_diskio.cpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -823,6 +848,31 @@
               <FileName>HAL.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Panel\src\Hardware\HAL\HAL.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Hardware/USBH</GroupName>
+          <Files>
+            <File>
+              <FileName>usbh_conf.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\Hardware\USBH\usbh_conf.h</FilePath>
+            </File>
+            <File>
+              <FileName>usbh_conf.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\Hardware\USBH\usbh_conf.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>usbh_diskio.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\Hardware\USBH\usbh_diskio.h</FilePath>
+            </File>
+            <File>
+              <FileName>usbh_diskio.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\Hardware\USBH\usbh_diskio.cpp</FilePath>
             </File>
           </Files>
         </Group>
