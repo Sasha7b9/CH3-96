@@ -3,6 +3,7 @@
 project (Loader)
 
 include_directories(         src
+                             src/Hardware/USBH
                     ../Panel/src
                     ../common/_VS_KEIL/CMSIS
                     ../common/_VS_KEIL/HAL
@@ -25,7 +26,8 @@ add_compile_options(/wd26812)   # The enum type %type% is unscoped. Prefer 'enum
 
 file(GLOB SRC                     src/*.*)
 file(GLOB HARDWARE                src/Hardware/*.*)
-file(GLOB HARDWARE_HAL   ../Panel/src/Hardware/HAL/HAL.h)
+file(GLOB HARDWARE_HAL   ../Panel/src/Hardware/HAL/HAL.h
+                                  src/Hardware/HAL/*.*)
 file(GLOB HARDWARE_USBH           src/Hardware/USBH/*.*)
 
 source_group(src           FILES ${SRC})
