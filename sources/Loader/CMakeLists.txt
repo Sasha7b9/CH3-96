@@ -11,7 +11,8 @@ include_directories(../common/libs/STM32Cube_F4/Drivers/STM32F4xx_HAL_Driver/Inc
                     ../common/libs/STM32Cube_F4/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc
                     ../common/_VS_KEIL/CMSIS
                     ../common/_VS/std_includes
-                    .
+                            .
+                             src/Hardware/HAL
                     ../Panel/src
                     )
                     
@@ -79,6 +80,7 @@ file(GLOB LIBS_USBH         ../common/libs/STM32Cube_F4/Middlewares/ST/STM32_USB
 file(GLOB SRC               src/*.*)
 file(GLOB HARDWARE          src/Hardware/*. src/Hardware/*.cpp)
 file(GLOB HARDWARE_FATFS    src/Hardware/FatFS/*.*)
+file(GLOB HARDWARE_HAL      src/Hardware/HAL/*.*)
 file(GLOB HARDWARE_USBH     src/Hardware/USBH/*.*)
 
 set_source_files_properties(${LIBS_FATFS} ${LIBS_HAL} ${LIBS_USBH} PROPERTIES HEADER_FILE_ONLY TRUE)
@@ -86,10 +88,12 @@ set_source_files_properties(${LIBS_FATFS} ${LIBS_HAL} ${LIBS_USBH} PROPERTIES HE
 source_group(src             FILES ${SRC})
 source_group(Hardware        FILES ${HARDWARE})
 source_group(Hardware\\FatFS FILES ${HARDWARE_FATFS})
+source_group(Hardware\\HAL   FILES ${HARDWARE_HAL})
 source_group(Hardware\\USBH  FILES ${HARDWARE_USBH})
 
 add_library(${PROJECT_NAME}
                     ${SRC}
                     ${HARDWARE}
                     ${HARDWARE_FATFS}
+                    ${HARDWARE_HAL}
                     ${HARDWARE_USBH})
