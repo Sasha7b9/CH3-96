@@ -1,5 +1,5 @@
 #ifndef __STM32F4xx_HAL_CONF_H
-#define __STM32F4xx_HAL_CONF_H //-V2573
+#define __STM32F4xx_HAL_CONF_H
 
 #ifdef __cplusplus
  extern "C" {

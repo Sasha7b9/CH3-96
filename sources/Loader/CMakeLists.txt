@@ -12,6 +12,7 @@ include_directories(../common/libs/STM32Cube_F4/Drivers/STM32F4xx_HAL_Driver/Inc
                     ..
                     ../common/_VS_KEIL/CMSIS
                     ../common/_VS/std_includes
+                    ../Panel/src
                     src
                     src/Hardware/HAL
                     src/Hardware/FatFS
@@ -78,23 +79,23 @@ file(GLOB LIBS_USBH          ../common/libs/STM32Cube_F4/Middlewares/ST/STM32_US
                              ../common/libs/STM32Cube_F4/Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Src/usbh_msc_bot.c
                              ../common/libs/STM32Cube_F4/Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc/usbh_msc_scsi.h
                              ../common/libs/STM32Cube_F4/Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Src/usbh_msc_scsi.c)
-file(GLOB SRC                src/*.h src/*.cpp)
+file(GLOB SRC                       src/*.h src/*.cpp)
 file(GLOB COMMON             ../common/Command.h
                              ../common/Decoder_d.h
                              ../common/Decoder_d.cpp)
-file(GLOB DISPLAY            src/Display/*)
+file(GLOB DISPLAY                      Display/*.*)
 file(GLOB DISPLAY_FONT       ../common/Display/Font/Font_d.h
                              ../common/Display/Font/Font_d.cpp
                              ../common/Display/Font/font8.inc)
-file(GLOB FDRIVE             src/FlashDrive/*)
-file(GLOB HARDWARE           src/Hardware/*.h src/Hardware/*.cpp)
-file(GLOB HARDWARE_CMSIS     src/Hardware/CMSIS/*)
-file(GLOB HARDWARE_FATFS     src/Hardware/FatFS/*)
-file(GLOB HARDWARE_HAL       src/Hardware/HAL/*)
-file(GLOB HARDWARE_STM32     src/Hardware/stm32/*)
-file(GLOB HARDWARE_USBH      src/Hardware/USBH/*)
-file(GLOB KEYBOARD           src/Keyboard/*)
-file(GLOB UTILS              src/Utils/*)
+file(GLOB FDRIVE                   src/FlashDrive/*.*)
+file(GLOB HARDWARE                 src/Hardware/*.h src/Hardware/*.cpp)
+file(GLOB HARDWARE_CMSIS           src/Hardware/CMSIS/*.*)
+file(GLOB HARDWARE_FATFS           src/Hardware/FatFS/*.*)
+file(GLOB HARDWARE_HAL             src/Hardware/HAL/*.*)
+file(GLOB HARDWARE_STM32           src/Hardware/stm32/*.*)
+file(GLOB HARDWARE_USBH            src/Hardware/USBH/*.*)
+file(GLOB KEYBOARD                 src/Keyboard/*.*)
+file(GLOB UTILS                    src/Utils/*.*)
 
 set_source_files_properties(${LIBS_FATFS} ${LIBS_HAL} ${LIBS_USBH} PROPERTIES HEADER_FILE_ONLY TRUE)
 
