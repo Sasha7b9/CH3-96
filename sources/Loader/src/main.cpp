@@ -6,6 +6,12 @@
 #include <stm32f4xx_hal.h>
 
 
+#ifdef WIN32
+    #define __disable_irq()
+    #define __set_MSP()
+#endif
+
+
 #define MAIN_PROGRAM_START_ADDRESS  0x8020000
 
 

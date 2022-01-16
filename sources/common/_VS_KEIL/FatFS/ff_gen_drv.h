@@ -3,6 +3,7 @@
 #define BYTE    char
 #define DSTATUS char
 #define DRESULT char
+#define DWORD   unsigned int
 
 struct Diskio_drvTypeDef
 {
