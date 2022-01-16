@@ -85,8 +85,7 @@ file(GLOB COMMON             ../common/Command.h
 file(GLOB DISPLAY            src/Display/*)
 file(GLOB DISPLAY_FONT       ../common/Display/Font/Font_d.h
                              ../common/Display/Font/Font_d.cpp
-                             ../common/Display/Font/font8.inc
-                             src/Display/AdvancedFont_d.cpp)
+                             ../common/Display/Font/font8.inc)
 file(GLOB FDRIVE             src/FlashDrive/*)
 file(GLOB HARDWARE           src/Hardware/*.h src/Hardware/*.cpp)
 file(GLOB HARDWARE_CMSIS     src/Hardware/CMSIS/*)
