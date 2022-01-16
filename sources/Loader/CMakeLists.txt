@@ -6,6 +6,7 @@ include_directories(         src
                              src/Hardware/USBH
                     ../Panel/src
                     ../common/_VS_KEIL/CMSIS
+                    ../common/_VS_KEIL/FatFS
                     ../common/_VS_KEIL/HAL
                     ../common/_VS_KEIL/std_includes
                     )

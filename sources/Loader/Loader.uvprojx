@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F437xx,LOADER</Define>
               <Undefine></Undefine>
-              <IncludePath>.\src;..\Panel\src;.\src\Hardware\USBH</IncludePath>
+              <IncludePath>.\src;..\Panel\src;.\src\Hardware\USBH;..\common\libs\STM32Cube_F4\Middlewares\Third_Party\FatFs\src;..\common\libs\STM32Cube_F4\Drivers\STM32F4xx_HAL_Driver\Inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
