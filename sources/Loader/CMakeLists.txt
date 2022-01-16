@@ -5,8 +5,11 @@ project (Loader)
 include_directories(../common/_VS_KEIL/CMSIS
                     ../common/_VS_KEIL/FatFS
                     ../common/_VS_KEIL/HAL
+                    ../common/_VS_KEIL/USBH
                     ../common/_VS_KEIL/std_includes
                              src
+                             src/Hardware/FatFS
+                             src/Hardware/HAL
                              src/Hardware/USBH
                     ../Panel/src
                     )
@@ -28,18 +31,21 @@ add_compile_options(/wd26812)   # The enum type %type% is unscoped. Prefer 'enum
 file(GLOB SRC            ../Panel/src/defines.h
                                   src/*.*)
 file(GLOB HARDWARE                src/Hardware/*.*)
+file(GLOB HARDWARE_FATFS          src/Hardware/FatFS/*.*)
 file(GLOB HARDWARE_HAL   ../Panel/src/Hardware/HAL/HAL.h
                                   src/Hardware/HAL/*.*)
 file(GLOB HARDWARE_USBH           src/Hardware/USBH/*.*)
 
-source_group(src           FILES ${SRC})
-source_group(Hardware      FILES ${HARDWARE})
-source_group(Hardware/HAL  FILES ${HARDWARE_HAL})
-source_group(Hardware/USBH FILES ${HARDWARE_USBH})
+source_group(src            FILES ${SRC})
+source_group(Hardware       FILES ${HARDWARE})
+source_group(Hardware/FatFS FILES ${HARDWARE_FATFS})
+source_group(Hardware/HAL   FILES ${HARDWARE_HAL})
+source_group(Hardware/USBH  FILES ${HARDWARE_USBH})
 
 add_library(${PROJECT_NAME}
                     ${SRC}
                     ${HARDWARE}
+                    ${HARDWARE_FATFS}
                     ${HARDWARE_HAL}
                     ${HARDWARE_USBH}
                     )
