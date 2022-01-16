@@ -81,7 +81,7 @@ set_source_files_properties(${HARDWARE_CMSIS} ${HAL}
                             ../common/libs/STM32Cube_F4/Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ioreq.c
                             PROPERTIES HEADER_FILE_ONLY TRUE)
 
-add_library(Panel ${HAL} ${SRC} ${CALCULATE} ${DISPLAY} ${DISPLAY_FONT} ${HARDWARE} ${HARDWARE_CMSIS} ${HARDWARE_HAL}
+add_library(${PROJECT_NAME} ${HAL} ${SRC} ${CALCULATE} ${DISPLAY} ${DISPLAY_FONT} ${HARDWARE} ${HARDWARE_CMSIS} ${HARDWARE_HAL}
                   ${HARDWARE_USBD} ${KEYBOARD} ${MENU} ${MENU_PAGES} ${MENU_PAGES_CHANNELS} ${MENU_PAGES_MODES}
                   ${MENU_PAGES_OTHER} ${SCPI}
                   ${SCPI_PROCESS} ${UTILS} ${TESTS})

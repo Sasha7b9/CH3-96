@@ -20,3 +20,4 @@ project (CH3-96-2)
 set (TARGET_NAME CH3-96-2)
 
 add_subdirectory(Panel)
+add_subdirectory(Loader)
