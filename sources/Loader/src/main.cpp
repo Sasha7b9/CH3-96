@@ -3,6 +3,7 @@
 #include "Display/Display.h"
 #include "Hardware/FDrive.h"
 #include "Hardware/HAL/HAL.h"
+#include <stm32f4xx_hal.h>
 
 
 #define MAIN_PROGRAM_START_ADDRESS  0x8020000

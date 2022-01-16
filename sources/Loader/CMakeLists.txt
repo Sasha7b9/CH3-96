@@ -3,7 +3,11 @@
 project (Loader)
 
 include_directories(         src
-                    ../Panel/src)
+                    ../Panel/src
+                    ../common/_VS_KEIL/CMSIS
+                    ../common/_VS_KEIL/HAL
+                    ../common/_VS_KEIL/std_includes
+                    )
                     
 add_definitions(-DSTM32F401xE -DLOADER)
 
