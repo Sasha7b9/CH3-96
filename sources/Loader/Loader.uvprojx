@@ -48,14 +48,14 @@
             <NotGenerated>0</NotGenerated>
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
-          <OutputDirectory>.\Objects\</OutputDirectory>
+          <OutputDirectory>.\Objects-Debug\</OutputDirectory>
           <OutputName>DLoader57</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>0</CreateHexFile>
           <DebugInformation>1</DebugInformation>
           <BrowseInformation>0</BrowseInformation>
-          <ListingPath>.\Listings\</ListingPath>
+          <ListingPath>.\Listings-Debug\</ListingPath>
           <HexFormatSelection>1</HexFormatSelection>
           <Merge32K>0</Merge32K>
           <CreateBatchFile>0</CreateBatchFile>
@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F437xx,LOADER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\common\libs\STM32Cube_F4\Drivers\CMSIS\Include;..\common\libs\STM32Cube_F4\Drivers\STM32F4xx_HAL_Driver\Inc;..\common\libs\STM32Cube_F4\Middlewares\Third_Party\FatFs\src;..\common\libs\STM32Cube_F4\Middlewares\ST\STM32_USB_Host_Library\Core\Inc;..\common\libs\STM32Cube_F4\Middlewares\ST\STM32_USB_Host_Library\Class\MSC\Inc;..\common\libs\STM32Cube_F4\Drivers\CMSIS\Device\ST\STM32F4xx\Include;.\src\Hardware\FatFS;.\src\Hardware\HAL;.\src\Hardware\USBH;.\src;..\</IncludePath>
+              <IncludePath>.\src;..\Panel\src</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
