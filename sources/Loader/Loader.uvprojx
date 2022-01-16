@@ -390,6 +390,21 @@
             </File>
           </Files>
         </Group>
+        <Group>
+          <GroupName>Hardware</GroupName>
+          <Files>
+            <File>
+              <FileName>FDrive.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\Hardware\FDrive.h</FilePath>
+            </File>
+            <File>
+              <FileName>FDrive.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\Hardware\FDrive.cpp</FilePath>
+            </File>
+          </Files>
+        </Group>
       </Groups>
     </Target>
     <Target>
@@ -725,7 +740,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F437xx,LOADER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\Panel\src</IncludePath>
+              <IncludePath>.\src;..\Panel\src</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -773,6 +788,21 @@
               <FileName>main.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\main.cpp</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Hardware</GroupName>
+          <Files>
+            <File>
+              <FileName>FDrive.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\Hardware\FDrive.h</FilePath>
+            </File>
+            <File>
+              <FileName>FDrive.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\Hardware\FDrive.cpp</FilePath>
             </File>
           </Files>
         </Group>

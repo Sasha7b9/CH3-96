@@ -2,7 +2,8 @@
 
 project (Loader)
 
-include_directories(../Panel/src)
+include_directories(         src
+                    ../Panel/src)
                     
 add_definitions(-DSTM32F401xE -DLOADER)
 
@@ -18,10 +19,13 @@ add_compile_options(/wd5220)    # a non-static data member with a volatile quali
 add_compile_options(/wd26812)   # The enum type %type% is unscoped. Prefer 'enum class' over 'enum' (Enum.3)
 
 
-file(GLOB SRC               src/*.*)
+file(GLOB SRC      src/*.*)
+file(GLOB HARDWARE src/Hardware/*.*)
 
-source_group(src             FILES ${SRC})
+source_group(src      FILES ${SRC})
+source_group(Hardware FILES ${HARDWARE})
 
 add_library(${PROJECT_NAME}
                     ${SRC}
+                    ${HARDWARE}
                     )
