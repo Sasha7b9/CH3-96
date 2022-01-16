@@ -58,7 +58,7 @@ DSTATUS USBH_status(BYTE lun)
 {
     DRESULT res = RES_ERROR;
 
-    if(USBH_MSC_UnitIsReady(reinterpret_cast<USBH_HandleTypeDef *>(FDrive::GetHandleUSBH()), lun)) //-V2571
+    if(USBH_MSC_UnitIsReady(reinterpret_cast<USBH_HandleTypeDef *>(FDrive::GetHandleUSBH()), lun))
     {
         res = RES_OK;
     }
@@ -79,7 +79,7 @@ DRESULT USBH_read(BYTE lun, BYTE *buff, DWORD sector, UINT count)
     DRESULT res = RES_ERROR;
     MSC_LUNTypeDef info;
 
-    USBH_HandleTypeDef *handleUSBH = reinterpret_cast<USBH_HandleTypeDef *>(FDrive::GetHandleUSBH()); //-V2571
+    USBH_HandleTypeDef *handleUSBH = reinterpret_cast<USBH_HandleTypeDef *>(FDrive::GetHandleUSBH());
 
     if(USBH_MSC_Read(handleUSBH, lun, sector, buff, count) == USBH_OK)
     {
@@ -117,7 +117,7 @@ DRESULT USBH_write(BYTE lun, const BYTE *buff, DWORD sector, UINT count)
     DRESULT res = RES_ERROR;
     MSC_LUNTypeDef info;
 
-    USBH_HandleTypeDef *handleUSBH = reinterpret_cast<USBH_HandleTypeDef *>(FDrive::GetHandleUSBH()); //-V2571
+    USBH_HandleTypeDef *handleUSBH = reinterpret_cast<USBH_HandleTypeDef *>(FDrive::GetHandleUSBH());
 
     if(USBH_MSC_Write(handleUSBH, lun, sector, const_cast<BYTE *>(buff), count) == USBH_OK) //-V2567
     {
@@ -160,7 +160,7 @@ DRESULT USBH_ioctl(BYTE lun, BYTE cmd, void *buff)
     DRESULT res = RES_ERROR;
     MSC_LUNTypeDef info;
 
-    USBH_HandleTypeDef *handleUSBH = reinterpret_cast<USBH_HandleTypeDef *>(FDrive::GetHandleUSBH()); //-V2571
+    USBH_HandleTypeDef *handleUSBH = reinterpret_cast<USBH_HandleTypeDef *>(FDrive::GetHandleUSBH());
 
     switch(cmd)
     {
@@ -173,7 +173,7 @@ DRESULT USBH_ioctl(BYTE lun, BYTE cmd, void *buff)
     case GET_SECTOR_COUNT:
         if(USBH_MSC_GetLUNInfo(handleUSBH, lun, &info) == USBH_OK)
         {
-            *static_cast<DWORD *>(buff) = info.capacity.block_nbr; //-V525 //-V2571
+            *static_cast<DWORD *>(buff) = info.capacity.block_nbr; //-V525
             res = RES_OK;
         }
         break;
@@ -182,7 +182,7 @@ DRESULT USBH_ioctl(BYTE lun, BYTE cmd, void *buff)
     case GET_SECTOR_SIZE:
         if(USBH_MSC_GetLUNInfo(handleUSBH, lun, &info) == USBH_OK) //-V1037
         {
-            *static_cast<DWORD *>(buff) = info.capacity.block_size; //-V2571
+            *static_cast<DWORD *>(buff) = info.capacity.block_size;
             res = RES_OK;
         }
         break;
@@ -192,7 +192,7 @@ DRESULT USBH_ioctl(BYTE lun, BYTE cmd, void *buff)
 
         if(USBH_MSC_GetLUNInfo(handleUSBH, lun, &info) == USBH_OK)
         {
-            *static_cast<DWORD *>(buff) = info.capacity.block_size; //-V2571
+            *static_cast<DWORD *>(buff) = info.capacity.block_size;
             res = RES_OK;
         }
         break;
