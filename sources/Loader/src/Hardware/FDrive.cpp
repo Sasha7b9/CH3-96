@@ -1,8 +1,7 @@
+// 2022/1/16 17:01:44 (c) Aleksandr Shevchenko e-mail : Sasha7b9@tut.by
 #include "defines.h"
 #include "Hardware/FDrive.h"
-#include "Hardware/Timer.h"
 #include "Hardware/HAL/HAL.h"
-#include "Hardware/HAL/HAL_PIO.h"
 #include <usbh_diskio.h>
 #include <ctype.h>
 

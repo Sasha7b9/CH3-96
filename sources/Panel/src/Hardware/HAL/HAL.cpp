@@ -66,7 +66,13 @@ void HAL::Init()
 }
 
 
-void SystemClock_Config(void)
+void HAL::DeInit()
+{
+
+}
+
+
+static void SystemClock_Config()
 {
     RCC_ClkInitTypeDef RCC_ClkInitStruct;
     RCC_OscInitTypeDef RCC_OscInitStruct;

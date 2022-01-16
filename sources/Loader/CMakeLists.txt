@@ -19,13 +19,16 @@ add_compile_options(/wd5220)    # a non-static data member with a volatile quali
 add_compile_options(/wd26812)   # The enum type %type% is unscoped. Prefer 'enum class' over 'enum' (Enum.3)
 
 
-file(GLOB SRC      src/*.*)
-file(GLOB HARDWARE src/Hardware/*.*)
+file(GLOB SRC                   src/*.*)
+file(GLOB HARDWARE              src/Hardware/*.*)
+file(GLOB HARDWARE_HAL ../Panel/src/Hardware/HAL/HAL.h)
 
-source_group(src      FILES ${SRC})
-source_group(Hardware FILES ${HARDWARE})
+source_group(src           FILES ${SRC})
+source_group(Hardware      FILES ${HARDWARE})
+source_group(Hardware\\HAL FILES ${HARDWARE_HAL})
 
 add_library(${PROJECT_NAME}
                     ${SRC}
                     ${HARDWARE}
+                    ${HARDWARE_HAL}
                     )

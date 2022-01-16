@@ -405,6 +405,16 @@
             </File>
           </Files>
         </Group>
+        <Group>
+          <GroupName>Hardware/HAL</GroupName>
+          <Files>
+            <File>
+              <FileName>HAL.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Panel\src\Hardware\HAL\HAL.h</FilePath>
+            </File>
+          </Files>
+        </Group>
       </Groups>
     </Target>
     <Target>
@@ -803,6 +813,16 @@
               <FileName>FDrive.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\Hardware\FDrive.cpp</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Hardware/HAL</GroupName>
+          <Files>
+            <File>
+              <FileName>HAL.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Panel\src\Hardware\HAL\HAL.h</FilePath>
             </File>
           </Files>
         </Group>

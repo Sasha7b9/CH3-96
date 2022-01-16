@@ -11,6 +11,7 @@ struct Settings;
 struct HAL
 {
     static void Init();
+    static void DeInit();
     static void ERROR_HANDLER();
 };
 

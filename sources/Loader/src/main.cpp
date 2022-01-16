@@ -1,7 +1,7 @@
 // (c) Aleksandr Shevchenko e-mail : Sasha7b9@tut.by
 #include "defines.h"
 #include "Display/Display.h"
-#include "src/Hardware/FDrive.h"
+#include "Hardware/FDrive.h"
 #include "Hardware/HAL/HAL.h"
 
 
@@ -16,13 +16,13 @@ int main()
     HAL::Init();
 
     Display::Init();
-   
+
     FDrive::Init();
 
     FDrive::AttemptUpdate();
-    
-    
-    CPU::DeInit();
+
+
+    HAL::DeInit();
 
     __disable_irq();
     // Теперь переходим на основную программу
