@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F437xx,LOADER</Define>
               <Undefine></Undefine>
-              <IncludePath>.\src;..\Panel\src;.\src\Hardware\USBH;..\common\libs\STM32Cube_F4\Middlewares\Third_Party\FatFs\src;..\common\libs\STM32Cube_F4\Drivers\STM32F4xx_HAL_Driver\Inc;.\src\Hardware\FatFS;.\src\Hardware\HAL</IncludePath>
+              <IncludePath>.\src;..\Panel\src;.\src\Hardware\USBH;..\common\libs\STM32Cube_F4\Middlewares\Third_Party\FatFs\src;..\common\libs\STM32Cube_F4\Drivers\STM32F4xx_HAL_Driver\Inc;.\src\Hardware\FatFS;.\src\Hardware\HAL;..\common\libs\STM32Cube_F4\Drivers\CMSIS\Include</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -412,6 +412,11 @@
               <FileName>HAL.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Panel\src\Hardware\HAL\HAL.h</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_hal_conf.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\Hardware\HAL\stm32f4xx_hal_conf.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -858,6 +863,11 @@
               <FileName>HAL.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Panel\src\Hardware\HAL\HAL.h</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_hal_conf.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\Hardware\HAL\stm32f4xx_hal_conf.h</FilePath>
             </File>
           </Files>
         </Group>
