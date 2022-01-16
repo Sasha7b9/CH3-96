@@ -2,13 +2,13 @@
 
 project (Loader)
 
-include_directories(         src
-                             src/Hardware/USBH
-                    ../Panel/src
-                    ../common/_VS_KEIL/CMSIS
+include_directories(../common/_VS_KEIL/CMSIS
                     ../common/_VS_KEIL/FatFS
                     ../common/_VS_KEIL/HAL
                     ../common/_VS_KEIL/std_includes
+                             src
+                             src/Hardware/USBH
+                    ../Panel/src
                     )
                     
 add_definitions(-DSTM32F401xE -DLOADER)
@@ -25,7 +25,8 @@ add_compile_options(/wd5220)    # a non-static data member with a volatile quali
 add_compile_options(/wd26812)   # The enum type %type% is unscoped. Prefer 'enum class' over 'enum' (Enum.3)
 
 
-file(GLOB SRC                     src/*.*)
+file(GLOB SRC            ../Panel/src/defines.h
+                                  src/*.*)
 file(GLOB HARDWARE                src/Hardware/*.*)
 file(GLOB HARDWARE_HAL   ../Panel/src/Hardware/HAL/HAL.h
                                   src/Hardware/HAL/*.*)
