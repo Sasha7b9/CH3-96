@@ -1,3 +1,4 @@
+// (c) Aleksandr Shevchenko e-mail : Sasha7b9@tut.by
 #include <usbh_core.h>
 #include "defines.h"
 #include "Hardware/Controls.h"

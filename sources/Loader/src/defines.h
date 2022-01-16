@@ -1,3 +1,5 @@
+// (c) Aleksandr Shevchenko e-mail : Sasha7b9@tut.by
+#define WIN32_LEAN_AND_MEAN
 #pragma once
 
 #define DEBUG

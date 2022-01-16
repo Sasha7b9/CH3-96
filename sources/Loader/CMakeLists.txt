@@ -1,3 +1,5 @@
+# (c) Aleksandr Shevchenko e-mail : Sasha7b9@tut.by
+
 project (Loader)
 
 include_directories(../common/libs/STM32Cube_F4/Drivers/STM32F4xx_HAL_Driver/Inc
@@ -8,14 +10,14 @@ include_directories(../common/libs/STM32Cube_F4/Drivers/STM32F4xx_HAL_Driver/Inc
                     ../common/libs/STM32Cube_F4/Middlewares/ST/STM32_USB_Device_Library/Core/Inc
                     ../common/libs/STM32Cube_F4/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc
                     ..
-                    ../common/_VS
+                    ../common/_VS_KEIL/CMSIS
                     ../common/_VS/std_includes
                     src
                     src/Hardware/HAL
                     src/Hardware/FatFS
                     src/Hardware/USBH)
                     
-add_definitions(-DSTM32F437xx -DLOADER)
+add_definitions(-DSTM32F401xE -DLOADER)
 
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -MP -Wall")
 
