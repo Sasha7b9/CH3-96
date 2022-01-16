@@ -1,3 +1,4 @@
+// 2022/1/16 18:10:26 (c) Aleksandr Shevchenko e-mail : Sasha7b9@tut.by
 #include "defines.h"
 #include <ff_gen_drv.h>
 #include <usbh_diskio.h>

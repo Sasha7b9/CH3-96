@@ -3,12 +3,13 @@
 #include "Display/Display.h"
 #include "Hardware/FDrive.h"
 #include "Hardware/HAL/HAL.h"
-#include <stm32f4xx_hal.h>
 
 
 #ifdef WIN32
+    #define __enable_irq()
     #define __disable_irq()
-    #define __set_MSP()
+    #define __set_MSP(x)
+    #define __IO
 #endif
 
 

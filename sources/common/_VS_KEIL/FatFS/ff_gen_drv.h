@@ -1,9 +1,12 @@
 #pragma once
 
+
 #define BYTE    char
 #define DSTATUS char
 #define DRESULT char
 #define DWORD   unsigned int
+#define UINT    unsigned int
+
 
 struct Diskio_drvTypeDef
 {

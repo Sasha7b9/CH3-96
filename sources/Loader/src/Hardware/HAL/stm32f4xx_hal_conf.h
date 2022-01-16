@@ -1,12 +1,13 @@
+// 2022/1/16 18:10:46 (c) Aleksandr Shevchenko e-mail : Sasha7b9@tut.by
 #ifndef __STM32F4xx_HAL_CONF_H
-#define __STM32F4xx_HAL_CONF_H //-V2573
+#define __STM32F4xx_HAL_CONF_H
 
 
-#define __weak __attribute__((weak)) //-V2573
-#define __packed __attribute__((packed)) //-V2573
+#define __weak __attribute__((weak))
+#define __packed __attribute__((packed))
 
 #ifdef MSVC
-#define __attribute(x) //-V2573
+#define __attribute(x)
 #endif
 
 #ifdef __cplusplus
