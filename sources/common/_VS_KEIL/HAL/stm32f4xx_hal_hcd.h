@@ -2,9 +2,10 @@
 #include "stm32f4xx_ll_usb.h"
 
 
-typedef struct __HCD_HandleTypeDef //-V2573
+typedef struct __HCD_HandleTypeDef
 {
-    int i;
+    int  i;
+    void *pData;
 } HCD_HandleTypeDef;
 
 void HAL_HCD_IRQHandler(HCD_HandleTypeDef *hhcd);
