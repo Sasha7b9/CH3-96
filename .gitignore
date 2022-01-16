@@ -7,9 +7,13 @@ archive.zip
 *.uvoptx
 
 sources/.vs/*
+sources/generated/*
+
+sources/Loader/Objects/*
+
 sources/Panel/Objects/*
 sources/Panel/Listings/*
 sources/Panel/Objects-Debug/*
 sources/Panel/Listings-Debug/*
 sources/Panel/DebugConfig/*
-sources/generated/*
+

@@ -2,7 +2,7 @@
 
 project (Loader)
 
-include_directories()
+include_directories(../Panel/src)
                     
 add_definitions(-DSTM32F401xE -DLOADER)
 
