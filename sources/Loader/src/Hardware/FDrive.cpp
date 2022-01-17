@@ -432,20 +432,16 @@ bool FDrive::Upgrade()
 
     int size = 0;
 
-    if (!ReadSize(&fChecksum, &fFirmware, &size))
+    if (ReadSize(&fChecksum, &fFirmware, &size))
     {
-        goto ExitUpgrade;
+        ReadZones(&fChecksum, &fFirmware, size);
+
+        HAL_EEPROM::EraseSector(FLASH_::ADDR_SECTOR_PROGRAM_0);
+
+        FLASH_::WriteData(FLASH_::ADDR_SECTOR_PROGRAM_0, (void *)FLASH_::ADDR_SECTOR_PROGRAM_TEMP, size);
+
+        result = true;
     }
-
-    ReadZones(&fChecksum, &fFirmware, size);
-
-    HAL_EEPROM::EraseSector(FLASH_::ADDR_SECTOR_PROGRAM_0);
-
-    FLASH_::WriteData(FLASH_::ADDR_SECTOR_PROGRAM_0, (void *)FLASH_::ADDR_SECTOR_PROGRAM_TEMP, size);
-
-    result = true;
-
-ExitUpgrade:
 
     FDrive::Close(&fFirmware);
     FDrive::Close(&fChecksum);
