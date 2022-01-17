@@ -9,7 +9,8 @@
 
 
 #define FILE_FIRMWARE "CH3-96.bin"
-#define FILE_CLEAR "clear.txt"
+#define FILE_CHECKSUM "CH3-96.crc32"
+#define FILE_CLEAR    "clear.txt"
 
 
 struct StructForReadDir
@@ -294,7 +295,7 @@ static bool GetNextNameFile(char *nameFileOut, StructForReadDir *s)
 }
 
 
-int FDrive::OpenFileForRead(FIL *file, pchar fileName)
+int FDrive::OpenForRead(FIL *file, pchar fileName)
 {
     if(f_open(file, fileName, FA_READ) == FR_OK)
     {
@@ -304,7 +305,7 @@ int FDrive::OpenFileForRead(FIL *file, pchar fileName)
 }
 
 
-int FDrive::ReadFromFile(FIL *file, int numBytes, uint8 *buffer)
+int FDrive::ReadFromFile(FIL *file, int numBytes, void *buffer)
 {
     uint readed = 0;
     if(f_read(file, buffer, static_cast<UINT>(numBytes), &readed) == FR_OK)
@@ -379,6 +380,12 @@ void FDrive::EraseSettings()
 }
 
 
+bool FDrive::ReadChecksums(FIL *, uint [128])
+{
+    return false;
+}
+
+
 bool FDrive::Upgrade()
 {
     FIL fFirmware;
@@ -386,18 +393,49 @@ bool FDrive::Upgrade()
 
     bool result = false;
 
-#define sizeSector (1 * 1024)
-
-    uint8 buffer[sizeSector];
-
     FLASH_::Prepare();
 
-    int size = FDrive::OpenFileForRead(&fFirmware, FILE_FIRMWARE);
+    if (FDrive::OpenForRead(&fChecksum, FILE_CHECKSUM) <= 0)
+    {
+        goto ExitUpgrade;
+    }
+
+    int size = 0;
+
+    FDrive::ReadFromFile(&fChecksum, 4, &size);                         // Считываем размер файла
+
+    if (size != FDrive::OpenForRead(&fFirmware, FILE_FIRMWARE))     // Если он не соответствует размеру файла с прошивкой
+    {
+        goto ExitUpgrade;
+    }
+
+    uint sums[128];
+
+    for (int i = 0; i < 128; i++)
+    {
+        if (FDrive::ReadFromFile(&fChecksum, 4, &sums[i]) == -1)
+        {
+            break;
+        }
+    }
+
+    FDrive::CloseOpenedFile(&fChecksum);
+
+    for (int i = 0; i < 128; i++)
+    {
+//        uint hash = 0;
+
+    }
+
     int fullSize = size;
     uint address = FLASH_::ADDR_SECTOR_PROGRAM_0;
 
     while(size)
     {
+#define sizeSector (1 * 1024)
+
+        uint8 buffer[sizeSector];
+
         int readedBytes = FDrive::ReadFromFile(&fFirmware, sizeSector, buffer);
         FLASH_::WriteData(address, buffer, readedBytes);
         size -= readedBytes;
@@ -406,7 +444,7 @@ bool FDrive::Upgrade()
         percentsUpdate = 1.0F - static_cast<float>(size) / fullSize;
     }
 
-ExitUpdate:
+ExitUpgrade:
 
     FDrive::CloseOpenedFile(&fFirmware);
     FDrive::CloseOpenedFile(&fChecksum);

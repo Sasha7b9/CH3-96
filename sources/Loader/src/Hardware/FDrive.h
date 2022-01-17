@@ -32,11 +32,11 @@ public:
 
     static bool FileExist(pchar fileName);
 
-    // Открывает файл для чтения. Возвращает размер файла
-    static int OpenFileForRead(FIL *file, pchar fileName);
+    // Открывает файл для чтения. Возвращает размер файла. -1 в случае неуспеха
+    static int OpenForRead(FIL *file, pchar fileName);
 
     // Считывает из открытого файла numBytes байт. Возвращает число реально считанных байт
-    static int ReadFromFile(FIL *file, int numBytes, uint8 *buffer);
+    static int ReadFromFile(FIL *file, int numBytes, void *buffer);
 
     static void CloseOpenedFile(FIL *file);
 
@@ -65,4 +65,6 @@ private:
 
     // Записать в EEPROM файл с прошивкой с флешки
     static bool Upgrade();
+
+    static bool ReadChecksums(FIL *file, uint sums[128]);
 };
