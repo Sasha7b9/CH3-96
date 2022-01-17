@@ -31,6 +31,12 @@ HAL_StatusTypeDef HAL_Init()
 }
 
 
+void HAL_DeInit()
+{
+
+}
+
+
 void HAL_IncTick()
 {
 }
