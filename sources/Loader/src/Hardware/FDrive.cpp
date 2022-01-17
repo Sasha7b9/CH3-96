@@ -53,10 +53,10 @@ static void USBH_UserProcess(USBH_HandleTypeDef *phost, uint8 id);
 static bool Process();
 
 // Стереть настройки
-void EraseSettings();
+static void EraseSettings();
 
 // Записать в EEPROM файл с прошивкой с флешки
-void Upgrade();
+static void Upgrade();
 
 
 void *FDrive::GetHandleHCD()
@@ -378,12 +378,13 @@ uint8 FDrive::LL_::GetToggle(uint8 pipe)
 }
 
 
-void EraseSettings()
+static void EraseSettings()
 {
     HAL_EEPROM::EraseSector(0x080C0000);
 }
 
-void Upgrade()
+
+static void Upgrade()
 {
 #define sizeSector (1 * 1024)
 
