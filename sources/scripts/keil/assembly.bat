@@ -66,10 +66,15 @@ echo ERROR!!! Build failed !!!
 type ..\..\Panel\Panel.out
 
 :COPY_FILE
-echo copy /Y ..\..\Panel\CH3-96.bin h:\
-copy /Y ..\..\Panel\CH3-96.bin h:\
-echo copy /Y ..\..\Panel\CH3-96.bin g:\
-copy /Y ..\..\Panel\CH3-96.bin g:\
+cd ..\..\Panel
+..\generated\GUI\checksum\Debug\checksum.exe CH3-96
+cd ..\scripts\keil
+echo copy /Y ..\..\Panel\CH3-96.* h:\
+copy /Y ..\..\Panel\CH3-96.* h:\
+echo copy /Y ..\..\Panel\CH3-96.* g:\
+copy /Y ..\..\Panel\CH3-96.* g:\
+echo copy /Y ..\..\Panel\CH3-96.* z:\
+copy /Y ..\..\Panel\CH3-96.* z:\
 
 :LOADING
 if %isLoad%==0 goto EXIT

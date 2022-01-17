@@ -47,8 +47,6 @@ int main(int argc, char *argv[])
 
         while(length)
         {
-            cout << length << endl;
-
             char buffer[1024];
 
             int read_bytes = (length < 1024) ? length : 1024;
