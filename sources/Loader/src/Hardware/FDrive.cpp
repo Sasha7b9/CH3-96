@@ -441,9 +441,9 @@ bool FDrive::Upgrade()
     {
         HAL_EEPROM::EraseSector(FLASH_::ADDR_SECTOR_PROGRAM_TEMP);
 
-        ReadZones(&fChecksum, &fFirmware, FLASH_::ADDR_SECTOR_PROGRAM_TEMP, size);
-
         HAL_EEPROM::EraseSector(FLASH_::ADDR_SECTOR_PROGRAM_0);
+
+        ReadZones(&fChecksum, &fFirmware, FLASH_::ADDR_SECTOR_PROGRAM_TEMP, size);
 
         HAL_EEPROM::WriteData(FLASH_::ADDR_SECTOR_PROGRAM_0, (void *)FLASH_::ADDR_SECTOR_PROGRAM_TEMP, (uint)size);
 
