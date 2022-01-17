@@ -11,14 +11,14 @@ using namespace std;
 
 static unsigned int CalculateCRC32(char *buffer, int size)
 {
-    unsigned int result = 0;
+    unsigned int hash = 0;
 
     while (size--)
     {
-        result += *buffer++;
+        hash = (*buffer++) + (hash << 6u) + (hash << 16u) - hash;
     }
 
-    return result;
+    return hash;
 }
 
 
@@ -43,6 +43,8 @@ int main(int argc, char *argv[])
         int length = (int)ifile.tellg();
         ifile.seekg(0, ifile.beg);
 
+        ofile << length << endl;
+
         while(length)
         {
             cout << length << endl;
@@ -55,7 +57,7 @@ int main(int argc, char *argv[])
 
             ifile.read(buffer, read_bytes);
 
-            ofile << read_bytes << " " << CalculateCRC32(buffer, read_bytes) << endl;
+            ofile << CalculateCRC32(buffer, read_bytes) << endl;
         }
 
         ofile.close();
