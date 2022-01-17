@@ -141,9 +141,13 @@ void FDrive::AttemptUpdate()
             EraseSettings();
         }
 
-        if(FileExist(FILE_FIRMWARE))            // Если на диске обнаружена прошивка
-        {
-            Upgrade();
+        for (int i = 0; i < 10; i++)            // Столько попыток нужно потому, что плохо работает USB в частотомере.
+        {                                       // Предположительно из-за длинной линии
+            if (FileExist(FILE_FIRMWARE))       // Если на диске обнаружена прошивка
+            {
+                Upgrade();
+                break;
+            }
         }
     }
     else if(state == State::WrongFlash)         // Диск не удалось примонтировать
