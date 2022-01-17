@@ -439,6 +439,8 @@ bool FDrive::Upgrade()
 
     if (ReadSize(&fChecksum, &fFirmware, &size))
     {
+        PrepareSectorFlash(FLASH_::ADDR_SECTOR_PROGRAM_TEMP);
+
         ReadZones(&fChecksum, &fFirmware, FLASH_::ADDR_SECTOR_PROGRAM_TEMP, size);
 
         HAL_EEPROM::EraseSector(FLASH_::ADDR_SECTOR_PROGRAM_0);
@@ -475,8 +477,6 @@ bool FDrive::ReadSize(FIL *f_hash, FIL *f_firm, int *size)
 
 void FDrive::ReadZones(FIL *f_hash, FIL *f_firm, uint address, const int size)
 {
-    PrepareSectorFlash(FLASH_::ADDR_SECTOR_PROGRAM_TEMP);
-
     int num_zones = size / 1024;
 
     if ((size % 1024) != 0)
