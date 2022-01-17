@@ -10,3 +10,4 @@ endif()
 
 add_subdirectory(Panel)
 add_subdirectory(Saver)
+add_subdirectory(checksum)
