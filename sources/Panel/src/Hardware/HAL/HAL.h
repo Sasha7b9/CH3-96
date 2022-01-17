@@ -20,6 +20,8 @@ struct HAL_EEPROM
 {
     static void LoadSettings(Settings *settings);
     static void SaveSettings(Settings *settings);
+    // Стирает сектор с начальным адресом startAddress
+    static void EraseSector(uint address);
 };
 
 

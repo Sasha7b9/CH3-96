@@ -32,9 +32,6 @@ static uint FindFirstFreeRecord(uint start, uint sizeSector, uint sizeRecord);
 // Возвращает адрес последнего блока, в котором первый байт не равен 0xffffffff (в нём сохраенены последние настройки)
 static uint FindLastOccupiedRecord(uint start, uint sizeSector, uint sizeRecord);
 
-// Стирает сектор с начальным адресом startAddress
-static void EraseSector(uint startAddress);
-
 // Записывает size байт из массива data по адресу address
 static void WriteData(uint address, void *data, uint size);
 
@@ -115,7 +112,7 @@ static uint FindLastOccupiedRecord(uint start, uint sizeSector, uint sizeRecord)
 }
 
 
-static void EraseSector(uint startAddress)
+void HAL_EEPROM::EraseSector(uint startAddress)
 {
     if (GetSector(startAddress) == static_cast<uint>(-1))
     {

@@ -130,7 +130,7 @@ void FDrive::AttemptUpdate()
     if((connection != 0 && active == 0) ||      // ≈сли флеша подключена, но в активное состо€ние почему-то не перешла
         (active != 0 && state != State::Mount)) // или перешла в активное состо€ние, по почему-то не запустилс€ процесс монтировани€
     {
-        NVIC_SystemReset();
+        HAL_NVIC_SystemReset();
     }
 
     if(state == State::Mount)                   // Ёто означает, что диск удачно примонтирован
@@ -326,7 +326,7 @@ void FDrive::LL_::InitHCD(void *host)
 {
     USBH_HandleTypeDef *phost = static_cast<USBH_HandleTypeDef *>(host);
 
-    handleHCD.Instance = USB_OTG_HS;
+    handleHCD.Instance = USB_OTG_FS;
     handleHCD.Init.speed = HCD_SPEED_HIGH;
     handleHCD.Init.Host_channels = 12;
     handleHCD.Init.dma_enable = 0;
