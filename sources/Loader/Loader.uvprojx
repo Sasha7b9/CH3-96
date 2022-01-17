@@ -499,6 +499,11 @@
               <FilePath>..\Panel\src\Hardware\HAL\HAL.cpp</FilePath>
             </File>
             <File>
+              <FileName>HAL_EEPROM.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Panel\src\Hardware\HAL\HAL_EEPROM.cpp</FilePath>
+            </File>
+            <File>
               <FileName>HAL_TIM.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Panel\src\Hardware\HAL\HAL_TIM.cpp</FilePath>
@@ -1083,6 +1088,11 @@
               <FileName>HAL.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\Panel\src\Hardware\HAL\HAL.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>HAL_EEPROM.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Panel\src\Hardware\HAL\HAL_EEPROM.cpp</FilePath>
             </File>
             <File>
               <FileName>HAL_TIM.cpp</FileName>
