@@ -305,7 +305,7 @@ int FDrive::OpenForRead(FIL *file, pchar fileName)
 }
 
 
-int FDrive::ReadFromFile(FIL *file, int numBytes, void *buffer)
+int FDrive::Read(FIL *file, int numBytes, void *buffer)
 {
     uint readed = 0;
     if(f_read(file, buffer, static_cast<UINT>(numBytes), &readed) == FR_OK)
@@ -316,7 +316,7 @@ int FDrive::ReadFromFile(FIL *file, int numBytes, void *buffer)
 }
 
 
-void FDrive::CloseOpenedFile(FIL *file)
+void FDrive::Close(FIL *file)
 {
     f_close(file);
 }
@@ -402,7 +402,7 @@ bool FDrive::Upgrade()
 
     int size = 0;
 
-    FDrive::ReadFromFile(&fChecksum, 4, &size);                         // Считываем размер файла
+    FDrive::Read(&fChecksum, 4, &size);                         // Считываем размер файла
 
     if (size != FDrive::OpenForRead(&fFirmware, FILE_FIRMWARE))     // Если он не соответствует размеру файла с прошивкой
     {
@@ -413,13 +413,13 @@ bool FDrive::Upgrade()
 
     for (int i = 0; i < 128; i++)
     {
-        if (FDrive::ReadFromFile(&fChecksum, 4, &sums[i]) == -1)
+        if (FDrive::Read(&fChecksum, 4, &sums[i]) == -1)
         {
             break;
         }
     }
 
-    FDrive::CloseOpenedFile(&fChecksum);
+    FDrive::Close(&fChecksum);
 
     for (int i = 0; i < 128; i++)
     {
@@ -436,7 +436,7 @@ bool FDrive::Upgrade()
 
         uint8 buffer[sizeSector];
 
-        int readedBytes = FDrive::ReadFromFile(&fFirmware, sizeSector, buffer);
+        int readedBytes = FDrive::Read(&fFirmware, sizeSector, buffer);
         FLASH_::WriteData(address, buffer, readedBytes);
         size -= readedBytes;
         address += static_cast<uint>(readedBytes);
@@ -446,8 +446,8 @@ bool FDrive::Upgrade()
 
 ExitUpgrade:
 
-    FDrive::CloseOpenedFile(&fFirmware);
-    FDrive::CloseOpenedFile(&fChecksum);
+    FDrive::Close(&fFirmware);
+    FDrive::Close(&fChecksum);
 
     return result;
 }

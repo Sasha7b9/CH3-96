@@ -36,9 +36,9 @@ public:
     static int OpenForRead(FIL *file, pchar fileName);
 
     // Считывает из открытого файла numBytes байт. Возвращает число реально считанных байт
-    static int ReadFromFile(FIL *file, int numBytes, void *buffer);
+    static int Read(FIL *file, int numBytes, void *buffer);
 
-    static void CloseOpenedFile(FIL *file);
+    static void Close(FIL *file);
 
     static void *GetHandleHCD();
 
