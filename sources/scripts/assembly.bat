@@ -7,7 +7,6 @@ if "%1" equ "full"  cd keil & call assembly rebuild all & cd ../vs_keil & call a
 echo.
 echo Using assembly.bat:
 echo                    assembly.bat [build^|full]
-echo.
 goto EXIT
 
 :EXIT

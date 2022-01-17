@@ -99,7 +99,6 @@ goto EXIT
 echo.
 echo Using assembly.bat:
 echo                    assembly.bat [clear^|build^|rebuild^|load] [load] [panel^|loader^|all]
-echo.
 goto EXIT
 
 :CALL_COPY
