@@ -32,9 +32,6 @@ static uint FindFirstFreeRecord(uint start, uint sizeSector, uint sizeRecord);
 // Возвращает адрес последнего блока, в котором первый байт не равен 0xffffffff (в нём сохраенены последние настройки)
 static uint FindLastOccupiedRecord(uint start, uint sizeSector, uint sizeRecord);
 
-// Записывает size байт из массива data по адресу address
-static void WriteData(uint address, void *data, uint size);
-
 // Возвращает системный идентификатор сектора с начальным адресом address. Ежели такового нету, возвращает -1
 static uint GetSector(uint address);
 
@@ -165,7 +162,7 @@ static uint GetSector(uint address)
 }
 
 
-static void WriteData(uint address, void *data, uint size)
+void HAL_EEPROM::WriteData(uint address, void *data, uint size)
 {
     CLEAR_FLASH_FLAGS;
 

@@ -20,9 +20,3 @@ void FLASH_::Prepare()
 
     
 }
-
-
-void FLASH_::WriteData(uint, void *, int)
-{
-
-}

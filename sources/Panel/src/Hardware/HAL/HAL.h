@@ -22,6 +22,8 @@ struct HAL_EEPROM
     static void SaveSettings(Settings *settings);
     // —тирает сектор с начальным адресом startAddress
     static void EraseSector(uint address);
+    // «аписывает size байт из массива data по адресу address
+    static void WriteData(uint address, void *data, uint size);
 };
 
 

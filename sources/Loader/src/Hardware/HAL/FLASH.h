@@ -8,6 +8,4 @@ namespace FLASH_
     static const uint ADDR_SECTOR_PROGRAM_TEMP = ADDR_SECTOR_PROGRAM_0 + 1024 * 128;
 
     void Prepare();
-
-    void WriteData(uint address, void *buffer, int numBytes);
 }

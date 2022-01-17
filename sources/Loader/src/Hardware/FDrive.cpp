@@ -443,7 +443,7 @@ bool FDrive::Upgrade()
 
         HAL_EEPROM::EraseSector(FLASH_::ADDR_SECTOR_PROGRAM_0);
 
-        FLASH_::WriteData(FLASH_::ADDR_SECTOR_PROGRAM_0, (void *)FLASH_::ADDR_SECTOR_PROGRAM_TEMP, size);
+        HAL_EEPROM::WriteData(FLASH_::ADDR_SECTOR_PROGRAM_0, (void *)FLASH_::ADDR_SECTOR_PROGRAM_TEMP, (uint)size);
 
         result = true;
     }
@@ -498,7 +498,7 @@ void FDrive::ReadZones(FIL *f_hash, FIL *f_firm, uint address, const int size)
         {
         }
 
-        FLASH_::WriteData(address + num_zone * 1024, zone, size_zone);
+        HAL_EEPROM::WriteData(address + num_zone * 1024, zone, (uint)size_zone);
 
         num_zone++;
 
