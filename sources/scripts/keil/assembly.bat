@@ -71,12 +71,9 @@ type ..\..\Panel\Panel.out
 cd ..\..\Panel
 ..\generated\GUI\checksum\Debug\checksum.exe CH3-96
 cd ..\scripts\keil
-echo copy /Y ..\..\Panel\CH3-96.* h:\
-copy /Y ..\..\Panel\CH3-96.* h:\
-echo copy /Y ..\..\Panel\CH3-96.* g:\
-copy /Y ..\..\Panel\CH3-96.* g:\
-echo copy /Y ..\..\Panel\CH3-96.* z:\
-copy /Y ..\..\Panel\CH3-96.* z:\
+call :CALL_COPY h:\
+call :CALL_COPY g:\
+call :CALL_COPY z:\
 
 :LOADING
 if %isLoad%==0 goto EXIT
@@ -102,5 +99,11 @@ echo Using assembly.bat:
 echo                    assembly.bat [clear^|build^|rebuild^|load] [load] [panel^|loader^|all]
 echo.
 goto EXIT
+
+:CALL_COPY
+    if not exist %1 exit /b
+    echo copy /Y ..\..\Panel\CH3-96.* %1
+    copy /Y ..\..\Panel\CH3-96.* %1
+    exit /b
 
 :EXIT
