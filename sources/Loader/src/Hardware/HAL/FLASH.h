@@ -5,7 +5,7 @@
 namespace FLASH_
 {
     static const uint ADDR_SECTOR_PROGRAM_0 = 0x80200000;
-    static const uint ADDD_SECTOR_PROGRAM_TEMP = ADDR_SECTOR_PROGRAM_0 + 1024 * 128;
+    static const uint ADDR_SECTOR_PROGRAM_TEMP = ADDR_SECTOR_PROGRAM_0 + 1024 * 128;
 
     void Prepare();
 

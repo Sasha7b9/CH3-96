@@ -381,21 +381,24 @@ void FDrive::EraseSettings()
 
 bool FDrive::Upgrade()
 {
+    FIL fFirmware;
+    FIL fChecksum;
+
+    bool result = false;
+
 #define sizeSector (1 * 1024)
 
     uint8 buffer[sizeSector];
 
     FLASH_::Prepare();
 
-    FIL file;
-
-    int size = FDrive::OpenFileForRead(&file, FILE_FIRMWARE);
+    int size = FDrive::OpenFileForRead(&fFirmware, FILE_FIRMWARE);
     int fullSize = size;
     uint address = FLASH_::ADDR_SECTOR_PROGRAM_0;
 
     while(size)
     {
-        int readedBytes = FDrive::ReadFromFile(&file, sizeSector, buffer);
+        int readedBytes = FDrive::ReadFromFile(&fFirmware, sizeSector, buffer);
         FLASH_::WriteData(address, buffer, readedBytes);
         size -= readedBytes;
         address += static_cast<uint>(readedBytes);
@@ -403,7 +406,12 @@ bool FDrive::Upgrade()
         percentsUpdate = 1.0F - static_cast<float>(size) / fullSize;
     }
 
-    FDrive::CloseOpenedFile(&file);
+ExitUpdate:
+
+    FDrive::CloseOpenedFile(&fFirmware);
+    FDrive::CloseOpenedFile(&fChecksum);
+
+    return result;
 }
 
 
