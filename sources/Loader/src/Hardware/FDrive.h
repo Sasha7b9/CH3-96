@@ -1,6 +1,6 @@
 // 2022/1/16 17:01:53 (c) Aleksandr Shevchenko e-mail : Sasha7b9@tut.by
 #pragma once
-
+#include <ff.h>
 
 #define TIME_WAIT   3000    // Время работы заставки
 
@@ -33,12 +33,12 @@ public:
     static bool FileExist(pchar fileName);
 
     // Открывает файл для чтения. Возвращает размер файла
-    static int OpenFileForRead(pchar fileName);
+    static int OpenFileForRead(FIL *file, pchar fileName);
 
     // Считывает из открытого файла numBytes байт. Возвращает число реально считанных байт
-    static int ReadFromFile(int numBytes, uint8 *buffer);
+    static int ReadFromFile(FIL *file, int numBytes, uint8 *buffer);
 
-    static void CloseOpenedFile();
+    static void CloseOpenedFile(FIL *file);
 
     static void *GetHandleHCD();
 

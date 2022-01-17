@@ -43,7 +43,6 @@ static State::E state = State::Start;
 static FATFS        USBDISKFatFS;
 static char         USBDISKPath[4];
 static StateDisk::E stateDisk;
-static FIL          file;
 static int          connection;
 static int          active;
 
@@ -300,20 +299,20 @@ static bool GetNextNameFile(char *nameFileOut, StructForReadDir *s)
 }
 
 
-int FDrive::OpenFileForRead(pchar fileName)
+int FDrive::OpenFileForRead(FIL *file, pchar fileName)
 {
-    if(f_open(&file, fileName, FA_READ) == FR_OK)
+    if(f_open(file, fileName, FA_READ) == FR_OK)
     {
-        return (int)f_size(&file);
+        return (int)f_size(file);
     }
     return -1;
 }
 
 
-int FDrive::ReadFromFile(int numBytes, uint8 *buffer)
+int FDrive::ReadFromFile(FIL *file, int numBytes, uint8 *buffer)
 {
     uint readed = 0;
-    if(f_read(&file, buffer, static_cast<UINT>(numBytes), &readed) == FR_OK)
+    if(f_read(file, buffer, static_cast<UINT>(numBytes), &readed) == FR_OK)
     {
         return static_cast<int>(readed);
     }
@@ -321,9 +320,9 @@ int FDrive::ReadFromFile(int numBytes, uint8 *buffer)
 }
 
 
-void FDrive::CloseOpenedFile()
+void FDrive::CloseOpenedFile(FIL *file)
 {
-    f_close(&file);
+    f_close(file);
 }
 
 
@@ -392,21 +391,23 @@ void Upgrade()
 
     FLASH_::Prepare();
 
-    int size = FDrive::OpenFileForRead(FILE_FIRMWARE);
+    FIL file;
+
+    int size = FDrive::OpenFileForRead(&file, FILE_FIRMWARE);
     int fullSize = size;
     uint address = FLASH_::ADDR_SECTOR_PROGRAM_0;
 
     while(size)
     {
-        int readedBytes = FDrive::ReadFromFile(sizeSector, buffer);
+        int readedBytes = FDrive::ReadFromFile(&file, sizeSector, buffer);
         FLASH_::WriteData(address, buffer, readedBytes);
         size -= readedBytes;
         address += static_cast<uint>(readedBytes);
 
-        percentsUpdate = 1.0F - static_cast<float>(size) / fullSize; //-V2564
+        percentsUpdate = 1.0F - static_cast<float>(size) / fullSize;
     }
 
-    FDrive::CloseOpenedFile();
+    FDrive::CloseOpenedFile(&file);
 }
 
 

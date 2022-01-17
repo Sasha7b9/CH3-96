@@ -10,7 +10,9 @@
     #define __enable_irq()
     #define __disable_irq()
     #define __set_MSP(x)
-    #define __IO
+    #ifndef __IO
+        #define __IO volatile
+    #endif
 #endif
 
 
