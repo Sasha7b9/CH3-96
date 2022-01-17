@@ -24,7 +24,7 @@ int main()
 {
     HAL::Init();
 
-//    Display::Init();
+    Display::Init();
 
 //    FDrive::Init();
 

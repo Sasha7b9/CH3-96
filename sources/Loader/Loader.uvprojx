@@ -436,6 +436,21 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>Display</GroupName>
+          <Files>
+            <File>
+              <FileName>Display.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\Display\Display.h</FilePath>
+            </File>
+            <File>
+              <FileName>Display.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\Display\Display.cpp</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>Hardware</GroupName>
         </Group>
         <Group>
@@ -919,6 +934,21 @@
               <FileName>main.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\src\main.cpp</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Display</GroupName>
+          <Files>
+            <File>
+              <FileName>Display.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\Display\Display.h</FilePath>
+            </File>
+            <File>
+              <FileName>Display.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\Display\Display.cpp</FilePath>
             </File>
           </Files>
         </Group>
