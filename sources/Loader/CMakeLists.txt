@@ -39,6 +39,7 @@ file(GLOB HAL            ../common/libs/STM32Cube_F4/Drivers/STM32F4xx_HAL_Drive
                          ../common/libs/STM32Cube_F4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc.*
                          ../common/libs/STM32Cube_F4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.*
                          )
+file(GLOB DISPLAY                 src/Display/*.*)
 # file(GLOB HARDWARE                src/Hardware/*.*)
 file(GLOB HARDWARE_CMSIS          src/Hardware/CMSIS/*.*)
 file(GLOB HARDWARE_FATFS          src/Hardware/FatFS/*.*)
@@ -49,6 +50,7 @@ file(GLOB HARDWARE_HAL   ../Panel/src/Hardware/HAL/HAL.*
 
 source_group(src            FILES ${SRC})
 source_group(HAL            FILES ${HAL})
+source_group(Display        FILES ${DISPLAY})
 # source_group(Hardware       FILES ${HARDWARE})
 source_group(Hardware/CMSIS FILES ${HARDWARE_CMSIS})
 source_group(Hardware/FatFS FILES ${HARDWARE_FATFS})
@@ -61,6 +63,7 @@ set_source_files_properties(${HAL} ${HARDWARE_CMSIS}
 add_library(${PROJECT_NAME}
                     ${SRC}
                     ${HAL}
+                    ${DISPLAY}
 #                    ${HARDWARE}
                     ${HARDWARE_CMSIS}
                     ${HARDWARE_FATFS}
