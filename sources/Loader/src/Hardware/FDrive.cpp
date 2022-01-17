@@ -48,7 +48,7 @@ static int          connection;
 static int          active;
 
 
-static bool GetNameFile(const char *fullPath, int numFile, char *nameFileOut, StructForReadDir *s);
+static bool GetNameFile(pchar fullPath, int numFile, char *nameFileOut, StructForReadDir *s);
 static bool GetNextNameFile(char *nameFileOut, StructForReadDir *s);
 static void USBH_UserProcess(USBH_HandleTypeDef *phost, uint8 id);
 static bool Process();
@@ -191,7 +191,7 @@ static void ToLower(char *str)
 
 
 
-bool FDrive::FileExist(const char *fileName)
+bool FDrive::FileExist(pchar fileName)
 {
     char nameFile[255];
     char f[255];
@@ -221,7 +221,7 @@ bool FDrive::FileExist(const char *fileName)
 
 
 
-static bool GetNameFile(const char *fullPath, int numFile, char *nameFileOut, StructForReadDir *s)
+static bool GetNameFile(pchar fullPath, int numFile, char *nameFileOut, StructForReadDir *s)
 {
     memcpy(reinterpret_cast<uint8 *>(s->nameDir), const_cast<char *>(fullPath), strlen(fullPath)); //-V2567
     s->nameDir[strlen(fullPath)] = '\0';
@@ -300,7 +300,7 @@ static bool GetNextNameFile(char *nameFileOut, StructForReadDir *s)
 }
 
 
-int FDrive::OpenFileForRead(const char *fileName)
+int FDrive::OpenFileForRead(pchar fileName)
 {
     if(f_open(&file, fileName, FA_READ) == FR_OK)
     {

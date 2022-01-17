@@ -1,15 +1,15 @@
 #pragma once
 
 
-char   *strcat(char *, const char *);
-char   *strcpy(void *dest, const char *src);
-char   *strlcat(char *dest, const char *src, unsigned int size);
+char   *strcat(char *, pchar );
+char   *strcpy(void *dest, pchar src);
+char   *strlcat(char *dest, pchar src, unsigned int size);
 int     strcmp(const void *, const void *);
 float   atof(char *);
 void    memset(void *, int value, unsigned int size);
 void    memcpy(void *dest, const void *src, unsigned int);
 int     memcmp(void *, const void *, unsigned int);
-char   *strchr(const char *str, int c);
+char   *strchr(pchar str, int c);
 char    toupper(char);
 int     sscanf(void *, void *, ...);
-unsigned int  strlen(const char *);
+unsigned int  strlen(pchar );
