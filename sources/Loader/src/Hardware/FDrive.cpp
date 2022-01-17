@@ -468,7 +468,7 @@ bool FDrive::ReadSize(FIL *f_hash, FIL *f_firm, int *size)
 }
 
 
-void FDrive::ReadZones(FIL *f_hash, FIL *f_firm, int size)
+void FDrive::ReadZones(FIL *f_hash, FIL *f_firm, const int size)
 {
     FLASH_::Prepare();
 
