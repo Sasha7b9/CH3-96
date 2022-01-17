@@ -54,7 +54,9 @@ file(GLOB HARDWARE_FATFS          src/Hardware/FatFS/*.*
 file(GLOB HARDWARE_HAL   ../Panel/src/Hardware/HAL/HAL.*
                          ../Panel/src/Hardware/HAL/HAL_TIM.cpp
                                   src/Hardware/HAL/*.*)
-file(GLOB HARDWARE_USBH           src/Hardware/USBH/*.*)
+file(GLOB HARDWARE_USBH           src/Hardware/USBH/*.*
+                         ../common/libs/STM32Cube_F4/Middlewares/ST/STM32_USB_Host_Library/Core/Inc/usbh_core.*
+                         ../common/libs/STM32Cube_F4/Middlewares/ST/STM32_USB_Host_Library/Core/Src/usbh_core.*)
 
 source_group(src            FILES ${SRC})
 source_group(HAL            FILES ${HAL})

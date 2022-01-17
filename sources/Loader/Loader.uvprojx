@@ -533,6 +533,16 @@
               <FileType>5</FileType>
               <FilePath>.\src\Hardware\USBH\usbh_diskio.h</FilePath>
             </File>
+            <File>
+              <FileName>usbh_core.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\common\libs\STM32Cube_F4\Middlewares\ST\STM32_USB_Host_Library\Core\Inc\usbh_core.h</FilePath>
+            </File>
+            <File>
+              <FileName>usbh_core.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\common\libs\STM32Cube_F4\Middlewares\ST\STM32_USB_Host_Library\Core\Src\usbh_core.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1098,6 +1108,16 @@
               <FileName>usbh_diskio.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\src\Hardware\USBH\usbh_diskio.h</FilePath>
+            </File>
+            <File>
+              <FileName>usbh_core.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\common\libs\STM32Cube_F4\Middlewares\ST\STM32_USB_Host_Library\Core\Inc\usbh_core.h</FilePath>
+            </File>
+            <File>
+              <FileName>usbh_core.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\common\libs\STM32Cube_F4\Middlewares\ST\STM32_USB_Host_Library\Core\Src\usbh_core.c</FilePath>
             </File>
           </Files>
         </Group>
