@@ -3,8 +3,6 @@
 project (Loader)
 
 include_directories(../common/_VS_KEIL/CMSIS
-                    ../common/_VS_KEIL/FatFS
-                    ../common/_VS_KEIL/USBH
                     ../common/_VS_KEIL/std_includes
                     ../common/libs/STM32Cube_F4/Drivers/CMSIS/Device/ST/STM32F4xx/Include
                     ../common/libs/STM32Cube_F4/Drivers/STM32F4xx_HAL_Driver/Inc
