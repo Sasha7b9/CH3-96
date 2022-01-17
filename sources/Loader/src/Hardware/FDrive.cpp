@@ -440,9 +440,9 @@ bool FDrive::Upgrade()
     {
         HAL_EEPROM::EraseSector(HAL_EEPROM::ADDR_SECTOR_UPGRADE);
 
-        HAL_EEPROM::EraseSector(HAL_EEPROM::ADDR_SECTOR_FIRMWARE);
-
         ReadZones(&fChecksum, &fFirmware, HAL_EEPROM::ADDR_SECTOR_UPGRADE, size);
+
+        HAL_EEPROM::EraseSector(HAL_EEPROM::ADDR_SECTOR_FIRMWARE);
 
         HAL_EEPROM::WriteData(HAL_EEPROM::ADDR_SECTOR_FIRMWARE, (void *)HAL_EEPROM::ADDR_SECTOR_UPGRADE, (uint)size);
 
