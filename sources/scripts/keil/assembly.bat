@@ -102,8 +102,10 @@ goto EXIT
 
 :CALL_COPY
     if not exist %1 exit /b
-    echo copy /Y ..\..\Panel\CH3-96.* %1
-    copy /Y ..\..\Panel\CH3-96.* %1
+    echo on
+    copy /Y ..\..\Panel\CH3-96.bin %1
+    copy /Y ..\..\Panel\CH3-96.crc32 %1
+    echo off
     exit /b
 
 :EXIT
