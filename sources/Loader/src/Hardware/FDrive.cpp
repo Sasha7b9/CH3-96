@@ -147,7 +147,7 @@ void FDrive::AttemptUpdate()
     }
     else if(state == State::WrongFlash)         // Диск не удалось примонтировать
     {
-        Timer::PauseOnTime(5000);
+        HAL_TIM::DelayMS(5000);
     }
 
     state = State::Ok;
