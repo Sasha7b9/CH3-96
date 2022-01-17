@@ -50,7 +50,8 @@ file(GLOB DISPLAY                 src/Display/*.*)
 file(GLOB HARDWARE                src/Hardware/*.*)
 file(GLOB HARDWARE_CMSIS          src/Hardware/CMSIS/*.*)
 file(GLOB HARDWARE_FATFS          src/Hardware/FatFS/*.*
-                         ../common/libs/STM32Cube_F4/Middlewares/Third_Party/FatFs/src/ff_gen_drv.*)
+                         ../common/libs/STM32Cube_F4/Middlewares/Third_Party/FatFs/src/ff_gen_drv.*
+                         ../common/libs/STM32Cube_F4/Middlewares/Third_Party/FatFs/src/ff.*)
 file(GLOB HARDWARE_HAL   ../Panel/src/Hardware/HAL/HAL.*
                          ../Panel/src/Hardware/HAL/HAL_EEPROM.cpp
                          ../Panel/src/Hardware/HAL/HAL_TIM.cpp
