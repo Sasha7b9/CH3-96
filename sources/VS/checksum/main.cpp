@@ -49,18 +49,13 @@ int main(int argc, char *argv[])
 
             char buffer[1024];
 
-            int read_bytes = 1024;
-
-            if (length < 1024)
-            {
-                read_bytes = length;
-            }
+            int read_bytes = (length < 1024) ? length : 1024;
 
             length -= read_bytes;
 
             ifile.read(buffer, read_bytes);
 
-            ofile << CalculateCRC32(buffer, read_bytes) << endl;
+            ofile << read_bytes << " " << CalculateCRC32(buffer, read_bytes) << endl;
         }
 
         ofile.close();
