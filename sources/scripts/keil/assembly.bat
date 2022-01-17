@@ -50,6 +50,8 @@ echo Cleaning Panel ...
 %_COMPILER_% -c %_PROJECT_PANEL_% -j0
 
 :BUILDING
+del /Q ..\..\Panel\*.bin
+del /Q ..\..\Panel\*.crc32
 if %isBuild%==0 goto LOADING
 if %need_loader%==0 goto BUILDING_PANEL
 echo Building Loader ...
