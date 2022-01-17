@@ -30,7 +30,10 @@ add_compile_options(/wd26812)   # The enum type %type% is unscoped. Prefer 'enum
 
 file(GLOB SRC            ../Panel/src/defines.h
                                   src/*.*)
-# file(GLOB HAL            ../common/_VS_KEIL/HAL/stm32f4xx_hal_hcd.*)
+file(GLOB HAL            ../common/_VS_KEIL/HAL/stm32f4xx_hal.*
+                         ../common/_VS_KEIL/HAL/stm32f4xx_hal_cortex.*
+                         ../common/_VS_KEIL/HAL/stm32f4xx_hal_rcc.*
+                         ../common/_VS_KEIL/HAL/stm32f4xx_hal_gpio.*)
 # file(GLOB HARDWARE                src/Hardware/*.*)
 # file(GLOB HARDWARE_FATFS          src/Hardware/FatFS/*.*)
 # file(GLOB HARDWARE_HAL   ../Panel/src/Hardware/HAL/HAL.h
@@ -38,7 +41,7 @@ file(GLOB SRC            ../Panel/src/defines.h
 # file(GLOB HARDWARE_USBH           src/Hardware/USBH/*.*)
 
 source_group(src            FILES ${SRC})
-# source_group(HAL            FILES ${HAL})
+source_group(HAL            FILES ${HAL})
 # source_group(Hardware       FILES ${HARDWARE})
 # source_group(Hardware/FatFS FILES ${HARDWARE_FATFS})
 # source_group(Hardware/HAL   FILES ${HARDWARE_HAL})
@@ -46,7 +49,7 @@ source_group(src            FILES ${SRC})
 
 add_library(${PROJECT_NAME}
                     ${SRC}
-#                    ${HAL}
+                    ${HAL}
 #                    ${HARDWARE}
 #                    ${HARDWARE_FATFS}
 #                    ${HARDWARE_HAL}
