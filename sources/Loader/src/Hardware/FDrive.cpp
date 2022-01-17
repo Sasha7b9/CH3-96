@@ -316,6 +316,17 @@ int FDrive::Read(FIL *file, int numBytes, void *buffer)
 }
 
 
+int FDrive::ReadFromPosition(FIL *file, int pos, int numBytes, void *buffer)
+{
+    if (f_lseek(file, (FSIZE_t)pos) != FR_OK)
+    {
+        return -1;
+    }
+
+    return Read(file, numBytes, buffer);
+}
+
+
 void FDrive::Close(FIL *file)
 {
     f_close(file);
@@ -380,46 +391,40 @@ void FDrive::EraseSettings()
 }
 
 
-bool FDrive::ReadChecksums(FIL *file, uint sums[128])
+bool FDrive::ReadZone(FIL *f_hash, FIL *f_firm, int num_zone, int size_zone, uint8 buffer[1024])
 {
-    Close(file);
+    Close(f_hash);
+    Close(f_firm);
 
-    OpenForRead(file, FILE_CHECKSUM);
+    OpenForRead(f_hash, FILE_CHECKSUM);
+    OpenForRead(f_firm, FILE_FIRMWARE);
 
-    int size = 0;
+    uint hash = 0;
 
-    Read(file, 4, &size);
-
-    for (int i = 0; i < 128; i++)
+    if (ReadFromPosition(f_hash, 4 + num_zone * 4, 4, &hash) == -1)
     {
-        if (Read(file, 4, &sums[i]) == -1)
-        {
-            break;
-        }
+        return false;
     }
 
-    Close(file);
-
-    OpenForRead(file, FILE_CHECKSUM);
-
-    Read(file, 4, &size);
-
-    for (int i = 0; i < 128; i++)
+    if (ReadFromPosition(f_firm, num_zone * 1024, size_zone, buffer) == -1)
     {
-        uint hash = 0;
-
-        if (Read(file, 4, &hash) == -1)
-        {
-            break;
-        }
-
-        if (sums[i] != hash)
-        {
-            return false;
-        }
+        return false;
     }
 
-    return true;
+    return CalculateCRC32((char *)buffer, size_zone) == hash;
+}
+
+
+uint FDrive::CalculateCRC32(char *buffer, int size)
+{
+    unsigned int hash = 0;
+
+    while (size--)
+    {
+        hash = (*buffer++) + (hash << 6u) + (hash << 16u) - hash;
+    }
+
+    return hash;
 }
 
 
@@ -434,7 +439,7 @@ bool FDrive::Upgrade()
 
     if (ReadSize(&fChecksum, &fFirmware, &size))
     {
-        ReadZones(&fChecksum, &fFirmware, size);
+        ReadZones(&fChecksum, &fFirmware, FLASH_::ADDR_SECTOR_PROGRAM_TEMP, size);
 
         HAL_EEPROM::EraseSector(FLASH_::ADDR_SECTOR_PROGRAM_0);
 
@@ -468,7 +473,7 @@ bool FDrive::ReadSize(FIL *f_hash, FIL *f_firm, int *size)
 }
 
 
-void FDrive::ReadZones(FIL *f_hash, FIL *f_firm, const int size)
+void FDrive::ReadZones(FIL *f_hash, FIL *f_firm, uint address, const int size)
 {
     FLASH_::Prepare();
 
@@ -489,9 +494,11 @@ void FDrive::ReadZones(FIL *f_hash, FIL *f_firm, const int size)
 
         uint8 zone[1024];
 
-        ReadZone(f_hash, f_firm, num_zone, size_zone, zone);
+        while (!ReadZone(f_hash, f_firm, num_zone, size_zone, zone))
+        {
+        }
 
-        FLASH_::WriteData(FLASH_::ADDR_SECTOR_PROGRAM_TEMP + num_zone * 1024, zone, size_zone);
+        FLASH_::WriteData(address + num_zone * 1024, zone, size_zone);
 
         num_zone++;
 

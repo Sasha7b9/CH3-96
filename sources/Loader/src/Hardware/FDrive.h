@@ -37,6 +37,7 @@ public:
 
     // Считывает из открытого файла numBytes байт. Возвращает число реально считанных байт
     static int Read(FIL *file, int numBytes, void *buffer);
+    static int ReadFromPosition(FIL *file, int pos, int numBytes, void *buffer);
 
     static void Close(FIL *file);
 
@@ -66,11 +67,11 @@ private:
     // Записать в EEPROM файл с прошивкой с флешки
     static bool Upgrade();
 
-    static void ReadZone(FIL *f_hash, FIL *f_firm, int num_zone, int size_zone, uint8 buffer[1024]);
+    static bool ReadZone(FIL *f_hash, FIL *f_firm, int num_zone, int size_zone, uint8 buffer[1024]);
 
-    static void ReadZones(FIL *f_hash, FIL *f_firm, const int size);
+    static void ReadZones(FIL *f_hash, FIL *f_firm, uint address, const int size);
 
     static bool ReadSize(FIL *f_hash, FIL *f_firm, int *size);
 
-    static bool ReadChecksums(FIL *file, uint sums[128]);
+    static uint CalculateCRC32(char *buffer, int size);
 };
