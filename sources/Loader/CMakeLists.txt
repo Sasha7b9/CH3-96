@@ -54,7 +54,7 @@ file(GLOB HARDWARE_FATFS          src/Hardware/FatFS/*.*
 file(GLOB HARDWARE_HAL   ../Panel/src/Hardware/HAL/HAL.*
                          ../Panel/src/Hardware/HAL/HAL_TIM.cpp
                                   src/Hardware/HAL/*.*)
-# file(GLOB HARDWARE_USBH           src/Hardware/USBH/*.*)
+file(GLOB HARDWARE_USBH           src/Hardware/USBH/*.*)
 
 source_group(src            FILES ${SRC})
 source_group(HAL            FILES ${HAL})
@@ -63,9 +63,9 @@ source_group(Hardware       FILES ${HARDWARE})
 source_group(Hardware/CMSIS FILES ${HARDWARE_CMSIS})
 source_group(Hardware/FatFS FILES ${HARDWARE_FATFS})
 source_group(Hardware/HAL   FILES ${HARDWARE_HAL})
-# source_group(Hardware/USBH  FILES ${HARDWARE_USBH})
+source_group(Hardware/USBH  FILES ${HARDWARE_USBH})
 
-set_source_files_properties(${HAL} ${HARDWARE_CMSIS} ${HARDWARE_FATFS}
+set_source_files_properties(${HAL} ${HARDWARE_CMSIS} ${HARDWARE_FATFS} ${HARDWARE_USBH}
                             PROPERTIES HEADER_FILE_ONLY TRUE)
 
 add_library(${PROJECT_NAME}
@@ -76,5 +76,5 @@ add_library(${PROJECT_NAME}
                     ${HARDWARE_CMSIS}
                     ${HARDWARE_FATFS}
                     ${HARDWARE_HAL}
-#                    ${HARDWARE_USBH}
+                    ${HARDWARE_USBH}
                     )
