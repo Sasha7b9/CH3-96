@@ -74,6 +74,4 @@ private:
     static bool ReadSize(FIL *f_hash, FIL *f_firm, int *size);
 
     static uint CalculateCRC32(char *buffer, int size);
-
-    static void PrepareSectorFlash(uint address);
 };

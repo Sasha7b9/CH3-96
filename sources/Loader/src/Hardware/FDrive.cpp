@@ -439,7 +439,7 @@ bool FDrive::Upgrade()
 
     if (ReadSize(&fChecksum, &fFirmware, &size))
     {
-        PrepareSectorFlash(FLASH_::ADDR_SECTOR_PROGRAM_TEMP);
+        HAL_EEPROM::EraseSector(FLASH_::ADDR_SECTOR_PROGRAM_TEMP);
 
         ReadZones(&fChecksum, &fFirmware, FLASH_::ADDR_SECTOR_PROGRAM_TEMP, size);
 
@@ -516,19 +516,4 @@ float FDrive::PercentsUpdated()
 State::E FDrive::State()
 {
     return state;
-}
-
-
-void FDrive::PrepareSectorFlash(uint sector)
-{
-    uint8 *address = (uint8 *)sector;
-
-    for (int i = 0; i < 128 * 1024; i++)
-    {
-        if (address[i] != 0xFF)
-        {
-            HAL_EEPROM::EraseSector(sector);
-            break;
-        }
-    }
 }
