@@ -2,6 +2,7 @@
 #pragma warning(push, 0)
 #pragma warning(disable : 4668)
 #include <iostream>
+#include <fstream>
 #pragma warning(pop)
 
 
@@ -14,6 +15,18 @@ int main(int argc, char *argv[])
     {
         cout << "Using :" << endl;
         cout << "        checsum input_file.bin" << endl;
+        return -1;
+    }
+
+    ifstream ifile;
+    ifile.open(string(argv[1]) + ".bin", ios::in | ios::binary);
+    if (ifile.is_open())
+    {
+        ifile.close();
+    }
+    else
+    {
+        cout << "ERROR !!! Input file " << argv[1] << ".bin" << " not found" << endl;
         return -1;
     }
 
