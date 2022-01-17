@@ -18,7 +18,7 @@ link_directories(../../generated/ThirdParty/lib/vc_dll)
 
 add_definitions(-DSTM32F429xx -DWXUSINGDLL -DGUI)
 
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -MP -Wall")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -MP -Wall")
 
 add_compile_options(/wd4211)    # nonstandard extension used: redefined extern to static
 add_compile_options(/wd4355)    # 'this': used in base member initializer list
