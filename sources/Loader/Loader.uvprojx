@@ -543,6 +543,11 @@
               <FileType>5</FileType>
               <FilePath>.\src\Hardware\HAL\FLASH.h</FilePath>
             </File>
+            <File>
+              <FileName>HAL_IT.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\Hardware\HAL\HAL_IT.cpp</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1243,6 +1248,11 @@
               <FileName>FLASH.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\src\Hardware\HAL\FLASH.h</FilePath>
+            </File>
+            <File>
+              <FileName>HAL_IT.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\Hardware\HAL\HAL_IT.cpp</FilePath>
             </File>
           </Files>
         </Group>
