@@ -45,7 +45,8 @@ file(GLOB HAL            ../common/libs/STM32Cube_F4/Drivers/STM32F4xx_HAL_Drive
 file(GLOB DISPLAY                 src/Display/*.*)
 file(GLOB HARDWARE                src/Hardware/*.*)
 file(GLOB HARDWARE_CMSIS          src/Hardware/CMSIS/*.*)
-file(GLOB HARDWARE_FATFS          src/Hardware/FatFS/*.*)
+file(GLOB HARDWARE_FATFS          src/Hardware/FatFS/*.*
+                         ../common/libs/STM32Cube_F4/Middlewares/Third_Party/FatFs/src/ff_gen_drv.*)
 file(GLOB HARDWARE_HAL   ../Panel/src/Hardware/HAL/HAL.*
                          ../Panel/src/Hardware/HAL/HAL_TIM.cpp
                                   src/Hardware/HAL/*.*)
@@ -60,7 +61,7 @@ source_group(Hardware/FatFS FILES ${HARDWARE_FATFS})
 source_group(Hardware/HAL   FILES ${HARDWARE_HAL})
 # source_group(Hardware/USBH  FILES ${HARDWARE_USBH})
 
-set_source_files_properties(${HAL} ${HARDWARE_CMSIS}
+set_source_files_properties(${HAL} ${HARDWARE_CMSIS} ${HARDWARE_FATFS}
                             PROPERTIES HEADER_FILE_ONLY TRUE)
 
 add_library(${PROJECT_NAME}

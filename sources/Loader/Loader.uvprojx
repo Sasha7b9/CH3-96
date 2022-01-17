@@ -501,6 +501,16 @@
               <FileType>5</FileType>
               <FilePath>.\src\Hardware\FatFS\ffconf.h</FilePath>
             </File>
+            <File>
+              <FileName>ff_gen_drv.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\common\libs\STM32Cube_F4\Middlewares\Third_Party\FatFs\src\ff_gen_drv.c</FilePath>
+            </File>
+            <File>
+              <FileName>ff_gen_drv.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\common\libs\STM32Cube_F4\Middlewares\Third_Party\FatFs\src\ff_gen_drv.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1014,6 +1024,16 @@
               <FileName>ffconf.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\src\Hardware\FatFS\ffconf.h</FilePath>
+            </File>
+            <File>
+              <FileName>ff_gen_drv.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\common\libs\STM32Cube_F4\Middlewares\Third_Party\FatFs\src\ff_gen_drv.c</FilePath>
+            </File>
+            <File>
+              <FileName>ff_gen_drv.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\common\libs\STM32Cube_F4\Middlewares\Third_Party\FatFs\src\ff_gen_drv.h</FilePath>
             </File>
           </Files>
         </Group>
