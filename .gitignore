@@ -20,3 +20,4 @@ sources/Panel/Listings/*
 sources/Panel/Objects-Debug/*
 sources/Panel/Listings-Debug/*
 sources/Panel/DebugConfig/*
+sources/Panel/*.bin
