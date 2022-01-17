@@ -2,6 +2,7 @@
 #include "defines.h"
 #include "Hardware/FDrive.h"
 #include "Hardware/HAL/HAL.h"
+#include "Hardware/HAL/FLASH.h"
 #include <usbh_diskio.h>
 #include <ctype.h>
 #include <ffconf.h>
@@ -385,16 +386,16 @@ void Upgrade()
 
     uint8 buffer[sizeSector];
 
-    CPU::FLASH_::Prepare();
+    FLASH_::Prepare();
 
     int size = FDrive::OpenFileForRead(FILE_FIRMWARE);
     int fullSize = size;
-    uint address = CPU::FLASH_::ADDR_SECTOR_PROGRAM_0;
+    uint address = FLASH_::ADDR_SECTOR_PROGRAM_0;
 
     while(size)
     {
         int readedBytes = FDrive::ReadFromFile(sizeSector, buffer);
-        CPU::FLASH_::WriteData(address, buffer, readedBytes);
+        FLASH_::WriteData(address, buffer, readedBytes);
         size -= readedBytes;
         address += static_cast<uint>(readedBytes);
 
