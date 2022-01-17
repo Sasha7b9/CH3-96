@@ -184,7 +184,7 @@ void Display::EndScene()
 {
 #ifdef DEBUG
 
-    Text("Debug").Write(200, 50, Color::FILL);
+    Text(LANG_IS_RU ? "Отладка" : "Debug").Write(410, 0, Color::FILL);
 
 #endif
 
