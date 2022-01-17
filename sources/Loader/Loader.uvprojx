@@ -381,6 +381,51 @@
       </TargetOption>
       <Groups>
         <Group>
+          <GroupName>HAL</GroupName>
+          <Files>
+            <File>
+              <FileName>stm32f4xx_hal.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\common\libs\STM32Cube_F4\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal.h</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_hal.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\common\libs\STM32Cube_F4\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_hal_cortex.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\common\libs\STM32Cube_F4\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_cortex.h</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_hal_cortex.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\common\libs\STM32Cube_F4\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_cortex.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_hal_rcc.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\common\libs\STM32Cube_F4\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_rcc.h</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_hal_rcc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\common\libs\STM32Cube_F4\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_rcc.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_hal_gpio.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\common\libs\STM32Cube_F4\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_gpio.h</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_hal_gpio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\common\libs\STM32Cube_F4\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_gpio.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>src</GroupName>
           <Files>
             <File>
@@ -392,18 +437,6 @@
         </Group>
         <Group>
           <GroupName>Hardware</GroupName>
-          <Files>
-            <File>
-              <FileName>FDrive.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\Hardware\FDrive.h</FilePath>
-            </File>
-            <File>
-              <FileName>FDrive.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\Hardware\FDrive.cpp</FilePath>
-            </File>
-          </Files>
         </Group>
         <Group>
           <GroupName>Hardware/HAL</GroupName>
@@ -422,28 +455,6 @@
         </Group>
         <Group>
           <GroupName>Hardware/USBH</GroupName>
-          <Files>
-            <File>
-              <FileName>usbh_conf.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\Hardware\USBH\usbh_conf.h</FilePath>
-            </File>
-            <File>
-              <FileName>usbh_conf.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\Hardware\USBH\usbh_conf.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>usbh_diskio.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\Hardware\USBH\usbh_diskio.h</FilePath>
-            </File>
-            <File>
-              <FileName>usbh_diskio.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\Hardware\USBH\usbh_diskio.cpp</FilePath>
-            </File>
-          </Files>
         </Group>
         <Group>
           <GroupName>Hardware/FatFS</GroupName>
@@ -452,6 +463,21 @@
               <FileName>ffconf.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\src\Hardware\FatFS\ffconf.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Hardware/CMSIS</GroupName>
+          <Files>
+            <File>
+              <FileName>startup_stm32f437xx.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\src\Hardware\CMSIS\startup_stm32f437xx.s</FilePath>
+            </File>
+            <File>
+              <FileName>system_stm32f4xx.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\Hardware\CMSIS\system_stm32f4xx.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -764,8 +790,8 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>1</Optim>
-            <oTime>0</oTime>
+            <Optim>4</Optim>
+            <oTime>1</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
             <Strict>0</Strict>
@@ -788,9 +814,9 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>USE_HAL_DRIVER,STM32F437xx,LOADER</Define>
+              <Define>USE_HAL_DRIVER,LOADER</Define>
               <Undefine></Undefine>
-              <IncludePath>.\src;..\Panel\src</IncludePath>
+              <IncludePath>.\src;..\Panel\src;..\common\libs\STM32Cube_F4\Drivers\STM32F4xx_HAL_Driver\Inc;.\src\Hardware\HAL;..\common\libs\STM32Cube_F4\Drivers\CMSIS\Include</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -821,7 +847,7 @@
             <TextAddressRange>0x08000000</TextAddressRange>
             <DataAddressRange>0x20000000</DataAddressRange>
             <pXoBase></pXoBase>
-            <ScatterFile>.\DLoader.sct</ScatterFile>
+            <ScatterFile>.\Loader.sct</ScatterFile>
             <IncludeLibs></IncludeLibs>
             <IncludeLibsPath></IncludeLibsPath>
             <Misc></Misc>
@@ -831,6 +857,51 @@
         </TargetArmAds>
       </TargetOption>
       <Groups>
+        <Group>
+          <GroupName>HAL</GroupName>
+          <Files>
+            <File>
+              <FileName>stm32f4xx_hal.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\common\libs\STM32Cube_F4\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal.h</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_hal.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\common\libs\STM32Cube_F4\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_hal_cortex.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\common\libs\STM32Cube_F4\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_cortex.h</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_hal_cortex.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\common\libs\STM32Cube_F4\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_cortex.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_hal_rcc.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\common\libs\STM32Cube_F4\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_rcc.h</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_hal_rcc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\common\libs\STM32Cube_F4\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_rcc.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_hal_gpio.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\common\libs\STM32Cube_F4\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_gpio.h</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_hal_gpio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\common\libs\STM32Cube_F4\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_gpio.c</FilePath>
+            </File>
+          </Files>
+        </Group>
         <Group>
           <GroupName>src</GroupName>
           <Files>
@@ -843,18 +914,6 @@
         </Group>
         <Group>
           <GroupName>Hardware</GroupName>
-          <Files>
-            <File>
-              <FileName>FDrive.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\Hardware\FDrive.h</FilePath>
-            </File>
-            <File>
-              <FileName>FDrive.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\Hardware\FDrive.cpp</FilePath>
-            </File>
-          </Files>
         </Group>
         <Group>
           <GroupName>Hardware/HAL</GroupName>
@@ -873,28 +932,6 @@
         </Group>
         <Group>
           <GroupName>Hardware/USBH</GroupName>
-          <Files>
-            <File>
-              <FileName>usbh_conf.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\Hardware\USBH\usbh_conf.h</FilePath>
-            </File>
-            <File>
-              <FileName>usbh_conf.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\Hardware\USBH\usbh_conf.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>usbh_diskio.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\src\Hardware\USBH\usbh_diskio.h</FilePath>
-            </File>
-            <File>
-              <FileName>usbh_diskio.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\src\Hardware\USBH\usbh_diskio.cpp</FilePath>
-            </File>
-          </Files>
         </Group>
         <Group>
           <GroupName>Hardware/FatFS</GroupName>
@@ -903,6 +940,21 @@
               <FileName>ffconf.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\src\Hardware\FatFS\ffconf.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Hardware/CMSIS</GroupName>
+          <Files>
+            <File>
+              <FileName>startup_stm32f437xx.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\src\Hardware\CMSIS\startup_stm32f437xx.s</FilePath>
+            </File>
+            <File>
+              <FileName>system_stm32f4xx.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\Hardware\CMSIS\system_stm32f4xx.c</FilePath>
             </File>
           </Files>
         </Group>

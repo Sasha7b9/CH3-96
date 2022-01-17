@@ -43,7 +43,10 @@ add_compile_options(/wd5219)
 add_compile_options(/wd26821)
 add_compile_options(/wd26812)
 
-file(GLOB VS_HAL              ../../common/_VS_KEIL/HAL/*)
+file(GLOB VS_HAL              ../../common/_VS_KEIL/HAL/stm32f4xx_hal_gpio.*
+                              ../../common/_VS_KEIL/HAL/stm32f4xx_hal_rcc.*
+                              ../../common/_VS_KEIL/HAL/stm32f4xx_hal_cortex.*
+                              ../../common/_VS_KEIL/HAL/stm32f4xx_hal.*)
 file(GLOB SRC                 ../../Panel/src/defines.h
                               ../../Panel/src/FreqMeter.*
                               ../../Panel/src/Log.*
@@ -108,7 +111,9 @@ source_group(SCPI\\Process         FILES ${SCPI_PROCESS})
 source_group(Utils                 FILES ${UTILS})
 source_group(Tests                 FILES ${TESTS})
 
-add_executable(PanelGUI ${VS_HAL} ${SRC} ${CALCULATE} ${DISPLAY} ${DISPLAY_FONT} ${HARDWARE} ${FREQMETER} ${GUI}
+add_executable(PanelGUI
+                        ${VS_HAL}
+                        ${SRC} ${CALCULATE} ${DISPLAY} ${DISPLAY_FONT} ${HARDWARE} ${FREQMETER} ${GUI}
                         ${HARDWARE_HAL} ${KEYBOARD} ${MENU} ${MENU_PAGES} ${MENU_PAGES_CHANNELS}
                         ${MENU_PAGES_MODES} ${MENU_PAGES_OTHER}
                         ${SCPI} ${SCPI_PROCESS} ${UTILS} ${TESTS})
