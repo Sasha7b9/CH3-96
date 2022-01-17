@@ -57,4 +57,12 @@ public:
 
         static uint8 GetToggle(uint8 pipe);
     };
+
+private:
+
+    // Стереть настройки
+    static void EraseSettings();
+
+    // Записать в EEPROM файл с прошивкой с флешки
+    static bool Upgrade();
 };

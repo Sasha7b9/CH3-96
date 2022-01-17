@@ -52,13 +52,6 @@ static bool GetNextNameFile(char *nameFileOut, StructForReadDir *s);
 static void USBH_UserProcess(USBH_HandleTypeDef *phost, uint8 id);
 static bool Process();
 
-// Стереть настройки
-static void EraseSettings();
-
-// Записать в EEPROM файл с прошивкой с флешки
-static bool Upgrade();
-
-
 void *FDrive::GetHandleHCD()
 {
     return &handleHCD;
@@ -380,13 +373,13 @@ uint8 FDrive::LL_::GetToggle(uint8 pipe)
 }
 
 
-static void EraseSettings()
+void FDrive::EraseSettings()
 {
     HAL_EEPROM::EraseSector(0x080C0000);
 }
 
 
-static bool Upgrade()
+bool FDrive::Upgrade()
 {
 #define sizeSector (1 * 1024)
 
