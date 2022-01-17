@@ -68,5 +68,7 @@ private:
 
     static void ReadZone(FIL *f_hash, FIL *f_firm, int num_zone, int size_zone, uint8 buffer[1024]);
 
+    static void ReadZones(FIL *f_hash, FIL *f_firm, int size);
+
     static bool ReadChecksums(FIL *file, uint sums[128]);
 };

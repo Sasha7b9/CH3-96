@@ -444,6 +444,25 @@ bool FDrive::Upgrade()
         goto ExitUpgrade;
     }
 
+    ReadZones(&fChecksum, &fFirmware, size);
+
+    HAL_EEPROM::EraseSector(FLASH_::ADDR_SECTOR_PROGRAM_0);
+
+    FLASH_::WriteData(FLASH_::ADDR_SECTOR_PROGRAM_0, (void *)FLASH_::ADDR_SECTOR_PROGRAM_TEMP, size);
+
+    result = true;
+
+ExitUpgrade:
+
+    FDrive::Close(&fFirmware);
+    FDrive::Close(&fChecksum);
+
+    return result;
+}
+
+
+void FDrive::ReadZones(FIL *f_hash, FIL *f_firm, int size)
+{
     FLASH_::Prepare();
 
     int num_zones = size / 1024;
@@ -463,7 +482,7 @@ bool FDrive::Upgrade()
 
         uint8 zone[1024];
 
-        ReadZone(&fChecksum, &fFirmware, num_zone, size_zone, zone);
+        ReadZone(f_hash, f_firm, num_zone, size_zone, zone);
 
         FLASH_::WriteData(FLASH_::ADDR_SECTOR_PROGRAM_TEMP + num_zone * 1024, zone, size_zone);
 
@@ -471,19 +490,6 @@ bool FDrive::Upgrade()
 
         last_bytes -= size_zone;
     }
-
-    HAL_EEPROM::EraseSector(FLASH_::ADDR_SECTOR_PROGRAM_0);
-
-    FLASH_::WriteData(FLASH_::ADDR_SECTOR_PROGRAM_0, (void *)FLASH_::ADDR_SECTOR_PROGRAM_TEMP, size);
-
-    result = true;
-
-ExitUpgrade:
-
-    FDrive::Close(&fFirmware);
-    FDrive::Close(&fChecksum);
-
-    return result;
 }
 
 
