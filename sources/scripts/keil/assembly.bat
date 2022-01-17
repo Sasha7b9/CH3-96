@@ -55,7 +55,7 @@ if %isBuild%==0 goto LOADING
 if %need_loader%==0 goto BUILDING_PANEL
 echo Building Loader ...
 %_COMPILER_% -b %_PROJECT_LOADER_% -j0 -o Loader.out
-if %ERRORLEVEL%==0 goto LOADING
+if %ERRORLEVEL%==0 goto BUILDING_PANEL
 echo ERROR!!! Build failed !!!
 type ..\..\Loader\Loader.out
 :BUILDING_PANEL
@@ -72,7 +72,7 @@ if %isLoad%==0 goto EXIT
 if %need_loader%==0 goto LOADING_PANEL
 echo Loading Loader ...
 %_COMPILER_% -f %_PROJECT_LOADER_% -j0 -o Loader.out
-if %ERRORLEVEL%==0 goto EXIT
+if %ERRORLEVEL%==0 goto LOADING_PANEL
 echo Error loading firmware to Loader
 type ..\..\Loader\Loader.out
 :LOADING_PANEL
