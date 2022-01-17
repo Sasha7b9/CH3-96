@@ -453,6 +453,18 @@ bool FDrive::Upgrade()
 
     FLASH_::Prepare();
 
+    int num_zones = size / 1024;
+
+    if ((size % 1024) != 0)
+    {
+        num_zones++;
+    }
+
+    for (int i = 0; i < num_zones; i++)
+    {
+
+    }
+
 
     int fullSize = size;
     uint address = FLASH_::ADDR_SECTOR_PROGRAM_0;
