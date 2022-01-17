@@ -8,7 +8,7 @@
 #include <ffconf.h>
 
 
-#define FILE_FIRMWARE "S8-57.bin"
+#define FILE_FIRMWARE "CH3-96.bin"
 #define FILE_CLEAR "clear.txt"
 
 
