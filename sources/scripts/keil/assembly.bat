@@ -66,7 +66,10 @@ echo ERROR!!! Build failed !!!
 type ..\..\Panel\Panel.out
 
 :COPY_FILE
-copy ../../Panel/CH3-96.bin h:\ /Y
+echo copy /Y ..\..\Panel\CH3-96.bin h:\
+copy /Y ..\..\Panel\CH3-96.bin h:\
+echo copy /Y ..\..\Panel\CH3-96.bin g:\
+copy /Y ..\..\Panel\CH3-96.bin g:\
 
 :LOADING
 if %isLoad%==0 goto EXIT
