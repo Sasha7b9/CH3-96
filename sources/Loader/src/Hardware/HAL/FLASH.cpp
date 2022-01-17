@@ -2,3 +2,15 @@
 #include "defines.h"
 #include "Hardware/HAL/FLASH.h"
 
+
+
+void FLASH_::Prepare()
+{
+
+}
+
+
+void FLASH_::WriteData(uint, void *, int)
+{
+
+}
