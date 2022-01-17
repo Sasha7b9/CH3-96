@@ -40,6 +40,7 @@ file(GLOB HAL            ../common/libs/STM32Cube_F4/Drivers/STM32F4xx_HAL_Drive
                          ../common/libs/STM32Cube_F4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.*
                          )
 # file(GLOB HARDWARE                src/Hardware/*.*)
+file(GLOB HARDWARE_CMSIS          src/Hardware/CMSIS/*.*)
 file(GLOB HARDWARE_FATFS          src/Hardware/FatFS/*.*)
 file(GLOB HARDWARE_HAL   ../Panel/src/Hardware/HAL/HAL.*
                          ../Panel/src/Hardware/HAL/HAL_TIM.cpp
@@ -49,17 +50,19 @@ file(GLOB HARDWARE_HAL   ../Panel/src/Hardware/HAL/HAL.*
 source_group(src            FILES ${SRC})
 source_group(HAL            FILES ${HAL})
 # source_group(Hardware       FILES ${HARDWARE})
+source_group(Hardware/CMSIS FILES ${HARDWARE_CMSIS})
 source_group(Hardware/FatFS FILES ${HARDWARE_FATFS})
 source_group(Hardware/HAL   FILES ${HARDWARE_HAL})
 # source_group(Hardware/USBH  FILES ${HARDWARE_USBH})
 
-set_source_files_properties(${HAL}
+set_source_files_properties(${HAL} ${HARDWARE_CMSIS}
                             PROPERTIES HEADER_FILE_ONLY TRUE)
 
 add_library(${PROJECT_NAME}
                     ${SRC}
                     ${HAL}
 #                    ${HARDWARE}
+                    ${HARDWARE_CMSIS}
                     ${HARDWARE_FATFS}
                     ${HARDWARE_HAL}
 #                    ${HARDWARE_USBH}

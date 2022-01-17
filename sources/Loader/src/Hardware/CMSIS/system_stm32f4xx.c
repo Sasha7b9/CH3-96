@@ -157,7 +157,7 @@ const uint8_t APBPrescTable[8]  = {0, 0, 0, 0, 1, 2, 3, 4};
   * @param  None
   * @retval None
   */
-void SystemInit()
+void SystemInit(void)
 {
   /* FPU settings ------------------------------------------------------------*/
   #if (__FPU_PRESENT == 1) && (__FPU_USED == 1)
