@@ -61,9 +61,12 @@ type ..\..\Loader\Loader.out
 if %need_panel%==0 goto LOADING
 echo Building Panel ...
 %_COMPILER_% -b %_PROJECT_PANEL_% -j0 -o Panel.out
-if %ERRORLEVEL%==0 goto LOADING
+if %ERRORLEVEL%==0 goto COPY_FILE
 echo ERROR!!! Build failed !!!
 type ..\..\Panel\Panel.out
+
+:COPY_FILE
+copy ../../Panel/CH3-96.bin h:\ /Y
 
 :LOADING
 if %isLoad%==0 goto EXIT
