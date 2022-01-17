@@ -430,16 +430,9 @@ bool FDrive::Upgrade()
 
     bool result = false;
 
-    if (FDrive::OpenForRead(&fChecksum, FILE_CHECKSUM) <= 0)
-    {
-        goto ExitUpgrade;
-    }
-
     int size = 0;
 
-    FDrive::Read(&fChecksum, 4, &size);                             // Считываем размер файла
-
-    if (size != FDrive::OpenForRead(&fFirmware, FILE_FIRMWARE))     // Если он не соответствует размеру файла с прошивкой
+    if (!ReadSize(&fChecksum, &fFirmware, &size))
     {
         goto ExitUpgrade;
     }
@@ -458,6 +451,24 @@ ExitUpgrade:
     FDrive::Close(&fChecksum);
 
     return result;
+}
+
+
+bool FDrive::ReadSize(FIL *f_hash, FIL *f_firm, int *size)
+{
+    if (FDrive::OpenForRead(f_hash, FILE_CHECKSUM) <= 0)
+    {
+        return false;
+    }
+
+    FDrive::Read(f_hash, 4, size);                             // Считываем размер файла
+
+    if (*size != FDrive::OpenForRead(f_firm, FILE_FIRMWARE))     // Если он не соответствует размеру файла с прошивкой
+    {
+        return false;
+    }
+
+    return true;
 }
 
 
