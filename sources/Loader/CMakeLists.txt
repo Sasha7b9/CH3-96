@@ -2,6 +2,8 @@
 
 project (Loader)
 
+message("------------------------------------------------------------------------ ${PROJECT_NAME}")
+
 include_directories(../common/libs/STM32Cube_F4/Drivers/CMSIS/Device/ST/STM32F4xx/Include
                     ../common/libs/STM32Cube_F4/Drivers/STM32F4xx_HAL_Driver/Inc
                     ../common/libs/STM32Cube_F4/Middlewares/Third_Party/FatFS/src

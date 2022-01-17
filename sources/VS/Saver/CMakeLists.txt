@@ -1,5 +1,7 @@
 project (Saver)
 
+message("------------------------------------------------------------------------ ${PROJECT_NAME}")
+
 include_directories(src/
                     ../../common/_VS_KEIL/CMSIS/
                     ../../common/_VS_KEIL/HAL/

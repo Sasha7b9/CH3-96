@@ -2,6 +2,8 @@
 
 project (Panel)
 
+message("------------------------------------------------------------------------ ${PROJECT_NAME}")
+
 include_directories( src
                      src/Hardware/HAL
                      src/Hardware/USBD

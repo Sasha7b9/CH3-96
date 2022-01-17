@@ -1,6 +1,6 @@
 project (PanelGUI)
 
-message("------------------------------------------------------------------------ Panel")
+message("------------------------------------------------------------------------ ${PROJECT_NAME}")
 
 include_directories(src
                     ../../common/_VS_KEIL/CMSIS
