@@ -56,7 +56,7 @@ static bool Process();
 static void EraseSettings();
 
 // Записать в EEPROM файл с прошивкой с флешки
-static void Upgrade();
+static bool Upgrade();
 
 
 void *FDrive::GetHandleHCD()
@@ -144,8 +144,10 @@ void FDrive::AttemptUpdate()
         {                                       // Предположительно из-за длинной линии
             if (FileExist(FILE_FIRMWARE))       // Если на диске обнаружена прошивка
             {
-                Upgrade();
-                break;
+                if (Upgrade())
+                {
+                    break;
+                }
             }
         }
     }
@@ -384,7 +386,7 @@ static void EraseSettings()
 }
 
 
-static void Upgrade()
+static bool Upgrade()
 {
 #define sizeSector (1 * 1024)
 

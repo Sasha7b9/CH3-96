@@ -6,6 +6,13 @@
 #pragma warning(pop)
 
 
+/*
+*   Формат файла таков:
+*   Сначала идут 4 байта размера
+*   Потом для каждого полного или неполного (последнего) килобайта записывается 4 байта хэша
+*/
+
+
 using namespace std;
 
 
@@ -37,13 +44,13 @@ int main(int argc, char *argv[])
     if (ifile.is_open())
     {
         ofstream ofile;
-        ofile.open(string(argv[1]) + ".crc32", ios::out | ios::trunc);
+        ofile.open(string(argv[1]) + ".crc32", ios::out | ios::trunc | ios::binary);
 
         ifile.seekg(0, ifile.end);
         int length = (int)ifile.tellg();
         ifile.seekg(0, ifile.beg);
 
-        ofile << length << endl;
+        ofile.write((char *)&length, sizeof(length));
 
         while(length)
         {
@@ -55,7 +62,9 @@ int main(int argc, char *argv[])
 
             ifile.read(buffer, read_bytes);
 
-            ofile << CalculateCRC32(buffer, read_bytes) << endl;
+            unsigned int hash = CalculateCRC32(buffer, read_bytes);
+
+            ofile.write((char *)&hash, sizeof(hash));
         }
 
         ofile.close();
