@@ -9,6 +9,19 @@
 using namespace std;
 
 
+static unsigned int CalculateCRC32(char *buffer, int size)
+{
+    unsigned int result = 0;
+
+    while (size--)
+    {
+        result += *buffer++;
+    }
+
+    return result;
+}
+
+
 int main(int argc, char *argv[])
 {
     if (argc != 2)
@@ -20,8 +33,37 @@ int main(int argc, char *argv[])
 
     ifstream ifile;
     ifile.open(string(argv[1]) + ".bin", ios::in | ios::binary);
+
     if (ifile.is_open())
     {
+        ofstream ofile;
+        ofile.open(string(argv[1]) + ".crc32", ios::out | ios::trunc);
+
+        ifile.seekg(0, ifile.end);
+        int length = (int)ifile.tellg();
+        ifile.seekg(0, ifile.beg);
+
+        while(length)
+        {
+            cout << length << endl;
+
+            char buffer[1024];
+
+            int read_bytes = 1024;
+
+            if (length < 1024)
+            {
+                read_bytes = length;
+            }
+
+            length -= read_bytes;
+
+            ifile.read(buffer, read_bytes);
+
+            ofile << CalculateCRC32(buffer, read_bytes) << endl;
+        }
+
+        ofile.close();
         ifile.close();
     }
     else
