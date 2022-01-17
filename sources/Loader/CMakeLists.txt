@@ -4,9 +4,10 @@ project (Loader)
 
 include_directories(../common/_VS_KEIL/CMSIS
                     ../common/_VS_KEIL/FatFS
-                    ../common/_VS_KEIL/HAL
                     ../common/_VS_KEIL/USBH
                     ../common/_VS_KEIL/std_includes
+                    ../common/libs/STM32Cube_F4/Drivers/CMSIS/Device/ST/STM32F4xx/Include
+                    ../common/libs/STM32Cube_F4/Drivers/STM32F4xx_HAL_Driver/Inc
                              src
                              src/Hardware/FatFS
                              src/Hardware/HAL
@@ -30,28 +31,32 @@ add_compile_options(/wd26812)   # The enum type %type% is unscoped. Prefer 'enum
 
 file(GLOB SRC            ../Panel/src/defines.h
                                   src/*.*)
-file(GLOB HAL            ../common/_VS_KEIL/HAL/stm32f4xx_hal.*
-                         ../common/_VS_KEIL/HAL/stm32f4xx_hal_cortex.*
-                         ../common/_VS_KEIL/HAL/stm32f4xx_hal_rcc.*
-                         ../common/_VS_KEIL/HAL/stm32f4xx_hal_gpio.*)
+file(GLOB HAL            ../common/libs/STM32Cube_F4/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
+                         ../common/libs/STM32Cube_F4/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h
+                         ../common/libs/STM32Cube_F4/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h
+                         ../common/libs/STM32Cube_F4/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h)
 # file(GLOB HARDWARE                src/Hardware/*.*)
 # file(GLOB HARDWARE_FATFS          src/Hardware/FatFS/*.*)
-# file(GLOB HARDWARE_HAL   ../Panel/src/Hardware/HAL/HAL.h
-#                                   src/Hardware/HAL/*.*)
+file(GLOB HARDWARE_HAL   ../Panel/src/Hardware/HAL/HAL.*
+                         ../Panel/src/Hardware/HAL/HAL_TIM.cpp
+                                  src/Hardware/HAL/*.*)
 # file(GLOB HARDWARE_USBH           src/Hardware/USBH/*.*)
 
 source_group(src            FILES ${SRC})
 source_group(HAL            FILES ${HAL})
 # source_group(Hardware       FILES ${HARDWARE})
 # source_group(Hardware/FatFS FILES ${HARDWARE_FATFS})
-# source_group(Hardware/HAL   FILES ${HARDWARE_HAL})
+source_group(Hardware/HAL   FILES ${HARDWARE_HAL})
 # source_group(Hardware/USBH  FILES ${HARDWARE_USBH})
+
+set_source_files_properties(${HAL}
+                            PROPERTIES HEADER_FILE_ONLY TRUE)
 
 add_library(${PROJECT_NAME}
                     ${SRC}
                     ${HAL}
 #                    ${HARDWARE}
 #                    ${HARDWARE_FATFS}
-#                    ${HARDWARE_HAL}
+                    ${HARDWARE_HAL}
 #                    ${HARDWARE_USBH}
                     )
