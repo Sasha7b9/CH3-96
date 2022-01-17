@@ -19,7 +19,6 @@ set need_loader=0
 rem 1, если нужно обрабатывать панель
 set need_panel=0
 
-
 if "%1" equ "clear"   set isClean=1 &                  goto CHECK_ON_LOAD
 if "%1" equ "build"   set isBuild=1 &                  goto CHECK_ON_LOAD
 if "%1" equ "rebuild" set isClean=1 & set isBuild=1 &  goto CHECK_ON_LOAD
@@ -66,7 +65,6 @@ if %ERRORLEVEL%==0 goto LOADING
 echo ERROR!!! Build failed !!!
 type ..\..\Panel\Panel.out
 
-
 :LOADING
 if %isLoad%==0 goto EXIT
 if %need_loader%==0 goto LOADING_PANEL
@@ -84,7 +82,6 @@ echo Error loading firmware to Panel
 type ..\..\Panel\Panel.out
 
 goto EXIT
-
 
 :HINT
 echo.
