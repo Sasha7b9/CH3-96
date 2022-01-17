@@ -182,6 +182,12 @@ void Display::BeginScene(int x, int y)
 
 void Display::EndScene()
 {
+#ifdef DEBUG
+
+    Text("Debug").Write(200, 50, Color::FILL);
+
+#endif
+
     HAL_FSMC::SendBuffer(buffer[0], 0, TopRow(), PHYSICAL_WIDTH, PHYSICAL_HEIGHT, 2);
 
     if (sendToSCPI)
