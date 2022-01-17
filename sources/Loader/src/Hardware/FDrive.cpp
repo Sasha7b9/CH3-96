@@ -444,13 +444,6 @@ bool FDrive::Upgrade()
         goto ExitUpgrade;
     }
 
-    uint sums[128];
-
-    if (!ReadChecksums(&fChecksum, sums))
-    {
-        goto ExitUpgrade;
-    }
-
     FLASH_::Prepare();
 
     int num_zones = size / 1024;
@@ -460,28 +453,30 @@ bool FDrive::Upgrade()
         num_zones++;
     }
 
-    for (int i = 0; i < num_zones; i++)
-    {
+    int last_bytes = size;
 
+    while (last_bytes)
+    {
+        int num_zone = 0;
+
+        int size_zone = (last_bytes < 1024) ? last_bytes : 1024;
+
+        uint8 zone[1024];
+
+        ReadZone(&fChecksum, &fFirmware, num_zone, size_zone, zone);
+
+        FLASH_::WriteData(FLASH_::ADDR_SECTOR_PROGRAM_TEMP + num_zone * 1024, zone, size_zone);
+
+        num_zone++;
+
+        last_bytes -= size_zone;
     }
 
+    HAL_EEPROM::EraseSector(FLASH_::ADDR_SECTOR_PROGRAM_0);
 
-    int fullSize = size;
-    uint address = FLASH_::ADDR_SECTOR_PROGRAM_0;
+    FLASH_::WriteData(FLASH_::ADDR_SECTOR_PROGRAM_0, (void *)FLASH_::ADDR_SECTOR_PROGRAM_TEMP, size);
 
-    while(size)
-    {
-#define sizeSector (1 * 1024)
-
-        uint8 buffer[sizeSector];
-
-        int readedBytes = FDrive::Read(&fFirmware, sizeSector, buffer);
-        FLASH_::WriteData(address, buffer, readedBytes);
-        size -= readedBytes;
-        address += static_cast<uint>(readedBytes);
-
-        percentsUpdate = 1.0F - static_cast<float>(size) / fullSize;
-    }
+    result = true;
 
 ExitUpgrade:
 

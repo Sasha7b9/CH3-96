@@ -66,5 +66,7 @@ private:
     // Записать в EEPROM файл с прошивкой с флешки
     static bool Upgrade();
 
+    static void ReadZone(FIL *f_hash, FIL *f_firm, int num_zone, int size_zone, uint8 buffer[1024]);
+
     static bool ReadChecksums(FIL *file, uint sums[128]);
 };
