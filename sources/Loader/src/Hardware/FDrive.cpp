@@ -430,8 +430,6 @@ bool FDrive::Upgrade()
 
     bool result = false;
 
-    FLASH_::Prepare();
-
     if (FDrive::OpenForRead(&fChecksum, FILE_CHECKSUM) <= 0)
     {
         goto ExitUpgrade;
@@ -439,7 +437,7 @@ bool FDrive::Upgrade()
 
     int size = 0;
 
-    FDrive::Read(&fChecksum, 4, &size);                         // Считываем размер файла
+    FDrive::Read(&fChecksum, 4, &size);                             // Считываем размер файла
 
     if (size != FDrive::OpenForRead(&fFirmware, FILE_FIRMWARE))     // Если он не соответствует размеру файла с прошивкой
     {
@@ -452,6 +450,9 @@ bool FDrive::Upgrade()
     {
         goto ExitUpgrade;
     }
+
+    FLASH_::Prepare();
+
 
     int fullSize = size;
     uint address = FLASH_::ADDR_SECTOR_PROGRAM_0;

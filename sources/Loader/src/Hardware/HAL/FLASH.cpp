@@ -7,7 +7,18 @@
 
 void FLASH_::Prepare()
 {
-    HAL_EEPROM::EraseSector(ADDR_SECTOR_PROGRAM_TEMP);
+    uint8 *address = (uint8 *)ADDR_SECTOR_PROGRAM_TEMP;
+
+    for (int i = 0; i < 128 * 1024; i++)
+    {
+        if (address[i] != 0xFF)
+        {
+            HAL_EEPROM::EraseSector(ADDR_SECTOR_PROGRAM_TEMP);
+            break;
+        }
+    }
+
+    
 }
 
 
