@@ -61,14 +61,17 @@ void HAL::Init()
     
     SystemClock_Config();
 
+#ifdef PANEL
     HAL_FSMC::Init();
+#endif
+
     HAL_TIM::Init();
 }
 
 
 void HAL::DeInit()
 {
-
+    HAL_DeInit();
 }
 
 

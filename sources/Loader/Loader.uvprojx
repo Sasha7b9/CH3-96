@@ -337,7 +337,7 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>USE_HAL_DRIVER,STM32F437xx,LOADER</Define>
+              <Define>USE_HAL_DRIVER,LOADER</Define>
               <Undefine></Undefine>
               <IncludePath>.\src;..\Panel\src;.\src\Hardware\USBH;..\common\libs\STM32Cube_F4\Middlewares\Third_Party\FatFs\src;..\common\libs\STM32Cube_F4\Drivers\STM32F4xx_HAL_Driver\Inc;.\src\Hardware\FatFS;.\src\Hardware\HAL;..\common\libs\STM32Cube_F4\Drivers\CMSIS\Include;..\common\libs\STM32Cube_F4\Middlewares\ST\STM32_USB_Host_Library\Core\Inc;..\common\libs\STM32Cube_F4\Middlewares\ST\STM32_USB_Host_Library\Class\MSC\Inc</IncludePath>
             </VariousControls>
@@ -445,6 +445,16 @@
               <FileName>HAL.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Panel\src\Hardware\HAL\HAL.h</FilePath>
+            </File>
+            <File>
+              <FileName>HAL.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Panel\src\Hardware\HAL\HAL.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>HAL_TIM.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Panel\src\Hardware\HAL\HAL_TIM.cpp</FilePath>
             </File>
             <File>
               <FileName>stm32f4xx_hal_conf.h</FileName>
@@ -922,6 +932,16 @@
               <FileName>HAL.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Panel\src\Hardware\HAL\HAL.h</FilePath>
+            </File>
+            <File>
+              <FileName>HAL.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Panel\src\Hardware\HAL\HAL.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>HAL_TIM.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Panel\src\Hardware\HAL\HAL_TIM.cpp</FilePath>
             </File>
             <File>
               <FileName>stm32f4xx_hal_conf.h</FileName>
