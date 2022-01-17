@@ -380,9 +380,46 @@ void FDrive::EraseSettings()
 }
 
 
-bool FDrive::ReadChecksums(FIL *, uint [128])
+bool FDrive::ReadChecksums(FIL *file, uint sums[128])
 {
-    return false;
+    Close(file);
+
+    OpenForRead(file, FILE_CHECKSUM);
+
+    int size = 0;
+
+    Read(file, 4, &size);
+
+    for (int i = 0; i < 128; i++)
+    {
+        if (Read(file, 4, &sums[i]) == -1)
+        {
+            break;
+        }
+    }
+
+    Close(file);
+
+    OpenForRead(file, FILE_CHECKSUM);
+
+    Read(file, 4, &size);
+
+    for (int i = 0; i < 128; i++)
+    {
+        uint hash = 0;
+
+        if (Read(file, 4, &hash) == -1)
+        {
+            break;
+        }
+
+        if (sums[i] != hash)
+        {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 
@@ -411,20 +448,9 @@ bool FDrive::Upgrade()
 
     uint sums[128];
 
-    for (int i = 0; i < 128; i++)
+    if (!ReadChecksums(&fChecksum, sums))
     {
-        if (FDrive::Read(&fChecksum, 4, &sums[i]) == -1)
-        {
-            break;
-        }
-    }
-
-    FDrive::Close(&fChecksum);
-
-    for (int i = 0; i < 128; i++)
-    {
-//        uint hash = 0;
-
+        goto ExitUpgrade;
     }
 
     int fullSize = size;
