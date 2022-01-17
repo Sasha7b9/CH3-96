@@ -2,7 +2,6 @@
 #include "defines.h"
 #include "Hardware/FDrive.h"
 #include "Hardware/HAL/HAL.h"
-#include "Hardware/HAL/FLASH.h"
 #include <usbh_diskio.h>
 #include <ctype.h>
 #include <ffconf.h>
@@ -439,19 +438,19 @@ bool FDrive::Upgrade()
 
     if (ReadSize(&fChecksum, &fFirmware, &size))
     {
-        HAL_EEPROM::EraseSector(FLASH_::ADDR_SECTOR_PROGRAM_TEMP);
+        HAL_EEPROM::EraseSector(HAL_EEPROM::ADDR_SECTOR_UPGRADE);
 
-        HAL_EEPROM::EraseSector(FLASH_::ADDR_SECTOR_PROGRAM_0);
+        HAL_EEPROM::EraseSector(HAL_EEPROM::ADDR_SECTOR_FIRMWARE);
 
-        ReadZones(&fChecksum, &fFirmware, FLASH_::ADDR_SECTOR_PROGRAM_TEMP, size);
+        ReadZones(&fChecksum, &fFirmware, HAL_EEPROM::ADDR_SECTOR_UPGRADE, size);
 
-        HAL_EEPROM::WriteData(FLASH_::ADDR_SECTOR_PROGRAM_0, (void *)FLASH_::ADDR_SECTOR_PROGRAM_TEMP, (uint)size);
+        HAL_EEPROM::WriteData(HAL_EEPROM::ADDR_SECTOR_FIRMWARE, (void *)HAL_EEPROM::ADDR_SECTOR_UPGRADE, (uint)size);
 
         result = true;
     }
 
-    FDrive::Close(&fFirmware);
-    FDrive::Close(&fChecksum);
+    Close(&fFirmware);
+    Close(&fChecksum);
 
     return result;
 }
@@ -459,14 +458,14 @@ bool FDrive::Upgrade()
 
 bool FDrive::ReadSize(FIL *f_hash, FIL *f_firm, int *size)
 {
-    if (FDrive::OpenForRead(f_hash, FILE_CHECKSUM) <= 0)
+    if (OpenForRead(f_hash, FILE_CHECKSUM) <= 0)
     {
         return false;
     }
 
-    FDrive::Read(f_hash, 4, size);                             // Считываем размер файла
+    Read(f_hash, 4, size);                             // Считываем размер файла
 
-    if (*size != FDrive::OpenForRead(f_firm, FILE_FIRMWARE))     // Если он не соответствует размеру файла с прошивкой
+    if (*size != OpenForRead(f_firm, FILE_FIRMWARE))     // Если он не соответствует размеру файла с прошивкой
     {
         return false;
     }
@@ -477,14 +476,7 @@ bool FDrive::ReadSize(FIL *f_hash, FIL *f_firm, int *size)
 
 void FDrive::ReadZones(FIL *f_hash, FIL *f_firm, uint address, const int size)
 {
-    int num_zones = size / 1024;
-
-    if ((size % 1024) != 0)
-    {
-        num_zones++;
-    }
-
-    int last_bytes = size;
+    int last_bytes = size;      // Осталось байт для чтения
 
     while (last_bytes)
     {

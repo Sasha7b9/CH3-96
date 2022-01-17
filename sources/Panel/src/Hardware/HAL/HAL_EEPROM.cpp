@@ -5,17 +5,6 @@
 #include <stm32f4xx_hal.h>
 
 
-#define ADDR_SECTOR_0   ((uint)0x08000000)  // 16k  Основная прошивка
-#define ADDR_SECTOR_1   ((uint)0x08004000)  // 16k
-#define ADDR_SECTOR_2   ((uint)0x08008000)  // 16k
-#define ADDR_SECTOR_3   ((uint)0x0800c000)  // 16k
-#define ADDR_SECTOR_4   ((uint)0x08010000)  // 64k
-#define ADDR_SECTOR_5   ((uint)0x08020000)  // 128k  Сюда записываем прошивку
-#define ADDR_SECTOR_6   ((uint)0x08040000)  // 128k  Здесь хранится считанная из флешки прошивка
-#define ADDR_SECTOR_7   ((uint)0x08060000)  // 128k
-#define ADDR_SECTOR_SETTINGS ADDR_SECTOR_7
-#define SIZE_SECTOR_SETTINGS (128 * 1024)
-
 #define CLEAR_FLASH_FLAGS \
     __HAL_FLASH_CLEAR_FLAG(FLASH_FLAG_EOP    |  /* end of operation flag              */   \
                            FLASH_FLAG_OPERR  |  /* operation error flag               */   \
@@ -144,7 +133,7 @@ static uint GetSector(uint address)
 
     static const StructSector sectors[] =
     {
-        {FLASH_SECTOR_7, ADDR_SECTOR_SETTINGS},
+        {FLASH_SECTOR_7, HAL_EEPROM::ADDR_SECTOR_SETTINGS},
         {}
     };
 
