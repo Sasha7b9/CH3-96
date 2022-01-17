@@ -668,6 +668,16 @@
               <FileType>5</FileType>
               <FilePath>..\common\libs\STM32Cube_F4\Middlewares\Third_Party\FatFs\src\ff.h</FilePath>
             </File>
+            <File>
+              <FileName>diskio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\common\libs\STM32Cube_F4\Middlewares\Third_Party\FatFs\src\diskio.c</FilePath>
+            </File>
+            <File>
+              <FileName>diskio.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\common\libs\STM32Cube_F4\Middlewares\Third_Party\FatFs\src\diskio.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1348,6 +1358,16 @@
               <FileName>ff.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\common\libs\STM32Cube_F4\Middlewares\Third_Party\FatFs\src\ff.h</FilePath>
+            </File>
+            <File>
+              <FileName>diskio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\common\libs\STM32Cube_F4\Middlewares\Third_Party\FatFs\src\diskio.c</FilePath>
+            </File>
+            <File>
+              <FileName>diskio.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\common\libs\STM32Cube_F4\Middlewares\Third_Party\FatFs\src\diskio.h</FilePath>
             </File>
           </Files>
         </Group>
