@@ -475,7 +475,7 @@ bool FDrive::ReadSize(FIL *f_hash, FIL *f_firm, int *size)
 
 void FDrive::ReadZones(FIL *f_hash, FIL *f_firm, uint address, const int size)
 {
-    FLASH_::Prepare();
+    PrepareSectorFlash(FLASH_::ADDR_SECTOR_PROGRAM_TEMP);
 
     int num_zones = size / 1024;
 
@@ -516,4 +516,19 @@ float FDrive::PercentsUpdated()
 State::E FDrive::State()
 {
     return state;
+}
+
+
+void FDrive::PrepareSectorFlash(uint sector)
+{
+    uint8 *address = (uint8 *)sector;
+
+    for (int i = 0; i < 128 * 1024; i++)
+    {
+        if (address[i] != 0xFF)
+        {
+            HAL_EEPROM::EraseSector(sector);
+            break;
+        }
+    }
 }
