@@ -10,8 +10,8 @@
 #define ADDR_SECTOR_2   ((uint)0x08008000)  // 16k
 #define ADDR_SECTOR_3   ((uint)0x0800c000)  // 16k
 #define ADDR_SECTOR_4   ((uint)0x08010000)  // 64k
-#define ADDR_SECTOR_5   ((uint)0x08020000)  // 128k
-#define ADDR_SECTOR_6   ((uint)0x08040000)  // 128k
+#define ADDR_SECTOR_5   ((uint)0x08020000)  // 128k  Сюда записываем прошивку
+#define ADDR_SECTOR_6   ((uint)0x08040000)  // 128k  Здесь хранится считанная из флешки прошивка
 #define ADDR_SECTOR_7   ((uint)0x08060000)  // 128k
 #define ADDR_SECTOR_SETTINGS ADDR_SECTOR_7
 #define SIZE_SECTOR_SETTINGS (128 * 1024)
