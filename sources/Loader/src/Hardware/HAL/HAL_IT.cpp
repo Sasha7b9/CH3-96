@@ -24,7 +24,7 @@ extern "C" {
 
 
 
-    void OTG_HS_IRQHandler()
+    void OTG_FS_IRQHandler()
     {
         HAL_HCD_IRQHandler(reinterpret_cast<HCD_HandleTypeDef *>(FDrive::GetHandleHCD()));
     }
