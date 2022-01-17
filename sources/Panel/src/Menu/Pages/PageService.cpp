@@ -38,7 +38,7 @@ static void OnPress_ResetSettings()
 
     Menu::SetOpenedPage(Channel::A->pageModes);
     
-    Channel::Current()->OnChanged_TypeMeasure(); //-V760
+    Channel::Current()->OnChanged_TypeMeasure();
 
     Channel::Current()->LoadToFPGA();
 

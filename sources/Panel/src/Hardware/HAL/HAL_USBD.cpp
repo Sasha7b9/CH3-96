@@ -61,7 +61,7 @@ void HAL_USBD::SendDataSynch(int sizeBuffer, uint sizeSend, uint8 *buffSend, cha
         if (sizeBuffer + sizeSend > SIZE_BUFFER_VCP)
         {
             int reqBytes = SIZE_BUFFER_VCP - sizeBuffer;
-            LIMITATION(reqBytes, 0, (int)sizeSend); //-V2516
+            LIMITATION(reqBytes, 0, (int)sizeSend);
 
             while (pCDC->TxState == 1) {
             }; //-V712

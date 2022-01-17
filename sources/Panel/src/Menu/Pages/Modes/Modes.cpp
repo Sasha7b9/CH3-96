@@ -43,7 +43,7 @@ Enumeration &CurrentModeMeasure::ToEnumeration()
 
         return *modesB[Channel::B->mod.typeMeasure.value];
     }
-    else if (CURRENT_CHANNEL_IS_C) //-V2516
+    else if (CURRENT_CHANNEL_IS_C)
     {
         static Enumeration *const modesC[4] =
         {
@@ -258,7 +258,7 @@ void ModeDuration::LoadToFPGA()
     {
         command.SetBit(7);
     }
-    else if (Current().IsPhase()) //-V2516
+    else if (Current().IsPhase())
     {
         command.SetBit(9);
         command.SetBit(7);

@@ -5,8 +5,10 @@
 #include <stm32f4xx_hal.h>
 
 
-static PCD_HandleTypeDef hPCD;
-void *HAL_PCD::handle = &hPCD;
+#ifdef PANEL
+    static PCD_HandleTypeDef hPCD;
+    void *HAL_PCD::handle = &hPCD;
+#endif
 
 
 static void SystemClock_Config(void);
@@ -15,7 +17,7 @@ static void SystemClock_Config(void);
 void HAL::Init()
 {
     HAL_Init();
-    
+
     HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
 
     /* System interrupt init*/
@@ -33,7 +35,7 @@ void HAL::Init()
     HAL_NVIC_SetPriority(PendSV_IRQn, 0, 0);
     /* SysTick_IRQn interrupt configuration */
     HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
-    
+
     __GPIOA_CLK_ENABLE();
     __USB_OTG_FS_CLK_ENABLE();
     __SYSCFG_CLK_ENABLE();
@@ -58,7 +60,7 @@ void HAL::Init()
     HAL_NVIC_SetPriority(OTG_FS_IRQn, 0, 0);
 
     HAL_NVIC_EnableIRQ(OTG_FS_IRQn);
-    
+
     SystemClock_Config();
 
 #ifdef PANEL
@@ -84,7 +86,7 @@ static void SystemClock_Config()
     __HAL_PWR_VOLTAGESCALING_CONFIG
 
     (PWR_REGULATOR_VOLTAGE_SCALE2);
-    
+
     RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
     RCC_OscInitStruct.HSIState = RCC_HSI_ON;
     RCC_OscInitStruct.HSICalibrationValue = 0x10;
@@ -94,17 +96,19 @@ static void SystemClock_Config()
     RCC_OscInitStruct.PLL.PLLN = 336;
     RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV4;
     RCC_OscInitStruct.PLL.PLLQ = 7;
-    if(HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+
+    if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
     {
         HAL::ERROR_HANDLER();
     }
-    
+
     RCC_ClkInitStruct.ClockType = (RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2);
     RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
     RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-    RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;  
-    RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;  
-    if(HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
+    RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+    RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+
+    if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
     {
         HAL::ERROR_HANDLER();
     }
@@ -113,5 +117,5 @@ static void SystemClock_Config()
 
 void HAL::ERROR_HANDLER()
 {
-    *((int*)((void*)0)) = 0;
+    *((int *)((void *)0)) = 0;
 }

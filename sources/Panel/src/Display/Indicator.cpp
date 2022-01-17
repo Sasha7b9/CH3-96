@@ -66,7 +66,7 @@ void Indicator::DrawHLine(int x, int y, DirectH direct, bool visible)
     {
         y -= 2;
     }
-    else if (direct == Down) //-V2516
+    else if (direct == Down)
     {
         y -= 5;
     }
@@ -106,7 +106,7 @@ void Indicator::DrawData(pString text, int x, int y, Color cDraw, Color cBack)
             DrawDigit(x, y, '-');
             x += DeltaX('-');
         }
-        else if (*pointer == '.') //-V2516
+        else if (*pointer == '.')
         {
             Rectangle(8, 8).Fill(x - 5, y + (int)(sizeLine * 1.7F)); //-V2564
             x += DeltaX('.');
@@ -143,7 +143,7 @@ int Indicator::DeltaX(uint8 symbol)
     {
         return width + 7;
     }
-    else if (symbol == '.') //-V2516
+    else if (symbol == '.')
     {
         return 7;
     }

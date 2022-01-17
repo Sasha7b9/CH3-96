@@ -216,7 +216,7 @@ bool TypeMeasure::IsActiveTimeLabels(int m)
         case ModePeriod::F_1:         result = FreqMeter::modeTest.IsEnabled();     break;
         }
     }
-    else if (IsDuration()) //-V2516
+    else if (IsDuration())
     {
         ModeDuration::E mode = (ModeDuration::E)m;
 
@@ -255,7 +255,7 @@ bool TypeMeasure::IsActiveTimeMeasure(int m)
         case ModeFrequency::RatioBC:     return true;
         }
     }
-    else if (IsPeriod()) //-V2516
+    else if (IsPeriod())
     {
         ModePeriod::E mode = (ModePeriod::E)m;
 
@@ -293,7 +293,7 @@ bool TypeMeasure::IsActiveNumberPeriods(int m)
         case ModePeriod::Period:         return true;
         }
     }
-    else if (IsCountPulse()) //-V2516
+    else if (IsCountPulse())
     {
         ModeCountPulse::E mode = (ModeCountPulse::E)m;
 

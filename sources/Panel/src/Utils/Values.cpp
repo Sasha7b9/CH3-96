@@ -27,7 +27,7 @@ static char *FloatToString(float value, bool alwaysSign, int numDigits, char buf
     {
         *pBuffer++ = '-';
     }
-    else if (alwaysSign) //-V2516
+    else if (alwaysSign)
     {
         *pBuffer++ = '+';
     }

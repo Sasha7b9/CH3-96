@@ -324,7 +324,7 @@ char SU::ToUpper(char symbol)
     {
         return static_cast<char>(s - 0x20);
     }
-    else if(s >= 0xf0) //-V2516
+    else if(s >= 0xf0)
     {
         return static_cast<char>(s - 0x20);
     }
@@ -341,7 +341,7 @@ char SU::ToLower(char symbol)
     {
         return static_cast<char>(s + 0x20);
     }
-    else if(s >= 0xc0 && s < 0xE0) //-V2516
+    else if(s >= 0xc0 && s < 0xE0)
     {
         return static_cast<char>(s + 0x20);
     }

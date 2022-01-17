@@ -452,6 +452,18 @@
         </Group>
         <Group>
           <GroupName>Hardware</GroupName>
+          <Files>
+            <File>
+              <FileName>FDrive.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\Hardware\FDrive.h</FilePath>
+            </File>
+            <File>
+              <FileName>FDrive.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\Hardware\FDrive.cpp</FilePath>
+            </File>
+          </Files>
         </Group>
         <Group>
           <GroupName>Hardware/HAL</GroupName>
@@ -954,6 +966,18 @@
         </Group>
         <Group>
           <GroupName>Hardware</GroupName>
+          <Files>
+            <File>
+              <FileName>FDrive.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\Hardware\FDrive.h</FilePath>
+            </File>
+            <File>
+              <FileName>FDrive.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\Hardware\FDrive.cpp</FilePath>
+            </File>
+          </Files>
         </Group>
         <Group>
           <GroupName>Hardware/HAL</GroupName>

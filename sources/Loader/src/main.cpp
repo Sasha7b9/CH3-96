@@ -26,9 +26,9 @@ int main()
 
     Display::Init();
 
-//    FDrive::Init();
+    FDrive::Init();
 
-//    FDrive::AttemptUpdate();
+    FDrive::AttemptUpdate();
 
     HAL::DeInit();
 

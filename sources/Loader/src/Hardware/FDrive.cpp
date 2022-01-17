@@ -73,23 +73,11 @@ void *FDrive::GetHandleUSBH()
 
 void FDrive::Init()
 {
-    __GPIOB_CLK_ENABLE();
-    __USB_OTG_HS_CLK_ENABLE(); //-V760
-    __HAL_RCC_USB_OTG_HS_CLK_ENABLE();
-    __SYSCFG_CLK_ENABLE();
-
-    HAL_PIO::Init(PIN_HCD_DM, HMode::AF_PP, HPull::No, HSpeed::High, HAlternate::AF12_OTG_HS_FS);
-    HAL_PIO::Init(PIN_HCD_DP, HMode::AF_PP, HPull::No, HSpeed::High, HAlternate::AF12_OTG_HS_FS);
-
-    HAL_NVIC_SetPriority(OTG_HS_IRQn, 5, 1);
-
-    HAL_NVIC_EnableIRQ(OTG_HS_IRQn);
-
     stateDisk = StateDisk::Idle;
     connection = 0;
     active = 0;
 
-    if(FATFS_LinkDriver(&USBH_Driver, USBDISKPath) == FR_OK) //-V2001
+    if(FATFS_LinkDriver(&USBH_Driver, USBDISKPath) == FR_OK)
     {
         USBH_StatusTypeDef res = USBH_Init(&handleUSBH, USBH_UserProcess, 0);
         res = USBH_RegisterClass(&handleUSBH, USBH_MSC_CLASS);
@@ -145,7 +133,7 @@ void FDrive::AttemptUpdate()
         NVIC_SystemReset();
     }
 
-    if(state == State::Mount)                   // Это означает, что диск удачно примонтирован //-V774
+    if(state == State::Mount)                   // Это означает, что диск удачно примонтирован
     {
         if(FileExist(FILE_CLEAR))
         {
@@ -157,7 +145,7 @@ void FDrive::AttemptUpdate()
             Upgrade();
         }
     }
-    else if(state == State::WrongFlash)         // Диск не удалось примонтировать //-V774 //-V2516
+    else if(state == State::WrongFlash)         // Диск не удалось примонтировать
     {
         Timer::PauseOnTime(5000);
     }

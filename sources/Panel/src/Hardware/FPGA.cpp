@@ -280,7 +280,7 @@ void FPGA::GovernorData::IncreaseN()
         {
             Auto::NA++;
         }
-        else if(CURRENT_CHANNEL_IS_B) //-V2516
+        else if(CURRENT_CHANNEL_IS_B)
         {
             Auto::NB++;
         }
@@ -299,7 +299,7 @@ void FPGA::GovernorData::DecreaseN()
         {
             Auto::NA--;
         }
-        else if(CURRENT_CHANNEL_IS_B) //-V2516
+        else if(CURRENT_CHANNEL_IS_B)
         {
             Auto::NB--;
         }
@@ -318,7 +318,7 @@ void FPGA::GovernorData::SetN(int num)
         {
             Auto::NA = num;
         }
-        else if(CURRENT_CHANNEL_IS_B) //-V2516
+        else if(CURRENT_CHANNEL_IS_B)
         {
             Auto::NB = num;
         }
@@ -465,7 +465,7 @@ void FPGA::GovernorData::Calculate()
                 DecToBin(Auto::NA, encData);
             }
         }
-        else if (CURRENT_CHANNEL_IS_B) //-V2516
+        else if (CURRENT_CHANNEL_IS_B)
         {
             if (Auto::NB < 0)
             {

@@ -123,7 +123,7 @@ static void OnPress_Sync()
 
         Channel::B->pageSettings->selectedItem = 0;
     }
-    else if(Channel::B->set.typeSynch.IsManual()) //-V2516
+    else if(Channel::B->set.typeSynch.IsManual())
     {
         items[0] = &sCouple;
         items[1] = &sImpedance;

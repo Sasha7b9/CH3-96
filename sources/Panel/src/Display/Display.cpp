@@ -549,7 +549,7 @@ static void DrawInfo()
     {
         DrawValue("Зап:внешн", coordLaunch.x, coordLaunch.y);
     }
-    else if (PageIndication::launchSource.IsOneTime()) //-V2516
+    else if (PageIndication::launchSource.IsOneTime())
     {
         DrawValue("Зап:однокр", coordLaunch.x, coordLaunch.y);
     }

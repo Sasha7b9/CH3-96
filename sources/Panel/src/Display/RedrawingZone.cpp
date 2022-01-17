@@ -165,7 +165,7 @@ bool ProgressBarTimeMeasureZone::Draw()
 
         int w = (int)(46.0F * part) + 1;
 
-        LIMITATION(w, 0, Width() - 1); //-V2516
+        LIMITATION(w, 0, Width() - 1);
 
         Primitives::Rectangle(w, 5).Fill(x0, y0, Color::FILL);
     }

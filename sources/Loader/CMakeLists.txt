@@ -6,6 +6,9 @@ include_directories(../common/_VS_KEIL/CMSIS
                     ../common/_VS_KEIL/std_includes
                     ../common/libs/STM32Cube_F4/Drivers/CMSIS/Device/ST/STM32F4xx/Include
                     ../common/libs/STM32Cube_F4/Drivers/STM32F4xx_HAL_Driver/Inc
+                    ../common/libs/STM32Cube_F4/Middlewares/Third_Party/FatFS/src
+                    ../common/libs/STM32Cube_F4/Middlewares/ST/STM32_USB_Host_Library/Core/Inc
+                    ../common/libs/STM32Cube_F4/Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc
                              src
                              src/Hardware/FatFS
                              src/Hardware/HAL
@@ -40,7 +43,7 @@ file(GLOB HAL            ../common/libs/STM32Cube_F4/Drivers/STM32F4xx_HAL_Drive
                          ../common/libs/STM32Cube_F4/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.*
                          )
 file(GLOB DISPLAY                 src/Display/*.*)
-# file(GLOB HARDWARE                src/Hardware/*.*)
+file(GLOB HARDWARE                src/Hardware/*.*)
 file(GLOB HARDWARE_CMSIS          src/Hardware/CMSIS/*.*)
 file(GLOB HARDWARE_FATFS          src/Hardware/FatFS/*.*)
 file(GLOB HARDWARE_HAL   ../Panel/src/Hardware/HAL/HAL.*
@@ -51,7 +54,7 @@ file(GLOB HARDWARE_HAL   ../Panel/src/Hardware/HAL/HAL.*
 source_group(src            FILES ${SRC})
 source_group(HAL            FILES ${HAL})
 source_group(Display        FILES ${DISPLAY})
-# source_group(Hardware       FILES ${HARDWARE})
+source_group(Hardware       FILES ${HARDWARE})
 source_group(Hardware/CMSIS FILES ${HARDWARE_CMSIS})
 source_group(Hardware/FatFS FILES ${HARDWARE_FATFS})
 source_group(Hardware/HAL   FILES ${HARDWARE_HAL})
@@ -64,7 +67,7 @@ add_library(${PROJECT_NAME}
                     ${SRC}
                     ${HAL}
                     ${DISPLAY}
-#                    ${HARDWARE}
+                    ${HARDWARE}
                     ${HARDWARE_CMSIS}
                     ${HARDWARE_FATFS}
                     ${HARDWARE_HAL}

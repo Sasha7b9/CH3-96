@@ -84,7 +84,7 @@ void LevelSynch::Change(int delta)
             MIN = 1;
         }
 
-        LIMITATION(LEVEL_SYNCH(CURRENT_CHANNEL), MIN, MAX); //-V2516
+        LIMITATION(LEVEL_SYNCH(CURRENT_CHANNEL), MIN, MAX);
 
         if (prev != LEVEL_SYNCH(CURRENT_CHANNEL))
         {
@@ -112,7 +112,7 @@ void LevelSynch::Set(int num)
             MIN = 1;
         }
 
-        LIMITATION(LEVEL_SYNCH(CURRENT_CHANNEL), MIN, MAX); //-V2516
+        LIMITATION(LEVEL_SYNCH(CURRENT_CHANNEL), MIN, MAX);
 
         if (prev != LEVEL_SYNCH(CURRENT_CHANNEL))
         {

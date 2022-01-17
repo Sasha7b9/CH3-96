@@ -84,7 +84,7 @@ static pchar Process(pchar buffer, const StructSCPI strct[])
             {
                 return ProcessNode(end, strct);
             }
-            else if (strct->IsLeaf()) //-V2516
+            else if (strct->IsLeaf())
             {
                 return ProcessLeaf(end, strct);
             }
@@ -239,7 +239,7 @@ void SCPI::SendMeasure(const String &str)
         else if (symbol == 'À')    { symbol = 'A'; }
         else if (symbol == 'Ì')    { symbol = 'M'; }
         else if (symbol == 'ê')    { symbol = 'k'; }
-        else if ((symbol == 'Ã') && (str[i + 1] == 'ö')) //-V2516
+        else if ((symbol == 'Ã') && (str[i + 1] == 'ö'))
         {
             message.Append('H');  message.Append('z');  i++; continue;
         }
