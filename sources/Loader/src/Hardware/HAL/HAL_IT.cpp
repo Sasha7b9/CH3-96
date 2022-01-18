@@ -15,14 +15,10 @@ extern "C" {
         HAL_SYSTICK_IRQHandler();
     }
 
-
-    // This interrupt call soft NSS for spi (see Hardware::SPIforPanel.c::PanelInit() and HAL_GPIO_EXTI_Callback())
-    void EXTI9_5_IRQHandler()
+    void OTG_HS_IRQHandler()
     {
-        HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_6);
+        HAL_HCD_IRQHandler(reinterpret_cast<HCD_HandleTypeDef *>(FDrive::GetHandleHCD()));
     }
-
-
 
     void OTG_FS_IRQHandler()
     {

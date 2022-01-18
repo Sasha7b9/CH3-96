@@ -337,8 +337,8 @@ void FDrive::LL_::InitHCD(void *host)
     USBH_HandleTypeDef *phost = static_cast<USBH_HandleTypeDef *>(host);
 
     handleHCD.Instance = USB_OTG_FS;
-    handleHCD.Init.speed = HCD_SPEED_HIGH;
-    handleHCD.Init.Host_channels = 12;
+    handleHCD.Init.speed = HCD_SPEED_FULL;
+    handleHCD.Init.Host_channels = 11;
     handleHCD.Init.dma_enable = 0;
     handleHCD.Init.low_power_enable = 0;
     handleHCD.Init.phy_itface = HCD_PHY_EMBEDDED;
