@@ -13,8 +13,8 @@
 
 void init()
 {
-	Display::Init();
-	Keyboard::Init();
+    Display::Init();
+    Keyboard::Init();
 }
 
 
@@ -35,25 +35,25 @@ void update()
 {
 #define SIZE_FRAME (272 * 480)
 
-	static uint displayFrame[SIZE_FRAME];
+    static uint displayFrame[SIZE_FRAME];
 
-	if (Frame::Self()->needSave)
-	{
-		OpenPort();
+    if (Frame::Self()->needSave)
+    {
+        OpenPort();
 
-		if (ComPort::IsOpened())
-		{
-			std::memset(displayFrame, 0, SIZE_FRAME * 4);
+        if (ComPort::IsOpened())
+        {
+            std::memset(displayFrame, 0, SIZE_FRAME * 4);
 
-			ComPort::Send(":picture\x0d");
+            ComPort::Send(":picture\x0d");
 
-			printf("%d", ComPort::Receive((char *)displayFrame, SIZE_FRAME * 4, 20000)); //-V2533
+            printf("%d", ComPort::Receive((char *)displayFrame, SIZE_FRAME * 4, 20000)); //-V2533
 
-			Display::Draw(displayFrame);
+            Display::Draw(displayFrame);
 
-			Frame::Self()->needSave = false;
+            Frame::Self()->needSave = false;
 
-			ComPort::Close();
-		}
-	}
+            ComPort::Close();
+        }
+    }
 }
