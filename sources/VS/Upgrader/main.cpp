@@ -16,6 +16,24 @@
 
 using namespace std;
 
+static uint CalculateCRC32(char *buffer, int size);
+static bool CreateFileCRC32(pchar file);
+
+
+int main(int argc, char *argv[])
+{
+    if (argc != 2)
+    {
+        cout << "Using :" << endl;
+        cout << "        checsum input_file" << endl;
+        return -1;
+    }
+
+    CreateFileCRC32(argv[1]);
+
+    return 0;
+}
+
 
 static unsigned int CalculateCRC32(char *buffer, int size)
 {
@@ -71,19 +89,4 @@ static bool CreateFileCRC32(pchar file)
     }
 
     return true;
-}
-
-
-int main(int argc, char *argv[])
-{
-    if (argc != 2)
-    {
-        cout << "Using :" << endl;
-        cout << "        checsum input_file" << endl;
-        return -1;
-    }
-
-    CreateFileCRC32(argv[1]);
-
-    return 0;
 }
