@@ -22,6 +22,8 @@ static pchar FuncErase(pchar buffer)
 
     HAL_EEPROM::EraseSector(HAL_EEPROM::ADDR_SECTOR_UPGRADE);
 
+    SCPI::SendAnswer(":UPGRADE:ERASE");
+
     SCPI_EPILOG(buffer);
 
     return nullptr;
