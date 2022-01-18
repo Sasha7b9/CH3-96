@@ -18,13 +18,16 @@ const StructSCPI SCPI::upgrade[] =
 
 static pchar FuncErase(pchar buffer)
 {
-    SCPI_PROLOG(buffer);
+    if (SCPI::SU::IsLineEnding(&buffer))
+    {
+        SCPI::Answer::SendBadSymbols();
 
-    HAL_EEPROM::EraseSector(HAL_EEPROM::ADDR_SECTOR_UPGRADE);
+        HAL_EEPROM::EraseSector(HAL_EEPROM::ADDR_SECTOR_UPGRADE);
 
-    SCPI::SendAnswer(":UPGRADE:ERASE");
+        SCPI::SendAnswer(":UPGRADE:ERASE");
 
-    SCPI_EPILOG(buffer);
+        return buffer;
+    }
 
     return nullptr;
 }
