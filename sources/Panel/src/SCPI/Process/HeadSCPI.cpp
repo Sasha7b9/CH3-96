@@ -34,6 +34,7 @@ const StructSCPI SCPI::head[] =
     SCPI_NODE(":INPUT",            SCPI::input),
     SCPI_NODE(":MEASURE",          SCPI::measure),
     SCPI_NODE(":SET",              SCPI::set),
+    SCPI_NODE(":UPGRADE",          SCPI::upgrade),
     SCPI_LEAF("*TEST",             FuncTestSwitch),
     SCPI_EMPTY()
 };

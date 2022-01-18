@@ -120,7 +120,7 @@ static void SendFirmware(pchar file)
 
 static bool EraseSector()
 {
-    pchar sended_string = ":erase_sector\x0d";
+    pchar sended_string = ":upgrade:erase\x0d";
 
     ComPort::Send(sended_string);
 
@@ -138,7 +138,7 @@ static bool SendZone(int num, uint hash, void *data, int size)
 {
     char buffer[100];
 
-    sprintf(buffer, ":write_zone %d %d %d\x0d", num, hash, size);
+    sprintf(buffer, ":upgrade:write %d %d %d\x0d", num, hash, size);
 
     ComPort::Send(buffer);
 
