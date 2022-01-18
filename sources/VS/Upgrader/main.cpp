@@ -5,6 +5,7 @@
 #include <fstream>
 #pragma warning(pop)
 #include "defines.h"
+#include "ComPort.h"
 
 
 /*
@@ -18,9 +19,10 @@ using namespace std;
 
 static uint CalculateCRC32(char *buffer, int size);
 static bool CreateFileCRC32(pchar file);
+static void OpenPort();
 
 
-int main(int argc, char *argv[])
+int main(int argc, char *[])
 {
     if (argc != 2)
     {
@@ -29,7 +31,7 @@ int main(int argc, char *argv[])
         return -1;
     }
 
-    CreateFileCRC32(argv[1]);
+
 
     return 0;
 }
@@ -90,3 +92,17 @@ static bool CreateFileCRC32(pchar file)
 
     return true;
 }
+
+
+static void OpenPort()
+{
+    for (int i = 0; i < 10; i++)
+    {
+        ComPort::Open();
+        if (ComPort::IsOpened())
+        {
+            break;
+        }
+    }
+}
+
