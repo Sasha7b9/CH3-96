@@ -146,7 +146,7 @@ static bool SendZone(int num, uint hash, void *data, int size)
 
     uint recv_buffer[2];                // —юда будем принимать ответ с номером зоны и контрольной суммой
 
-    if (ComPort::Receive(&recv_buffer[0], 8, 1000) == 8)
+    if (ComPort::Receive(recv_buffer, 8, 1000) == 8)
     {
         return (recv_buffer[0] == (uint)num) && (recv_buffer[1] == hash);
     }
