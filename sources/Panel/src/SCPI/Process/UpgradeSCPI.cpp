@@ -11,7 +11,7 @@ static pchar FuncWrite(pchar);
 const StructSCPI SCPI::upgrade[] =
 {
     SCPI_LEAF(":ERASE", FuncErase),
-    SCPI_LEAF(":WRITE", FuncWrite),
+    SCPI_LEAF(":WRITE", FuncWrite), // :upgrade:write num_zone hash size. После этого идёт буфер байт размером size байт
     SCPI_EMPTY()
 };
 
@@ -35,5 +35,7 @@ static pchar FuncErase(pchar buffer)
 
 static pchar FuncWrite(pchar)
 {
+
+
     return nullptr;
 }
