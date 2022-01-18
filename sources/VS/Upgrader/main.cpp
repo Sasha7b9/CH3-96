@@ -20,6 +20,9 @@ using namespace std;
 static uint CalculateCRC32(char *buffer, int size);
 static void SendFirmware(pchar file);
 static void OpenPort();
+static bool EraseSector();
+static bool SendZone(int num, uint hash, void *buffer, int size);
+
 
 
 int main(int argc, char *argv[])
@@ -44,6 +47,19 @@ int main(int argc, char *argv[])
 }
 
 
+static void OpenPort()
+{
+    for (int i = 0; i < 10; i++)
+    {
+        ComPort::Open();
+        if (ComPort::IsOpened())
+        {
+            break;
+        }
+    }
+}
+
+
 static unsigned int CalculateCRC32(char *buffer, int size)
 {
     unsigned int hash = 0;
@@ -64,14 +80,15 @@ static void SendFirmware(pchar file)
 
     if (ifile.is_open())
     {
-        ofstream ofile;
-        ofile.open(string(file) + ".crc32", ios::out | ios::trunc | ios::binary);
-
         ifile.seekg(0, ifile.end);
         int length = (int)ifile.tellg();
         ifile.seekg(0, ifile.beg);
 
-        ofile.write((char *)&length, sizeof(length));
+        int number = 0;;
+
+        while (!EraseSector())
+        {
+        }
 
         while (length)
         {
@@ -83,12 +100,15 @@ static void SendFirmware(pchar file)
 
             ifile.read(buffer, read_bytes);
 
-            unsigned int hash = CalculateCRC32(buffer, read_bytes);
+            uint hash = CalculateCRC32(buffer, read_bytes);
 
-            ofile.write((char *)&hash, sizeof(hash));
+            while (!SendZone(number, hash, buffer, read_bytes))
+            {
+            }
+
+            number++;
         }
 
-        ofile.close();
         ifile.close();
     }
     else
@@ -98,15 +118,13 @@ static void SendFirmware(pchar file)
 }
 
 
-static void OpenPort()
+static bool EraseSector()
 {
-    for (int i = 0; i < 10; i++)
-    {
-        ComPort::Open();
-        if (ComPort::IsOpened())
-        {
-            break;
-        }
-    }
+    return false;
 }
 
+
+static bool SendZone(int num, uint hash, void *buffer, int size)
+{
+    return false;
+}
