@@ -63,7 +63,16 @@ void ComPort::Send(pchar buffer)
     }
 }
 
-int ComPort::Receive(char *buffer, int size, int timeWait)
+
+void ComPort::Send(void *buffer, int size)
+{
+    if (IsOpened())
+    {
+        RS232_SendBuf(openedPort, (uint8 *)buffer, size);
+    }
+}
+
+int ComPort::Receive(void *buffer, int size, int timeWait)
 {
     if (IsOpened())
     {
@@ -73,7 +82,7 @@ int ComPort::Receive(char *buffer, int size, int timeWait)
 
         while (received < size && clock() < timeStart + timeWait)
         {
-            int newBytes = RS232_PollComport(openedPort, reinterpret_cast<unsigned char *>(buffer + received), size - received);
+            int newBytes = RS232_PollComport(openedPort, reinterpret_cast<unsigned char *>((uint8 *)buffer + received), size - received);
             received += newBytes;
         }
 

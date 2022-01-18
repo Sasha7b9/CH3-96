@@ -120,11 +120,36 @@ static void SendFirmware(pchar file)
 
 static bool EraseSector()
 {
-    return false;
+    pchar sended_string = ":erase_sector\x0d";
+
+    ComPort::Send(sended_string);
+
+    char buffer[100];
+
+    int numBytes = ComPort::Receive(buffer, (int)strlen(sended_string), 1000);
+
+    buffer[numBytes] = '\0';
+
+    return (numBytes == (int)strlen(sended_string)) && strcmp(buffer, sended_string) == 0;
 }
 
 
-static bool SendZone(int num, uint hash, void *buffer, int size)
+static bool SendZone(int num, uint hash, void *data, int size)
 {
+    char buffer[100];
+
+    sprintf(buffer, ":write_zone %d %d %d\x0d", num, hash, size);
+
+    ComPort::Send(buffer);
+
+    ComPort::Send(data, size);
+
+    uint recv_buffer[2];                // —юда будем принимать ответ с номером зоны и контрольной суммой
+
+    if (ComPort::Receive(&recv_buffer[0], 8, 1000) == 8)
+    {
+        return (recv_buffer[0] == (uint)num) && (recv_buffer[1] == hash);
+    }
+
     return false;
 }

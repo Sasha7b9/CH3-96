@@ -37,7 +37,7 @@ static void AddAction(Control control, Control::Action::E action)
 
 void Frame::OnDown(wxCommandEvent &event)
 {
-    Control::E key = (Control::E)event.GetId(); //-V2533
+    Control::E key = (Control::E)event.GetId();
 
     //std::cout << "down " << Control(key).Name() << std::endl;
     event.Skip();
@@ -52,7 +52,7 @@ void Frame::OnDown(wxCommandEvent &event)
 
 void Frame::OnUp(wxCommandEvent &event)
 {
-    Control::E key = (Control::E)event.GetId(); //-V2533
+    Control::E key = (Control::E)event.GetId();
 
     //std::cout << "up   " << Control(key).Name() << std::endl;
     event.Skip();

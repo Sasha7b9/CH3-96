@@ -8,5 +8,6 @@ struct ComPort
     static void Close();
     static bool IsOpened();
     static void Send(pchar);
-    static int Receive(char *buffer, int size, int timeWait);
+    static void Send(void *buffer, int size);
+    static int Receive(void *buffer, int size, int timeWait);
 };
