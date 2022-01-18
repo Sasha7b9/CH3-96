@@ -18,11 +18,11 @@
 using namespace std;
 
 static uint CalculateCRC32(char *buffer, int size);
-static bool CreateFileCRC32(pchar file);
+static void SendFirmware(pchar file);
 static void OpenPort();
 
 
-int main(int argc, char *[])
+int main(int argc, char *argv[])
 {
     if (argc != 2)
     {
@@ -31,7 +31,14 @@ int main(int argc, char *[])
         return -1;
     }
 
+    OpenPort();
 
+    if (ComPort::IsOpened())
+    {
+        ComPort::Close();
+
+        SendFirmware(argv[1]);
+    }
 
     return 0;
 }
@@ -50,7 +57,7 @@ static unsigned int CalculateCRC32(char *buffer, int size)
 }
 
 
-static bool CreateFileCRC32(pchar file)
+static void SendFirmware(pchar file)
 {
     ifstream ifile;
     ifile.open(string(file) + ".bin", ios::in | ios::binary);
@@ -87,10 +94,7 @@ static bool CreateFileCRC32(pchar file)
     else
     {
         cout << "ERROR !!! Input file " << file << ".bin" << " not found" << endl;
-        return false;
     }
-
-    return true;
 }
 
 
