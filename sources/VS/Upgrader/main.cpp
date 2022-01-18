@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #pragma warning(pop)
+#include "defines.h"
 
 
 /*
@@ -29,22 +30,15 @@ static unsigned int CalculateCRC32(char *buffer, int size)
 }
 
 
-int main(int argc, char *argv[])
+static bool CreateFileCRC32(pchar file)
 {
-    if (argc != 2)
-    {
-        cout << "Using :" << endl;
-        cout << "        checsum input_file.bin" << endl;
-        return -1;
-    }
-
     ifstream ifile;
-    ifile.open(string(argv[1]) + ".bin", ios::in | ios::binary);
+    ifile.open(string(file) + ".bin", ios::in | ios::binary);
 
     if (ifile.is_open())
     {
         ofstream ofile;
-        ofile.open(string(argv[1]) + ".crc32", ios::out | ios::trunc | ios::binary);
+        ofile.open(string(file) + ".crc32", ios::out | ios::trunc | ios::binary);
 
         ifile.seekg(0, ifile.end);
         int length = (int)ifile.tellg();
@@ -52,7 +46,7 @@ int main(int argc, char *argv[])
 
         ofile.write((char *)&length, sizeof(length));
 
-        while(length)
+        while (length)
         {
             char buffer[1024];
 
@@ -72,9 +66,24 @@ int main(int argc, char *argv[])
     }
     else
     {
-        cout << "ERROR !!! Input file " << argv[1] << ".bin" << " not found" << endl;
+        cout << "ERROR !!! Input file " << file << ".bin" << " not found" << endl;
+        return false;
+    }
+
+    return true;
+}
+
+
+int main(int argc, char *argv[])
+{
+    if (argc != 2)
+    {
+        cout << "Using :" << endl;
+        cout << "        checsum input_file" << endl;
         return -1;
     }
+
+    CreateFileCRC32(argv[1]);
 
     return 0;
 }

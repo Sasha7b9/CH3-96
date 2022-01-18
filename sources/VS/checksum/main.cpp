@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
     if (argc != 2)
     {
         cout << "Using :" << endl;
-        cout << "        checsum input_file.bin" << endl;
+        cout << "        checsum input_file" << endl;
         return -1;
     }
 
