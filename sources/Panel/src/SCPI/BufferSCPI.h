@@ -11,6 +11,7 @@ class BufferSCPI
 public:
     BufferSCPI(int size = 0);
     ~BufferSCPI();
+    void Append(uint8 *data, int size);
     void Realloc(int size);
     void Fill(uint8 value);
     uint8 *data;
