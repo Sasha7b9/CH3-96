@@ -1078,6 +1078,16 @@
               <FileType>5</FileType>
               <FilePath>.\src\SCPI\UtilsSCPI.h</FilePath>
             </File>
+            <File>
+              <FileName>BufferSCPI.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\SCPI\BufferSCPI.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>BufferSCPI.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\SCPI\BufferSCPI.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -2313,6 +2323,16 @@
               <FileName>UtilsSCPI.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\src\SCPI\UtilsSCPI.h</FilePath>
+            </File>
+            <File>
+              <FileName>BufferSCPI.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\src\SCPI\BufferSCPI.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>BufferSCPI.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\src\SCPI\BufferSCPI.h</FilePath>
             </File>
           </Files>
         </Group>
