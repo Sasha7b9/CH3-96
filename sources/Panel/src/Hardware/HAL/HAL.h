@@ -29,9 +29,12 @@ struct HAL_EEPROM
     static const uint SIZE_SECTOR_SETTINGS = (128 * 1024);
 
     static void LoadSettings(Settings *settings);
+
     static void SaveSettings(Settings *settings);
+
     // —тирает сектор с начальным адресом startAddress
     static void EraseSector(uint address);
+
     // «аписывает size байт из массива data по адресу address
     static void WriteData(uint address, void *data, uint size);
 };
