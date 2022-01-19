@@ -274,15 +274,18 @@ void Display::DrawWelcomeScreen()
 
     int counter = 0;
 
-    while (TIME_MS - startTime < 3000)
+    while (TIME_MS - startTime < 30000)
     {
         for (int i = 0; i < NUM_PARTS; i++)
         {
             SetTopRow(i);
             BeginScene();
-            Text(String(LANG_IS_RU ? "OAO ÌÍÈÏÈ, ×3-96/2, %s" : "OAO MNIPI, Ch3-96/2, %s",
-                STR_NUM_VERSION)).Write(100, 110, Color::FILL);
-//            DrawRectangle(counter, counter);
+            Color::FILL.SetAsCurrent();
+
+            Text(String(LANG_IS_RU ? "OAO ÌÍÈÏÈ" : "OAO MNIPI")).WriteScaled(160, 70, 2);
+
+            Text(String(STR_NUM_VERSION)).WriteScaled(140, 152, 2);
+
             EndScene();
         }
 

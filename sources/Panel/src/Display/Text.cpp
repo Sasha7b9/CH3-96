@@ -69,6 +69,17 @@ int Text::Write(int x, int y)
 }
 
 
+int Text::WriteScaled(int x, int y, int size)
+{
+    if (text)
+    {
+        x = WriteSymbolsScaled(text, (int)std::strlen(text), x, y, size);
+    }
+
+    return x;
+}
+
+
 int Text::WriteSymbols(char* start, int num, int x, int y) const
 {
     if (Display::InDrawingPart(y, Font::GetHeight()))
@@ -78,6 +89,22 @@ int Text::WriteSymbols(char* start, int num, int x, int y) const
         for (int i = 0; i < num; i++)
         {
             x = WriteSymbol(x, y, (uint8)(*p++)) + Font::GetSpacing();
+        }
+    }
+
+    return x;
+}
+
+
+int Text::WriteSymbolsScaled(char *start, int num, int x, int y, int size) const
+{
+    if (Display::InDrawingPart(y, Font::GetHeight() * size))
+    {
+        char *p = start;
+
+        for (int i = 0; i < num; i++)
+        {
+            x = WriteSymbolScaled(x, y, (uint8)(*p++), size) + Font::GetSpacing() * size;
         }
     }
 
@@ -303,4 +330,27 @@ int Text::WriteSymbol(int x, int y, uint8 chr) const
     }
 
     return x + width;
+}
+
+
+int Text::WriteSymbolScaled(int x, int y, uint8 chr, int size) const
+{
+    int height = Font::GetHeight();
+    int width = Font::GetWidth(chr);
+
+    for (int row = 0; row < height; row++)
+    {
+        if (Font::RowNotEmpty(chr, row))
+        {
+            for (int col = 0; col < width; col++)
+            {
+                if (Font::BitIsExist(chr, row, col))
+                {
+                    Rectangle(size, size).Fill(x + col * size, y + row * size);
+                }
+            }
+        }
+    }
+
+    return x + width * size;
 }
