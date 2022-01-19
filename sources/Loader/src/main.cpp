@@ -24,15 +24,15 @@ typedef void(*pFunction)();
 
 int main()
 {
-    HAL::Init();
-
-    Display::Init();
-
-    FDrive::Init();
-
-    FDrive::AttemptUpdate();
-
-    HAL::DeInit();
+//    HAL::Init();
+//
+//    Display::Init();
+//
+//    FDrive::Init();
+//
+//    FDrive::AttemptUpdate();
+//
+//    HAL::DeInit();
 
     __disable_irq();
     // Теперь переходим на основную программу
