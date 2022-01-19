@@ -285,7 +285,7 @@ void Display::DrawWelcomeScreen()
 //            Text(String(LANG_IS_RU ? "OAO лмхох" : "OAO MNIPI")).WriteScaled(160, 70, 2);
 //            Text(String(STR_NUM_VERSION)).WriteScaled(140, 152, 2);
 
-            Text(String(LANG_IS_RU ? "OAO лмхох" : "OAO MNIPI")).WriteScaled(140, 60, 3);
+            Text(String(LANG_IS_RU ? "OAO лмхох" : "OAO MNIPI")).WriteScaled(110, 60, 3);
             Text(String(STR_NUM_VERSION)).WriteScaled(140, 160, 2);
 
             EndScene();
