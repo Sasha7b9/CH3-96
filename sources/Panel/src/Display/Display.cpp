@@ -282,7 +282,7 @@ void Display::DrawWelcomeScreen()
             BeginScene();
             Text(String(LANG_IS_RU ? "OAO лмхох, в3-96/2, %s" : "OAO MNIPI, Ch3-96/2, %s",
                 STR_NUM_VERSION)).Write(100, 110, Color::FILL);
-            DrawRectangle(counter, counter);
+//            DrawRectangle(counter, counter);
             EndScene();
         }
 
