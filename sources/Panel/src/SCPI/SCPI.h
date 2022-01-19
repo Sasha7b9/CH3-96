@@ -1,7 +1,6 @@
 // (c) Aleksandr Shevchenko e-mail : Sasha7b9@tut.by
 #pragma once
 #include "SCPI/UtilsSCPI.h"
-#include "SCPI/BufferSCPI.h"
 
 
 /*
@@ -86,8 +85,6 @@ namespace SCPI
     void SendMeasure(const String &message);
        
     void ProcessHint(String *message, pchar const *names);
-
-    extern BufferSCPI inputBuffer;
 
     namespace Answer
     {

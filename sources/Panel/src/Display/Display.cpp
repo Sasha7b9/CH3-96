@@ -226,7 +226,7 @@ void DrawRectangle3(int, int)
 }
 
 
-static void DrawRectangle(int, int)
+void DrawRectangle(int, int)
 {
     Rectangle(Display::PHYSICAL_WIDTH, Display::PHYSICAL_HEIGHT).Draw(0, 0);
 

@@ -4,6 +4,7 @@
 #include "Menu/Pages/Channels/Channels.h"
 #include "SCPI/SCPI.h"
 #include "SCPI/UtilsSCPI.h"
+#include "Utils/Buffer.h"
 #include "Utils/String.h"
 #include "Utils/StringUtils.h"
 #include <cstring>
@@ -32,19 +33,16 @@ static bool RemoveSeparatorsSequenceFromBegin();
 // Удалить все символы до первого разделителя
 static bool RemoveSymbolsBeforeSeparator();
 
-namespace SCPI
-{
-    BufferSCPI inputBuffer;
-}
+static String inputBuffer;
 
-static BufferSCPI badSymbols;
+static String badSymbols;
 
 
 void SCPI::AppendNewData(pchar buffer, int size)
 {
-    inputBuffer.Append((uint8 *)buffer, size);
+    inputBuffer.Append(buffer, size);
 
-    inputBuffer.ToUpper();
+    ::SU::ToUpper(inputBuffer.c_str());
 
     RemoveBadSymbolsFromBegin();
 
@@ -65,7 +63,39 @@ void SCPI::Update()
         return;
     }
 
-    inputBuffer.RemoveFromBegin(inputBuffer.Process(head));
+    pchar end = Process(inputBuffer.c_str(), head);
+
+    if(end)
+    {
+        inputBuffer.RemoveFromBegin(static_cast<int>(end - inputBuffer.c_str()));
+    }
+}
+
+
+static pchar Process(pchar buffer, const StructSCPI strct[])
+{
+    while (!strct->IsEmpty())
+    {
+        pchar end = SCPI::SU::BeginWith(buffer, strct->key);
+
+        if (end)
+        {
+            if (strct->IsNode())
+            {
+                return ProcessNode(end, strct);
+            }
+            else if (strct->IsLeaf())
+            {
+                return ProcessLeaf(end, strct);
+            }
+        }
+
+        strct++;
+    }
+
+    badSymbols.Append(*buffer);         // Перебрали все ключи в strct и не нашли ни одного соответствия. Поэтому помещаем начальный разделитель в бракованные символы
+
+    return buffer + 1;
 }
 
 
