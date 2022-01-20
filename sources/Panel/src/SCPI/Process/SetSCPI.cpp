@@ -32,7 +32,7 @@ static pchar FuncTimeMeasure(pchar buffer)
         ""
     };
 
-    return SCPI::ProcessSimpleParameter(buffer, measure, Channel::Current()->mod.timeMeasure.sw);
+    return SCPI::ProcessSimpleParameter(buffer, measure, Channel::Current()->mod.timeMeasure.sw, true);
 }
 
 
@@ -49,7 +49,7 @@ static pchar FuncN(pchar buffer)
         ""
     };
 
-    return SCPI::ProcessSimpleParameter(buffer, n, Channel::Current()->mod.numberPeriods.sw);
+    return SCPI::ProcessSimpleParameter(buffer, n, Channel::Current()->mod.numberPeriods.sw, true);
 }
 
 
@@ -66,5 +66,5 @@ static pchar FuncTimeLabels(pchar buffer)
         ""
     };
 
-    return SCPI::ProcessSimpleParameter(buffer, labels, Channel::Current()->mod.timeLabels.sw);
+    return SCPI::ProcessSimpleParameter(buffer, labels, Channel::Current()->mod.timeLabels.sw, true);
 }

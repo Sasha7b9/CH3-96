@@ -294,7 +294,7 @@ static void AnswerInput(const pchar choice[], uint8 value)
 }
 
 
-pchar SCPI::ProcessSimpleParameter(pchar buffer, const pchar choice[], Switch *const sw)
+pchar SCPI::ProcessSimpleParameter(pchar buffer, const pchar choice[], Switch *const sw, bool correct)
 {
     SCPI_REQUEST(AnswerInput(choice, sw->Value()));
 

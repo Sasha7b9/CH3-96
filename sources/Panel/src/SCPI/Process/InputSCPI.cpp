@@ -35,7 +35,7 @@ static pchar FuncCoupling(pchar buffer)
         ""
     };
 
-    return SCPI::ProcessSimpleParameter(buffer, coupling, Channel::Current()->set.couple.sw);
+    return SCPI::ProcessSimpleParameter(buffer, coupling, Channel::Current()->set.couple.sw, CURRENT_CHANNEL_IS_A_OR_B);
 }
 
 
@@ -48,7 +48,7 @@ static pchar FuncImpedance(pchar buffer)
         ""
     };
 
-    return SCPI::ProcessSimpleParameter(buffer, impedance, Channel::Current()->set.impedance.sw);
+    return SCPI::ProcessSimpleParameter(buffer, impedance, Channel::Current()->set.impedance.sw, CURRENT_CHANNEL_IS_A_OR_B);
 }
 
 
@@ -61,7 +61,7 @@ static pchar FuncFilter(pchar buffer)
         ""
     };
 
-    return SCPI::ProcessSimpleParameter(buffer, filter, Channel::Current()->set.modeFilter.sw);
+    return SCPI::ProcessSimpleParameter(buffer, filter, Channel::Current()->set.modeFilter.sw, CURRENT_CHANNEL_IS_A_OR_B);
 }
 
 
@@ -74,7 +74,7 @@ static pchar FuncTriggerSlope(pchar buffer)
         ""
     };
 
-    return SCPI::ProcessSimpleParameter(buffer, modeFront, Channel::Current()->set.modeFront.sw);
+    return SCPI::ProcessSimpleParameter(buffer, modeFront, Channel::Current()->set.modeFront.sw, CURRENT_CHANNEL_IS_A_OR_B);
 }
 
 static pchar FuncTriggerLevel(pchar buffer)
@@ -125,5 +125,5 @@ static pchar FuncDivider(pchar buffer)
         ""
     };
 
-    return SCPI::ProcessSimpleParameter(buffer, divider, Channel::Current()->set.divider.sw);
+    return SCPI::ProcessSimpleParameter(buffer, divider, Channel::Current()->set.divider.sw, CURRENT_CHANNEL_IS_A_OR_B);
 }

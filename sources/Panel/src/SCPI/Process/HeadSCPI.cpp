@@ -165,7 +165,7 @@ static pchar FuncRefGenerator(pchar buffer)
         ""
     };
 
-    return SCPI::ProcessSimpleParameter(buffer, generator, PageIndication::refGenerator.sw);
+    return SCPI::ProcessSimpleParameter(buffer, generator, PageIndication::refGenerator.sw, true);
 }
 
 

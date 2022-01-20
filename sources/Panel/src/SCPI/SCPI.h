@@ -99,7 +99,8 @@ namespace SCPI
     }
 
     // Общая функция обработки команды обычного запроса
-    pchar ProcessSimpleParameter(pchar buffer, const pchar choice[], Switch * const sw);
+    // если correct = false - такого параметра на данном канале не существует
+    pchar ProcessSimpleParameter(pchar buffer, const pchar choice[], Switch * const sw, bool correct);
 };
 
 
