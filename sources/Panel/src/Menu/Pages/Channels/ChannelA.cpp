@@ -45,8 +45,8 @@ DEF_SWITCH_UGO_2(sImpedance,
     "Âõîäíîå ñîïðîòèâëåíèå êàíàëà", "Channel input impedance",
     "1 ÌÎì", "50 Îì",
     "1 ÌÎì", "50 Îì",
-    "1ÌÎì", "50Îì",
-    "1ÌÎì", "50Îì",
+    "1 ÌÎì", "50 Îì",
+    "1 ÌÎì", "50 Îì",
     Channel::A->set.impedance, OnPress_Impedance
 );
 
