@@ -589,11 +589,18 @@ void PageModes::ResetModeMeasure()
 }
 
 
-void Switch::FuncForSCPI(int i)
+void Switch::FuncForSCPI(int i, bool correct)
 {
-    if (!SetValue((uint8)i))
+    if (!correct)
     {
         SCPI::Answer::InvalidParameter();
+    }
+    else
+    {
+        if (!SetValue((uint8)i))
+        {
+            SCPI::Answer::InvalidParameter();
+        }
     }
 }
 

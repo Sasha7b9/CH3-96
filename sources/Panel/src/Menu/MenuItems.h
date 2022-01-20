@@ -172,7 +172,7 @@ public:
     uint8 Value() const { return state->value; }
 
     // Для управления по SCPI
-    void FuncForSCPI(int i);
+    void FuncForSCPI(int i, bool correct);
 
     pchar Title() const;
 

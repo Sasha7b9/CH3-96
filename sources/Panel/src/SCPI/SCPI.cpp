@@ -298,5 +298,5 @@ pchar SCPI::ProcessSimpleParameter(pchar buffer, const pchar choice[], Switch *c
 {
     SCPI_REQUEST(AnswerInput(choice, sw->Value()));
 
-    SCPI_PROCESS_ARRAY(choice, sw->FuncForSCPI(i));
+    SCPI_PROCESS_ARRAY(choice, sw->FuncForSCPI(i, correct));
 }
