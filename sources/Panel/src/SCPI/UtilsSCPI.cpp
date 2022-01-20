@@ -51,6 +51,14 @@ pchar SCPI::SU::BeginWith(pchar buffer, pchar word)
 
 bool SCPI::SU::ReadIntegerValue(pchar buffer, int *outValue, pchar *outEnd)
 {
+    int sign = 1;
+
+    if (*buffer == '-')
+    {
+        sign = -1;
+        buffer++;
+    }
+
     ConverterToInteger converter;
 
     while (*buffer >= '0' && *buffer <= '9')
@@ -60,6 +68,8 @@ bool SCPI::SU::ReadIntegerValue(pchar buffer, int *outValue, pchar *outEnd)
     }
 
     *outValue = converter.IsInterger() ? converter.GetValue() : 0;
+
+    *outValue = *outValue * sign;
 
     *outEnd = buffer;
 
