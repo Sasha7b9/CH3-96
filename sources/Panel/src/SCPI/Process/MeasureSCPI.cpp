@@ -69,12 +69,12 @@ static const pchar modesDuration[] =
 
 static const pchar modesCounter[] =
 {
-    " A(tB)",
+    " A(DB)",
     " A(TB)",
-    " B(tA)",
+    " B(DA)",
     " B(TA)",
-    " C(tA)",
-    " C(tB)",
+    " C(DA)",
+    " C(DB)",
     " C(TA)",
     " C(TB)",
     " HAND",
