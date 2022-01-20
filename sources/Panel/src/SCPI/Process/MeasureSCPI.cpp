@@ -179,27 +179,3 @@ static pchar FuncCounter(pchar buffer)
 {
     return ProcessSetModeMeasure(buffer, TypeMeasure::CountPulse);
 }
-
-
-/*
-pchar end = nullptr;
-
-for (int i = 0; i < modesFrequency[i][0] != 0; i++)
-{
-    end = SCPI::BeginWith(buffer, modesFrequency[i]);
-
-    if (end)
-    {
-        if (SCPI::IsLineEnding(&end))
-        {
-            SCPI::SendBadSymbols();
-
-            Function();
-
-            return end;
-        }
-    }
-}
-
-return nullptr;
-*/
