@@ -7,7 +7,7 @@
 
 Color Color::WHITE(0);
 
-Color Color::BACK(1);
+Color Color::VOID(1);
 Color Color::FILL(2);
 
 Color Color::BACK_1(3);

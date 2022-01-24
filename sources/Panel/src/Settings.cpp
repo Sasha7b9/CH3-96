@@ -12,7 +12,7 @@ static ColorScheme def_colors[3] =
     {
         Color::Make(248, 248, 248),     // WHITE            0
 
-        Color::Make(0,   0,   0),       // BACK             1
+        Color::Make(0,   0,   0),       // VOID             1
         Color::Make(248, 248, 248),     // FILL             2
 
         Color::Make(0,   24,  0),       // BACK_1           3
@@ -28,7 +28,7 @@ static ColorScheme def_colors[3] =
     {
         Color::Make(248, 248, 248),     // WHITE            0
 
-        Color::Make(112, 8,   8),       // BACK             1
+        Color::Make(112, 8,   8),       // VOID             1
         Color::Make(248, 248, 248),     // FILL             2
 
         Color::Make(0,   0,   248),     // BACK_1           3
@@ -44,7 +44,7 @@ static ColorScheme def_colors[3] =
     {
         Color::Make(248, 248, 248),     // WHITE            0
 
-        Color::Make(0,   0,   0),       // BACK             1
+        Color::Make(0,   0,   0),       // VOID             1
         Color::Make(248, 248, 248),     // FILL             2
 
         Color::Make(0,   24,  0),       // BACK_1           3
