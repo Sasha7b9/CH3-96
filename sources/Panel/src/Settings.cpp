@@ -22,8 +22,6 @@ static ColorScheme def_colors[3] =
         Color::Make(24,  24,  24),      // BACK_UNSELECT    6
         Color::Make(192, 192, 192),     // BACK_SELECT      7
 
-        Color::Make(128, 128, 128),     // BACK_STAT        8
-
         Color::Make(248, 0,   0),       // TYPE_RED         9
         Color::Make(0,   248, 0),       // TYPE_GREEN       10
         Color::Make(0,   0,   248)      // TYPE_BLUE        11
@@ -41,8 +39,6 @@ static ColorScheme def_colors[3] =
         Color::Make(248, 24,  0),       // BACK_UNSELECT    6
         Color::Make(192, 192, 192),     // BACK_SELECT      7
 
-        Color::Make(128, 128, 128),     // BACK_STAT        8
-
         Color::Make(248, 0,   0),       // TYPE_RED         9
         Color::Make(0,   248, 0),       // TYPE_GREEN       10
         Color::Make(0,   0,   248)      // TYPE_BLUE        11
@@ -59,8 +55,6 @@ static ColorScheme def_colors[3] =
 
         Color::Make(24,  24,  24),      // BACK_UNSELECT    6
         Color::Make(192, 192, 192),     // BACK_SELECT      7
-
-        Color::Make(128, 128, 128),     // BACK_STAT        8
 
         Color::Make(248, 0,   0),       // TYPE_RED         9
         Color::Make(0,   248, 0),       // TYPE_GREEN       10
