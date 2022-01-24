@@ -10,49 +10,40 @@
 static ColorScheme def_colors[3] =
 {
     {
-        Color::Make(248, 248, 248),     // WHITE            0
+        Color::Make(0,   0,   0),       // EMPTY            0
+        Color::Make(248, 248, 248),     // FILL             1
+        Color::Make(0,   24,  0),       // BACK             2
+        Color::Make(24,  24,  24),      // BACK_UNSELECT    3
+        Color::Make(192, 192, 192),     // BACK_SELECT      4
 
-        Color::Make(0,   0,   0),       // EMPTY            1
-        Color::Make(248, 248, 248),     // FILL             2
-
-        Color::Make(0,   24,  0),       // BACK             3
-
-        Color::Make(24,  24,  24),      // BACK_UNSELECT    4
-        Color::Make(192, 192, 192),     // BACK_SELECT      5
-
-        Color::Make(248, 0,   0),       // TYPE_RED         6
-        Color::Make(0,   248, 0),       // TYPE_GREEN       7
-        Color::Make(0,   0,   248)      // TYPE_BLUE        8
+        Color::Make(248, 0,   0),       // TYPE_RED         5
+        Color::Make(0,   248, 0),       // TYPE_GREEN       6
+        Color::Make(0,   0,   248),     // TYPE_BLUE        7
+        Color::Make(248, 248, 248)      // WHITE            8
     },
     {
-        Color::Make(248, 248, 248),     // WHITE            0
+        Color::Make(112, 8,   8),       // EMPTY            0
+        Color::Make(248, 248, 248),     // FILL             1
+        Color::Make(0,   0,   248),     // BACK             2
+        Color::Make(248, 24,  0),       // BACK_UNSELECT    3
+        Color::Make(192, 192, 192),     // BACK_SELECT      4
 
-        Color::Make(112, 8,   8),       // EMPTY            1
-        Color::Make(248, 248, 248),     // FILL             2
-
-        Color::Make(0,   0,   248),     // BACK             3
-
-        Color::Make(248, 24,  0),       // BACK_UNSELECT    4
-        Color::Make(192, 192, 192),     // BACK_SELECT      5
-
-        Color::Make(248, 0,   0),       // TYPE_RED         6
-        Color::Make(0,   248, 0),       // TYPE_GREEN       7
-        Color::Make(0,   0,   248)      // TYPE_BLUE        8
+        Color::Make(248, 0,   0),       // TYPE_RED         5
+        Color::Make(0,   248, 0),       // TYPE_GREEN       6
+        Color::Make(0,   0,   248),     // TYPE_BLUE        7
+        Color::Make(248, 248, 248)      // WHITE            8
     },
     {
-        Color::Make(248, 248, 248),     // WHITE            0
+        Color::Make(0,   0,   0),       // EMPTY            0
+        Color::Make(248, 248, 248),     // FILL             1
+        Color::Make(0,   24,  0),       // BACK_1           2
+        Color::Make(24,  24,  24),      // BACK_UNSELECT    3
+        Color::Make(192, 192, 192),     // BACK_SELECT      4
 
-        Color::Make(0,   0,   0),       // EMPTY            1
-        Color::Make(248, 248, 248),     // FILL             2
-
-        Color::Make(0,   24,  0),       // BACK_1           3
-
-        Color::Make(24,  24,  24),      // BACK_UNSELECT    4
-        Color::Make(192, 192, 192),     // BACK_SELECT      5
-
-        Color::Make(248, 0,   0),       // TYPE_RED         6
-        Color::Make(0,   248, 0),       // TYPE_GREEN       7
-        Color::Make(0,   0,   248)      // TYPE_BLUE        8
+        Color::Make(248, 0,   0),       // TYPE_RED         5
+        Color::Make(0,   248, 0),       // TYPE_GREEN       6
+        Color::Make(0,   0,   248),     // TYPE_BLUE        7
+        Color::Make(248, 248, 248)      // WHITE            8
     }
 };
 

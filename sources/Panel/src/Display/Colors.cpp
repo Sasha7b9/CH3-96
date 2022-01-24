@@ -5,19 +5,19 @@
 #include "Display/Primitives.h"
 #include "Settings.h"
 
-Color Color::WHITE(0);
+Color Color::EMPTY(0);
+Color Color::FILL(1);
 
-Color Color::EMPTY(1);
-Color Color::FILL(2);
+Color Color::BACK(2);
 
-Color Color::BACK(3);
+Color Color::BACK_UNSELECT(3);
+Color Color::BACK_SELECT(4);
 
-Color Color::BACK_UNSELECT(4);
-Color Color::BACK_SELECT(5);
+Color Color::TYPE_RED(5);
+Color Color::TYPE_GREEN(6);
+Color Color::TYPE_BLUE(7);
 
-Color Color::TYPE_RED(6);
-Color Color::TYPE_GREEN(7);
-Color Color::TYPE_BLUE(8);
+Color Color::WHITE(8);
 
 
 uint &Color::Value() const
