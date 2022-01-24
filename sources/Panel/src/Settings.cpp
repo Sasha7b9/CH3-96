@@ -7,26 +7,65 @@
 #include "Display/Colors.h"
 
 
-static ColorScheme def_colors =
+static ColorScheme def_colors[3] =
 {
-    Color::Make(255, 255, 255),     // WHITE            0
+    {
+        Color::Make(248, 248, 248),     // WHITE            0
 
-    Color::Make(0,   0,   0),       // BACK             1
-    Color::Make(255, 255, 255),     // FILL             2
+        Color::Make(0,   0,   0),       // BACK             1
+        Color::Make(248, 248, 248),     // FILL             2
 
-    Color::Make(0,   25,  0),       // BACK_1           3
-    Color::Make(0,   64,  0),       // BACK_2           4
-    Color::Make(0,   51,  0),       // BACK_3           5
+        Color::Make(0,   24,  0),       // BACK_1           3
+        Color::Make(0,   64,  0),       // BACK_2           4
+        Color::Make(0,   56,  0),       // BACK_3           5
 
-    Color::Make(25,  25,  25),      // BACK_UNSELECT    6
-    Color::Make(191, 191, 191),     // BACK_SELECT      7
+        Color::Make(24,  24,  24),      // BACK_UNSELECT    6
+        Color::Make(192, 192, 192),     // BACK_SELECT      7
 
-    Color::Make(127, 127, 127),     // BACK_STAT        8
-    Color::Make(51,  51,  51),      // BACK_VALUE       9
+        Color::Make(128, 128, 128),     // BACK_STAT        8
 
-    Color::Make(255, 0,   0),       // TYPE_RED         10
-    Color::Make(0,   255, 0),       // TYPE_GREEN       11
-    Color::Make(0,   0,   255)      // TYPE_BLUE        12
+        Color::Make(248, 0,   0),       // TYPE_RED         9
+        Color::Make(0,   248, 0),       // TYPE_GREEN       10
+        Color::Make(0,   0,   248)      // TYPE_BLUE        11
+    },
+    {
+        Color::Make(248, 248, 248),     // WHITE            0
+
+        Color::Make(112, 8,   8),       // BACK             1
+        Color::Make(248, 248, 248),     // FILL             2
+
+        Color::Make(0,   0,   248),     // BACK_1           3
+        Color::Make(0,   0,   0),       // BACK_2           4
+        Color::Make(0,   0,   160),     // BACK_3           5
+
+        Color::Make(248, 24,  0),       // BACK_UNSELECT    6
+        Color::Make(192, 192, 192),     // BACK_SELECT      7
+
+        Color::Make(128, 128, 128),     // BACK_STAT        8
+
+        Color::Make(248, 0,   0),       // TYPE_RED         9
+        Color::Make(0,   248, 0),       // TYPE_GREEN       10
+        Color::Make(0,   0,   248)      // TYPE_BLUE        11
+    },
+    {
+        Color::Make(248, 248, 248),     // WHITE            0
+
+        Color::Make(0,   0,   0),       // BACK             1
+        Color::Make(248, 248, 248),     // FILL             2
+
+        Color::Make(0,   24,  0),       // BACK_1           3
+        Color::Make(0,   64,  0),       // BACK_2           4
+        Color::Make(0,   48,  0),       // BACK_3           5
+
+        Color::Make(24,  24,  24),      // BACK_UNSELECT    6
+        Color::Make(192, 192, 192),     // BACK_SELECT      7
+
+        Color::Make(128, 128, 128),     // BACK_STAT        8
+
+        Color::Make(248, 0,   0),       // TYPE_RED         9
+        Color::Make(0,   248, 0),       // TYPE_GREEN       10
+        Color::Make(0,   0,   248)      // TYPE_BLUE        11
+    }
 };
 
 
@@ -34,12 +73,12 @@ static Settings def_set =
 {
     0,                                  // size
     {
-        def_colors, def_colors, def_colors
+        def_colors[0], def_colors[1], def_colors[2]
     },
     {
         {0, 1}, {0, 1}                          // levelSynch
     },
-    { 
+    {
         TypeSynch::Manual, TypeSynch::Manual    // typeSynch
     },
     false,
@@ -89,7 +128,7 @@ void LevelSynch::Change(int delta)
         if (prev != LEVEL_SYNCH(CURRENT_CHANNEL))
         {
             if (delta < 0) { FPGA::GovernorData::DecreaseN(); }
-            else           { FPGA::GovernorData::IncreaseN(); }
+            else { FPGA::GovernorData::IncreaseN(); }
 
             FPGA::GovernorData::Write();
         }
@@ -199,7 +238,7 @@ void Settings::Save()
 }
 
 
-void Settings::LoadDefaultColors()
+void Settings::LoadDefaultColorScheme()
 {
-    glob_set.schemes[glob_set.colorScheme] = def_colors;
+    glob_set.schemes[glob_set.colorScheme] = def_colors[glob_set.colorScheme];
 }

@@ -17,7 +17,6 @@ struct Color
     static Color BACK_SELECT;       // Фон выделенного итема
 
     static Color BACK_STAT;         // Цвет фона для графика статистики
-    static Color BACK_VALUE;
 
     static Color TYPE_RED;          // Красный компонент для настройки
     static Color TYPE_GREEN;        // Зелёный компонент для настройки

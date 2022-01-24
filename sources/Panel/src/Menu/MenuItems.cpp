@@ -431,11 +431,11 @@ void GovernorChannelColor::OnRotateGovernor(const Control &control)
 {
     if (control.value == Control::GovLeft)
     {
-        *state = (uint8)(*state - 1);
+        *state = (uint8)(*state - 8);
     }
     else if (control.value == Control::GovRight)
     {
-        *state = (uint8)(*state + 1);
+        *state = (uint8)(*state + 8);
     }
 
     funcChanged(*state);

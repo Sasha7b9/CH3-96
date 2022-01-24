@@ -18,11 +18,10 @@ Color Color::BACK_UNSELECT(6);
 Color Color::BACK_SELECT(7);
 
 Color Color::BACK_STAT(8);
-Color Color::BACK_VALUE(9);
 
-Color Color::TYPE_RED(10);
-Color Color::TYPE_GREEN(11);
-Color Color::TYPE_BLUE(12);
+Color Color::TYPE_RED(9);
+Color Color::TYPE_GREEN(10);
+Color Color::TYPE_BLUE(11);
 
 
 uint &Color::Value() const
