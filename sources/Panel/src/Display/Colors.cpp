@@ -10,8 +10,8 @@ Color Color::FILL(1);
 
 Color Color::BACK(2);
 
-Color Color::BACK_UNSELECT(3);
-Color Color::BACK_SELECT(4);
+Color Color::MENU_UNSELECT(3);
+Color Color::MENU_SELECT(4);
 
 Color Color::TYPE_RED(5);
 Color Color::TYPE_GREEN(6);

@@ -9,8 +9,8 @@ struct Color
     static Color FILL;              // Цвет белых надписей
     static Color BACK;              // Цвет фона
 
-    static Color BACK_UNSELECT;     // Фон невыделенного итема
-    static Color BACK_SELECT;       // Фон выделенного итема
+    static Color MENU_UNSELECT;     // Фон невыделенного итема
+    static Color MENU_SELECT;       // Фон выделенного итема
 
     static Color TYPE_RED;          // Красный компонент для настройки
     static Color TYPE_GREEN;        // Зелёный компонент для настройки

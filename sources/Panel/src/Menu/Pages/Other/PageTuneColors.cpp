@@ -30,8 +30,8 @@ static Color colors[5] =
     Color::EMPTY,
     Color::FILL,
     Color::BACK,
-    Color::BACK_UNSELECT,
-    Color::BACK_SELECT
+    Color::MENU_UNSELECT,
+    Color::MENU_SELECT
 };
 
 
