@@ -100,8 +100,8 @@ void Display::InitHardware()
 
     unsigned char *pointer = buffer;
 
-    Color color1 = Color::BACK_1;
-    Color color2 = Color::BACK_2;
+    Color color1 = Color::BACK;
+    Color color2 = Color::BACK;
 
     for (int i = 0; i < Display::PHYSICAL_WIDTH * Display::PHYSICAL_HEIGHT; i += 2)
     {

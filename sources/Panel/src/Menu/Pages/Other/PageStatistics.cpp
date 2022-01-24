@@ -61,7 +61,7 @@ static void Draw_Statistics()
     int x = x0;
     int y = y0 - (int)(stepY * (ValueFrequency_Comparator::values[0] - min));
 
-    Color::VOID.SetAsCurrent();
+    Color::EMPTY.SetAsCurrent();
 
     Point().Draw(x, y);
 
@@ -82,7 +82,7 @@ static void Draw_Statistics()
     Rectangle(Font::GetLengthText(strMAX.c_str()) + 2, 16).Fill(10, 10, Color::FILL);
     Rectangle(Font::GetLengthText(strMIN.c_str()) + 2, 16).Fill(10, height - 6);
 
-    Text(strMAX).Write(11, 11, Color::VOID);
+    Text(strMAX).Write(11, 11, Color::EMPTY);
     Text(strMIN).Write(11, height - 5);
 }
 

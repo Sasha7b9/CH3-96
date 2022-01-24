@@ -7,10 +7,10 @@
 
 Color Color::WHITE(0);
 
-Color Color::VOID(1);
+Color Color::EMPTY(1);
 Color Color::FILL(2);
 
-Color Color::BACK_1(3);
+Color Color::BACK(3);
 Color Color::BACK_3(4);
 
 Color Color::BACK_UNSELECT(5);

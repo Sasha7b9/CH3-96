@@ -27,9 +27,9 @@ extern GovernorChannelColor gBlue;
 
 static Color colors[6] =
 {
-    Color::VOID,
+    Color::EMPTY,
     Color::FILL,
-    Color::BACK_1,
+    Color::BACK,
     Color::BACK_3,
     Color::BACK_UNSELECT,
     Color::BACK_SELECT

@@ -7,9 +7,9 @@ struct Color
 {
     static Color WHITE;             // Белый
 
-    static Color VOID;              // Чёрный фон
+    static Color EMPTY;             // Чёрный фон
     static Color FILL;              // Цвет белых надписей
-    static Color BACK_1;            // Цвет фона
+    static Color BACK;              // Цвет фона
     static Color BACK_3;            // Цвет фона надписей
 
     static Color BACK_UNSELECT;     // Фон невыделенного итема
