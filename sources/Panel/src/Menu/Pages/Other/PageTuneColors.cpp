@@ -65,8 +65,8 @@ static void OnChanged_Blue(uint8)
 
 DEF_CHOICE_5(cColor,
     "Выбор настраиваемого цвета", "Choosing a custom color",
-    "Фон",  "Текст", "Экран 1",  "Цвет 2",  "Цвет 3",
-    "Back", "Text",  "Screen 1", "Color 2", "Color 3",
+    "Фон",  "Текст", "Экран 1",  "Меню 2", "Меню 3",
+    "Back", "Text",  "Screen 1", "Menu 2", "Menu 3",
     OnChanged_Color
 );
 
