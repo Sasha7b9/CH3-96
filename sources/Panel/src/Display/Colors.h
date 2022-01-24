@@ -10,7 +10,6 @@ struct Color
     static Color BACK;              // Чёрный фон
     static Color FILL;              // Цвет белых надписей
     static Color BACK_1;            // Первый цвет фона
-    static Color BACK_2;            // Второй цвет фона
     static Color BACK_3;            // Цвет фона надписей
 
     static Color BACK_UNSELECT;     // Фон невыделенного итема
