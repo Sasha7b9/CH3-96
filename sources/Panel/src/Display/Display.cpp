@@ -109,7 +109,7 @@ void Display::Init()
 
 static void DrawValue(pString string, int x, int y)
 {
-    Rectangle(Font::GetLengthText(string) + 5, 20).FillRounded(x - 3, y - 3, 2, Color::BACK_3, Color::FILL);
+    Rectangle(Font::GetLengthText(string) + 5, 20).FillRounded(x - 3, y - 3, 2, Color::BACK, Color::FILL);
 
     Text(string).Write(x, y, Color::FILL);
 }
@@ -468,7 +468,7 @@ static void DrawHint(int x, int y)
 
     if ((TIME_MS < timeAutoHint + 10000) && timeAutoHint != 0 && autoFlag)
     {
-        Rectangle(360, 30).FillRounded(x, y, 2, Color::BACK_3, Color::BACK_3);
+        Rectangle(360, 30).FillRounded(x, y, 2, Color::BACK, Color::BACK);
 
         Text(FPGA::Auto::Give().c_str()).Write(x + dX, y + dY, Color::FILL);
 
@@ -480,7 +480,7 @@ static void DrawHint(int x, int y)
         {
             if (FPGA::Auto::ObtainedResult())
             {
-                Rectangle(360, 30).FillRounded(x, y, 2, Color::BACK_3, Color::BACK_3);
+                Rectangle(360, 30).FillRounded(x, y, 2, Color::BACK, Color::BACK);
 
                 Text(FPGA::Auto::Give().c_str()).Write(x + dX, y + dY, Color::FILL);
                 FPGA::DisableAuto();
@@ -491,7 +491,7 @@ static void DrawHint(int x, int y)
             }
             else
             {
-                Rectangle(360, 30).FillRounded(x, y, 2, Color::BACK_3, Color::BACK_3);
+                Rectangle(360, 30).FillRounded(x, y, 2, Color::BACK, Color::BACK);
                 Text(LANG_IS_RU ? "Установка уровня синхронизации" : "Setting the sync level").
                     Write(x + dX, y + dY, Color::FILL);
                 timeAutoHint = 0;
@@ -501,7 +501,7 @@ static void DrawHint(int x, int y)
         {
             if (Hint::Shown() != 0)
             {
-                Rectangle(360, 30).FillRounded(x, y, 2, Color::BACK_3, Color::BACK_3);
+                Rectangle(360, 30).FillRounded(x, y, 2, Color::BACK, Color::BACK);
                 Text(Hint::Text()).Write(x + dX, y + dY, Color::FILL);
             }
             autoFlag = false;

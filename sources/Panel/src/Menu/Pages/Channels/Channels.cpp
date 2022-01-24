@@ -339,7 +339,7 @@ bool ModesChannel::ConsistTimeMeasure()
 static void DrawValue(const Enumeration &param, int x, int y)
 {
     int width = 60;
-    Primitives::Rectangle(width, 30).FillRounded(x, y, 2, Color::BACK_3, Color::FILL);
+    Primitives::Rectangle(width, 30).FillRounded(x, y, 2, Color::BACK, Color::FILL);
     Text(param.ToString()).Write(x + 2, y + 8, width, Color::FILL);
 }
 
@@ -384,7 +384,7 @@ void Channel::DrawSettings(int x, int y)
 {
     if (Display::InDrawingPart(y, 20))
     {
-        Rectangle(460, 30).FillRounded(x, y, 2, Color::BACK_3, Color::BACK_3);
+        Rectangle(460, 30).FillRounded(x, y, 2, Color::BACK, Color::BACK);
 
         Text(GetSettings()).Write(x + 10, y + 8, Color::FILL);
     }

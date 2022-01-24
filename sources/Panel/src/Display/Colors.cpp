@@ -11,14 +11,13 @@ Color Color::EMPTY(1);
 Color Color::FILL(2);
 
 Color Color::BACK(3);
-Color Color::BACK_3(4);
 
-Color Color::BACK_UNSELECT(5);
-Color Color::BACK_SELECT(6);
+Color Color::BACK_UNSELECT(4);
+Color Color::BACK_SELECT(5);
 
-Color Color::TYPE_RED(7);
-Color Color::TYPE_GREEN(8);
-Color Color::TYPE_BLUE(9);
+Color Color::TYPE_RED(6);
+Color Color::TYPE_GREEN(7);
+Color Color::TYPE_BLUE(8);
 
 
 uint &Color::Value() const

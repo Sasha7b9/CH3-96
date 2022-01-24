@@ -73,7 +73,7 @@ void CurrentModeMeasure::Draw(int x, int y)
         width = Font::GetLengthText(text.c_str()) + 18;
     }
 
-    Primitives::Rectangle(width, 30).FillRounded(x, y, 2, Color::BACK_3, Color::FILL);
+    Primitives::Rectangle(width, 30).FillRounded(x, y, 2, Color::BACK, Color::FILL);
 
     Text(text).Write(x + 10, y + 8, Color::FILL);
 }
@@ -83,7 +83,7 @@ void TypeMeasure::Draw(int x, int y) const
 {
     int width = 100;
 
-    Primitives::Rectangle(width, 30).FillRounded(x, y, 2, Color::BACK_3, Color::FILL);
+    Primitives::Rectangle(width, 30).FillRounded(x, y, 2, Color::BACK, Color::FILL);
 
     Text(ToString()).Write(x, y + 8, width, Color::FILL);
 }
