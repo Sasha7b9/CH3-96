@@ -93,7 +93,7 @@ class Choice : public Item
 {
 public:
     Choice(pchar hintRu, pchar hintEn, pchar *_namesRu, pchar *_namesEn, void (*funcPress)(), uint8 *_state) :
-        Item(hintRu, hintEn), state(_state), funcOnPress(funcPress)
+        Item(hintRu, hintEn), state(_state), funcOnPress(funcPress), colorBack(Color::MENU_UNSELECT)
     {
         namesRu = _namesRu;
         namesEn = _namesEn;
@@ -103,11 +103,13 @@ public:
     virtual void OnEnterKeyGovernor(const Control &);
     pchar Title() const;
     int Value() const { return (int)*state; }
+    void SetColorBackground(const Color &color) { colorBack = color; }
 private:
     pchar *namesRu;
     pchar *namesEn;
     uint8 *state;
     void (*funcOnPress)();
+    Color colorBack;        // Этим цветом будем отрисовывать фон в случае Choice для выбора цвета
     int NumStates() const;
     virtual void CreateHint(String &) const;
 };

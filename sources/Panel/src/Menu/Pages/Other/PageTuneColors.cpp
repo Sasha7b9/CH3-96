@@ -25,9 +25,8 @@ extern GovernorChannelColor gRed;
 extern GovernorChannelColor gGreen;
 extern GovernorChannelColor gBlue;
 
-static Color colors[5] =
+static Color colors[4] =
 {
-    Color::EMPTY,
     Color::FILL,
     Color::BACK,
     Color::MENU_UNSELECT,
@@ -42,6 +41,8 @@ static void OnChanged_Color()
     gRed.SetValue(color.GetRED());
     gGreen.SetValue(color.GetGREEN());
     gBlue.SetValue(color.GetBLUE());
+
+    cColor.SetColorBackground(colors[cColor.Value()]);
 }
 
 
@@ -63,10 +64,10 @@ static void OnChanged_Blue(uint8)
 }
 
 
-DEF_CHOICE_5(cColor,
+DEF_CHOICE_4(cColor,
     "Выбор настраиваемого цвета", "Choosing a custom color",
-    "Фон",  "Текст", "Экран 1",  "Меню 2", "Меню 3",
-    "Back", "Text",  "Screen 1", "Menu 2", "Menu 3",
+    "Текст", "Фон",  "Меню 1", "Меню 2",
+    "Text",  "Фон", "Menu 1", "Menu 2",
     OnChanged_Color
 );
 
