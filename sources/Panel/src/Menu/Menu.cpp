@@ -266,6 +266,8 @@ void Menu::Init()
     openedPage = Channel::A->pageModes;
 
     SubscribeToEvents();
+
+    PageTuneColors::Init();
 }
 
 
