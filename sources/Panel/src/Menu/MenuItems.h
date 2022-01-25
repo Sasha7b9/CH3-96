@@ -52,7 +52,7 @@ public:
     // Обработак поворота ручки
     virtual void OnRotateGovernor(const Control &) { };
 
-    static Color ColorBackground(bool selected);
+    Color ColorBackground(bool selected);
 
     static Color ColorDraw(bool selected);
 
@@ -93,7 +93,7 @@ class Choice : public Item
 {
 public:
     Choice(pchar hintRu, pchar hintEn, pchar *_namesRu, pchar *_namesEn, void (*funcPress)(), uint8 *_state) :
-        Item(hintRu, hintEn), state(_state), funcOnPress(funcPress), colorBack(Color::MENU_UNSELECT)
+        Item(hintRu, hintEn), colorBack(Color::MENU_UNSELECT), state(_state), funcOnPress(funcPress)
     {
         namesRu = _namesRu;
         namesEn = _namesEn;
@@ -104,12 +104,12 @@ public:
     pchar Title() const;
     int Value() const { return (int)*state; }
     void SetColorBackground(const Color &color) { colorBack = color; }
+    Color colorBack;        // Этим цветом будем отрисовывать фон в случае Choice для выбора цвета
 private:
     pchar *namesRu;
     pchar *namesEn;
     uint8 *state;
     void (*funcOnPress)();
-    Color colorBack;        // Этим цветом будем отрисовывать фон в случае Choice для выбора цвета
     int NumStates() const;
     virtual void CreateHint(String &) const;
 };

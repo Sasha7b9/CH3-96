@@ -181,7 +181,9 @@ void Page::Draw(int x, int y, int, bool)
         {
             bool selected = (i == selectedItem);
 
-            Rectangle(WidthItem(i) - 1, HEIGHT - 1).FillRounded(x, y + 1, 2, ColorBackground(selected), Color::FILL);
+            Color colorBack = items[i]->ColorBackground(selected);
+
+            Rectangle(WidthItem(i) - 1, HEIGHT - 1).FillRounded(x, y + 1, 2, colorBack, Color::FILL);
 
             items[i]->Draw(x, y + 5, WidthItem(i), selected);
 
@@ -486,13 +488,22 @@ Item::Item(pchar hintRu, pchar hintEn)
 
 Color Item::ColorBackground(bool selected)
 {
+    if (!selected)
+    {
+        if (std::strcmp("Choosing a custom color", hint[1]) == 0)
+        {
+            Choice *choice = (Choice *)this;
+            return choice->colorBack;
+        }
+
+    }
     return selected ? Color::MENU_SELECT : Color::MENU_UNSELECT;
 }
 
 
 Color Item::ColorDraw(bool selected)
 {
-    return selected ? Color::EMPTY: Color::FILL;
+    return selected ? Color::MENU_UNSELECT : Color::MENU_SELECT;
 }
 
 
