@@ -38,11 +38,11 @@ static void Draw_Info()
 
     Text(LANG_IS_RU ? "Версия" : "Version").Write(x, y);
     Text(String("%: %s", STR_NUM_VERSION)).Write(x0, y);
-
-    y += dy;
-
-    Text("CRC32").Write(x, y);
-    Text(String(": %s", STR_CRC32)).Write(x0, y);
+//
+//    y += dy;
+//
+//    Text("CRC32").Write(x, y);
+//    Text(String(": %s", STR_CRC32)).Write(x0, y);
 }
 
 static void OnPress_Exit()

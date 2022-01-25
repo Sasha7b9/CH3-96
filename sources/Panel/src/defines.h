@@ -53,8 +53,8 @@ typedef void(*pFuncVII)(int, int);
 #define _SET_BIT(value, bit) ((value) |= (1 << (bit)))
 
 
-#define STR_NUM_VERSION "Cherem V1.2.1"
+#define STR_NUM_VERSION "Cherem V1.2"
 #define MODEL_RU        "Частотомер электронно-счетный Ч3-96/2"
 #define MODEL_EN        "Electronic counting frequency meter Ch3-96/2"
 #define NAME_MODEL      (LANG_IS_RU ? MODEL_RU : MODEL_EN)
-#define STR_CRC32       "A87CDBF5"
+//#define STR_CRC32       "A87CDBF5"
