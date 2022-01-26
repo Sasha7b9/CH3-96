@@ -23,9 +23,9 @@ static ColorScheme def_colors[3] =
     },
     {
         Color::Make(248, 248, 248),     // FILL             0
-        Color::Make(0,   0,   248),     // BACK             1
-        Color::Make(248, 24,  0),       // BACK_UNSELECT    2
-        Color::Make(192, 192, 192),     // BACK_SELECT      3
+        Color::Make(0,   0,   0),       // BACK             1
+        Color::Make(0,   56,  0),       // BACK_UNSELECT    2
+        Color::Make(240, 160, 48),      // BACK_SELECT      3
 
         Color::Make(248, 0,   0),       // TYPE_RED         4
         Color::Make(0,   248, 0),       // TYPE_GREEN       5
@@ -35,7 +35,7 @@ static ColorScheme def_colors[3] =
     },
     {
         Color::Make(248, 248, 248),     // FILL             0
-        Color::Make(0,   24,  0),       // BACK_1           1
+        Color::Make(0,   0,   88),      // BACK_1           1
         Color::Make(24,  24,  24),      // BACK_UNSELECT    2
         Color::Make(192, 192, 192),     // BACK_SELECT      3
 
