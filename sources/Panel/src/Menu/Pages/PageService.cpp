@@ -14,7 +14,7 @@ static void OnPress_Information()
 }
 
 DEF_BUTTON(bInformation,
-    "Инфо", "Info",
+    "Инфомация", "Information",
     "Вывод системной информации", "Displaying system information",
     OnPress_Information);
 
