@@ -51,7 +51,7 @@ void Menu::Draw()
 
 void Menu::Input::OnGovernorRotate(const Control &control)
 {
-    if (!Menu::OpenedPage()->IsPageModes() && !Menu::OpenedPage()->IsPageSettings())
+    if (Menu::OpenedPage() == PageTuneColors::self)
     {
         return;
     }
