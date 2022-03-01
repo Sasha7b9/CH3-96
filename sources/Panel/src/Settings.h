@@ -64,7 +64,7 @@ struct Settings
 
     void Save();
     void Load();
-    void LoadDefaultColorScheme();
+    void Reset();
 };
 
 extern Settings glob_set;

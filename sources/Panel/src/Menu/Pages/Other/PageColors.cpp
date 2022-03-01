@@ -36,7 +36,7 @@ DEF_BUTTON(bTune,
 
 static void OnPress_Reset()
 {
-    glob_set.LoadDefaultColorScheme();
+    glob_set.Reset();
     glob_set.Save();
     PageTuneColors::Init();
 }

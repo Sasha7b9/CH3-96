@@ -208,6 +208,11 @@ void Divider::LoadToFPGA()
 void Settings::Load()
 {
     HAL_EEPROM::LoadSettings(this);
+
+    glob_set.levelSynch[0][0] = 0;
+    glob_set.levelSynch[0][1] = 1;
+    glob_set.levelSynch[1][0] = 0;
+    glob_set.levelSynch[1][1] = 1;
 }
 
 
@@ -217,7 +222,9 @@ void Settings::Save()
 }
 
 
-void Settings::LoadDefaultColorScheme()
+void Settings::Reset()
 {
     glob_set.schemes[glob_set.colorScheme] = def_colors[glob_set.colorScheme];
+
+    glob_set.showStatistics = false;
 }

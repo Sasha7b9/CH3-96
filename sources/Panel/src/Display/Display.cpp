@@ -542,21 +542,21 @@ static void DrawInfo()
 
     if (FreqMeter::modeTest.IsEnabled())
     {
-        DrawValue("Тест", coordTest.x, coordTest.y);
+        DrawValue(LANG_IS_RU ? "Тест" : "Test", coordTest.x, coordTest.y);
     }
 
     if (PageIndication::refGenerator == RefGenerator::External)
     {
-        DrawValue("ОГ", coordExtGenerator.x, coordExtGenerator.y);
+        DrawValue(LANG_IS_RU ? "ОГ" : "Ref", coordExtGenerator.x, coordExtGenerator.y);
     }
 
     if (PageIndication::launchSource.IsExternal())
     {
-        DrawValue("Зап:внешн", coordLaunch.x, coordLaunch.y);
+        DrawValue(LANG_IS_RU ? "Зап:внешн" : "Launch:ext", coordLaunch.x, coordLaunch.y);
     }
     else if (PageIndication::launchSource.IsOneTime())
     {
-        DrawValue("Зап:однокр", coordLaunch.x, coordLaunch.y);
+        DrawValue(LANG_IS_RU ? "Зап:однокр" : "Launch:single", coordLaunch.x, coordLaunch.y);
     }
 
     if ((CURRENT_CHANNEL_IS_A && Channel::A->mod.typeMeasure.IsCountPulse() && Channel::A->mod.modeCountPulse.Is_StartStop()) ||

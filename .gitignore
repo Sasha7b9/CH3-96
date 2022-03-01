@@ -3,8 +3,6 @@ archive.zip
 *out.txt
 *.out
 *~*
-*.uvgui*
-*.uvoptx
 
 sources/.vs/*
 sources/generated/*

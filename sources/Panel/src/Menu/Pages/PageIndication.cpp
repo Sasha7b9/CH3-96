@@ -75,7 +75,7 @@ static void OnPress_Calibration()
 
 // Вход в режим калибровки
 DEF_SWITCH_2(sCalibration,
-    "Калиб", "Calib",
+    "Калибр", "Calibr",
     "", "",
     "Не нажата",   "Нажата",
     "Not pressed", "Pressed",
