@@ -3,6 +3,7 @@ archive.zip
 *out.txt
 *.out
 *~*
+.vs/*
 
 sources/.vs/*
 sources/generated/*
