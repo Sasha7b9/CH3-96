@@ -97,8 +97,8 @@ source_group(Utils             FILES ${UTILS})
 
 add_executable(Saver ${SRC} ${DISPLAY} ${DISPLAY_FONT} ${GUI} ${KEYBOARD} ${UTILS})
 
-target_link_libraries(Saver wxbase31ud)
-target_link_libraries(Saver wxmsw31ud_core)
+target_link_libraries(Saver wxbase32ud)
+target_link_libraries(Saver wxmsw32ud_core)
 
 target_link_libraries(Saver WinMM.lib)
 target_link_libraries(Saver version.lib)
@@ -106,5 +106,5 @@ target_link_libraries(Saver Imm32.Lib)
 target_link_libraries(Saver Setupapi.lib)
 
 
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND copy ..\\..\\ThirdParty\\lib\\vc_dll\\wxbase315ud_vc_custom.dll $(OutputPath) /Y)
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND copy ..\\..\\ThirdParty\\lib\\vc_dll\\wxmsw315ud_core_vc_custom.dll $(OutputPath) /Y)
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND copy ..\\..\\ThirdParty\\lib\\vc_dll\\wxbase32ud_vc_custom.dll $(OutputPath) /Y)
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD COMMAND copy ..\\..\\ThirdParty\\lib\\vc_dll\\wxmsw32ud_core_vc_custom.dll $(OutputPath) /Y)
