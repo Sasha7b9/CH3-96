@@ -25,7 +25,9 @@ void init()
 
 void update()
 {
-    ValueFPGA::Create(4999900, 55553, 1660, 5972, 1660);
+//    ValueFPGA::Create(4999900, 55553, 1660, 5972, 1660);
+
+    ValueFPGA::Create(1000000, 1, 1, 1, 1);
 
     Display::Refresh();
     Menu::Input::Update();

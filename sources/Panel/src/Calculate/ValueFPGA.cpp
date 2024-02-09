@@ -253,6 +253,11 @@ void ValueFPGA::SetValue(ValueSTRICT strict, uint counter, bool isOrdered)
     int order = 0;
     int numDigitsInCounter = NumDigitsInNumber(counter);
 
+    if (Channel::Current()->mod.typeMeasure.IsDuration() && Channel::Current()->mod.modeDuration == ModeDuration::Phase)
+    {
+        numDigitsInCounter++;       // Для измерения фазы увеличим количество значащих цифр
+    }
+
     if(isOrdered)
     {
         if (numDigitsInCounter < 1)
