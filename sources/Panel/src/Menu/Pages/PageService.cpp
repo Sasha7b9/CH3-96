@@ -28,6 +28,20 @@ static void OnPress_ResetSettings()
     Channel::A->mod.typeMeasure.value = TypeMeasure::Frequency;
     Channel::A->mod.modeFrequency.value = ModeFrequency::Frequency;
 
+    Channel::B->mod.typeMeasure.value = TypeMeasure::Frequency;
+    Channel::B->mod.modeFrequency.value = ModeFrequency::Frequency;
+
+    Channel::C->mod.typeMeasure.value = TypeMeasure::Frequency;
+    Channel::C->mod.modeFrequency.value = ModeFrequency::Frequency;
+
+    Channel::D->mod.typeMeasure.value = TypeMeasure::Frequency;
+    Channel::D->mod.modeFrequency.value = ModeFrequency::Frequency;
+
+    Channel::A->set.modeFront.value = ModeFront::Front;
+    Channel::B->set.modeFront.value = ModeFront::Front;
+
+    ModeFront::LoadToFPGA();
+
     if (FreqMeter::modeTest.IsEnabled())
     {
         FreqMeter::modeTest.Switch();
