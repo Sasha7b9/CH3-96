@@ -407,9 +407,9 @@ void FPGA::GovernorData::Write()
 
 void FPGA::WriteCommand(const Command &command)
 {
-//    while (Read_WR != 0)             // \todo Провеерить. Возможно, по аналогии с передачей данных нельзя ожидать флага готовности
-//    {
-//    }
+    while (Read_WR != 0)             // \todo Провеерить. Возможно, по аналогии с передачей данных нельзя ожидать флага готовности
+    {
+    }
 
     Reset_CLOCK; //-V525
     Reset_DATA;
