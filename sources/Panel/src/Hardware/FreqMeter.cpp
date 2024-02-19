@@ -9,6 +9,7 @@
 #include "Menu/Pages/Channels/Channels.h"
 #include "Menu/Pages/PageIndication.h"
 #include "Menu/Hint.h"
+#include "Hardware/HAL/HAL.h"
 
 
 static bool autoMode = false;
@@ -26,13 +27,6 @@ void Channel::LoadToFPGA()
                        command.SetBit(9); }
 
     FPGA::WriteCommand(command);
-
-    InputCouple::LoadToFPGA();
-    InputImpedance::LoadToFPGA();
-    ModeFilter::LoadToFPGA();
-    ModeSynch::LoadToFPGA();
-    Divider::LoadToFPGA();
-    TypeSynch::LoadToFPGA();
 }
 
 

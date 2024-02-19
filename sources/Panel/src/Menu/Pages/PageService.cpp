@@ -19,6 +19,31 @@ DEF_BUTTON(bInformation,
     OnPress_Information);
 
 
+static void Delay()
+{
+    HAL_TIM::DelayMS(1);
+}
+
+
+static void LoadPhysicSettings(Channel *ch)
+{
+    Channel::SetCurrent(ch);
+
+    Delay();
+    InputCouple::LoadToFPGA();
+    Delay();
+    InputImpedance::LoadToFPGA();
+    Delay();
+    ModeFilter::LoadToFPGA();
+    Delay();
+    ModeSynch::LoadToFPGA();
+    Delay();
+    Divider::LoadToFPGA();
+    Delay();
+    TypeSynch::LoadToFPGA();
+    Delay();
+}
+
 static void OnPress_ResetSettings()
 {
     TimeMeasure::Set(TimeMeasure::_1ms);
@@ -44,15 +69,10 @@ static void OnPress_ResetSettings()
     LevelSynch::Set(0);
 
     InputCouple::Reset();
-
     InputImpedance::Reset();
-
     ModeFilter::Reset();
-
     ModeSynch::Reset();
-
     Divider::Reset();
-
     TypeSynch::Reset();
 
     Channel::SetCurrent(Channel::A);
@@ -70,6 +90,9 @@ static void OnPress_ResetSettings()
     LevelSynch::Set(0);
 
     FreqMeter::HardwareReset();
+
+//    LoadPhysicSettings(Channel::B);
+//    LoadPhysicSettings(Channel::A);
 }
 
 DEF_BUTTON(bResetSettings,
