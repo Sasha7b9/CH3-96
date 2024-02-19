@@ -282,6 +282,15 @@ void InputImpedance::LoadToFPGA()
 }
 
 
+void InputImpedance::Reset()
+{
+    Channel::A->set.impedance.value = InputImpedance::_1MOmh;
+    Channel::B->set.impedance.value = InputImpedance::_1MOmh;
+
+    LoadToFPGA();
+}
+
+
 void FreqMeter::LoadAuto()
 {
     Command command(Command::Auto);

@@ -105,7 +105,7 @@ struct Channel
 
     void PressSetup();
 
-    Page *pageSettings;
+    Page      *pageSettings;
     PageModes *pageModes;
 
     SettingsChannel set;

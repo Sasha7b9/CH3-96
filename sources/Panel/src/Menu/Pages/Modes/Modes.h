@@ -277,6 +277,8 @@ struct InputCouple : public Enumeration
     bool IsDC() const { return (value == InputCouple::DC); }
 
     static void LoadToFPGA();
+
+    static void Reset();
 };
 
 
@@ -296,6 +298,8 @@ struct InputImpedance : public Enumeration
     bool Is_50Ohm() const { return (value == _50Omh); }
 
     static void LoadToFPGA();
+
+    static void Reset();
 };
 
 
@@ -313,6 +317,8 @@ struct ModeFilter : public Enumeration
     bool IsOff() const { return (value == ModeFilter::Off); }
 
     static void LoadToFPGA();
+
+    static void Reset();
 };
 
 
@@ -330,6 +336,8 @@ struct ModeSynch : public Enumeration
     bool IsFront() const { return (value == Front); }
 
     static void LoadToFPGA();
+
+    static void Reset();
 };
 
 
@@ -348,6 +356,8 @@ struct TypeSynch : public Enumeration
     bool IsManual() const { return (value == Manual); }
 
     static void LoadToFPGA();
+
+    static void Reset();
 };
 
 
@@ -366,6 +376,8 @@ struct Divider : public Enumeration
     int ToAbs() const { return Is1() ? 1 : 10; }
 
     static void LoadToFPGA();
+
+    static void Reset();
 };
 
 
