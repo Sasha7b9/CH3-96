@@ -362,7 +362,8 @@ void Display::Update()
         Display::Refresh();
     }
 
-    if (needRedraw)
+    if (needRedraw || 
+        FPGA::Auto::ObtainedResult())       // Затычка, вызванная тем, что после получения уровня синхронизации (кнопка Авто) уровень вверху выставляется не сразу
     {
         timeStart = TIME_MS;
 
@@ -473,6 +474,8 @@ static void DrawHint(int x, int y)
         Text(FPGA::Auto::Give().c_str()).Write(x + dX, y + dY, Color::FILL);
 
         FreqMeter::UnloadAuto();
+
+        Display::Refresh();
     }
     else
     {
@@ -482,7 +485,6 @@ static void DrawHint(int x, int y)
             {
                 Rectangle(360, 30).FillRounded(x, y, 2, Color::BACK, Color::BACK);
 
-                Text(FPGA::Auto::Give().c_str()).Write(x + dX, y + dY, Color::FILL);
                 FPGA::DisableAuto();
                 Keyboard::Unlock();
                 timeAutoHint = TIME_MS;
