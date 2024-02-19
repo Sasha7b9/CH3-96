@@ -486,7 +486,6 @@ static void DrawHint(int x, int y)
                 Rectangle(360, 30).FillRounded(x, y, 2, Color::BACK, Color::BACK);
 
                 FPGA::DisableAuto();
-                Keyboard::Unlock();
                 timeAutoHint = TIME_MS;
                 autoFlag = true;
                 Display::Refresh();
@@ -505,6 +504,11 @@ static void DrawHint(int x, int y)
             {
                 Rectangle(360, 30).FillRounded(x, y, 2, Color::BACK, Color::BACK);
                 Text(Hint::Text()).Write(x + dX, y + dY, Color::FILL);
+            }
+            if (autoFlag)
+            {
+                Keyboard::Unlock(); // Разблокируем клавиатуру, которую блокировали, потому что при повторном нажатии
+                                    // во время поиска синхронизации виснет
             }
             autoFlag = false;
         }
