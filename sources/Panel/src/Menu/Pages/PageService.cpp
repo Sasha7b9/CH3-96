@@ -27,27 +27,27 @@ static void OnPress_ResetSettings()
 
     Channel::A->mod.typeMeasure.value = TypeMeasure::Frequency;
     Channel::A->mod.modeFrequency.value = ModeFrequency::Frequency;
-    
-    if(FreqMeter::modeTest.IsEnabled())
+
+    if (FreqMeter::modeTest.IsEnabled())
     {
         FreqMeter::modeTest.Switch();
     }
     LevelSynch::Set(0);
-    
+
     Channel::SetCurrent(Channel::A);
 
     Menu::SetOpenedPage(Channel::A->pageModes);
-    
-    Channel::Current()->OnChanged_TypeMeasure();
-
-    Channel::Current()->LoadToFPGA();
 
     Channel::Current()->OnChanged_TypeMeasure();
 
     Channel::Current()->LoadToFPGA();
-    
+
+    Channel::Current()->OnChanged_TypeMeasure();
+
+    Channel::Current()->LoadToFPGA();
+
     LevelSynch::Set(0);
-    
+
     FreqMeter::HardwareReset();
 }
 
