@@ -317,7 +317,7 @@ struct ModeFilter : public Enumeration
 
 
 // Фронт синхронизации
-struct ModeFront : public Enumeration
+struct ModeSynch : public Enumeration
 {
     enum E
     {
@@ -326,7 +326,7 @@ struct ModeFront : public Enumeration
         Count
     };
 
-    explicit ModeFront(E v) : Enumeration((uint8)v) {};
+    explicit ModeSynch(E v) : Enumeration((uint8)v) {};
     bool IsFront() const { return (value == Front); }
 
     static void LoadToFPGA();

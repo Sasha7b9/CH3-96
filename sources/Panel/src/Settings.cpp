@@ -141,13 +141,13 @@ void LevelSynch::Set(int num)
 }
 
 
-void ModeFront::LoadToFPGA()
+void ModeSynch::LoadToFPGA()
 {
     if (CURRENT_CHANNEL_IS_A_OR_B)
     {
         Command command(Command::ModeFront);
 
-        if (!Channel::Current()->set.modeFront.IsFront())
+        if (!Channel::Current()->set.modeSynch.IsFront())
         {
             command.SetBit(9);
         }

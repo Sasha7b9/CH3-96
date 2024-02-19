@@ -74,7 +74,7 @@ static pchar FuncTriggerSlope(pchar buffer)
         ""
     };
 
-    return SCPI::ProcessSimpleParameter(buffer, modeFront, Channel::Current()->set.modeFront.sw, CURRENT_CHANNEL_IS_A_OR_B);
+    return SCPI::ProcessSimpleParameter(buffer, modeFront, Channel::Current()->set.modeSynch.sw, CURRENT_CHANNEL_IS_A_OR_B);
 }
 
 static pchar FuncTriggerLevel(pchar buffer)

@@ -110,7 +110,7 @@ SettingsChannel::SettingsChannel() :
     couple(InputCouple::AC),
     impedance(InputImpedance::_1MOmh),
     modeFilter(ModeFilter::Off),
-    modeFront(ModeFront::Front),
+    modeSynch(ModeSynch::Front),
     divider(Divider::_1),
     typeSynch(TypeSynch::Manual)
 {
@@ -461,7 +461,7 @@ String Channel::GetSettings()
     ADD_UGO(current->set.couple.UGO());
     ADD_UGO(current->set.impedance.UGO());
     ADD_UGO(current->set.modeFilter.UGO());
-    ADD_UGO(current->set.modeFront.UGO());
+    ADD_UGO(current->set.modeSynch.UGO());
     ADD_UGO(current->set.divider.UGO());
     ADD_UGO(current->set.typeSynch.UGO());
 

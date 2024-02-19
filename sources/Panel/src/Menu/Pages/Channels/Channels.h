@@ -25,7 +25,7 @@ struct SettingsChannel
     InputCouple    couple;
     InputImpedance impedance;
     ModeFilter     modeFilter;
-    ModeFront      modeFront;
+    ModeSynch      modeSynch;
     Divider        divider;
     TypeSynch      typeSynch;
 };

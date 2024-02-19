@@ -37,10 +37,10 @@ static void OnPress_ResetSettings()
     Channel::D->mod.typeMeasure.value = TypeMeasure::Frequency;
     Channel::D->mod.modeFrequency.value = ModeFrequency::Frequency;
 
-    Channel::A->set.modeFront.value = ModeFront::Front;
-    Channel::B->set.modeFront.value = ModeFront::Front;
+    Channel::A->set.modeSynch.value = ModeSynch::Front;
+    Channel::B->set.modeSynch.value = ModeSynch::Front;
 
-    ModeFront::LoadToFPGA();
+    ModeSynch::LoadToFPGA();
 
     if (FreqMeter::modeTest.IsEnabled())
     {

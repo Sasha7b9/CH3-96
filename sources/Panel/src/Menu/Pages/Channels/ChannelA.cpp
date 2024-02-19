@@ -70,7 +70,7 @@ DEF_SWITCH_UGO_2(sLowpassFilter,
 
 static void OnPress_Front()
 {
-    ModeFront::LoadToFPGA();
+    ModeSynch::LoadToFPGA();
 }
 
 
@@ -82,7 +82,7 @@ DEF_SWITCH_UGO_2(sFront,
     "Front", "Slice",
     SYMBOL_FRONT_IN_QUOTES, SYMBOL_RISE_IN_QUOTES,
     SYMBOL_FRONT_IN_QUOTES, SYMBOL_RISE_IN_QUOTES,
-    Channel::A->set.modeFront, OnPress_Front
+    Channel::A->set.modeSynch, OnPress_Front
 );
 
 
