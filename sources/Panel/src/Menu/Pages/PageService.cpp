@@ -43,6 +43,18 @@ static void OnPress_ResetSettings()
     }
     LevelSynch::Set(0);
 
+    InputCouple::Reset();
+
+    InputImpedance::Reset();
+
+    ModeFilter::Reset();
+
+    ModeSynch::Reset();
+
+    Divider::Reset();
+
+    TypeSynch::Reset();
+
     Channel::SetCurrent(Channel::A);
 
     Menu::SetOpenedPage(Channel::A->pageModes);
@@ -58,18 +70,6 @@ static void OnPress_ResetSettings()
     LevelSynch::Set(0);
 
     FreqMeter::HardwareReset();
-
-    InputCouple::Reset();
-
-    InputImpedance::Reset();
-
-    ModeFilter::Reset();
-
-    ModeSynch::Reset();
-
-    Divider::Reset();
-
-    TypeSynch::Reset();
 }
 
 DEF_BUTTON(bResetSettings,

@@ -26,6 +26,13 @@ void Channel::LoadToFPGA()
                        command.SetBit(9); }
 
     FPGA::WriteCommand(command);
+
+    InputCouple::LoadToFPGA();
+    InputImpedance::LoadToFPGA();
+    ModeFilter::LoadToFPGA();
+    ModeSynch::LoadToFPGA();
+    Divider::LoadToFPGA();
+    TypeSynch::LoadToFPGA();
 }
 
 
@@ -286,8 +293,6 @@ void InputImpedance::Reset()
 {
     Channel::A->set.impedance.value = InputImpedance::_1MOmh;
     Channel::B->set.impedance.value = InputImpedance::_1MOmh;
-
-    LoadToFPGA();
 }
 
 

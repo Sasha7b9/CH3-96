@@ -90,8 +90,6 @@ void InputCouple::Reset()
 {
     Channel::A->set.couple.value = InputCouple::AC;
     Channel::B->set.couple.value = InputCouple::AC;
-
-    LoadToFPGA();
 }
 
 
@@ -170,8 +168,6 @@ void ModeSynch::Reset()
 {
     Channel::A->set.modeSynch.value = ModeSynch::Front;
     Channel::B->set.modeSynch.value = ModeSynch::Front;
-
-    LoadToFPGA();
 }
 
 
@@ -195,8 +191,6 @@ void TypeSynch::Reset()
 {
     Channel::A->set.typeSynch.value = TypeSynch::Manual;
     Channel::B->set.typeSynch.value = TypeSynch::Manual;
-
-    LoadToFPGA();
 }
 
 
@@ -218,10 +212,8 @@ void ModeFilter::LoadToFPGA()
 
 void ModeFilter::Reset()
 {
-    Channel::A->set.modeFilter.value = ModeFilter::On;
-    Channel::B->set.modeFilter.value = ModeFilter::On;
-
-    LoadToFPGA();
+    Channel::A->set.modeFilter.value = ModeFilter::Off;
+    Channel::B->set.modeFilter.value = ModeFilter::Off;
 }
 
 
@@ -245,8 +237,6 @@ void Divider::Reset()
 {
     Channel::A->set.divider.value = Divider::_1;
     Channel::B->set.divider.value = Divider::_1;
-
-    LoadToFPGA();
 }
 
 
