@@ -21,10 +21,11 @@ DEF_BUTTON(bInformation,
 
 static void Delay()
 {
-    HAL_TIM::DelayMS(1);
+    HAL_TIM::DelayMS(10);
 }
 
 
+// Записать настройки физического канала
 static void LoadPhysicSettings(Channel *ch)
 {
     Channel::SetCurrent(ch);
@@ -91,8 +92,8 @@ static void OnPress_ResetSettings()
 
     FreqMeter::HardwareReset();
 
-//    LoadPhysicSettings(Channel::B);
-//    LoadPhysicSettings(Channel::A);
+    LoadPhysicSettings(Channel::B);
+    LoadPhysicSettings(Channel::A);
 }
 
 DEF_BUTTON(bResetSettings,
