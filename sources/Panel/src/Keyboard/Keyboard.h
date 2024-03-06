@@ -45,9 +45,14 @@ struct Control
 
 namespace Keyboard
 {
-    bool Init();
+    void Init();
+
+    // Возвращает true, если нажата хоть одна клавиша
+    bool IsPressed();
+
     // Возвращает true, если есть событыия
     bool Empty();
+
     // Возвращает следующее событие
     Control NextControl();
 

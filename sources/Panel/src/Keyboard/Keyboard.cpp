@@ -31,7 +31,7 @@
 #define PIN_RL2  GPIO_PIN_2
 #define PORT_RL2 GPIOD
 
-#define PIN_RL3  GPIO_PIN_15
+#define PIN_RL3  GPIO_PIN_15    // —юда подключена только кнопка ручки
 #define PORT_RL3 GPIOA
 
 #define PIN_ENC1  GPIO_PIN_11
@@ -171,7 +171,7 @@ static void DetectRegulator()
     }
 }
 
-static bool KeyboardCheck()
+bool Keyboard::IsPressed()
 {
     bool keyboardFail = false;
 
@@ -201,7 +201,7 @@ static bool KeyboardCheck()
     return keyboardFail;
 }
 
-bool Keyboard::Init()
+void Keyboard::Init()
 {
     for (int sl = 0; sl < NUM_SL; ++sl)
     {
@@ -212,8 +212,8 @@ bool Keyboard::Init()
     }
 
     InitPins();
+
     InitTimer();
-    return KeyboardCheck();
 }
 
 

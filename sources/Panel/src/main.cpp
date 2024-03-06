@@ -20,7 +20,9 @@ int main(void)
     FPGA::Init();
     Display::Init();
 
-    if (Keyboard::Init())
+    Keyboard::Init();
+
+    if (Keyboard::IsPressed())
     {
         Display::DrawKeyboardFailScreen();
         HAL_TIM::DelayMS(5000);
